@@ -5,6 +5,7 @@ export const getPosts = async (req, res) => {
   const query = req.query;
 
   try {
+
     const posts = await prisma.post.findMany({
       where: {
         city: query.city || undefined,
@@ -17,6 +18,29 @@ export const getPosts = async (req, res) => {
         },
       },
     });
+
+    const savedPosts = await prisma.user.findUnique({
+      where: {
+        id: req.userId
+      },
+      include: {
+        savedPosts: true,
+      }
+    });
+
+    const savedPostIds = savedPosts.savedPosts.map((save) => {
+      return save.postId;
+    });
+
+
+    posts.forEach((post) => {
+      post.isSaved = false;
+      savedPostIds.forEach((savedId) => {
+        if(post.id === savedId) {
+          post.isSaved = true;
+        }
+      })
+    })
 
     // setTimeout(() => {
     res.status(200).json(posts);

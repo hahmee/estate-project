@@ -1,5 +1,6 @@
 import './list.scss'
 import Card from"../card/Card"
+import {useLoaderData} from "react-router-dom";
 
 function List({posts}){
   return (
