@@ -108,11 +108,23 @@
       <workItem from="1718822040303" duration="22449000" />
       <workItem from="1718898246191" duration="2223000" />
       <workItem from="1718980118903" duration="8000" />
-      <workItem from="1718980172294" duration="24854000" />
+      <workItem from="1718980172294" duration="89242000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/components/map/Map.jsx</url>
+          <line>3</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

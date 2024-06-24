@@ -1,10 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import {createContext, useCallback, useEffect, useState} from "react";
 
 // Create a context to manage the script loading state
 const CloudinaryScriptContext = createContext();
 
 function UploadWidget({ uwConfig, setState }) {
   const [loaded, setLoaded] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     // Check if the script is already loaded
@@ -25,27 +26,29 @@ function UploadWidget({ uwConfig, setState }) {
     }
   }, [loaded]);
 
-  const initializeCloudinaryWidget = () => {
+  //더블클릭 방지
+  const initializeCloudinaryWidget = useCallback((e) => {
+    setIsSubmitting(true);
+    e.preventDefault();
+
     if (loaded) {
       var myWidget = window.cloudinary.createUploadWidget(
-        uwConfig,
-        (error, result) => {
-          if (!error && result && result.event === "success") {
-            console.log("Done! Here is the image info: ", result.info);
-            setState((prev) => [...prev, result.info.secure_url]);
-          }
-        }
-      );
+          uwConfig,
+          (error, result) => {
+            setIsSubmitting(false);
 
-      document.getElementById("upload_widget").addEventListener(
-        "click",
-        function () {
-          myWidget.open();
-        },
-        false
+            if (!error && result && result.event === "success") {
+              console.log("Done! Here is the image info: ", result.info);
+              setState((prev) => [...prev, result.info.secure_url]);
+
+            }
+          }
       );
+        myWidget.open();
     }
-  };
+
+
+  }, [loaded, isSubmitting]);
 
   return (
     <CloudinaryScriptContext.Provider value={{ loaded }}>
@@ -53,6 +56,8 @@ function UploadWidget({ uwConfig, setState }) {
         id="upload_widget"
         className="cloudinary-button"
         onClick={initializeCloudinaryWidget}
+        disabled={isSubmitting}
+        type="submit"
       >
         업로드
       </button>

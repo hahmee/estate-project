@@ -1,17 +1,141 @@
-.popupContainer{
-  display: flex;
-  gap: 20px;
+.leaflet-marker-icon {
+  width: auto !important;
+}
+.leaflet-div-icon {
+}
+.leaflet-div-icon {
+  background: none;
+  border: none;
+  width: auto;
+}
+.marker {
+  position: relative;
+  border: 1px solid #bbb;
+  background: #fff;
+  padding: 0px 20px;
+  height: 28px;
+  border-radius: 28px;
+  text-align: center;
+  font-weight: 700;
 
-  img{
-    width: 64px;
-    height: 48px;
-    object-fit: cover;
-    border-radius: 5px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+
+  div {
+    position: relative;
   }
 
-  .textContainer{
+}
+
+.popup {
+
+  .closeButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    text-align: center;
+    z-index: 3;
+    border-radius: 50%;
+  }
+  .leaflet-popup-content {
+    margin:0;
+    width: 280px;
+    height: 280px;
+  }
+  .leaflet-popup-content-wrapper {
+    //padding:0;
+    //background: gold;
+
+  }
+
+  //.leaflet-popup-content {
+  //  padding:0;
+  //  background: green;
+  //}
+
+  .leaflet-popup-tip-container {
+    padding:0;
+    margin-top: -13px;
+  }
+  a.leaflet-popup-close-button {
+    display: none;
+  }
+
+  .popupContainer {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    //width: 200px;
+    //height: 250px;
+
+    margin: 0;
+    //width: 100%;
+
+    img {
+      width: 100%;
+      height: 180px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      object-fit: cover;
+    }
+
+    .textContainer {
+      display: flex;
+      margin:10px 5px;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .icons {
+      display: flex;
+      gap: 20px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      border: none;
+      text-align: center;
+      z-index: 3;
+      //height: 20px;
+      //border-radius: 50%;
+
+      .icon {
+        border: 1px solid #999;
+        padding: 2px 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        height: 20px;
+
+        //display: flex;
+        //align-items: center;
+        //justify-content: center;
+
+        &:hover {
+          background-color: lightgray;
+        }
+        image {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+}
+
+.slick-slider {
+  .slick-arrow {
+    z-index: 2;
+  }
+  .slick-next{
+    right: 10px;
+  }
+  .slick-prev {
+   left: 10px
+  }
+  .slick-dots {
+    bottom: 1px;
+    button {
+      width: 20px;
+    }
   }
 }

@@ -3,11 +3,17 @@ import Filter from "../../components/filter/Filter";
 import Card from "../../components/card/Card";
 import Map from "../../components/map/Map";
 import { Await, useLoaderData } from "react-router-dom";
-import { Suspense } from "react";
+import {Suspense, useRef, useState} from "react";
+import apiRequest from "../../lib/apiRequest.js";
 
 
 function ListPage() {
   const data = useLoaderData();
+  const callback = async () => {
+    console.log('callback');
+
+  }
+
   return (
     <div className="listPage">
       <div className="listContainer">
@@ -20,7 +26,7 @@ function ListPage() {
             >
               {(postResponse) =>
                 postResponse.data.map((post) => (
-                  <Card key={post.id} item={post} />
+                  <Card key={post.id} card={post} callback={callback}/>
                 ))
               }
             </Await>
@@ -33,7 +39,7 @@ function ListPage() {
             resolve={data.postResponse}
             errorElement={<p>Error loading posts!</p>}
           >
-            {(postResponse) => <Map items={postResponse.data}  />}
+            {(postResponse) => <Map items={postResponse.data} />}
           </Await>
         </Suspense>
       </div>

@@ -2,16 +2,19 @@ import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import "./profilePage.scss";
 import apiRequest from "../../lib/apiRequest";
-import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
-import { Suspense, useContext } from "react";
+import {Await, defer, Link, useLoaderData, useNavigate, useRevalidator} from "react-router-dom";
+import {Suspense, useContext, useEffect, useState} from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 function ProfilePage() {
   const data = useLoaderData();
+  const revalidator = useRevalidator();
 
   const { updateUser, currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
+
+  const [value, setValue] = useState(data.postResponse);
 
   const handleLogout = async () => {
     try {
@@ -22,6 +25,16 @@ function ProfilePage() {
       console.log(err);
     }
   };
+
+  const callback = async () => {
+
+    const postPromise = await apiRequest("/users/profilePosts");
+
+    setValue(postPromise);
+  }
+
+
+
   return (
     <div className="profilePage">
       <div className="details">
@@ -53,22 +66,35 @@ function ProfilePage() {
           </div>
           <Suspense fallback={<p>Loading...</p>}>
             <Await
-              resolve={data.postResponse}
-              errorElement={<p>Error loading posts!</p>}
+                resolve={value}
+                errorElement={<p>Error loading posts!</p>}
             >
-              {(postResponse) => <List posts={postResponse.data.userPosts} />}
+              {(postResponse) => <List posts={postResponse.data.userPosts} callback={callback} />}
             </Await>
+            {/*<Await*/}
+            {/*  resolve={data.postResponse}*/}
+            {/*  errorElement={<p>Error loading posts!</p>}*/}
+            {/*>*/}
+            {/*  {(postResponse) => <List posts={postResponse.data.userPosts} callback={callback} />}*/}
+            {/*</Await>*/}
           </Suspense>
           <div className="title">
             <h1>Saved List</h1>
           </div>
           <Suspense fallback={<p>Loading...</p>}>
             <Await
-              resolve={data.postResponse}
-              errorElement={<p>Error loading posts!</p>}
+                resolve={value}
+                errorElement={<p>Error loading posts!</p>}
             >
-              {(postResponse) => <List posts={postResponse.data.savedPosts} />}
+              {(postResponse) => <List posts={postResponse.data.savedPosts} savedList={true} callback={callback}/>}
             </Await>
+
+            {/*<Await*/}
+            {/*  resolve={data.postResponse}*/}
+            {/*  errorElement={<p>Error loading posts!</p>}*/}
+            {/*>*/}
+            {/*  {(postResponse) => <List posts={postResponse.data.savedPosts} savedList={true} callback={callback}/>}*/}
+            {/*</Await>*/}
           </Suspense>
         </div>
       </div>

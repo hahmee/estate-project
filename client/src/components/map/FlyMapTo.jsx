@@ -1,25 +1,30 @@
 import React, {useEffect} from 'react';
-import {TileLayer, useMap} from "react-leaflet";
+import {Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import Pin from "../pin/Pin.jsx";
+
 
 function FlyMapTo({items}) {
     const map = useMap();
     const position = items.length === 1 ? [parseFloat(items[0].latitude), parseFloat(items[0].longitude)] : [37, 127];
+
 
     useEffect(() => {
         map.flyTo(position)
     }, [position]);
 
     return (
-        <>
+        <div>
             <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            />
             {items.map((item) => (
-              <Pin item={item} key={item.id} />
+              <Pin item={item} key={item.id}/>
             ))}
-        </>
+        </div>
     );
+
+
 }
 
 export default FlyMapTo;

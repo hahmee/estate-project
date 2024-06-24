@@ -11,6 +11,7 @@ export const AuthContextProvider = ({ children }) => {
     setCurrentUser(data);
   };
 
+
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
