@@ -105,7 +105,7 @@ function Filter() {
           />
         </div>
         <button onClick={handleFilter}>
-          <img src="/search.png" alt="" />
+          <img src="/search.png" alt="search" />
         </button>
       </div>
     </div>

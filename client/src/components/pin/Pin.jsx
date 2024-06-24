@@ -10,6 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCircleXmark, faFontAwesome, faHeart} from "@fortawesome/free-solid-svg-icons";
 import apiRequest from "../../lib/apiRequest.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
+import {savedPostStore} from "../../lib/savedPostStore.js";
+import classNames from "classnames";
+
 
 const customIcon = new Icon ({
   iconUrl : 'https://img.icons8.com/doodle/48/apple.png',
@@ -28,20 +31,26 @@ const settings = {
 };
 
 
+
 function Pin({item}) {
-    const customMarkerIcon = divIcon({
-        html: `<div class="marker"><div>₩${item.price}</div></div>`
-    });
 
     const navigate = useNavigate();
     const { currentUser } = useContext(AuthContext);
     const [saved, setSaved] = useState(item.isSaved);
-
+    const save = savedPostStore((state) => state.save);
+    const fetch = savedPostStore((state) => state.fetch);
     const popup = useRef();
 
+
+    const customMarkerIcon = divIcon({
+        html: `<div class=${saved ? "saved-pin" : "marker"}><div>₩${item.price}</div></div>`
+
+    });
+
     const closePopup = () => {
-        popup.current._closeButton.click()
+        popup.current._closeButton.click();
     }
+    //좋아요
     const handleSave = async () => {
         if (!currentUser) {
             navigate("/login");
@@ -49,14 +58,19 @@ function Pin({item}) {
         // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
         setSaved((prev) => !prev);
         try {
-            await apiRequest.post("/users/save", { postId: item.id });
-            // callback();
+            await save(item.id);// await apiRequest.post("/users/save", { postId: item.id });
+            await fetch();
 
         } catch (err) {
             console.log(err);
             setSaved((prev) => !prev);
         }
     }
+
+    useEffect(() => {
+        setSaved(item.isSaved);
+    }, [item]);
+
     return (
     <Marker position={[item.latitude, item.longitude]} icon={customMarkerIcon}>
         <Popup className="popup" ref={popup}>
@@ -84,7 +98,7 @@ function Pin({item}) {
                 <div className="textContainer">
                     <Link to={`/read/${item.id}`}>{item.title}</Link>
                     <span>{item.bedroom} bedroom</span>
-                    <b>$ {item.price}</b>
+                    <b>₩{item.price}</b>
                 </div>
             </div>
         </Popup>

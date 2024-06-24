@@ -7,7 +7,6 @@ function FlyMapTo({items}) {
     const map = useMap();
     const position = items.length === 1 ? [parseFloat(items[0].latitude), parseFloat(items[0].longitude)] : [37, 127];
 
-
     useEffect(() => {
         map.flyTo(position)
     }, [position]);

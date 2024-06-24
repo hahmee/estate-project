@@ -8,16 +8,32 @@
   border: none;
   width: auto;
 }
-.marker {
+
+.saved-pin {
   position: relative;
   border: 1px solid #bbb;
-  background: #fff;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+  background-color: rgb(254, 206, 81);
   padding: 0px 20px;
   height: 28px;
   border-radius: 28px;
   text-align: center;
   font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
 
+.marker {
+  position: relative;
+  border: 1px solid #bbb;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+  background-color: #fff;
+  padding: 0px 20px;
+  height: 28px;
+  border-radius: 28px;
+  text-align: center;
+  font-weight: 700;
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -29,7 +45,7 @@
 }
 
 .popup {
-
+  left: -110px !important;
   .closeButton {
     position: absolute;
     top: 0;
@@ -56,8 +72,8 @@
   //}
 
   .leaflet-popup-tip-container {
-    padding:0;
-    margin-top: -13px;
+    //padding:0;
+    //margin-top: -13px;
   }
   a.leaflet-popup-close-button {
     display: none;
@@ -139,3 +155,5 @@
     }
   }
 }
+
+

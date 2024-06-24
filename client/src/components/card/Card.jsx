@@ -3,11 +3,19 @@ import "./card.scss";
 import apiRequest from "../../lib/apiRequest.js";
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext.jsx";
+import {savedPostStore} from "../../lib/savedPostStore.js";
+
 function Card({ card, savedList }) {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [saved, setSaved] = useState(card.isSaved);
   const [item, setItem] = useState(card);
+  const save = savedPostStore((state) => state.save);
+  const fetch = savedPostStore((state) => state.fetch);
+
+  useEffect(() => {
+    setSaved(card.isSaved);
+  }, [card]);
 
   const handleSave = async () => {
     if (!currentUser) {
@@ -16,9 +24,8 @@ function Card({ card, savedList }) {
     // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
     setSaved((prev) => !prev);
     try {
-      await apiRequest.post("/users/save", { postId: item.id });
-      // callback();
-
+      await save(item.id);// await apiRequest.post("/users/save", { postId: item.id });
+      await fetch();
     } catch (err) {
       console.log(err);
       setSaved((prev) => !prev);
