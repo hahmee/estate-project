@@ -1,6 +1,16 @@
-import { useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import "./searchBar.scss";
 import { Link } from "react-router-dom";
+import {
+  AdvancedMarker,
+  APIProvider,
+  ControlPosition,
+  Map,
+  MapControl,
+  useAdvancedMarkerRef,
+  useMapsLibrary,
+  useMap
+} from "@vis.gl/react-google-maps";
 
 const types = ["buy", "rent"];
 
@@ -19,6 +29,9 @@ function SearchBar() {
   const handleChange = (e) => {
     setQuery((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [markerRef, marker] = useAdvancedMarkerRef();
 
   return (
     <div className="searchBar">
@@ -67,5 +80,6 @@ function SearchBar() {
     </div>
   );
 }
+
 
 export default SearchBar;

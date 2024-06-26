@@ -2,19 +2,30 @@ import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import "./profilePage.scss";
 import apiRequest from "../../lib/apiRequest";
-import {Await, defer, Link, useLoaderData, useNavigate, useRevalidator} from "react-router-dom";
+import {Await, defer, Link, useLoaderData, useNavigate, useRevalidator, useSearchParams} from "react-router-dom";
 import {Suspense, useContext, useEffect, useState} from "react";
 import { AuthContext } from "../../context/AuthContext";
+import {savedPostStore} from "../../lib/savedPostStore.js";
 
 function ProfilePage() {
   const data = useLoaderData();
-  const revalidator = useRevalidator();
 
   const { updateUser, currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
-  const [value, setValue] = useState(data.postResponse);
+  const savedPosts = savedPostStore((state) => state.savedPosts);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const query = {
+    type: searchParams.get("type") || "",
+    city: searchParams.get("city") || "",
+    property: searchParams.get("property") || "",
+    minPrice: searchParams.get("minPrice") || "",
+    maxPrice: searchParams.get("maxPrice") || "",
+    bedroom: searchParams.get("bedroom") || "",
+  }
 
   const handleLogout = async () => {
     try {
@@ -26,14 +37,13 @@ function ProfilePage() {
     }
   };
 
-  const callback = async () => {
+  useEffect(() => {
+    const getPostList = () => {
+      setSearchParams(query);
+    }
+    getPostList();
 
-    const postPromise = await apiRequest("/users/profilePosts");
-
-    setValue(postPromise);
-  }
-
-
+  }, [savedPosts]);
 
   return (
     <div className="profilePage">
@@ -60,41 +70,28 @@ function ProfilePage() {
           </div>
           <div className="title">
             <h1>My List</h1>
-            <Link to="/add">
+            <Link to="/location">
               <button>Create New Post</button>
             </Link>
           </div>
           <Suspense fallback={<p>Loading...</p>}>
             <Await
-                resolve={value}
-                errorElement={<p>Error loading posts!</p>}
+              resolve={data.postResponse}
+              errorElement={<p>Error loading posts!</p>}
             >
-              {(postResponse) => <List posts={postResponse.data.userPosts} callback={callback} />}
+              {(postResponse) => <List posts={postResponse.data.userPosts}/>}
             </Await>
-            {/*<Await*/}
-            {/*  resolve={data.postResponse}*/}
-            {/*  errorElement={<p>Error loading posts!</p>}*/}
-            {/*>*/}
-            {/*  {(postResponse) => <List posts={postResponse.data.userPosts} callback={callback} />}*/}
-            {/*</Await>*/}
           </Suspense>
           <div className="title">
             <h1>Saved List</h1>
           </div>
           <Suspense fallback={<p>Loading...</p>}>
             <Await
-                resolve={value}
-                errorElement={<p>Error loading posts!</p>}
+              resolve={data.postResponse}
+              errorElement={<p>Error loading posts!</p>}
             >
-              {(postResponse) => <List posts={postResponse.data.savedPosts} savedList={true} callback={callback}/>}
+              {(postResponse) => <List posts={postResponse.data.savedPosts} savedList={true}/>}
             </Await>
-
-            {/*<Await*/}
-            {/*  resolve={data.postResponse}*/}
-            {/*  errorElement={<p>Error loading posts!</p>}*/}
-            {/*>*/}
-            {/*  {(postResponse) => <List posts={postResponse.data.savedPosts} savedList={true} callback={callback}/>}*/}
-            {/*</Await>*/}
           </Suspense>
         </div>
       </div>

@@ -5,7 +5,7 @@ import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 
-function Card({ card, savedList }) {
+function Card({ card }) {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [saved, setSaved] = useState(card.isSaved);

@@ -11,15 +11,7 @@ import {faCircleXmark, faFontAwesome, faHeart} from "@fortawesome/free-solid-svg
 import apiRequest from "../../lib/apiRequest.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {savedPostStore} from "../../lib/savedPostStore.js";
-import classNames from "classnames";
 
-
-const customIcon = new Icon ({
-  iconUrl : 'https://img.icons8.com/doodle/48/apple.png',
-  // iconSize : [35, 35],
-  // iconAnchor : [22, 94],
-  // popupAnchor : [-3, -76]
-})
 
 
 const settings = {
@@ -41,10 +33,8 @@ function Pin({item}) {
     const fetch = savedPostStore((state) => state.fetch);
     const popup = useRef();
 
-
     const customMarkerIcon = divIcon({
         html: `<div class=${saved ? "saved-pin" : "marker"}><div>₩${item.price}</div></div>`
-
     });
 
     const closePopup = () => {
@@ -71,39 +61,46 @@ function Pin({item}) {
         setSaved(item.isSaved);
     }, [item]);
 
-    return (
-    <Marker position={[item.latitude, item.longitude]} icon={customMarkerIcon}>
-        <Popup className="popup" ref={popup}>
-            <div className="popupContainer">
-                <div className="icons">
-                    <div className="icon" onClick={handleSave}>
-                        {
-                            saved ? <FontAwesomeIcon icon={faHeart} style={{backgroundColor: 'red'}}/> :
-                                <FontAwesomeIcon icon={faHeart}/>
-                        }
-                    </div>
-                    <div className="icon" onClick={closePopup}>
-                        <FontAwesomeIcon icon={faCircleXmark}/>
-                    </div>
+    if(!item.id) {
+        return (
+            <Marker position={[item.latitude, item.longitude]}></Marker>
+        );
+    }
+    else {
+        return (
+            <Marker position={[item.latitude, item.longitude]} icon={customMarkerIcon}>
+                <Popup className="popup" ref={popup}>
+                    <div className="popupContainer">
+                        <div className="icons">
+                            <div className="icon" onClick={handleSave}>
+                                {
+                                    saved ? <FontAwesomeIcon icon={faHeart} style={{backgroundColor: 'red'}}/> :
+                                        <FontAwesomeIcon icon={faHeart}/>
+                                }
+                            </div>
+                            <div className="icon" onClick={closePopup}>
+                                <FontAwesomeIcon icon={faCircleXmark}/>
+                            </div>
 
-                </div>
-                <Slider {...settings} className="slick-slider">
-                    {
-                        item.images.map((image, index) => {
-                            return <img key={index} src={image} alt="image"/>
-                        })
-                    }
-                </Slider>
+                        </div>
+                        <Slider {...settings} className="slick-slider">
+                            {
+                                item.images.map((image, index) => {
+                                    return <img key={index} src={image} alt="image"/>
+                                })
+                            }
+                        </Slider>
 
-                <div className="textContainer">
-                    <Link to={`/read/${item.id}`}>{item.title}</Link>
-                    <span>{item.bedroom} bedroom</span>
-                    <b>₩{item.price}</b>
-                </div>
-            </div>
-        </Popup>
-    </Marker>
-    );
+                        <div className="textContainer">
+                            <Link to={`/read/${item.id}`}>{item.title}</Link>
+                            <span>{item.bedroom} bedroom</span>
+                            <b>₩{item.price}</b>
+                        </div>
+                    </div>
+                </Popup>
+            </Marker>
+        );
+    }
 }
 
 export default Pin;

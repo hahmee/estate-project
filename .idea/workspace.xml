@@ -70,18 +70,21 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/dev/youtube/full-stack-estate/client/src/routes/newChatPage&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/dev/youtube/estate-project/client/src/routes/newLocationPage&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\youtube\estate-project\client\src\routes\newLocationPage" />
+      <recent name="C:\dev\youtube\estate-project\client\src\components\searchBar" />
       <recent name="C:\dev\youtube\full-stack-estate\client\src\routes\newChatPage" />
       <recent name="C:\dev\youtube\full-stack-estate\client\src\components\chat" />
       <recent name="C:\dev\youtube\full-stack-estate\api" />
@@ -108,11 +111,22 @@
       <workItem from="1718822040303" duration="22449000" />
       <workItem from="1718898246191" duration="2223000" />
       <workItem from="1718980118903" duration="8000" />
-      <workItem from="1718980172294" duration="109058000" />
+      <workItem from="1718980172294" duration="163541000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar.jsx</url>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

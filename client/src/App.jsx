@@ -10,6 +10,7 @@ import ProfileUpdatePage from "./routes/profileUpdatePage/profileUpdatePage";
 import NewPostPage from "./routes/newPostPage/newPostPage";
 import {chatPageLoader, listPageLoader, profilePageLoader, singlePageLoader} from "./lib/loaders";
 import NewChatPage from "./routes/newChatPage/NewChatPage.jsx";
+import NewLocationPage from "./routes/newLocationPage/newLocationPage.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -53,6 +54,10 @@ function App() {
         {
           path: "/profile/update",
           element: <ProfileUpdatePage />,
+        },
+        {
+          path: "/location",
+          element: <NewLocationPage />,
         },
         {
           path: "/add",

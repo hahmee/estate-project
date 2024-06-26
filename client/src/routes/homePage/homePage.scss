@@ -58,26 +58,26 @@
       }
     }
   }
-
-  .imgContainer {
-    flex: 2;
-    background-color: #fcf5f3;
-    position: relative;
-    display: flex;
-    align-items: center;
-
-    @include md {
-      display: none;
-    }
-
-    img {
-      width: 115%;
-      position: absolute;
-      right: 0;
-
-      @include lg {
-        width: 105%;
-      }
-    }
-  }
+  //
+  //.imgContainer {
+  //  flex: 2;
+  //  background-color: #fcf5f3;
+  //  position: relative;
+  //  display: flex;
+  //  align-items: center;
+  //
+  //  @include md {
+  //    display: none;
+  //  }
+  //
+  //  img {
+  //    width: 115%;
+  //    position: absolute;
+  //    right: 0;
+  //
+  //    @include lg {
+  //      width: 105%;
+  //    }
+  //  }
+  //}
 }

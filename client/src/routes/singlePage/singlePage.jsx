@@ -1,11 +1,12 @@
 import "./singlePage.scss";
-import Slider from "react-slick";
 import Map from "../../components/map/Map";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import DOMPurify from "dompurify";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useRef, useState} from "react";
 import { AuthContext } from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
+import {GoogleMap, LoadScript} from "@react-google-maps/api";
+import Slider from "../../components/slider/Slider.jsx";
 
 function SinglePage() {
   const post = useLoaderData();
@@ -25,6 +26,16 @@ function SinglePage() {
       console.log(err);
       setSaved((prev) => !prev);
     }
+  };
+
+  const containerStyle = {
+    width: '700px',
+    height: '400px'
+  };
+
+  const center = {
+    lat: 14.018000,
+    lng: 120.835941
   };
 
   return (
@@ -135,13 +146,26 @@ function SinglePage() {
               </div>
             </div>
             <p className="title">Location</p>
+
+            <LoadScript
+                googleMapsApiKey={process.env.GOOGLE_API_KEY}
+            >
+              <GoogleMap
+                  mapContainerStyle={containerStyle}
+                  center={center}
+                  zoom={14}
+              >
+                <></>
+              </GoogleMap>
+            </LoadScript>
+
             <div className="mapContainer">
               <Map items={[post]}/>
             </div>
             <div className="buttons">
               {
-                currentUser.id !== post.userId
-                && (
+                  currentUser.id !== post.userId
+                  && (
                       <button onClick={() => navigate(`/chat?receiver=${post.userId}`)}>
                         <img src="/chat.png" alt=""/>
                         Send a Message

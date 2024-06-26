@@ -1,5 +1,7 @@
 import SearchBar from "../../components/searchBar/SearchBar";
 import "./homePage.scss";
+import SearchMapBar from "../../components/searchBar/SearchMapBar.jsx";
+import SearchMapBar2 from "../../components/searchBar/SearchMapBar2.jsx";
 
 function HomePage() {
 
@@ -14,7 +16,9 @@ function HomePage() {
             facilis id pariatur fugit quos laudantium temporibus dolor ea
             repellat provident impedit!
           </p>
-          <SearchBar />
+          {/*<SearchMapBar/>*/}
+          <SearchBar/>
+
           <div className="boxes">
             <div className="box">
               <h1>16+</h1>
@@ -31,9 +35,9 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div className="imgContainer">
-        {/*<img src="" alt="" />*/}
-      </div>
+      {/*<div className="imgContainer">*/}
+      {/*  <img src="" alt="" />*/}
+      {/*</div>*/}
     </div>
   );
 }

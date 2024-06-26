@@ -6,7 +6,6 @@ import Pin from "../pin/Pin.jsx";
 function FlyMapTo({items}) {
     const map = useMap();
     const position = items.length === 1 ? [parseFloat(items[0].latitude), parseFloat(items[0].longitude)] : [37, 127];
-
     useEffect(() => {
         map.flyTo(position)
     }, [position]);
@@ -17,8 +16,8 @@ function FlyMapTo({items}) {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
-            {items.map((item) => (
-              <Pin item={item} key={item.id}/>
+            {items.map((item,idx) => (
+              <Pin item={item} key={idx}/>
             ))}
         </div>
     );
