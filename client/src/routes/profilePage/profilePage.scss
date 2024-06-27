@@ -14,6 +14,12 @@
     overflow-y: scroll;
     padding-bottom: 50px;
 
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
+
     @include md{
       flex:none;
       height: max-content;

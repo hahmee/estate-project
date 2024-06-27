@@ -8,9 +8,9 @@ import React, {useEffect, useState} from "react";
 import Map from "../map/Map.jsx";
 
 
-function SearchMapBar2() {
-    const [address, setAddress] = useState("")
+function SearchMapBar2({getMapResult}) {
     const [location, setLocation] = useState("");
+
     const [status, setStatus] = useState("");
     const [itemList, setItemList] = useState([]);
     const [latLng, setLatLng] = useState({
@@ -24,16 +24,17 @@ function SearchMapBar2() {
     };
 
     const handleSelect = (location) => {
+        console.log('location', location);
         setLocation(location);
-        setAddress(location);
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
+                console.log('!!!',latLng);
                 setItemList([{latitude: latLng.lat, longitude: latLng.lng, images: []}]);
+                getMapResult(itemList);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
             })
             .catch((error) => console.error("Error", error));
-
 
     };
 
@@ -46,21 +47,21 @@ function SearchMapBar2() {
         <div className="main">
             <div className="map-search">
                 <PlacesAutocomplete
-                      value={location}
-                      onChange={handleLocationChange}
-                      onSelect={handleSelect}
-                      onError={onError}
+                    value={location}
+                    onChange={handleLocationChange}
+                    onSelect={handleSelect}
+                    onError={onError}
                 >
-                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                    {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                         <div className="map-content">
                             <div className="map-item">
-                            <span className="material-symbols-outlined">location_on</span>
-                            <input
-                                {...getInputProps({
-                                    placeholder: '주소를 입력하세요.',
-                                    className: 'location-search-input',
-                                })}
-                            />
+                                <span className="material-symbols-outlined">location_on</span>
+                                <input
+                                    {...getInputProps({
+                                        placeholder: '주소를 입력하세요.',
+                                        className: 'location-search-input',
+                                    })}
+                                />
                             </div>
                             <div className="autocomplete-dropdown-container">
                                 {loading && <div className="suggestion-item">Loading...</div>}
@@ -86,11 +87,14 @@ function SearchMapBar2() {
                         </div>
                     )}
                 </PlacesAutocomplete>
+
+                {/*<div className="mapContainer">*/}
+                {/*    <Map items={itemList}/>*/}
+                {/*</div>*/}
             </div>
-            <div className="mapContainer">
-                <Map items={itemList}/>
-            </div>
+
         </div>
-  );
+    );
 }
+
 export default SearchMapBar2;

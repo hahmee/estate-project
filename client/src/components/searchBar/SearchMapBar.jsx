@@ -21,7 +21,7 @@ function SearchMapBar() {
   return (
       <div id="map">
         <APIProvider
-            apiKey={process.env.GOOGLE_API_KEY}
+            apiKey={process.env.VITE_GOOGLE_API_KEY}
             solutionChannel="GMP_devsite_samples_v3_rgmautocomplete"
         >
           <Map

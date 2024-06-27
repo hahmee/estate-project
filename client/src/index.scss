@@ -12,5 +12,66 @@ a {
 body{
   font-family: "Lato", sans-serif;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: hidden;
+}
+
+
+/**
+UI COMPONENT - BUTTON, MODAL, INPUT
+ */
+
+.button {
+  font: inherit;
+  cursor: pointer;
+  background-color: #222;
+  border: 1px solid #222;
+  color: #fff;
+  padding: 0.6rem 1.8rem;
+  border-radius: 8px;
+  &:hover {
+    background-color: #000000;
+  }
+  &:active {
+    background-color: #000000;
+    transition: all 0.1s ease;
+    scale: 1.05;
+  }
+}
+
+.text-button {
+
+  &:hover {
+  }
+  &:active {
+
+  }
+
+}
+
+.outlined-button {
+  font: inherit;
+  cursor: pointer;
+  background-color: #fff;
+  color: #222222;
+  padding: 0.6rem 1.8rem;
+  border-radius: 8px;
+  border: 1px solid rgb(221, 221, 221);
+
+  &:hover {
+    border-color: #222222;
+  }
+  &:active {
+    transition: all 0.1s ease;
+    scale: 1.05;
+  }
+}
+
+.inactive-button {
+  font: inherit;
+  cursor: not-allowed;
+  background-color: #DDDDDD;
+  color: #fff;
+  padding: 0.6rem 1.8rem;
+  border-radius: 8px;
+  border: 1px solid #DDDDDD;
 }

@@ -1,7 +1,7 @@
 import HomePage from "./routes/homePage/homePage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ListPage from "./routes/listPage/listPage";
-import { Layout, RequireAuth } from "./routes/layout/layout";
+import {CreateProcess, Layout, RequireAuth} from "./routes/layout/layout";
 import SinglePage from "./routes/singlePage/singlePage";
 import ProfilePage from "./routes/profilePage/profilePage";
 import Login from "./routes/login/login";
@@ -44,6 +44,20 @@ function App() {
     },
     {
       path: "/",
+      element: <CreateProcess />,
+      children: [
+        {
+          path: "/location",
+          element: <NewLocationPage />,
+        },
+        {
+          path: "/add",
+          element: <NewPostPage />,
+        },
+        ]
+    },
+    {
+      path: "/",
       element: <RequireAuth />,
       children: [
         {
@@ -55,14 +69,14 @@ function App() {
           path: "/profile/update",
           element: <ProfileUpdatePage />,
         },
-        {
-          path: "/location",
-          element: <NewLocationPage />,
-        },
-        {
-          path: "/add",
-          element: <NewPostPage />,
-        },
+        // {
+        //   path: "/location",
+        //   element: <NewLocationPage />,
+        // },
+        // {
+        //   path: "/add",
+        //   element: <NewPostPage />,
+        // },
         {
           path:"/chat",
           element: <NewChatPage/>,

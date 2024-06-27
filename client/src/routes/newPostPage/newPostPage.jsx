@@ -164,7 +164,7 @@ function NewPostPage() {
         <UploadWidget
             uwConfig={{
               multiple: true,
-              cloudName: process.env.CLOUD_NAME,
+              cloudName: process.env.VITE_CLOUD_NAME,
               uploadPreset: "estate",
               folder: "posts",
             }}

@@ -148,7 +148,7 @@ function SinglePage() {
             <p className="title">Location</p>
 
             <LoadScript
-                googleMapsApiKey={process.env.GOOGLE_API_KEY}
+                googleMapsApiKey={process.env.VITE_GOOGLE_API_KEY}
             >
               <GoogleMap
                   mapContainerStyle={containerStyle}

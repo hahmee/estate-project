@@ -1,6 +1,12 @@
 @import "../../responsive.scss";
 
+.app {
+  height: 100vh;
+  //max-width: 1366px;
+  overflow-y: auto;
+}
 .layout {
+  //overflow-y: auto;
   height: 100vh;
   max-width: 1366px;
   margin-left: auto;
@@ -10,7 +16,7 @@
   display: flex;
   flex-direction: column;
   @include lg {
-    // background-color: rgb(247, 210, 196);
+    //background-color: rgb(247, 210, 196);
     max-width: 1280px;
   }
 
@@ -28,5 +34,31 @@
     // flex: 1;
     height: calc(100vh - 80px);
     padding-top: 20px;
+  }
+}
+
+.processDiv {
+  height: 80px;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  display: flex;
+  //left: 50%;
+  //transform: translateX(-50%);
+  justify-content: space-around;
+  align-items: center;
+  z-index: 200000;
+  border-top: 1px solid #dddd;
+  max-width: 100%;
+  //max-width: 1366px;
+  background-color: #fff;
+
+  .nextButton {
+    padding: 14px 32px;
+    background-color: black;
+    color:#ffffff;
+    border-radius: 10px;
+    font-size: 16px;
+    border: none;
   }
 }
