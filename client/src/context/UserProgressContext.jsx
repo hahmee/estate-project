@@ -7,7 +7,7 @@ export const UserProgressContextProvider = ({ children }) => {
     const [userProgress, setUserProgress] = useState('');
 
     const goToAddPage = () => {
-        setUserProgress('add');
+        setUserProgress('/add');
     }
 
     const clearProgress = () => {
@@ -20,7 +20,7 @@ export const UserProgressContextProvider = ({ children }) => {
         clearProgress
     }
 
-    console.log('userProgressCtx', userProgressCtx);
+    // console.log('userProgressCtx', userProgressCtx);
     return (
         <UserProgressContext.Provider value={userProgressCtx}>
             {children}

@@ -1,6 +1,6 @@
 import "./layout.scss";
 import Navbar from "../../components/navbar/Navbar";
-import { Navigate, Outlet } from "react-router-dom";
+import {Navigate, Outlet, useNavigate} from "react-router-dom";
 import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Button from "../../UI/Button.jsx";
@@ -45,8 +45,10 @@ function RequireAuth() {
 function CreateProcess() {
     const {currentUser} = useContext(AuthContext);
     const {progress} = useContext(UserProgressContext);
+    const navigate = useNavigate();
 
     console.log('progress', progress);
+
 
     if (!currentUser) return <Navigate to="/login" />;
     else {
@@ -61,8 +63,8 @@ function CreateProcess() {
                     </div>
                 </div>
                 <div className="processDiv">
-                    <Button outlined>이전</Button>
-                    <Button inactive={!progress ? true : false}>다음</Button>
+                    <Button outlined onClick={()=>navigate(-1)}>이전</Button>
+                    <Button inactive={!progress ? true : false} onClick={()=>navigate(progress)}>다음</Button>
                 </div>
             </div>
         );

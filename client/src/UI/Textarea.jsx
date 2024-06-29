@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Input = ({label, id, ...props}) => {
+const Textarea = ({label, id, ...props}) => {
     return (
         <div className="control">
             <label htmlFor={id}>{label}</label>
-            <input id={id} name={id} required {...props} />
+            <textarea id={id} name={id} {...props} />
         </div>
     );
 }
 
-export default Input;
+export default Textarea;

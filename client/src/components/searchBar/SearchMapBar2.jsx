@@ -1,47 +1,68 @@
 import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
+    geocodeByAddress,
+    getLatLng,
 } from 'react-places-autocomplete';
 
 import "./searchMapBar2.scss";
-import React, {useEffect, useState} from "react";
+import React, {createRef, useContext, useEffect, useRef, useState} from "react";
 import Map from "../map/Map.jsx";
+import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 
 
 function SearchMapBar2({getMapResult}) {
-    const [location, setLocation] = useState("");
+    const {progress, goToAddPage,clearProgress} = useContext(UserProgressContext);
 
+    const [location, setLocation] = useState("");
     const [status, setStatus] = useState("");
-    const [itemList, setItemList] = useState([]);
+    // const [itemList, setItemList] = useState([]);
+    const [suggestionsVisible, setSuggestionsVisible] = useState(true);
     const [latLng, setLatLng] = useState({
-        latitude:0,
-        longitude:0
+        latitude:null,
+        longitude:null
     })
 
     const handleLocationChange = (location) => {
         setStatus("");
         setLocation(location);
+        setSuggestionsVisible(true);
+        clearProgress();
+
     };
 
-    const handleSelect = (location) => {
-        console.log('location', location);
+    const handleSelect = (location,e,d) => {
+        console.log('??', e);
+        console.log('dd', d);
+        setSuggestionsVisible(false);
         setLocation(location);
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
                 console.log('!!!',latLng);
-                setItemList([{latitude: latLng.lat, longitude: latLng.lng, images: []}]);
-                getMapResult(itemList);
+                getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: []}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
             })
+            // .then((latLng) => setLatLng({latitude: latLng.lat, longitude: latLng.lng}))
             .catch((error) => console.error("Error", error));
 
     };
 
     const onError = (status, clearSuggestions) => {
-        setStatus( status ==="ZERO_RESULTS" ? '해당 장소를 찾을 수 없습니다.' : status);
+        console.log('status', status);
+        setStatus( status === "ZERO_RESULTS" ? '해당 장소를 찾을 수 없습니다.' : status);
         clearSuggestions();
     }
+
+    const onMouseOver = (e) => {
+        console.log('e', e.target.children[0]?.textContent);
+
+        // setInputValue(e.target.children[0]?.textContent);
+
+
+    };
+
+    useEffect(() => {
+        clearProgress();
+    }, []);
 
     return (
         <div className="main">
@@ -55,7 +76,7 @@ function SearchMapBar2({getMapResult}) {
                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                         <div className="map-content">
                             <div className="map-item">
-                                <span className="material-symbols-outlined">location_on</span>
+                                {/*<span className="material-symbols-outlined">location_on</span>*/}
                                 <input
                                     {...getInputProps({
                                         placeholder: '주소를 입력하세요.',
@@ -63,34 +84,34 @@ function SearchMapBar2({getMapResult}) {
                                     })}
                                 />
                             </div>
-                            <div className="autocomplete-dropdown-container">
-                                {loading && <div className="suggestion-item">Loading...</div>}
-                                {status && <div className="suggestion-item">{status}</div>}
+                            {
+                                suggestionsVisible && (<div className="autocomplete-dropdown-container">
+                                    {loading && <div className="suggestion-item">Loading...</div>}
+                                    {status && <div className="suggestion-item">{status}</div>}
+                                    {suggestions.map((suggestion, index) => {
+                                        console.log('asdf', suggestion);
+                                        const className = suggestion.active
+                                            ? 'suggestion-item--active'
+                                            : 'suggestion-item';
+                                        return (
+                                            <div
+                                                key={suggestion.placeId}
+                                                {...getSuggestionItemProps(suggestion, {
+                                                    className,
+                                                })}
+                                                onMouseOver={onMouseOver}
+                                            >
+                                                <span>{suggestion.description}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>)
+                            }
 
-                                {suggestions.map((suggestion, index) => {
-                                    const className = suggestion.active
-                                        ? 'suggestion-item--active'
-                                        : 'suggestion-item';
-                                    return (
-                                        <div
-                                            key={index}
-                                            {...getSuggestionItemProps(suggestion, {
-                                                className,
-                                                // style,
-                                            })}
-                                        >
-                                            <span>{suggestion.description}</span>
-                                        </div>
-                                    );
-                                })}
-                            </div>
                         </div>
                     )}
                 </PlacesAutocomplete>
 
-                {/*<div className="mapContainer">*/}
-                {/*    <Map items={itemList}/>*/}
-                {/*</div>*/}
             </div>
 
         </div>

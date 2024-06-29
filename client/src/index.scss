@@ -16,8 +16,9 @@ body{
 }
 
 
+
 /**
-UI COMPONENT - BUTTON, MODAL, INPUT
+UI COMPONENT - BUTTON, MODAL, INPUT, SELECT
  */
 
 .button {
@@ -75,3 +76,70 @@ UI COMPONENT - BUTTON, MODAL, INPUT
   border-radius: 8px;
   border: 1px solid #DDDDDD;
 }
+
+
+.control {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: rgb(107 114 128);
+  }
+
+  input {
+    width: 100%;
+    //max-width: 20rem;
+    font: inherit;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: .75rem;
+    padding-right: .75rem;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 92px;
+    //max-width: 20rem;
+    font: inherit;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: .75rem;
+    padding-right: .75rem;
+    resize: vertical;
+  }
+
+}
+
+.selectDiv {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: rgb(107 114 128);
+
+  }
+
+  select {
+    width: 100%;
+    //max-width: 20rem;
+    font: inherit;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    padding-left: .75rem;
+    padding-right: .75rem;
+
+  }
+}
+
