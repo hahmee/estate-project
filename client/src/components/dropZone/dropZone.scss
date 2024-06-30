@@ -9,16 +9,21 @@
   border-width: 2px;
   border-style: dashed;
   background-color: #fafafa;
-  color: #bdbdbd;
+  border-color: #bdbdbd;
+  color: rgb(107 114 128);
   outline: none;
   transition: border .24s ease-in-out;
   border-radius: 0.5rem;
+
+  .material-symbols-outlined {
+    font-size: 32px;
+    margin-bottom: 13px;
+  }
 
 }
 
 .thumbnail {
   display: grid;
-  background-color: gold;
   margin-top: .75rem;
   width: 100%;
   gap: .75rem;

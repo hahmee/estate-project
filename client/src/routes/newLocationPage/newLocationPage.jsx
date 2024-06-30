@@ -9,11 +9,14 @@ function NewLocationPage() {
 
     const [itemList, setItemList] = useState([]);
 
-    const {progress, goToAddPage} = useContext(UserProgressContext);
+    const {goToAddPage} = useContext(UserProgressContext);
 
     const getMapResult = useCallback((itemList) => {
+
+        console.log('itemList', itemList);
         setItemList(itemList);
         goToAddPage();
+
 
     }, [itemList]);
 

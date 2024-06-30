@@ -29,13 +29,22 @@ UI COMPONENT - BUTTON, MODAL, INPUT, SELECT
   color: #fff;
   padding: 0.6rem 1.8rem;
   border-radius: 8px;
-  &:hover {
+  &:hover:enabled {
     background-color: #000000;
   }
-  &:active {
+  &:active:enabled {
     background-color: #000000;
     transition: all 0.1s ease;
     scale: 1.05;
+  }
+  &:disabled {
+    font: inherit;
+    cursor: not-allowed;
+    background-color: #DDDDDD;
+    color: #fff;
+    padding: 0.6rem 1.8rem;
+    border-radius: 8px;
+    border: 1px solid #DDDDDD;
   }
 }
 
@@ -65,16 +74,6 @@ UI COMPONENT - BUTTON, MODAL, INPUT, SELECT
     transition: all 0.1s ease;
     scale: 1.05;
   }
-}
-
-.inactive-button {
-  font: inherit;
-  cursor: not-allowed;
-  background-color: #DDDDDD;
-  color: #fff;
-  padding: 0.6rem 1.8rem;
-  border-radius: 8px;
-  border: 1px solid #DDDDDD;
 }
 
 

@@ -44,13 +44,13 @@ function RequireAuth() {
 
 function CreateProcess() {
     const {currentUser} = useContext(AuthContext);
-    const {progress} = useContext(UserProgressContext);
-    const navigate = useNavigate();
+    const {progress,doAction} = useContext(UserProgressContext);
 
+    const navigate = useNavigate();
     console.log('progress', progress);
 
-
     if (!currentUser) return <Navigate to="/login" />;
+
     else {
         return (
             <div className="app">
@@ -58,13 +58,18 @@ function CreateProcess() {
                     <div className="navbar">
                         <Navbar/>
                     </div>
-                    <div className="content">
+                    <div>
                         <Outlet/>
                     </div>
                 </div>
                 <div className="processDiv">
                     <Button outlined onClick={()=>navigate(-1)}>이전</Button>
-                    <Button inactive={!progress ? true : false} onClick={()=>navigate(progress)}>다음</Button>
+                    {
+                        progress.text === '다음' ?
+                            <Button disabled={!progress.url? true : false} onClick={()=>navigate('/add')}>{progress.text}</Button>
+                            :
+                            <Button form="estate-post-form" type="submit">저장</Button>
+                    }
                 </div>
             </div>
         );

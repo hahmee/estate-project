@@ -38,6 +38,7 @@ function SinglePage() {
     lng: 120.835941
   };
 
+  console.log('post.images', post.images);
   return (
       <div className="singlePage">
         <div className="details">
@@ -48,13 +49,13 @@ function SinglePage() {
                 <div className="post">
                   <h1>{post.title}</h1>
                   <div className="address">
-                    <img src="/pin.png" alt=""/>
+                    <img src="/pin.png" alt="pin"/>
                     <span>{post.address}</span>
                   </div>
                   <div className="price">$ {post.price}</div>
                 </div>
                 <div className="user">
-                  <img src={post.user.avatar} alt=""/>
+                  <img src={post.user.avatar} alt="avatar"/>
                   <span>{post.user.username}</span>
                 </div>
               </div>
@@ -72,7 +73,7 @@ function SinglePage() {
             <p className="title">General</p>
             <div className="listVertical">
               <div className="feature">
-                <img src="/utility.png" alt=""/>
+                <img src="/utility.png" alt="utility"/>
                 <div className="featureText">
                   <span>Utilities</span>
                   {post.postDetail.utilities === "owner" ? (
@@ -83,7 +84,7 @@ function SinglePage() {
                 </div>
               </div>
               <div className="feature">
-                <img src="/pet.png" alt=""/>
+                <img src="/pet.png" alt="pet"/>
                 <div className="featureText">
                   <span>Pet Policy</span>
                   {post.postDetail.pet === "allowed" ? (
@@ -94,7 +95,7 @@ function SinglePage() {
                 </div>
               </div>
               <div className="feature">
-                <img src="/fee.png" alt=""/>
+                <img src="/fee.png" alt="fee"/>
                 <div className="featureText">
                   <span>Income Policy</span>
                   <p>{post.postDetail.income}</p>
@@ -104,22 +105,22 @@ function SinglePage() {
             <p className="title">Sizes</p>
             <div className="sizes">
               <div className="size">
-                <img src="/size.png" alt=""/>
+                <img src="/size.png" alt="size"/>
                 <span>{post.postDetail.size} sqft</span>
               </div>
               <div className="size">
-                <img src="/bed.png" alt=""/>
+                <img src="/bed.png" alt="bed"/>
                 <span>{post.bedroom} beds</span>
               </div>
               <div className="size">
-                <img src="/bath.png" alt=""/>
+                <img src="/bath.png" alt="bath"/>
                 <span>{post.bathroom} bathroom</span>
               </div>
             </div>
             <p className="title">Nearby Places</p>
             <div className="listHorizontal">
               <div className="feature">
-                <img src="/school.png" alt=""/>
+                <img src="/school.png" alt="school"/>
                 <div className="featureText">
                   <span>School</span>
                   <p>
@@ -131,14 +132,14 @@ function SinglePage() {
                 </div>
               </div>
               <div className="feature">
-                <img src="/pet.png" alt=""/>
+                <img src="/pet.png" alt="pet"/>
                 <div className="featureText">
                   <span>Bus Stop</span>
                   <p>{post.postDetail.bus}m away</p>
                 </div>
               </div>
               <div className="feature">
-                <img src="/fee.png" alt=""/>
+                <img src="/fee.png" alt="fee"/>
                 <div className="featureText">
                   <span>Restaurant</span>
                   <p>{post.postDetail.restaurant}m away</p>
@@ -147,17 +148,6 @@ function SinglePage() {
             </div>
             <p className="title">Location</p>
 
-            <LoadScript
-                googleMapsApiKey={process.env.VITE_GOOGLE_API_KEY}
-            >
-              <GoogleMap
-                  mapContainerStyle={containerStyle}
-                  center={center}
-                  zoom={14}
-              >
-                <></>
-              </GoogleMap>
-            </LoadScript>
 
             <div className="mapContainer">
               <Map items={[post]}/>
@@ -167,7 +157,7 @@ function SinglePage() {
                   currentUser.id !== post.userId
                   && (
                       <button onClick={() => navigate(`/chat?receiver=${post.userId}`)}>
-                        <img src="/chat.png" alt=""/>
+                        <img src="/chat.png" alt="chat"/>
                         Send a Message
                       </button>
                   )

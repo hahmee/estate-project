@@ -25,6 +25,7 @@
     "react-places-autocomplete": "^7.3.0",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.22.2",
+    "react-select": "^5.8.0",
     "react-slick": "^0.30.2",
     "react-widgets": "^5.8.4",
     "sass": "^1.71.1",

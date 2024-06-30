@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Button = ({ children, textOnly, inactive, className, outlined, ...props}) => {
+const Button = ({ children, textOnly, className, outlined, ...props}) => {
 
     let sCss = '';
 
@@ -8,10 +8,7 @@ const Button = ({ children, textOnly, inactive, className, outlined, ...props}) 
         sCss = 'outlined-button';
     }else if (textOnly) {
         sCss = 'text-button';
-    }else if (inactive){
-        sCss = 'inactive-button'
-    }
-    else {
+    } else {
         sCss = 'button';
     }
 

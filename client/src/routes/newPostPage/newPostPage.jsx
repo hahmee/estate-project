@@ -1,201 +1,213 @@
-import React, { useState } from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import "./newPostPage.scss";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import apiRequest from "../../lib/apiRequest";
-import UploadWidget from "../../components/uploadWidget/UploadWidget";
 import { useNavigate } from "react-router-dom";
 import Input from "../../UI/Input.jsx";
-import Select from "../../UI/Select.jsx";
 import Textarea from "../../UI/Textarea.jsx";
-import Dropzone from "react-dropzone";
 import DropZone from "../../components/dropZone/DropZone.jsx";
+import Selection from "../../UI/Selection.jsx";
+import {UserProgressContext} from "../../context/UserProgressContext.jsx";
+import axios from "axios";
+
+const options = [
+  {value: 'shoe', label: '신발장' },
+  {value: 'shower_booth', label: '샤워부스' },
+  {value: 'stove', label: '가스레인지' },
+  {value: 'closet', label: '붙박이장' },
+  {value: 'fire_alarm', label: '화재경보기' },
+  {value: 'veranda', label: '베란다' },
+];
+
+const safeOptions = [
+  {value: 'guard', label: '경비원'},
+  {value: 'video_phone', label: '비디오폰'},
+  {value: 'intercom', label: '인터폰'},
+  {value: 'card_key', label: '카드키'},
+  {value: 'cctv', label: 'CCTV'},
+  {value: 'safety_door', label: '현관보안'},
+  {value: 'window_guard', label: '방범창'},
+]
+
+const petOption = [
+  {value: 'yes', label: '가능' },
+  {value: 'no', label: '불가능' },
+]
+
+const roomOption = [
+      {value: 'apartment', label: '아파트' },
+      {value: 'condo', label: '주택'},
+      {value: 'officetel', label: '오피스텔'},
+      {value: 'one_room', label: '원룸'},
+      {value: 'two_room', label: '투룸'},
+      {value: 'land', label: '땅'},
+]
+
+const typeOption = [
+    {value: 'month_pay', label: '월세'},
+    {value: 'year_pay', label: '전세'},
+    {value: 'sell', label: '매매'},
+]
+
+const url = `https://api.cloudinary.com/v1_1/${process.env.VITE_CLOUD_NAME}/upload`;
 
 function NewPostPage() {
-  const [value, setValue] = useState("");
-  const [images, setImages] = useState([]);
   const [error, setError] = useState("");
+  const {clearSaveProgress, location, clearLocation} = useContext(UserProgressContext);
+  const [files, setFiles] = useState([]);
+  const [imageUrl, setImageUrl] = useState([]);
+  const navigate = useNavigate();
+  const [safeOptionsValue, setSafeOptionsValue] = useState([]);
 
-  const navigate = useNavigate()
+  const [optionsValue, setOptionsValue] = useState([]);
 
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
 
+
+    const optionList = optionsValue.map(value => value.value);
+    const safeOptionList = safeOptionsValue.map(value => value.value);
+
     try {
-      const res = await apiRequest.post("/posts", {
-        postData: {
-          title: inputs.title,
-          price: parseInt(inputs.price),
-          address: inputs.address,
-          city: inputs.city,
-          bedroom: parseInt(inputs.bedroom),
-          bathroom: parseInt(inputs.bathroom),
-          type: inputs.type,
-          property: inputs.property,
-          latitude: inputs.latitude,
-          longitude: inputs.longitude,
-          images: images,
-        },
-        postDetail: {
-          desc: value,
-          utilities: inputs.utilities,
-          pet: inputs.pet,
-          income: inputs.income,
-          size: parseInt(inputs.size),
-          school: parseInt(inputs.school),
-          bus: parseInt(inputs.bus),
-          restaurant: parseInt(inputs.restaurant),
-        },
-      });
-      navigate("/read/"+res.data.id)
+
+      await imageUpload();
+
+      console.log('imageUrl', imageUrl);
+
+      // const res = await apiRequest.post("/posts", {
+      //   postData: {
+      //     title: inputs.title,
+      //     property: inputs.property,
+      //     type: inputs.type,
+      //     price: parseInt(inputs.price),
+      //     address: location.address,
+      //     city: location.city,
+      //     bedroom: parseInt(inputs.bedroom),
+      //     bathroom: parseInt(inputs.bathroom),
+      //     latitude: location.lat.toString(),
+      //     longitude: location.lng.toString(),
+      //     images: imageUrl,
+      //     maintenance: parseInt(inputs.maintenance),
+      //   },
+      //   postDetail: {
+      //     desc: inputs.description,
+      //     pet: inputs.pet,
+      //     option: optionList,
+      //     safeOption: safeOptionList,
+      //     size: parseInt(inputs.size),
+      //     school: parseInt(inputs.school),
+      //     bus: parseInt(inputs.bus),
+      //     direction: inputs.direction,
+      //   },
+      // });
+      // navigate("/read/" + res.data.id);
+      //clearLocation();
     } catch (err) {
       console.log(err);
       setError(error);
     }
-  };
+  }, [imageUrl]);
 
-  let div = <>
+  const imageUpload = useCallback(async () => {
+    console.log('files___',files);
+    if (files.length > 0) {
+      files.map(async file => {
+        const formData = new FormData();
+        const config = {
+          header: {
+            'content-Type': 'multipart/form-data',
+          }
+        }
+        formData.append('file', file);
+        formData.append('upload_preset', 'estate');
+
+        console.log('files', files);
+
+        const res = await axios.post(url, formData, config);
+
+        await setImageUrl((prev) => [...prev, res.data.secure_url]);
+      });
+    }
+  }, [imageUrl,files]);
+
+  useEffect(() => {
+    console.log('files', files);
+
+
+
+
+
+  }, [files]);
+
+  useEffect(() => {
+    clearSaveProgress();
+    clearLocation();
+  }, []);
+
+  const div = <>
     <div className="newPostPage">
       <h2>Add New Post</h2>
       <div className="formContainer">
         <div className="wrapper">
-          <form onSubmit={handleSubmit}>
-            <div className="item imageUpload">
-              <span className="label">이미지 업로드</span>
-              <DropZone/>
-            </div>
-
+          <form id="estate-post-form" onSubmit={handleSubmit}>
             <div className="item">
-              <Input label="제목" type="text" id="title"/>
-
-
-              <Select name="property" label="방종류">
-                <option value="apartment">아파트</option>
-                <option value="house">주택</option>
-                <option value="officetel">오피스텔</option>
-                <option value="oneroom">원룸</option>
-                <option value="tworoom">투룸</option>
-                <option value="land">땅</option>
-              </Select>
-
-
-              <Select name="type" label="타입">
-                <option value="month" defaultChecked>
-                  월세
-                </option>
-                <option value="year">전세</option>
-                <option value="buy">매매</option>
-              </Select>
-
-
+              <Input label="제목" type="text" id="title" name="title"/>
+              <Selection id="property" name="property" label="방종류" options={roomOption} defaultValue={roomOption[0]}/>
+              <Selection id="type" name="type" label="타입" options={typeOption} defaultValue={typeOption[0]}/>
             </div>
 
             <div className="item description">
-              <Textarea onChange={setValue} value={value} label="설명"></Textarea>
-              {/*<label htmlFor="desc">Description</label>*/}
-              {/*<ReactQuill theme="snow" onChange={setValue} value={value}/>*/}
+              <Textarea label="설명" id="description" name="description"></Textarea>
             </div>
 
-
             <div className="item">
-              {/*<Input label="도시" id="city" name="city" type="text"/>*/}
               <Input label="면적" min={0} id="size" name="size" type="number"/>
               <Input label="가격" id="price" name="price" type="number"/>
-              <Input label="관리비" id="price" name="price" type="number"/>
-
+              <Input label="관리비" id="maintenance" name="maintenance" type="number"/>
             </div>
 
-            {/*<Input label="Latitude" id="latitude" name="latitude" type="text"/>*/}
-
-
-            {/*<Input label="Longitude" id="longitude" name="longitude" type="text"/>*/}
-
-            {/*<label htmlFor="type">Type</label>*/}
-            {/*<select name="type">*/}
-            {/*  <option value="rent" defaultChecked>*/}
-            {/*    Rent*/}
-            {/*  </option>*/}
-            {/*  <option value="buy">Buy</option>*/}
-            {/*</select>*/}
-
             <div className="item">
-
-
-              {/*<Select name="utilities" label="Utilities Policy">*/}
-              {/*  <option value="owner">Owner is responsible</option>*/}
-              {/*  <option value="tenant">Tenant is responsible</option>*/}
-              {/*  <option value="shared">Shared</option>*/}
-              {/*</Select>*/}
-
-
-              <Input min={1} id="bedroom" name="bedroom" type="number" label="방 수"/>
+              <Input label="방 수" min={1} id="bedroom" name="bedroom" type="number"/>
               <Input label="화장실 수" min={1} id="bathroom" name="bathroom" type="number"/>
-              <Select name="pet" label="애완동물 입주 가능">
-                <option value="allowed">가능</option>
-                <option value="not-allowed">불가능</option>
-              </Select>
-
+              <Selection name="pet" id="pet" label="애완동물 입주 가능" options={petOption}/>
             </div>
-            {/*<Input*/}
-            {/*    label="옵션"*/}
-            {/*    id="income"*/}
-            {/*    name="income"*/}
-            {/*    type="text"*/}
-            {/*/>*/}
 
             <div className="item">
-              <Select name="pet" label="옵션">
-                <option value="allowed">신발장</option>
-                <option value="not-allowed">샤워부스</option>
-                <option value="not-allowed">가스레인지</option>
-                <option value="not-allowed">붙박이장</option>
-                <option value="not-allowed">화재경보기</option>
-                <option value="not-allowed">베란다</option>
-              </Select>
-
-              <Select name="pet" label="보안/안전시설">
-                <option value="allowed">경비원</option>
-                <option value="not-allowed">비디오폰</option>
-                <option value="not-allowed">인터폰</option>
-                <option value="not-allowed">카드키</option>
-                <option value="not-allowed">CCTV</option>
-                <option value="not-allowed">현관보안</option>
-                <option value="not-allowed">방범창</option>
-              </Select>
-
-              <Input label="주차" id="address" name="address" type="text"/>
-
+              <Selection
+                  isMulti
+                  id="option"
+                  name="option"
+                  label="옵션"
+                  options={options}
+                  onChange={(e) => setOptionsValue(e)}
+              />
+              <Selection
+                  isMulti
+                  id="safeOption"
+                  name="safeOption"
+                  label="보안/안전시설"
+                  options={safeOptions}
+                  onChange={(e) => setSafeOptionsValue(e)}
+              />
+              <Input label="주차" id="parking" min={0} name="parking" type="number"/>
             </div>
 
             <div className="item">
               <Input label="학교" min={0} id="school" name="school" type="number"/>
               <Input label="대중교통(버스, 지하철)" min={0} id="bus" name="bus" type="number"/>
-              <Input label="방향" min={0} id="restaurant" name="restaurant" type="number"/>
+              <Input label="방향" id="direction" name="direction" type="text"/>
             </div>
 
+            <div className="item imageUpload">
+              <span className="label">이미지 업로드</span>
+              <DropZone files={files} setFiles={setFiles}/>
+            </div>
 
-            {/*<button className="sendButton">Add</button>*/}
-            {/*{error && <span>error</span>}*/}
-
-
-            {/*<div className="item">*/}
-            {/*  {images.map((image, index) => (*/}
-            {/*      <img src={image} key={index} alt="image"/>*/}
-            {/*  ))}*/}
-            {/*  <UploadWidget*/}
-            {/*      uwConfig={{*/}
-            {/*        multiple: true,*/}
-            {/*        cloudName: process.env.VITE_CLOUD_NAME,*/}
-            {/*        uploadPreset: "estate",*/}
-            {/*        folder: "posts",*/}
-            {/*      }}*/}
-            {/*      setState={setImages}*/}
-            {/*  />*/}
-            {/*</div>`*/}
-
-
+            {error && <span>error</span>}
           </form>
         </div>
       </div>

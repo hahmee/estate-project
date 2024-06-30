@@ -26,6 +26,7 @@ model Post {
   longitude  String
   type       Type
   property   Property
+  maintenance Int
   createdAt  DateTime    @default(now())
   user       User        @relation(fields: [userId], references: [id])
   userId     String      @db.ObjectId
@@ -34,29 +35,56 @@ model Post {
 }
 
 enum Type {
-  buy
-  rent
+  month_pay
+  year_pay
+  sell
 }
 
 enum Property {
   apartment
-  house
   condo
+  officetel
+  one_room
+  two_room
   land
 }
 
 model PostDetail {
   id         String  @id @default(auto()) @map("_id") @db.ObjectId
   desc       String
-  utilities  String?
-  pet        String?
-  income     String?
+  pet        Pet
+  option     Option[]
+  safeOption SafeOption[]
   size       Int?
   school     Int?
   bus        Int?
-  restaurant Int?
+  direction  String
   post       Post    @relation(fields: [postId], references: [id])
   postId     String  @unique @db.ObjectId
+}
+
+enum Pet {
+    yes
+    no
+}
+
+enum Option {
+    shoe
+    shower_booth
+    stove
+    closet
+    fire_alarm
+    veranda
+}
+
+enum SafeOption {
+    guard
+    video_phone
+    intercom
+    card_key
+    cctv
+    safety_door
+    window_guard
 }
 
 model SavedPost {

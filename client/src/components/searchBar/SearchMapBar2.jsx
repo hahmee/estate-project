@@ -10,10 +10,11 @@ import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 
 
 function SearchMapBar2({getMapResult}) {
-    const {progress, goToAddPage,clearProgress} = useContext(UserProgressContext);
+    const {progress, goToAddPage,clearProgress, saveLocation,clearLocation} = useContext(UserProgressContext);
 
     const [location, setLocation] = useState("");
     const [status, setStatus] = useState("");
+
     // const [itemList, setItemList] = useState([]);
     const [suggestionsVisible, setSuggestionsVisible] = useState(true);
     const [latLng, setLatLng] = useState({
@@ -26,7 +27,6 @@ function SearchMapBar2({getMapResult}) {
         setLocation(location);
         setSuggestionsVisible(true);
         clearProgress();
-
     };
 
     const handleSelect = (location,e,d) => {
@@ -37,7 +37,8 @@ function SearchMapBar2({getMapResult}) {
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
-                console.log('!!!',latLng);
+                console.log('!!!',latLng,'.ssss',location);
+                saveLocation({...latLng, address: location, city:''});
                 getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: []}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
             })
@@ -54,14 +55,13 @@ function SearchMapBar2({getMapResult}) {
 
     const onMouseOver = (e) => {
         console.log('e', e.target.children[0]?.textContent);
-
         // setInputValue(e.target.children[0]?.textContent);
-
 
     };
 
     useEffect(() => {
         clearProgress();
+
     }, []);
 
     return (

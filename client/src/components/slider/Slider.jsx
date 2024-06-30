@@ -45,7 +45,7 @@ function Slider({ images }) {
         {images.slice(1).map((image, index) => (
           <img
             src={image}
-            alt=""
+            alt="image"
             key={index}
             onClick={() => setImageIndex(index + 1)}
           />

@@ -5,32 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/UI/Select.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/UI/Textarea.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dropZone/DropZone.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dropZone/ThumbNail.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dropZone/dropZone.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/dropZone/thumnail.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage2.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage_ori.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/post.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/api/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/public/bg.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/UI/Input.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Input.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/UI/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Button.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/UI/Select.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Selection.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dropZone/DropZone.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dropZone/DropZone.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dropZone/dropZone.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dropZone/dropZone.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/context/UserProgressContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/UserProgressContext.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/responsive.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/responsive.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/register/register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/register/register.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,25 +46,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/dev/youtube/estate-project/client/src/components/dropZone&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.HTTP Request&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/dev/youtube/estate-project/client/src/UI",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.HTTP Request",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\dev\youtube\estate-project\client\src\components\dropZone" />
       <recent name="C:\dev\youtube\estate-project\client\src\UI" />
+      <recent name="C:\dev\youtube\estate-project\client\src\components\dropZone" />
       <recent name="C:\dev\youtube\estate-project\client\src\routes\newPostPage" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\uploadWidget" />
       <recent name="C:\dev\youtube\estate-project\client" />
@@ -101,7 +95,7 @@
       <workItem from="1719456432617" duration="10759000" />
       <workItem from="1719565757960" duration="1463000" />
       <workItem from="1719572541704" duration="29776000" />
-      <workItem from="1719649486820" duration="9880000" />
+      <workItem from="1719649486820" duration="57956000" />
     </task>
     <servers />
   </component>
