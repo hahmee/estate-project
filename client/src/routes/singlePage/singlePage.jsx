@@ -38,39 +38,59 @@ function SinglePage() {
     lng: 120.835941
   };
 
-  console.log('post.images', post.images);
+  console.log('post.images', post);
   return (
       <div className="singlePage">
         <div className="details">
           <div className="wrapper">
-            <Slider images={post.images}/>
+              <Slider images={post.images}/>
             <div className="info">
-              <div className="top">
+              <div className="title">
                 <div className="post">
-                  <h1>{post.title}</h1>
+
+                  <h2>{post.title}제목입니다.</h2>
+                  <div className="price">$ {post.price}</div>
+                    <div
+                        className="bottom"
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(post.postDetail.desc+"loremasdfaddddddddloremasdfadddddddddddddddddddddddddddddddddddddddddddddddddddloremasdfadddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"),
+                        }}
+                        ></div>
                   <div className="address">
                     <img src="/pin.png" alt="pin"/>
                     <span>{post.address}</span>
                   </div>
-                  <div className="price">$ {post.price}</div>
-                </div>
-                <div className="user">
-                  <img src={post.user.avatar} alt="avatar"/>
-                  <span>{post.user.username}</span>
                 </div>
               </div>
-              <div
-                  className="bottom"
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(post.postDetail.desc),
-                  }}
-              ></div>
             </div>
+
+            {/*<div className="info">*/}
+            {/*  <div className="top">*/}
+            {/*    <div className="post">*/}
+            {/*      <h1>{post.title}</h1>*/}
+            {/*        <div className="address">*/}
+            {/*          <img src="/pin.png" alt="pin"/>*/}
+            {/*          <span>{post.address}</span>*/}
+            {/*        </div>*/}
+            {/*      <div className="price">$ {post.price}</div>*/}
+            {/*    </div>*/}
+            {/*    <div className="user">*/}
+            {/*      <img src={post.user.avatar} alt="avatar"/>*/}
+            {/*      <span>{post.user.username}</span>*/}
+            {/*    </div>*/}
+            {/*  </div>*/}
+            {/*  <div*/}
+            {/*      className="bottom"*/}
+            {/*      dangerouslySetInnerHTML={{*/}
+            {/*        __html: DOMPurify.sanitize(post.postDetail.desc),*/}
+            {/*      }}*/}
+            {/*  ></div>*/}
+            {/*</div>*/}
           </div>
         </div>
         <div className="features">
           <div className="wrapper">
-            <p className="title">General</p>
+            <p className="title">상세정보</p>
             <div className="listVertical">
               <div className="feature">
                 <img src="/utility.png" alt="utility"/>
@@ -146,9 +166,31 @@ function SinglePage() {
                 </div>
               </div>
             </div>
-            <p className="title">Location</p>
 
 
+            <p className="title">옵션</p>
+            <div className="optionList">
+              <div className="option">
+                {
+                  post.postDetail.option.map((option) => <div key={option}>{option}</div>)
+                }
+              </div>
+
+            </div>
+
+
+            <p className="title">안전/보안 시설</p>
+
+            <div className="optionList">
+              <div className="option">
+                {
+                  post.postDetail.safeOption.map((option) => <div key={option}>{option}</div>)
+                }
+              </div>
+            </div>
+
+
+            <p className="title">위치</p>
             <div className="mapContainer">
               <Map items={[post]}/>
             </div>

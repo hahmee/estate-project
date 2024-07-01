@@ -6,25 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/post.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/api/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/UI/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Button.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/UI/Select.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Selection.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/dropZone/DropZone.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dropZone/DropZone.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dropZone/dropZone.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dropZone/dropZone.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/context/UserProgressContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/UserProgressContext.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/slider.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/slider.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,7 +82,7 @@
       <workItem from="1719456432617" duration="10759000" />
       <workItem from="1719565757960" duration="1463000" />
       <workItem from="1719572541704" duration="29776000" />
-      <workItem from="1719649486820" duration="57956000" />
+      <workItem from="1719649486820" duration="76922000" />
     </task>
     <servers />
   </component>

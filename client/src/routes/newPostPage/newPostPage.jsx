@@ -11,23 +11,23 @@ import Selection from "../../UI/Selection.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import axios from "axios";
 
-const options = [
-  {value: 'shoe', label: '신발장' },
-  {value: 'shower_booth', label: '샤워부스' },
-  {value: 'stove', label: '가스레인지' },
-  {value: 'closet', label: '붙박이장' },
-  {value: 'fire_alarm', label: '화재경보기' },
-  {value: 'veranda', label: '베란다' },
+export const options = [
+  {value: 'shoe', label: '신발장', img: '/bath.png' },
+  {value: 'shower_booth', label: '샤워부스', img: '/bath.png'  },
+  {value: 'stove', label: '가스레인지', img: '/bath.png' },
+  {value: 'closet', label: '붙박이장' , img: '/bath.png'},
+  {value: 'fire_alarm', label: '화재경보기' , img: '/bath.png'},
+  {value: 'veranda', label: '베란다', img: '/bath.png' },
 ];
 
-const safeOptions = [
-  {value: 'guard', label: '경비원'},
-  {value: 'video_phone', label: '비디오폰'},
-  {value: 'intercom', label: '인터폰'},
-  {value: 'card_key', label: '카드키'},
-  {value: 'cctv', label: 'CCTV'},
-  {value: 'safety_door', label: '현관보안'},
-  {value: 'window_guard', label: '방범창'},
+export const safeOptions = [
+  {value: 'guard', label: '경비원', img: '/bath.png'},
+  {value: 'video_phone', label: '비디오폰', img: '/bath.png'},
+  {value: 'intercom', label: '인터폰', img: '/bath.png'},
+  {value: 'card_key', label: '카드키', img: '/bath.png'},
+  {value: 'cctv', label: 'CCTV', img: '/bath.png'},
+  {value: 'safety_door', label: '현관보안', img: '/bath.png'},
+  {value: 'window_guard', label: '방범창', img: '/bath.png'},
 ]
 
 const petOption = [
@@ -57,6 +57,8 @@ function NewPostPage() {
   const {clearSaveProgress, location, clearLocation} = useContext(UserProgressContext);
   const [files, setFiles] = useState([]);
   const [imageUrl, setImageUrl] = useState([]);
+  const [post, setPost] = useState(null);
+
   const navigate = useNavigate();
   const [safeOptionsValue, setSafeOptionsValue] = useState([]);
 
@@ -68,15 +70,13 @@ function NewPostPage() {
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
 
-
-    const optionList = optionsValue.map(value => value.value);
-    const safeOptionList = safeOptionsValue.map(value => value.value);
+    // const optionList = optionsValue.map(value => value.value);
+    // const safeOptionList = safeOptionsValue.map(value => value.value);
 
     try {
 
-      await imageUpload();
 
-      console.log('imageUrl', imageUrl);
+      setPost(inputs); // await imageUpload();
 
       // const res = await apiRequest.post("/posts", {
       //   postData: {
@@ -105,15 +105,40 @@ function NewPostPage() {
       //   },
       // });
       // navigate("/read/" + res.data.id);
-      //clearLocation();
+      // clearLocation();
     } catch (err) {
       console.log(err);
       setError(error);
     }
   }, [imageUrl]);
 
-  const imageUpload = useCallback(async () => {
+  // const imageUpload = useCallback(async () => {
+  //   console.log('files___',files);
+  //
+  //   if (files.length > 0) {
+  //     files.map(async file => {
+  //       const formData = new FormData();
+  //       const config = {
+  //         header: {
+  //           'content-Type': 'multipart/form-data',
+  //         }
+  //       }
+  //       formData.append('file', file);
+  //       formData.append('upload_preset', 'estate');
+  //
+  //       console.log('files', files);
+  //
+  //       const res = await axios.post(url, formData, config);
+  //
+  //       setImageUrl((prev) => [...prev, res.data.secure_url]);
+  //     });
+  //   }
+  // }, [imageUrl,files]);
+
+
+  const imageUpload = async () => {
     console.log('files___',files);
+
     if (files.length > 0) {
       files.map(async file => {
         const formData = new FormData();
@@ -128,20 +153,65 @@ function NewPostPage() {
         console.log('files', files);
 
         const res = await axios.post(url, formData, config);
-
-        await setImageUrl((prev) => [...prev, res.data.secure_url]);
+        console.log('res', res);
+        setImageUrl((prev) => [...prev, res.data.secure_url]);
       });
     }
-  }, [imageUrl,files]);
+  };
+
+  const postData = async (inputs) => {
+
+    const optionList = optionsValue.map(value => value.value);
+    const safeOptionList = safeOptionsValue.map(value => value.value);
+    console.log('imageUR??!', imageUrl);
+
+    const res = await apiRequest.post("/posts", {
+      postData: {
+        title: inputs.title,
+        property: inputs.property,
+        type: inputs.type,
+        price: parseInt(inputs.price),
+        address: location.address,
+        city: location.city,
+        bedroom: parseInt(inputs.bedroom),
+        bathroom: parseInt(inputs.bathroom),
+        latitude: location.lat.toString(),
+        longitude: location.lng.toString(),
+        images: imageUrl,
+        maintenance: parseInt(inputs.maintenance),
+      },
+      postDetail: {
+        desc: inputs.description,
+        pet: inputs.pet,
+        option: optionList,
+        safeOption: safeOptionList,
+        size: parseInt(inputs.size),
+        school: parseInt(inputs.school),
+        bus: parseInt(inputs.bus),
+        direction: inputs.direction,
+      },
+    });
+    navigate("/read/" + res.data.id);
+    clearLocation();
+
+  }
+
+
 
   useEffect(() => {
-    console.log('files', files);
+    console.log('files', files); // 감지 가능
 
+    const process = async () => {
+      await imageUpload();
+      await postData(post);
+    }
 
+    if(post) { //null 아니라면
+      process();
+      setPost(null);
+    }
 
-
-
-  }, [files]);
+  }, [files, post, imageUrl]);
 
   useEffect(() => {
     clearSaveProgress();

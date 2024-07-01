@@ -3,16 +3,17 @@
 .singlePage {
   display: flex;
   height: 100%;
+  flex-direction: column;
 
   @include md {
     flex-direction: column;
-    overflow: scroll;
+    //overflow: scroll;
   }
 
   .details {
-    flex: 3;
+    //flex: 3;
     height: 100%;
-    overflow-y: scroll;
+    //overflow-y: scroll;
 
     @include md {
       flex: none;
@@ -22,6 +23,7 @@
 
     .wrapper {
       padding-right: 50px;
+      background-color: green;
 
       @include lg {
         padding-right: 20px;
@@ -31,8 +33,19 @@
       }
 
       .info {
-        margin-top: 50px;
-        .top {
+        width: 100%;
+        background-color: #bed9d8;
+        margin-top: 20px;
+        //height: 200px;
+        //background-color: gold;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e5e7eb;
+        @include sm {
+          flex-direction: column;
+          gap: 20px;
+          width: 100%;
+        }
+        .title {
           display: flex;
           justify-content: space-between;
 
@@ -45,7 +58,8 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            h1 {
+            position: relative;
+            h2 {
               font-weight: 400;
             }
             .address {
@@ -62,7 +76,7 @@
             }
             .price {
               padding: 5px;
-              background-color: rgba(254, 205, 81, 0.438);
+              //background-color: rgba(254, 205, 81, 0.438);
               border-radius: 5px;
               width: max-content;
               font-size: 20px;
@@ -77,7 +91,7 @@
             gap: 20px;
             padding: 0px 50px;
             border-radius: 10px;
-            background-color: rgba(254, 205, 81, 0.209);
+            //background-color: rgba(254, 205, 81, 0.209);
             font-weight: 600;
 
             @include sm {
@@ -93,18 +107,19 @@
           }
         }
         .bottom {
-          margin-top: 50px;
+          //margin-top: 50px;
           color: #555;
           line-height: 20px;
+          word-break:break-all;
         }
       }
     }
   }
   .features {
-    flex: 2;
-    background-color: #fcf5f3;
+    //flex: 2;
+    //background-color: #fcf5f3;
     height: 100%;
-    overflow-y: scroll;
+    //overflow-y: scroll;
 
     @include md {
       flex: none;
@@ -113,7 +128,7 @@
     }
 
     .wrapper {
-      padding: 0px 20px;
+      //padding: 0px 20px;
       display: flex;
       flex-direction: column;
       gap: 20px;
@@ -129,17 +144,19 @@
 
       .title {
         font-weight: bold;
-        font-size: 18px;
+        font-size: 24px;
         margin-bottom: 10px;
+        margin-top: 10px;
+
       }
 
       .feature {
         display: flex;
         align-items: center;
         gap: 10px;
-
+        background-color: gold;
         img {
-          background-color: rgba(254, 205, 81, 0.209);
+          //background-color: rgba(254, 205, 81, 0.209);
         }
 
         .featureText {
@@ -186,10 +203,17 @@
         }
       }
 
+      .optionList {
+        background-color: gold;
+        display: grid;
+        grid-template-columns: repeat(9, minmax(0px, 1fr));
+        gap: 24px 16px;
+      }
+
       .mapContainer {
         width: 100%;
         height: 200px;
-        background: antiquewhite;
+        //background: antiquewhite;
       }
 
       .buttons {

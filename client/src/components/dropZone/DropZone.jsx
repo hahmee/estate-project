@@ -7,9 +7,13 @@ import ThumbNail from "./ThumbNail.jsx";
 function DropZone({files, setFiles}) { //
 
     const onDrop = useCallback(acceptedFiles => {
-        setFiles(acceptedFiles.map((file) => Object.assign(file, {
+        // setFiles(acceptedFiles.map((file) => Object.assign(file, {
+        //     preview: URL.createObjectURL(file),
+        // })));
+        setFiles((prev) => acceptedFiles.map((file) => Object.assign(file, {
             preview: URL.createObjectURL(file),
         })));
+
     }, [files]);
 
     const {
@@ -21,7 +25,9 @@ function DropZone({files, setFiles}) { //
     const deleteImage = (file) => {
         const index = files.indexOf(file);
         if (index > -1) {
-            setFiles(files.filter((s, i) => (i != index)));
+            // setFiles(files.filter((s, i) => (i != index)));
+            setFiles((prev) => prev.filter((s, i) => (i != index)));
+
         }
     }
 
