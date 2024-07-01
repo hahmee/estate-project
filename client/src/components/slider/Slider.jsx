@@ -22,6 +22,8 @@ function Slider({ images }) {
 
   return (
     <div className="slider">
+
+
       {imageIndex !== null && (
         <div className="fullSlider">
           <div className="arrow" onClick={() => changeSlide("left")}>
@@ -54,16 +56,16 @@ function Slider({ images }) {
         <img
             src="https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"/>
 
-
-        {/*{images.slice(1).map((image, index) => (*/}
-        {/*  <img*/}
-        {/*    src={image}*/}
-        {/*    alt="image"*/}
-        {/*    key={index}*/}
-        {/*    onClick={() => setImageIndex(index + 1)}*/}
-        {/*  />*/}
-        {/*))}*/}
       </div>
+      {/*  /!*{images.slice(1).map((image, index) => (*!/*/}
+      {/*  /!*  <img*!/*/}
+      {/*  /!*    src={image}*!/*/}
+      {/*  /!*    alt="image"*!/*/}
+      {/*  /!*    key={index}*!/*/}
+      {/*  /!*    onClick={() => setImageIndex(index + 1)}*!/*/}
+      {/*  /!*  />*!/*/}
+      {/*  /!*))}*!/*/}
+      {/*</div>*/}
     </div>
   );
 }

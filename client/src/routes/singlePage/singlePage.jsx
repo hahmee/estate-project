@@ -7,6 +7,8 @@ import { AuthContext } from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
 import {GoogleMap, LoadScript} from "@react-google-maps/api";
 import Slider from "../../components/slider/Slider.jsx";
+import {options, roomOption, safeOptions, typeOption} from "../newPostPage/newPostPage.jsx";
+import Button from "../../UI/Button.jsx";
 
 function SinglePage() {
   const post = useLoaderData();
@@ -28,194 +30,252 @@ function SinglePage() {
     }
   };
 
-  const containerStyle = {
-    width: '700px',
-    height: '400px'
-  };
 
-  const center = {
-    lat: 14.018000,
-    lng: 120.835941
-  };
+  console.log('post', post);
 
-  console.log('post.images', post);
   return (
       <div className="singlePage">
-        <div className="details">
-          <div className="wrapper">
-              <Slider images={post.images}/>
-            <div className="info">
-              <div className="title">
-                <div className="post">
+        <Slider images={post.images}/>
+        <div className="contents">
+          <div className="leftContents">
+            <div className="details">
+              <div className="wrapper">
 
-                  <h2>{post.title}제목입니다.</h2>
-                  <div className="price">$ {post.price}</div>
-                    <div
-                        className="bottom"
-                        dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(post.postDetail.desc+"loremasdfaddddddddloremasdfadddddddddddddddddddddddddddddddddddddddddddddddddddloremasdfadddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"),
-                        }}
-                        ></div>
-                  <div className="address">
-                    <img src="/pin.png" alt="pin"/>
-                    <span>{post.address}</span>
+                <div className="info">
+                  <div className="title">
+                    <div className="post">
+                      <h2>{post.title}제목입니다.</h2>
+                      <div className="price">$ {post.price}</div>
+                      <div className="price">$ {post.maintenance}</div>
+                      <div
+                          className="bottom"
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(post.postDetail.desc + "loremasdfaddddddddloremasdfadddddddddddddddddddddddddddddddddddddddddddddddddddloremasdfadddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"),
+                          }}
+                      ></div>
+                      <div className="address">
+                        <img src="/pin.png" alt="pin"/>
+                        <span>{post.address}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div className="features">
+              <div className="wrapper">
+                <p className="title">상세정보</p>
+                <div className="listVertical">
+                  <div className="feature">
+                    <img src="/utility.png" alt="utility"/>
+                    <div className="featureText">
+                      <span>방종류</span>
+                      <p>
+                        {
+                          roomOption.filter((option) => option.value === post.property)[0].label
+                        }
+                      </p>
 
-            {/*<div className="info">*/}
-            {/*  <div className="top">*/}
-            {/*    <div className="post">*/}
-            {/*      <h1>{post.title}</h1>*/}
-            {/*        <div className="address">*/}
-            {/*          <img src="/pin.png" alt="pin"/>*/}
-            {/*          <span>{post.address}</span>*/}
-            {/*        </div>*/}
-            {/*      <div className="price">$ {post.price}</div>*/}
-            {/*    </div>*/}
-            {/*    <div className="user">*/}
-            {/*      <img src={post.user.avatar} alt="avatar"/>*/}
-            {/*      <span>{post.user.username}</span>*/}
-            {/*    </div>*/}
-            {/*  </div>*/}
-            {/*  <div*/}
-            {/*      className="bottom"*/}
-            {/*      dangerouslySetInnerHTML={{*/}
-            {/*        __html: DOMPurify.sanitize(post.postDetail.desc),*/}
-            {/*      }}*/}
-            {/*  ></div>*/}
-            {/*</div>*/}
+                    </div>
+                  </div>
+
+                  <div className="feature">
+                    <img src="/utility.png" alt="utility"/>
+                    <div className="featureText">
+                      <span>타입</span>
+                      <p>
+                        {
+                          typeOption.filter((option) => option.value === post.type)[0].label
+                        }
+                      </p>
+                    </div>
+                  </div>
+                  <div className="feature">
+                    <img src="/pet.png" alt="pet"/>
+                    <div className="featureText">
+                      <span>애완견 입주</span>
+                      {post.postDetail.pet === "yes" ? (
+                          <p>허용</p>
+                      ) : (
+                          <p>비허용</p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="feature">
+                    <img src="/fee.png" alt="fee"/>
+                    <div className="featureText">
+                      <span>방향</span>
+                      <p>{post.postDetail.direction}</p>
+                    </div>
+                  </div>
+                  <div className="feature">
+                    <img src="/fee.png" alt="fee"/>
+                    <div className="featureText">
+                      <span>주차</span>
+                      <p>{post.postDetail.parking}</p>
+                    </div>
+                  </div>
+                </div>
+                <p className="title">사이즈</p>
+                <div className="sizes">
+                  <div className="size">
+                    <img src="/size.png" alt="size"/>
+                    <span>{post.postDetail.size} 평</span>
+                  </div>
+                  <div className="size">
+                    <img src="/bed.png" alt="bed"/>
+                    <span>{post.bedroom} 침실</span>
+                  </div>
+                  <div className="size">
+                    <img src="/bath.png" alt="bath"/>
+                    <span>{post.bathroom} 화장실</span>
+                  </div>
+                </div>
+                <p className="title">주변 시설</p>
+                <div className="listHorizontal">
+                  <div className="feature">
+                    <img src="/school.png" alt="school"/>
+                    <div className="featureText">
+                      <span>학교</span>
+                      <p>약&nbsp;
+                        {post.postDetail.school > 999
+                            ? post.postDetail.school / 1000 + "km"
+                            : post.postDetail.school + "m"}{" "}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="feature">
+                    <img src="/pet.png" alt="pet"/>
+                    <div className="featureText">
+                      <span>대중교통(버스, 지하철)</span>
+                      <p>약 {post.postDetail.bus}m</p>
+                    </div>
+                  </div>
+                  <div className="feature">
+                    <img src="/fee.png" alt="fee"/>
+                    <div className="featureText">
+                      <span>편의시설</span>
+                      <p>약 {post.postDetail.bus}m</p>
+                    </div>
+                  </div>
+                </div>
+
+
+                <p className="title">옵션</p>
+                <ul className="optionList">
+                  {
+                    post.postDetail.option.map((option) => {
+                      const data = options.filter((op) => op.value === option)[0]
+                      return <li key={option}>
+                        <div className="item">
+                          <div className="imgDiv"><img src={data.img} alt="image"/></div>
+                          <div className="labelDiv">{data.label}</div>
+                        </div>
+                      </li>;
+                    })
+                  }
+                </ul>
+
+
+                <p className="title">안전/보안 시설</p>
+                <ul className="optionList">
+                  {
+                    post.postDetail.safeOption.map((option) => {
+                      const data = safeOptions.filter((op) => op.value === option)[0]
+                      return <li key={option}>
+                        <div className="item">
+                          <div className="imgDiv"><img src={data.img} alt="image"/></div>
+                          <div className="labelDiv">{data.label}</div>
+                        </div>
+                      </li>
+                          ;
+                    })
+                  }
+                </ul>
+
+
+                <p className="title">위치</p>
+                <div className="address">
+                  <span>{post.address}</span>
+                </div>
+                <div className="mapContainer">
+                  <Map items={[{latitude: post.latitude, longitude: post.longitude, images: []}]}/>
+                </div>
+
+
+
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="features">
-          <div className="wrapper">
-            <p className="title">상세정보</p>
-            <div className="listVertical">
-              <div className="feature">
-                <img src="/utility.png" alt="utility"/>
-                <div className="featureText">
-                  <span>Utilities</span>
-                  {post.postDetail.utilities === "owner" ? (
-                      <p>Owner is responsible</p>
-                  ) : (
-                      <p>Tenant is responsible</p>
-                  )}
-                </div>
-              </div>
-              <div className="feature">
-                <img src="/pet.png" alt="pet"/>
-                <div className="featureText">
-                  <span>Pet Policy</span>
-                  {post.postDetail.pet === "allowed" ? (
-                      <p>Pets Allowed</p>
-                  ) : (
-                      <p>Pets not Allowed</p>
-                  )}
-                </div>
-              </div>
-              <div className="feature">
-                <img src="/fee.png" alt="fee"/>
-                <div className="featureText">
-                  <span>Income Policy</span>
-                  <p>{post.postDetail.income}</p>
-                </div>
-              </div>
-            </div>
-            <p className="title">Sizes</p>
-            <div className="sizes">
-              <div className="size">
-                <img src="/size.png" alt="size"/>
-                <span>{post.postDetail.size} sqft</span>
-              </div>
-              <div className="size">
-                <img src="/bed.png" alt="bed"/>
-                <span>{post.bedroom} beds</span>
-              </div>
-              <div className="size">
-                <img src="/bath.png" alt="bath"/>
-                <span>{post.bathroom} bathroom</span>
-              </div>
-            </div>
-            <p className="title">Nearby Places</p>
-            <div className="listHorizontal">
-              <div className="feature">
-                <img src="/school.png" alt="school"/>
-                <div className="featureText">
-                  <span>School</span>
-                  <p>
-                    {post.postDetail.school > 999
-                        ? post.postDetail.school / 1000 + "km"
-                        : post.postDetail.school + "m"}{" "}
-                    away
+          <aside className="rightContents">
+            <div className="stickyContent">
+              <div className="rightItem">
+                <div className="priceItem">
+
+                  <p className="title">
+                    {
+                      typeOption.filter((option) => option.value === post.type)[0].label
+                    }
+                    &nbsp;
+
+                    {
+                      post.price
+                    }
+                    /
+                    {
+                      post.maintenance
+                    }
                   </p>
+
                 </div>
-              </div>
-              <div className="feature">
-                <img src="/pet.png" alt="pet"/>
-                <div className="featureText">
-                  <span>Bus Stop</span>
-                  <p>{post.postDetail.bus}m away</p>
+                <div className="priceItemMiddle">
+                  <p>
+                    {
+                      roomOption.filter((option) => option.value === post.property)[0].label
+                    }
+                  </p>
+                  <p>
+                    {post.postDetail.size}평
+                  </p>
+                  <p>
+                    {post.bedroom}개 / {post.bathroom}개
+                  </p>
+                  <p>
+                    {post.address}
+                  </p>
+
                 </div>
-              </div>
-              <div className="feature">
-                <img src="/fee.png" alt="fee"/>
-                <div className="featureText">
-                  <span>Restaurant</span>
-                  <p>{post.postDetail.restaurant}m away</p>
+
+                <div className="itemBottom">
+                  <p>
+                    {post.user.username}
+                  </p>
+
                 </div>
+
+                <div className="buttonDiv">
+                  {
+                      currentUser.id !== post.userId
+                      && (
+                          <Button className="message" onClick={() => navigate(`/chat?receiver=${post.userId}`)}>
+                            메시지
+                          </Button>
+                      )
+                  }
+                  <Button
+                      onClick={handleSave}
+                      style={{
+                        backgroundColor: saved ? "#fece51" : "#fff",
+                        // width:'13px',
+                      }}
+                  >
+                    <img src="/save.png" alt="save" style={{width:'20px'}}/>
+                  </Button>
+                </div>
+
               </div>
             </div>
-
-
-            <p className="title">옵션</p>
-            <div className="optionList">
-              <div className="option">
-                {
-                  post.postDetail.option.map((option) => <div key={option}>{option}</div>)
-                }
-              </div>
-
-            </div>
-
-
-            <p className="title">안전/보안 시설</p>
-
-            <div className="optionList">
-              <div className="option">
-                {
-                  post.postDetail.safeOption.map((option) => <div key={option}>{option}</div>)
-                }
-              </div>
-            </div>
-
-
-            <p className="title">위치</p>
-            <div className="mapContainer">
-              <Map items={[post]}/>
-            </div>
-            <div className="buttons">
-              {
-                  currentUser.id !== post.userId
-                  && (
-                      <button onClick={() => navigate(`/chat?receiver=${post.userId}`)}>
-                        <img src="/chat.png" alt="chat"/>
-                        Send a Message
-                      </button>
-                  )
-              }
-
-              <button
-                  onClick={handleSave}
-                  style={{
-                    backgroundColor: saved ? "#fece51" : "white",
-                  }}
-              >
-                <img src="/save.png" alt="save"/>
-                {saved ? "Place Saved" : "Save the Place"}
-              </button>
-            </div>
-          </div>
+          </aside>
         </div>
       </div>
   );

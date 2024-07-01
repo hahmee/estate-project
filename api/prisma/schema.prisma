@@ -59,6 +59,7 @@ model PostDetail {
   school     Int?
   bus        Int?
   direction  String
+  parking    Int?
   post       Post    @relation(fields: [postId], references: [id])
   postId     String  @unique @db.ObjectId
 }

@@ -35,7 +35,7 @@ const petOption = [
   {value: 'no', label: '불가능' },
 ]
 
-const roomOption = [
+export const roomOption = [
       {value: 'apartment', label: '아파트' },
       {value: 'condo', label: '주택'},
       {value: 'officetel', label: '오피스텔'},
@@ -44,7 +44,7 @@ const roomOption = [
       {value: 'land', label: '땅'},
 ]
 
-const typeOption = [
+export const typeOption = [
     {value: 'month_pay', label: '월세'},
     {value: 'year_pay', label: '전세'},
     {value: 'sell', label: '매매'},
@@ -189,6 +189,7 @@ function NewPostPage() {
         school: parseInt(inputs.school),
         bus: parseInt(inputs.bus),
         direction: inputs.direction,
+        parking: parseInt(inputs.parking),
       },
     });
     navigate("/read/" + res.data.id);

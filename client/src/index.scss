@@ -29,6 +29,9 @@ UI COMPONENT - BUTTON, MODAL, INPUT, SELECT
   color: #fff;
   padding: 0.6rem 1.8rem;
   border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover:enabled {
     background-color: #000000;
   }
@@ -66,7 +69,9 @@ UI COMPONENT - BUTTON, MODAL, INPUT, SELECT
   padding: 0.6rem 1.8rem;
   border-radius: 8px;
   border: 1px solid rgb(221, 221, 221);
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover {
     border-color: #222222;
   }
