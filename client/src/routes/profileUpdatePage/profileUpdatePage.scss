@@ -1,12 +1,24 @@
 .profileUpdatePage {
   height: 100%;
   display: flex;
+  flex-direction: column;
 
   .formContainer {
-    flex:3;
-    display: flex;
+    //flex:3;
+    //display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1.25rem;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    gap: 1.75rem;
+    //display: grid;
+    margin-top: 1.5rem;
+    height: auto;
+    margin-bottom: 10rem;
+
+
     form {
       display: flex;
       flex-direction: column;
@@ -15,41 +27,33 @@
       .item {
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        //background-color: gold;
 
-        label {
+        img {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin-right: 5px;
+          border: 1px solid #DDDDDD;
+          margin-bottom: 20px;
+
+        }
+        p {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+          color: rgb(107, 114, 128);
         }
 
-        input {
-          padding: 20px;
-          border-radius: 5px;
-          border: 1px solid gray;
-        }
       }
-      button {
-        padding: 20px;
-        border-radius: 5px;
-        border: none;
-        background-color: teal;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
+
+      .submit {
+        display: flex;
+        justify-content: flex-end;
       }
+
     }
   }
 
-  .sideContainer {
-    flex: 2;
-    background-color: #fcf5f3;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
 
-    .avatar{
-      width: 50%;
-      object-fit: cover;
-    }
-  }
 }

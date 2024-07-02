@@ -4,7 +4,7 @@ function MessageInput({handleSubmit}) {
     return (
         <form onSubmit={handleSubmit} className="bottom">
             <textarea name="text"></textarea>
-            <button>Send</button>
+            <button>보내기</button>
         </form>
     );
 }

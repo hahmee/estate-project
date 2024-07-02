@@ -4,7 +4,7 @@ import "./dropZone.scss";
 
 import ThumbNail from "./ThumbNail.jsx";
 
-function DropZone({files, setFiles}) { //
+function DropZone({files, setFiles, multiple= false}) { //
 
     const onDrop = useCallback(acceptedFiles => {
         // setFiles(acceptedFiles.map((file) => Object.assign(file, {
@@ -19,7 +19,7 @@ function DropZone({files, setFiles}) { //
     const {
         getRootProps,
         getInputProps,
-    } = useDropzone({accept: {'image/*': []},onDrop});
+    } = useDropzone({accept: {'image/*': []},onDrop, multiple :multiple});
 
 
     const deleteImage = (file) => {
@@ -27,7 +27,6 @@ function DropZone({files, setFiles}) { //
         if (index > -1) {
             // setFiles(files.filter((s, i) => (i != index)));
             setFiles((prev) => prev.filter((s, i) => (i != index)));
-
         }
     }
 
@@ -38,11 +37,15 @@ function DropZone({files, setFiles}) { //
                 <span className="material-symbols-outlined">cloud_upload</span>
                 <span>이미지를 드래그 & 드롭하거나 여기를 클릭해주세요.</span>
             </div>
-            <aside className="thumbnail">
-                {
-                    files.map((file, idx) => <ThumbNail key={idx} file={file} deleteImage={deleteImage}/>)
-                }
-            </aside>
+            {
+                multiple &&
+                <aside className="thumbnail">
+                    {
+                        files.map((file, idx) => <ThumbNail key={idx} file={file} deleteImage={deleteImage}/>)
+                    }
+                </aside>
+            }
+
         </div>
     );
 }

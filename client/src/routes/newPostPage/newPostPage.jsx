@@ -50,7 +50,7 @@ export const typeOption = [
     {value: 'sell', label: '매매'},
 ]
 
-const url = `https://api.cloudinary.com/v1_1/${process.env.VITE_CLOUD_NAME}/upload`;
+export const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.VITE_CLOUD_NAME}/upload`;
 
 function NewPostPage() {
   const [error, setError] = useState("");
@@ -152,7 +152,7 @@ function NewPostPage() {
 
         console.log('files', files);
 
-        const res = await axios.post(url, formData, config);
+        const res = await axios.post(cloudinaryUrl, formData, config);
         console.log('res', res);
         setImageUrl((prev) => [...prev, res.data.secure_url]);
       });
@@ -221,7 +221,7 @@ function NewPostPage() {
 
   const div = <>
     <div className="newPostPage">
-      <h2>Add New Post</h2>
+      <h2>정보를 상세하게 입력해주세요.</h2>
       <div className="formContainer">
         <div className="wrapper">
           <form id="estate-post-form" onSubmit={handleSubmit}>
@@ -275,7 +275,7 @@ function NewPostPage() {
 
             <div className="item imageUpload">
               <span className="label">이미지 업로드</span>
-              <DropZone files={files} setFiles={setFiles}/>
+              <DropZone files={files} setFiles={setFiles} multiple={true}/>
             </div>
 
             {error && <span>error</span>}

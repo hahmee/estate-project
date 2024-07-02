@@ -99,12 +99,12 @@ function Chat({ chats }) {
                   style={{
                     backgroundColor:
                         c.seenBy.includes(currentUser.id) || chat?.id === c.id
-                            ? "white"
+                            ? "rgba(0, 0, 0, 0.04)"
                             : "#fecd514e",
                   }}
                   onClick={() => handleOpenChat(c.id, c.receiver)}
               >
-                <img src={c.receiver.avatar || "/noavatar.jpg"} alt=""/>
+                <img src={c.receiver.avatar || "/noavatar.jpg"} alt="avatar"/>
                 <span>{c.receiver.username}</span>
                 <p>{c.lastMessage}</p>
               </div>
@@ -114,12 +114,10 @@ function Chat({ chats }) {
             <div className="chatBox">
               <div className="top">
                 <div className="user">
-                  <img src={chat.receiver.avatar || "noavatar.jpg"} alt=""/>
+                  <img src={chat.receiver.avatar || "noavatar.jpg"} alt="avatar"/>
                   {chat.receiver.username}
                 </div>
-                <span className="close" onClick={closeChat}>
-              X
-            </span>
+                <span className="close" onClick={closeChat}>X</span>
               </div>
               <div className="center">
                 {chat.messages.map((message) => (
@@ -143,7 +141,7 @@ function Chat({ chats }) {
               </div>
               <form onSubmit={handleSubmit} className="bottom">
                 <textarea name="text"></textarea>
-                <button>Send</button>
+                <button>보내기</button>
               </form>
             </div>
         )}

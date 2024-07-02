@@ -30,6 +30,9 @@ function SinglePage() {
     }
   };
 
+  const typeRoomLabel = roomOption.filter((option) => option.value === post.property)[0].label
+
+  const typeOptionLabel = typeOption.filter((option) => option.value === post.type)[0].label
 
   console.log('post', post);
 
@@ -40,17 +43,16 @@ function SinglePage() {
           <div className="leftContents">
             <div className="details">
               <div className="wrapper">
-
                 <div className="info">
                   <div className="title">
                     <div className="post">
-                      <h2>{post.title}제목입니다.</h2>
-                      <div className="price">$ {post.price}</div>
-                      <div className="price">$ {post.maintenance}</div>
+                      <h2>{post.title}</h2>
+                      <div className="price">{post.price}원</div>
+                      <div className="price">{post.maintenance}원</div>
                       <div
                           className="bottom"
                           dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(post.postDetail.desc + "loremasdfaddddddddloremasdfadddddddddddddddddddddddddddddddddddddddddddddddddddloremasdfadddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"),
+                            __html: DOMPurify.sanitize(post.postDetail.desc),
                           }}
                       ></div>
                       <div className="address">
@@ -72,7 +74,7 @@ function SinglePage() {
                       <span>방종류</span>
                       <p>
                         {
-                          roomOption.filter((option) => option.value === post.property)[0].label
+                          typeRoomLabel
                         }
                       </p>
 
@@ -85,7 +87,8 @@ function SinglePage() {
                       <span>타입</span>
                       <p>
                         {
-                          typeOption.filter((option) => option.value === post.type)[0].label
+                          typeOptionLabel
+
                         }
                       </p>
                     </div>
@@ -214,7 +217,7 @@ function SinglePage() {
 
                   <p className="title">
                     {
-                      typeOption.filter((option) => option.value === post.type)[0].label
+                      typeOptionLabel
                     }
                     &nbsp;
 
@@ -231,7 +234,8 @@ function SinglePage() {
                 <div className="priceItemMiddle">
                   <p>
                     {
-                      roomOption.filter((option) => option.value === post.property)[0].label
+                      typeRoomLabel
+
                     }
                   </p>
                   <p>
@@ -263,13 +267,14 @@ function SinglePage() {
                       )
                   }
                   <Button
+                      outlined
                       onClick={handleSave}
                       style={{
                         backgroundColor: saved ? "#fece51" : "#fff",
-                        // width:'13px',
+                        borderColor: saved ? "#fece51" : "rgb(221, 221, 221)"
                       }}
                   >
-                    <img src="/save.png" alt="save" style={{width:'20px'}}/>
+                   저장
                   </Button>
                 </div>
 
