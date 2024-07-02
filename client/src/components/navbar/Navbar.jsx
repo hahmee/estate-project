@@ -55,9 +55,9 @@ function Navbar() {
               </div>
           ) : (
               <>
-                <a href="/login">Sign in</a>
+                <a href="/login">로그인</a>
                 <a href="/register" className="register">
-                  Sign up
+                  회원가입
                 </a>
               </>
           )}

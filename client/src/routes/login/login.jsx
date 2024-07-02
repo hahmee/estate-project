@@ -3,6 +3,8 @@ import "./login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import apiRequest from "../../lib/apiRequest";
 import { AuthContext } from "../../context/AuthContext";
+import Input from "../../UI/Input.jsx";
+import Button from "../../UI/Button.jsx";
 
 function Login() {
   const [error, setError] = useState("");
@@ -40,28 +42,25 @@ function Login() {
     <div className="login">
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
-          <h1>Welcome back</h1>
-          <input
+          <h2>로그인</h2>
+          <Input
             name="username"
             required
             minLength={3}
             maxLength={20}
             type="text"
-            placeholder="Username"
+            label="유저이름"
           />
-          <input
+          <Input
             name="password"
             type="password"
             required
-            placeholder="Password"
+            label="비밀번호"
           />
-          <button disabled={isLoading}>Login</button>
+          <Button disabled={isLoading}>로그인</Button>
           {error && <span>{error}</span>}
-          <Link to="/register">{"Don't"} you have an account?</Link>
+          <Link to="/register">계정이 없으신가요?</Link>
         </form>
-      </div>
-      <div className="imgContainer">
-        {/*<img src="/bg.png" alt="" />*/}
       </div>
     </div>
   );

@@ -43,3 +43,18 @@
 
 
 }
+
+.profileImg {
+  background-color: gold;
+
+  .container {
+    background-color: #bed9d8;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 5px;
+    border: 1px solid #DDDDDD;
+    margin-bottom: 20px;
+  }
+}

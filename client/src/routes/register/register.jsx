@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import apiRequest from "../../lib/apiRequest";
+import Input from "../../UI/Input.jsx";
+import Button from "../../UI/Button.jsx";
 
 function Register() {
   const [error, setError] = useState("");
@@ -37,17 +39,14 @@ function Register() {
     <div className="registerPage">
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
-          <h1>Create an Account</h1>
-          <input name="username" type="text" placeholder="Username" />
-          <input name="email" type="text" placeholder="Email" />
-          <input name="password" type="password" placeholder="Password" />
-          <button disabled={isLoading}>Register</button>
+          <h2>회원가입</h2>
+          <Input name="username" type="text" label="유저이름" />
+          <Input name="email" type="email" label="이메일"  />
+          <Input name="password" type="password"  label="비밀번호"  />
+          <Button disabled={isLoading}>Register</Button>
           {error && <span>{error}</span>}
-          <Link to="/login">Do you have an account?</Link>
+          <Link to="/login">계정이 있으십니까?</Link>
         </form>
-      </div>
-      <div className="imgContainer">
-        {/*<img src="/bg.png" alt="" />*/}
       </div>
     </div>
   );

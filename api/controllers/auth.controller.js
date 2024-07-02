@@ -23,10 +23,10 @@ export const register = async (req, res) => {
 
     console.log(newUser);
 
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({ message: "정상적으로 회원가입되었습니다." });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to create user!" });
+    res.status(500).json({ message: "회원가입 실패했습니다." });
   }
 };
 
@@ -40,14 +40,14 @@ export const login = async (req, res) => {
       where: { username },
     });
 
-    if (!user) return res.status(400).json({ message: "Invalid Credentials!" });
+    if (!user) return res.status(400).json({ message: "잘못된 아이디입니다." });
 
     // CHECK IF THE PASSWORD IS CORRECT
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid)
-      return res.status(400).json({ message: "Invalid Credentials!" });
+      return res.status(400).json({ message: "잘못된 비밀번호입니다." });
 
     // GENERATE COOKIE TOKEN AND SEND TO THE USER
 
@@ -75,10 +75,10 @@ export const login = async (req, res) => {
       .json(userInfo);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to login!" });
+    res.status(500).json({ message: "로그인에 실패했습니다." });
   }
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token").status(200).json({ message: "Logout Successful" });
+  res.clearCookie("token").status(200).json({ message: "로그아웃 했습니다." });
 };
