@@ -63,7 +63,6 @@ function ProfileUpdatePage() {
       // await imageUpload();
 
       if (files.length > 0) {
-        console.log('????')
         files.map(async file => {
           const formData = new FormData();
           const config = {
@@ -88,8 +87,6 @@ function ProfileUpdatePage() {
         });
       }
 
-
-      console.log('i뭐가', imageUrl);
 
       if(imageUrl) {
         const res = await apiRequest.put(`/users/${currentUser.id}`, {
@@ -121,7 +118,7 @@ function ProfileUpdatePage() {
                   name="username"
                   type="text"
                   defaultValue={currentUser.username}
-                  label="유저이름"
+                  label="사용자 이름"
               />
             </div>
             <div className="item">

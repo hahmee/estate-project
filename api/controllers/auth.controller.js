@@ -3,14 +3,19 @@ import jwt from "jsonwebtoken";
 import prisma from "../lib/prisma.js";
 
 export const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, avatar, externalType = 'native', externalId } = req.body;
 
   try {
+
+    // CHECK IF ALREADY EXISTS
+    const user = await prisma.user.findUnique({ where: { email, username } });
+
+    if(externalType != 'native' && user && user.externalId == externalId ) {
+      return res.status(200).json({message: `${externalType} 로그인, 이미 존재하는 유저입니다.`});
+    }
+
     // HASH THE PASSWORD
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    console.log(hashedPassword);
+    const hashedPassword = password && await bcrypt.hash(password, 10);
 
     // CREATE A NEW USER AND SAVE TO DB
     const newUser = await prisma.user.create({
@@ -18,6 +23,9 @@ export const register = async (req, res) => {
         username,
         email,
         password: hashedPassword,
+        avatar,
+        externalType,
+        externalId
       },
     });
 
@@ -31,11 +39,10 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { username, password } = req.body;
+  const {username, password, externalType='native', externalId } = req.body;
 
   try {
     // CHECK IF THE USER EXISTS
-
     const user = await prisma.user.findUnique({
       where: { username },
     });
@@ -44,10 +51,15 @@ export const login = async (req, res) => {
 
     // CHECK IF THE PASSWORD IS CORRECT
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid)
-      return res.status(400).json({ message: "잘못된 비밀번호입니다." });
+    if(externalType === 'native') {
+      const isPasswordValid =  await bcrypt.compare(password, user.password);
+      if (!isPasswordValid)
+        return res.status(400).json({ message: "잘못된 비밀번호입니다." });
+    }else {
+      const isExternalIdValid = externalId === user.externalId;
+      if (!isExternalIdValid)
+        return res.status(400).json({ message: "잘못된 정보입니다." });
+    }
 
     // GENERATE COOKIE TOKEN AND SEND TO THE USER
 

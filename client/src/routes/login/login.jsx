@@ -10,7 +10,7 @@ function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const {updateUser} = useContext(AuthContext)
+  const {updateUser} = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ function Login() {
         password,
       });
 
-      updateUser(res.data)
+      updateUser(res.data);
 
       navigate("/");
     } catch (err) {
@@ -49,7 +49,7 @@ function Login() {
             minLength={3}
             maxLength={20}
             type="text"
-            label="유저이름"
+            label="사용자 이름"
           />
           <Input
             name="password"

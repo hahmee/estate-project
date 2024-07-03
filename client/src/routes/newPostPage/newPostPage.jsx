@@ -163,7 +163,6 @@ function NewPostPage() {
 
     const optionList = optionsValue.map(value => value.value);
     const safeOptionList = safeOptionsValue.map(value => value.value);
-    console.log('imageUR??!', imageUrl);
 
     const res = await apiRequest.post("/posts", {
       postData: {

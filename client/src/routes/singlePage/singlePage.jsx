@@ -206,7 +206,6 @@ function SinglePage() {
                 </div>
 
 
-
               </div>
             </div>
           </div>
@@ -274,7 +273,7 @@ function SinglePage() {
                         borderColor: saved ? "#fece51" : "rgb(221, 221, 221)"
                       }}
                   >
-                   저장
+                    저장
                   </Button>
                 </div>
 

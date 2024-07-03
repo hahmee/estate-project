@@ -122,7 +122,6 @@ export const getChat = async (req, res) => {
     });
 
 
-    console.log('chatgg', chat);
     res.status(200).json(chat);
   } catch (err) {
     console.log(err);

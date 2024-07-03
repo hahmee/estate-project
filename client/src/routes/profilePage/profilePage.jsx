@@ -7,6 +7,7 @@ import {Suspense, useContext, useEffect, useState} from "react";
 import { AuthContext } from "../../context/AuthContext";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import Button from "../../UI/Button.jsx";
+import { googleLogout } from '@react-oauth/google';
 
 function ProfilePage() {
   const data = useLoaderData();
@@ -32,6 +33,12 @@ function ProfilePage() {
     try {
       await apiRequest.post("/auth/logout");
       updateUser(null);
+
+      if(currentUser.externalType == 'google') {
+        googleLogout();
+      }
+
+
       navigate("/");
     } catch (err) {
       console.log(err);
