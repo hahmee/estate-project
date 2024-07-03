@@ -5,6 +5,7 @@ import apiRequest from "../../lib/apiRequest";
 import { AuthContext } from "../../context/AuthContext";
 import Input from "../../UI/Input.jsx";
 import Button from "../../UI/Button.jsx";
+import GoogleLoginButton from "../../components/googleLoginBtn/GoogleLoginButton.jsx";
 
 function Login() {
   const [error, setError] = useState("");
@@ -43,20 +44,31 @@ function Login() {
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
           <h2>로그인</h2>
+          <GoogleLoginButton/>
+
+          <div className="lineDiv">
+            <div className="line"></div>
+            <p className="or">or</p>
+            <div className="line"></div>
+          </div>
+
+
           <Input
-            name="username"
-            required
-            minLength={3}
-            maxLength={20}
-            type="text"
-            label="사용자 이름"
+              name="username"
+              required
+              minLength={3}
+              maxLength={20}
+              type="text"
+              label="사용자 이름"
           />
           <Input
-            name="password"
-            type="password"
-            required
-            label="비밀번호"
+              name="password"
+              type="password"
+              required
+              label="비밀번호"
           />
+
+
           <Button disabled={isLoading}>로그인</Button>
           {error && <span>{error}</span>}
           <Link to="/register">계정이 없으신가요?</Link>

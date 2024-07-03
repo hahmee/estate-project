@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import prisma from "../lib/prisma.js";
+import axios from "axios";
 
 export const register = async (req, res) => {
   const { username, email, password, avatar, externalType = 'native', externalId } = req.body;
@@ -94,3 +95,29 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
   res.clearCookie("token").status(200).json({ message: "로그아웃 했습니다." });
 };
+
+export const googleLoginAccessToken = async (req, res) => {
+
+  const { accessToken } = req.body;
+
+  const GOOGLE_USERINFO_REQUEST_URL="https://www.googleapis.com/oauth2/v1/userinfo";
+
+  try {
+    const headers = {
+      "Authorization": `Bearer ${accessToken}`
+    }
+    const response = await axios.get(GOOGLE_USERINFO_REQUEST_URL, {
+      headers: headers
+    });
+    
+    console.log('response', response.data);
+    res.status(200).json(response.data);
+
+  }catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "사용자의 구글로그인 정보를 가져오는데 문제 발생했습니다." });
+  }
+
+
+
+}
