@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import "./profileUpdatePage.scss";
 import { AuthContext } from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
@@ -17,96 +17,84 @@ function ProfileUpdatePage() {
 
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
-  // const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [otherData, setOtherData] = useState({});
+  const [post, setPost] = useState(false);
+  const [imgComplete, setImgComplete] = useState(false);
 
+  const imageUpload = useCallback(async () => {
+    if (files.length > 0) {
+      setImgComplete(true);
+      const formData = new FormData();
+      const config = {
+        header: {
+          'content-Type': 'multipart/form-data',
+        }
+      }
+      formData.append('file', files[0]);
+      formData.append('upload_preset', 'estate');
 
-  // const imageUpload = useCallback(async () => {
-  //   console.log('?!?!!?!?!?!!?', files);
-  //   if (files.length > 0) {
-  //     console.log('????')
-  //     files.map(async file => {
-  //       const formData = new FormData();
-  //       const config = {
-  //         header: {
-  //           'content-Type': 'multipart/form-data',
-  //         }
-  //       }
-  //       formData.append('file', file);
-  //       formData.append('upload_preset', 'estate');
-  //
-  //       console.log('file', file);
-  //
-  //
-  //       const res = await axios.post(cloudinaryUrl, formData, config);
-  //       console.log('res', res);
-  //
-  //
-  //       setImageUrl(res.data.secure_url);
-  //
-  //       // setImageUrl('https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')
-  //
-  //     });
-  //   }
-  // },[imageUrl, files]);
+      console.log('file', files[0]);
+
+      //이게 늦게 응답 옴
+      const res = await axios.post(cloudinaryUrl, formData, config);
+      setImageUrl(res.data.secure_url);
+
+    }
+
+  },[files, imageUrl,imgComplete]);
 
   const handleSubmit =  useCallback(async (e) => {
     e.preventDefault();
-    console.log('file이다.', files[0]);
     const formData = new FormData(e.target);
-
-    let imageUrl = "";
-
     const {username, email, password} = Object.fromEntries(formData);
+    setOtherData({username, email, password});
+    setPost(true);
 
     try {
 
-      // await imageUpload();
-
-      if (files.length > 0) {
-        files.map(async file => {
-          const formData = new FormData();
-          const config = {
-            header: {
-              'content-Type': 'multipart/form-data',
-            }
-          }
-          formData.append('file', file);
-          formData.append('upload_preset', 'estate');
-
-          console.log('file', file);
-
-
-          const res = await axios.post(cloudinaryUrl, formData, config);
-          console.log('res', res);
-
-
-          imageUrl = res.data.secure_url;
-
-          // setImageUrl(res.data.secure_url);
-
-        });
-      }
-
-
-      if(imageUrl) {
-        const res = await apiRequest.put(`/users/${currentUser.id}`, {
-          username,
-          email,
-          password,
-          avatar: imageUrl
-        });
-        updateUser(res.data);
-        navigate("/profile");
-      }
-
+      await imageUpload();
+      //빈 값으로 나옴 -> 당연 -> 큐에 넣어서 한 번에 렌더링시킴
+      console.log('imageUrl', imageUrl);
 
     } catch (err) {
       console.log(err);
       setError(err.response.data.message);
     }
-  },[files, updateUser,currentUser]);
+  },[files, updateUser, currentUser, imageUrl]);
 
-  console.log('files', files);
+  useEffect(() => {
+
+    const dataPost = async () => {
+      const putRes = await apiRequest.put(`/users/${currentUser.id}`, {
+        username: otherData.username,
+        email:otherData.email,
+        password:otherData.password,
+        ...(imageUrl && {avatar: imageUrl})
+      });
+
+      updateUser(putRes.data);
+      setPost(false);
+      setImgComplete(false);
+      navigate("/profile");
+    }
+
+
+    //이미지 변경했을 때 imgCompletem, imageUrl 받아와져야
+    if(post && imgComplete && imageUrl) { //imageUrl 값이 있어야 put 하도록
+      console.log('1111')
+      dataPost();
+    }
+    //이미지 변경 안 했을 때
+    if(post && !imgComplete ) {
+      console.log('2222')
+
+      dataPost();
+    }
+
+
+  }, [imageUrl,post,imgComplete]);
+
   return (
       <div className="profileUpdatePage">
         <div className="formContainer">

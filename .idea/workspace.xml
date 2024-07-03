@@ -5,17 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/googleLoginBtn/googleLoginButton.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/auth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/routes/auth.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/auth.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/register/register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/register/register.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/register/register.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/register/register.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/chat/Chat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/Chat.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/list/List.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/list/List.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newChatPage/newChatPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newChatPage/newChatPage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +82,7 @@
       <workItem from="1719456432617" duration="10759000" />
       <workItem from="1719565757960" duration="1463000" />
       <workItem from="1719572541704" duration="29776000" />
-      <workItem from="1719649486820" duration="134547000" />
+      <workItem from="1719649486820" duration="150389000" />
     </task>
     <servers />
   </component>

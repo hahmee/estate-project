@@ -84,31 +84,31 @@ function Chat({ chats }) {
     };
   }, [socket, chat]);
 
-  if(chats.length === 0) {
-    return <div>채팅 내역이 없습니다.</div>
-  }
 
   return (
       <div className="chat">
         <div className="messages">
-          <h1>메시지</h1>
-          {chatList?.map((c) => (
-              <div
-                  className="message"
-                  key={c.id}
-                  style={{
-                    backgroundColor:
-                        c.seenBy.includes(currentUser.id) || chat?.id === c.id
-                            ? "rgba(0, 0, 0, 0.04)"
-                            : "#fecd514e",
-                  }}
-                  onClick={() => handleOpenChat(c.id, c.receiver)}
-              >
-                <img src={c.receiver.avatar || "/noavatar.jpg"} alt="avatar"/>
-                <span>{c.receiver.username}</span>
-                <p>{c.lastMessage}</p>
-              </div>
-          ))}
+          {
+            chatList.length > 0 ?
+                chatList?.map((c) => (
+                    <div
+                        className="message"
+                        key={c.id}
+                        style={{
+                          backgroundColor:
+                              c.seenBy.includes(currentUser.id) || chat?.id === c.id
+                                  ? "rgba(0, 0, 0, 0.04)"
+                                  : "#fecd514e",
+                        }}
+                        onClick={() => handleOpenChat(c.id, c.receiver)}
+                    >
+                      <img src={c.receiver.avatar || "/noavatar.jpg"} alt="avatar"/>
+                      <span>{c.receiver.username}</span>
+                      <p>{c.lastMessage}</p>
+                    </div>
+                )) : <div>채팅 내역이 없습니다.</div>
+
+          }
         </div>
         {chat && (
             <div className="chatBox">

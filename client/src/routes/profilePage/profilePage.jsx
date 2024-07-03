@@ -38,7 +38,6 @@ function ProfilePage() {
         googleLogout();
       }
 
-
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -86,9 +85,6 @@ function ProfilePage() {
             </div>
             <div className="title">
               <h1>나의 리스트</h1>
-              {/*<Link to="/location">*/}
-              {/*  <button>Create New Post</button>*/}
-              {/*</Link>*/}
             </div>
             <Suspense fallback={<p>Loading...</p>}>
               <Await
@@ -113,6 +109,9 @@ function ProfilePage() {
         </div>
         <div className="chatContainer">
           <div className="wrapper">
+            <div className="title">
+              <h1>메시지</h1>
+            </div>
             <Suspense fallback={<p>Loading...</p>}>
               <Await
                   resolve={data.chatResponse}
