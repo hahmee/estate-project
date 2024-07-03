@@ -1,5 +1,6 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import "./newPostPage.scss";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import apiRequest from "../../lib/apiRequest";
 import { useNavigate } from "react-router-dom";
@@ -51,11 +52,11 @@ export const typeOption = [
 
 export const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.VITE_CLOUD_NAME}/upload`;
 
-function NewPostPage() {
+function NewPostPage2() {
   const [error, setError] = useState("");
   const {clearSaveProgress, location, clearLocation} = useContext(UserProgressContext);
   const [files, setFiles] = useState([]);
-  // const [imageUrl, setImageUrl] = useState([]);
+  const [imageUrl, setImageUrl] = useState([]);
   const [post, setPost] = useState(null);
 
   const navigate = useNavigate();
@@ -68,115 +69,149 @@ function NewPostPage() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
-    let imageUrl = [];
-    const optionList = optionsValue.map(value => value.value);
-    const safeOptionList = safeOptionsValue.map(value => value.value);
+
+    // const optionList = optionsValue.map(value => value.value);
+    // const safeOptionList = safeOptionsValue.map(value => value.value);
 
     try {
 
-      //해결 2 Promise all 사용 (병렬적o)
-      if (files.length > 0) {
 
-        const response = files.map((file) => {
-          const formData = new FormData();
-          const config = {
-            header: {
-              'content-Type': 'multipart/form-data',
-            }
-          }
-          formData.append('file', file);
-          formData.append('upload_preset', 'estate');
+      setPost(inputs); // await imageUpload();
 
-          return axios.post(cloudinaryUrl, formData, config);
-
-        });
-
-        //promise.all로 콜백 함수에서 반환하는 값들을 배열에 넣어놓고, 비동기 처리가 끝나는 타이밍 감지
-        const responseArray = await Promise.all(response);
-        console.log('responseArray', responseArray);
-
-        responseArray.map((res) => {
-          imageUrl = [...imageUrl, res.data.secure_url];
-        });
-
-        //해결 1 (순차적o, 병렬적 x)
-        // for (let file of files) {
-        //
-        //   const formData = new FormData();
-        //   const config = {
-        //     header: {
-        //       'content-Type': 'multipart/form-data',
-        //     }
-        //   }
-        //   formData.append('file', file);
-        //   formData.append('upload_preset', 'estate');
-        //
-        //   //문제해결 : 문제 =  map에서 await가 안되는게 문제였음 -> 순차처리 되는 for ..of로 바꿈
-        //   const res = await axios.post(cloudinaryUrl, formData, config);
-        //   console.log('res', res.data.secure_url);
-        //   imageUrl = [...imageUrl, res.data.secure_url];
-        //
-        // }
-
-        //문제 발생
-        // files.map(async file => {
-        //   const formData = new FormData();
-        //   const config = {
-        //     header: {
-        //       'content-Type': 'multipart/form-data',
-        //     }
-        //   }
-        //   formData.append('file', file);
-        //   formData.append('upload_preset', 'estate');
-        //
-        //   const res = await axios.post(cloudinaryUrl, formData, config);
-        //   console.log('res', res.data.secure_url);
-        //   // setImageUrl((prev) => [...prev, res.data.secure_url]);
-        //   imageUrl = [...imageUrl, res.data.secure_url];
-        // });
-      }
-
-      console.log('imageUrl', imageUrl);
-
-      // setPost(inputs); // await imageUpload();
-
-
-      const res = await apiRequest.post("/posts", {
-        postData: {
-          title: inputs.title,
-          property: inputs.property,
-          type: inputs.type,
-          price: parseInt(inputs.price),
-          address: location.address,
-          city: location.city,
-          bedroom: parseInt(inputs.bedroom),
-          bathroom: parseInt(inputs.bathroom),
-          latitude: location.lat.toString(),
-          longitude: location.lng.toString(),
-          images: imageUrl,
-          maintenance: parseInt(inputs.maintenance),
-        },
-        postDetail: {
-          desc: inputs.description,
-          pet: inputs.pet,
-          option: optionList,
-          safeOption: safeOptionList,
-          size: parseInt(inputs.size),
-          school: parseInt(inputs.school),
-          bus: parseInt(inputs.bus),
-          direction: inputs.direction,
-        },
-      });
-      navigate("/read/" + res.data.id);
-      clearLocation();
-
-
+      // const res = await apiRequest.post("/posts", {
+      //   postData: {
+      //     title: inputs.title,
+      //     property: inputs.property,
+      //     type: inputs.type,
+      //     price: parseInt(inputs.price),
+      //     address: location.address,
+      //     city: location.city,
+      //     bedroom: parseInt(inputs.bedroom),
+      //     bathroom: parseInt(inputs.bathroom),
+      //     latitude: location.lat.toString(),
+      //     longitude: location.lng.toString(),
+      //     images: imageUrl,
+      //     maintenance: parseInt(inputs.maintenance),
+      //   },
+      //   postDetail: {
+      //     desc: inputs.description,
+      //     pet: inputs.pet,
+      //     option: optionList,
+      //     safeOption: safeOptionList,
+      //     size: parseInt(inputs.size),
+      //     school: parseInt(inputs.school),
+      //     bus: parseInt(inputs.bus),
+      //     direction: inputs.direction,
+      //   },
+      // });
+      // navigate("/read/" + res.data.id);
+      // clearLocation();
     } catch (err) {
       console.log(err);
       setError(error);
     }
-  }, [files]);
+  }, [imageUrl]);
 
+  // const imageUpload = useCallback(async () => {
+  //   console.log('files___',files);
+  //
+  //   if (files.length > 0) {
+  //     files.map(async file => {
+  //       const formData = new FormData();
+  //       const config = {
+  //         header: {
+  //           'content-Type': 'multipart/form-data',
+  //         }
+  //       }
+  //       formData.append('file', file);
+  //       formData.append('upload_preset', 'estate');
+  //
+  //       console.log('files', files);
+  //
+  //       const res = await axios.post(url, formData, config);
+  //
+  //       setImageUrl((prev) => [...prev, res.data.secure_url]);
+  //     });
+  //   }
+  // }, [imageUrl,files]);
+
+
+  const imageUpload = async () => {
+    console.log('files___',files);
+
+    if (files.length > 0) {
+      files.map(async file => {
+        const formData = new FormData();
+        const config = {
+          header: {
+            'content-Type': 'multipart/form-data',
+          }
+        }
+        formData.append('file', file);
+        formData.append('upload_preset', 'estate');
+
+        console.log('files', files);
+
+        const res = await axios.post(cloudinaryUrl, formData, config);
+        console.log('res', res);
+        setImageUrl((prev) => [...prev, res.data.secure_url]);
+      });
+    }
+  };
+
+  const postData = async (inputs) => {
+
+    const optionList = optionsValue.map(value => value.value);
+    const safeOptionList = safeOptionsValue.map(value => value.value);
+
+    const res = await apiRequest.post("/posts", {
+      postData: {
+        title: inputs.title,
+        property: inputs.property,
+        type: inputs.type,
+        price: parseInt(inputs.price),
+        address: location.address,
+        city: location.city,
+        bedroom: parseInt(inputs.bedroom),
+        bathroom: parseInt(inputs.bathroom),
+        latitude: location.lat.toString(),
+        longitude: location.lng.toString(),
+        images: imageUrl,
+        maintenance: parseInt(inputs.maintenance),
+      },
+      postDetail: {
+        desc: inputs.description,
+        pet: inputs.pet,
+        option: optionList,
+        safeOption: safeOptionList,
+        size: parseInt(inputs.size),
+        school: parseInt(inputs.school),
+        bus: parseInt(inputs.bus),
+        direction: inputs.direction,
+        parking: parseInt(inputs.parking),
+      },
+    });
+    navigate("/read/" + res.data.id);
+    clearLocation();
+
+  }
+
+
+
+  useEffect(() => {
+    console.log('files', files); // 감지 가능
+
+    const process = async () => {
+      await imageUpload();
+      await postData(post);
+    }
+
+    if(post) { //null 아니라면
+      process();
+      setPost(null);
+    }
+
+  }, [files, post, imageUrl]);
 
   useEffect(() => {
     clearSaveProgress();
@@ -248,8 +283,7 @@ function NewPostPage() {
       </div>
     </div>
   </>;
-
   return div;
 }
 
-export default NewPostPage;
+export default NewPostPage2;

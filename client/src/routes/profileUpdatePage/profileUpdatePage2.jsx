@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import "./profileUpdatePage.scss";
 import { AuthContext } from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
@@ -10,92 +10,88 @@ import Button from "../../UI/Button.jsx";
 import axios from "axios";
 import {cloudinaryUrl} from "../newPostPage/newPostPage.jsx";
 
-function ProfileUpdatePage() {
+function ProfileUpdatePage2() {
   const { currentUser, updateUser } = useContext(AuthContext);
   const [error, setError] = useState("");
   // const [avatar, setAvatar] = useState([]);
 
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
-  // const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [otherData, setOtherData] = useState({});
+  const [post, setPost] = useState(false);
+  const [isImgChanged, setIsImgChanged] = useState(false);
 
+  const imageUpload = useCallback(async () => {
+    if (files.length > 0) {
+      setIsImgChanged(true);
+      const formData = new FormData();
+      const config = {
+        header: {
+          'content-Type': 'multipart/form-data',
+        }
+      }
+      formData.append('file', files[0]);
+      formData.append('upload_preset', 'estate');
 
-  // const imageUpload = useCallback(async () => {
-  //   if (files.length > 0) {
-  //     files.map(async file => {
-  //       const formData = new FormData();
-  //       const config = {
-  //         header: {
-  //           'content-Type': 'multipart/form-data',
-  //         }
-  //       }
-  //       formData.append('file', file);
-  //       formData.append('upload_preset', 'estate');
-  //
-  //       console.log('file', file);
-  //
-  //
-  //       const res = await axios.post(cloudinaryUrl, formData, config);
-  //       console.log('res', res);
-  //
-  //
-  //       setImageUrl(res.data.secure_url);
-  //
-  //       // setImageUrl('https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')
-  //
-  //     });
-  //   }
-  // },[imageUrl, files]);
+      //이게 늦게 응답 옴
+      const res = await axios.post(cloudinaryUrl, formData, config);
+      setImageUrl(res.data.secure_url);
+
+    }
+
+  },[files, imageUrl,isImgChanged]);
 
   const handleSubmit =  useCallback(async (e) => {
     e.preventDefault();
-    console.log('file이다.', files[0]);
     const formData = new FormData(e.target);
-
-    let imageUrl = "";
-
     const {username, email, password} = Object.fromEntries(formData);
+    setOtherData({username, email, password});
+    setPost(true);
 
     try {
 
-      // await imageUpload();
-      if (files.length > 0) {
-        const formData = new FormData();
-        const config = {
-          header: {
-            'content-Type': 'multipart/form-data',
-          }
-        }
-        formData.append('file', files[0]);
-        formData.append('upload_preset', 'estate');
-
-
-        //이게 늦게 응답 옴
-        const res = await axios.post(cloudinaryUrl, formData, config);
-        console.log('res', res);
-
-        imageUrl = res.data.secure_url;
-        // setImageUrl(res.data.secure_url); //useState으로 하면 빈 값으로 나옴
-      }
-
-      console.log('imageUrl', imageUrl);
-
-      const putRes = await apiRequest.put(`/users/${currentUser.id}`, {
-        username,
-        email,
-        password,
-        ...(imageUrl && {avatar: imageUrl})
-      });
-
-      console.log('putRes', putRes);
-      updateUser(putRes.data);
-      navigate("/profile");
+      await imageUpload();
+      //빈 값으로 나옴 -> 당연 -> 큐에 넣어서 한 번에 렌더링시킴
+      // console.log('imageUrl', imageUrl);
 
     } catch (err) {
       console.log(err);
       setError(err.response.data.message);
     }
-  },[files, updateUser, currentUser]);
+  },[files, updateUser, currentUser, imageUrl]);
+
+  useEffect(() => {
+
+    const dataPost = async () => {
+      const putRes = await apiRequest.put(`/users/${currentUser.id}`, {
+        username: otherData.username,
+        email:otherData.email,
+        password:otherData.password,
+        ...(imageUrl && {avatar: imageUrl})
+      });
+
+      updateUser(putRes.data);
+      setPost(false);
+      setIsImgChanged(false);
+      navigate("/profile");
+    }
+
+
+    //이미지 변경했을 때 isImgChanged, imageUrl 받아올때까지 대기
+    if(post && isImgChanged && imageUrl) { //imageUrl 값이 있어야 put 하도록
+      console.log('1111')
+      dataPost();
+    }
+    //이미지 변경 안 했을 때
+    if(post && !isImgChanged ) {
+      console.log('2222')
+
+      dataPost();
+    }
+
+
+  }, [imageUrl, post, isImgChanged]);
 
   return (
       <div className="profileUpdatePage">
@@ -143,4 +139,4 @@ function ProfileUpdatePage() {
   );
 }
 
-export default ProfileUpdatePage;
+export default ProfileUpdatePage2;

@@ -41,31 +41,31 @@ function Slider({ images }) {
         </div>
       )}
       <div className="bigImage">
-        {/*<img src={images[0]} alt="image" onClick={() => setImageIndex(0)} />*/}
-        <img src="https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="image" onClick={() => setImageIndex(0)}/>
+        <img src={images[0]} alt="image" onClick={() => setImageIndex(0)} />
+        {/*<img src="https://images.pexels.com/photos/1918291/pexels-photo-1918291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="image" onClick={() => setImageIndex(0)}/>*/}
       </div>
-      <div className="smallImages">
-        <img
-            src="https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"/>
-        <img
-            src="https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"/>
+      {/*<div className="smallImages">*/}
+      {/*  <img*/}
+      {/*      src="https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"/>*/}
+      {/*  <img*/}
+      {/*      src="https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"/>*/}
 
-        <img
-            src="https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"/>
+      {/*  <img*/}
+      {/*      src="https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"/>*/}
 
-        <img
-            src="https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"/>
+      {/*  <img*/}
+      {/*      src="https://images.pexels.com/photos/1428348/pexels-photo-1428348.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"/>*/}
 
-      </div>
-      {/*  /!*{images.slice(1).map((image, index) => (*!/*/}
-      {/*  /!*  <img*!/*/}
-      {/*  /!*    src={image}*!/*/}
-      {/*  /!*    alt="image"*!/*/}
-      {/*  /!*    key={index}*!/*/}
-      {/*  /!*    onClick={() => setImageIndex(index + 1)}*!/*/}
-      {/*  /!*  />*!/*/}
-      {/*  /!*))}*!/*/}
       {/*</div>*/}
+      {/*</div>*/}
+      {/*  {images.slice(1).map((image, index) => (*/}
+      {/*    <img*/}
+      {/*      src={image}*/}
+      {/*      alt="image"*/}
+      {/*      key={index}*/}
+      {/*      onClick={() => setImageIndex(index + 1)}*/}
+      {/*    />*/}
+      {/*  ))}*/}
     </div>
   );
 }

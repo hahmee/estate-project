@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage2.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage2.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/chat/Chat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/Chat.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/list/List.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/list/List.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/newChatPage/newChatPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newChatPage/newChatPage.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +36,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/dev/youtube/estate-project/client/src/UI",
+    "last_opened_file_path": "C:/dev/youtube/estate-project/client/src/routes/newPostPage",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -50,11 +49,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\youtube\estate-project\client\src\routes\newPostPage" />
+      <recent name="C:\dev\youtube\estate-project\client\src\routes\profileUpdatePage" />
       <recent name="C:\dev\youtube\estate-project\client\src\UI" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\dropZone" />
-      <recent name="C:\dev\youtube\estate-project\client\src\routes\newPostPage" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\uploadWidget" />
-      <recent name="C:\dev\youtube\estate-project\client" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -82,7 +81,7 @@
       <workItem from="1719456432617" duration="10759000" />
       <workItem from="1719565757960" duration="1463000" />
       <workItem from="1719572541704" duration="29776000" />
-      <workItem from="1719649486820" duration="150389000" />
+      <workItem from="1719649486820" duration="157813000" />
     </task>
     <servers />
   </component>
