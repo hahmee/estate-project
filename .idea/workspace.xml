@@ -5,12 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage2.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage2.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/slider/slider3.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/slider.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/slider.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +36,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/dev/youtube/estate-project/client/src/routes/newPostPage",
+    "last_opened_file_path": "C:/dev/youtube/estate-project/client/src/components/slider",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -49,11 +49,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\youtube\estate-project\client\src\components\slider" />
       <recent name="C:\dev\youtube\estate-project\client\src\routes\newPostPage" />
       <recent name="C:\dev\youtube\estate-project\client\src\routes\profileUpdatePage" />
       <recent name="C:\dev\youtube\estate-project\client\src\UI" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\dropZone" />
-      <recent name="C:\dev\youtube\estate-project\client\src\components\uploadWidget" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -81,7 +81,7 @@
       <workItem from="1719456432617" duration="10759000" />
       <workItem from="1719565757960" duration="1463000" />
       <workItem from="1719572541704" duration="29776000" />
-      <workItem from="1719649486820" duration="157813000" />
+      <workItem from="1719649486820" duration="172767000" />
     </task>
     <servers />
   </component>

@@ -74,67 +74,69 @@ function NewPostPage() {
 
     try {
 
-      //해결 2 Promise all 사용 (병렬적o)
-      if (files.length > 0) {
-
-        const response = files.map((file) => {
-          const formData = new FormData();
-          const config = {
-            header: {
-              'content-Type': 'multipart/form-data',
-            }
-          }
-          formData.append('file', file);
-          formData.append('upload_preset', 'estate');
-
-          return axios.post(cloudinaryUrl, formData, config);
-
-        });
-
-        //promise.all로 콜백 함수에서 반환하는 값들을 배열에 넣어놓고, 비동기 처리가 끝나는 타이밍 감지
-        const responseArray = await Promise.all(response);
-        console.log('responseArray', responseArray);
-
-        responseArray.map((res) => {
-          imageUrl = [...imageUrl, res.data.secure_url];
-        });
-
-        //해결 1 (순차적o, 병렬적 x)
-        // for (let file of files) {
-        //
-        //   const formData = new FormData();
-        //   const config = {
-        //     header: {
-        //       'content-Type': 'multipart/form-data',
-        //     }
-        //   }
-        //   formData.append('file', file);
-        //   formData.append('upload_preset', 'estate');
-        //
-        //   //문제해결 : 문제 =  map에서 await가 안되는게 문제였음 -> 순차처리 되는 for ..of로 바꿈
-        //   const res = await axios.post(cloudinaryUrl, formData, config);
-        //   console.log('res', res.data.secure_url);
-        //   imageUrl = [...imageUrl, res.data.secure_url];
-        //
-        // }
-
-        //문제 발생
-        // files.map(async file => {
-        //   const formData = new FormData();
-        //   const config = {
-        //     header: {
-        //       'content-Type': 'multipart/form-data',
-        //     }
-        //   }
-        //   formData.append('file', file);
-        //   formData.append('upload_preset', 'estate');
-        //
-        //   const res = await axios.post(cloudinaryUrl, formData, config);
-        //   console.log('res', res.data.secure_url);
-        //   // setImageUrl((prev) => [...prev, res.data.secure_url]);
-        //   imageUrl = [...imageUrl, res.data.secure_url];
-        // });
+      if (files.length < 1) {
+        throw new Error('이미지 한 개 이상을 첨부해야 합니다.');
       }
+
+      //해결 2 Promise all 사용 (병렬적o)
+      const response = files.map((file) => {
+        const formData = new FormData();
+        const config = {
+          header: {
+            'content-Type': 'multipart/form-data',
+          }
+        }
+        formData.append('file', file);
+        formData.append('upload_preset', 'estate');
+
+        return axios.post(cloudinaryUrl, formData, config);
+
+      });
+
+      //promise.all로 콜백 함수에서 반환하는 값들을 배열에 넣어놓고, 비동기 처리가 끝나는 타이밍 감지
+      const responseArray = await Promise.all(response);
+      console.log('responseArray', responseArray);
+
+      responseArray.map((res) => {
+        imageUrl = [...imageUrl, res.data.secure_url];
+      });
+
+      //해결 1 (순차적o, 병렬적 x)
+      // for (let file of files) {
+      //
+      //   const formData = new FormData();
+      //   const config = {
+      //     header: {
+      //       'content-Type': 'multipart/form-data',
+      //     }
+      //   }
+      //   formData.append('file', file);
+      //   formData.append('upload_preset', 'estate');
+      //
+      //   //문제해결 : 문제 =  map에서 await가 안되는게 문제였음 -> 순차처리 되는 for ..of로 바꿈
+      //   const res = await axios.post(cloudinaryUrl, formData, config);
+      //   console.log('res', res.data.secure_url);
+      //   imageUrl = [...imageUrl, res.data.secure_url];
+      //
+      // }
+
+      //문제 발생
+      // files.map(async file => {
+      //   const formData = new FormData();
+      //   const config = {
+      //     header: {
+      //       'content-Type': 'multipart/form-data',
+      //     }
+      //   }
+      //   formData.append('file', file);
+      //   formData.append('upload_preset', 'estate');
+      //
+      //   const res = await axios.post(cloudinaryUrl, formData, config);
+      //   console.log('res', res.data.secure_url);
+      //   // setImageUrl((prev) => [...prev, res.data.secure_url]);
+      //   imageUrl = [...imageUrl, res.data.secure_url];
+      // });
+
 
       console.log('imageUrl', imageUrl);
 
