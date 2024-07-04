@@ -23,7 +23,7 @@ function GoogleLoginButton(props) {
             });
 
             const res = await apiRequest.post("/auth/login", {
-                username: username,
+                email: email,
                 externalType: 'google',
                 externalId: externalId,
             });

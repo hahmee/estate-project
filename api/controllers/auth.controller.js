@@ -9,9 +9,9 @@ export const register = async (req, res) => {
   try {
 
     // CHECK IF ALREADY EXISTS
-    const user = await prisma.user.findUnique({ where: { email, username } });
+    const user = await prisma.user.findUnique({ where: { email } });
 
-    if(externalType != 'native' && user && user.externalId == externalId ) {
+    if(externalType != 'native' && user && user.externalId == externalId && user.externalType == externalType ) {
       return res.status(200).json({message: `${externalType} 로그인, 이미 존재하는 유저입니다.`});
     }
 
@@ -40,12 +40,12 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const {username, password, externalType='native', externalId } = req.body;
-
+  const {email, password, externalType='native', externalId } = req.body;
+  console.log('eeeee', email);
   try {
     // CHECK IF THE USER EXISTS
     const user = await prisma.user.findUnique({
-      where: { username },
+      where: { email },
     });
 
     if (!user) return res.status(400).json({ message: "잘못된 아이디입니다." });
@@ -57,7 +57,7 @@ export const login = async (req, res) => {
       if (!isPasswordValid)
         return res.status(400).json({ message: "잘못된 비밀번호입니다." });
     }else {
-      const isExternalIdValid = externalId === user.externalId;
+      const isExternalIdValid = (externalId === user.externalId) && (externalType === user.externalType);
       if (!isExternalIdValid)
         return res.status(400).json({ message: "잘못된 정보입니다." });
     }

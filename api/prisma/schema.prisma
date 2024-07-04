@@ -28,7 +28,7 @@ model Post {
   property   Property
   maintenance Int
   createdAt  DateTime    @default(now())
-  user       User        @relation(fields: [userId], references: [id])
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String      @db.ObjectId
   postDetail PostDetail?
   savedPosts SavedPost[]
@@ -60,7 +60,7 @@ model PostDetail {
   bus        Int?
   direction  String
   parking    Int?
-  post       Post    @relation(fields: [postId], references: [id])
+  post       Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId     String  @unique @db.ObjectId
 }
 
@@ -90,7 +90,7 @@ enum SafeOption {
 
 model SavedPost {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   post      Post     @relation(fields: [postId], references: [id])
   userId    String
   postId    String

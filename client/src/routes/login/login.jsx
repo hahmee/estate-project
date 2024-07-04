@@ -21,12 +21,12 @@ function Login() {
     setError("");
     const formData = new FormData(e.target);
 
-    const username = formData.get("username");
+    const email = formData.get("email");
     const password = formData.get("password");
 
     try {
       const res = await apiRequest.post("/auth/login", {
-        username,
+        email,
         password,
       });
 
@@ -52,14 +52,11 @@ function Login() {
             <div className="line"></div>
           </div>
 
-
           <Input
-              name="username"
+              name="email"
               required
-              minLength={3}
-              maxLength={20}
-              type="text"
-              label="사용자 이름"
+              type="email"
+              label="이메일"
           />
           <Input
               name="password"

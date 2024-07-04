@@ -5,15 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/post.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dropZone/DropZone.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dropZone/DropZone.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/dropZone/ThumbNail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dropZone/ThumbNail.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/auth.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/api/prisma/schema.prisma" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/card/card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/card/card.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/slider.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/slider.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/register/register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/register/register.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +90,7 @@
       <workItem from="1719565757960" duration="1463000" />
       <workItem from="1719572541704" duration="29776000" />
       <workItem from="1719649486820" duration="183777000" />
-      <workItem from="1720102761350" duration="6233000" />
+      <workItem from="1720102761350" duration="14325000" />
     </task>
     <servers />
   </component>

@@ -5,7 +5,6 @@ import DOMPurify from "dompurify";
 import {useCallback, useContext, useEffect, useRef, useState} from "react";
 import { AuthContext } from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
-import {GoogleMap, LoadScript} from "@react-google-maps/api";
 import Slider from "../../components/slider/Slider.jsx";
 import {options, roomOption, safeOptions, typeOption} from "../newPostPage/newPostPage.jsx";
 import Button from "../../UI/Button.jsx";
@@ -31,9 +30,25 @@ function SinglePage() {
     }
   };
 
-  const typeRoomLabel = roomOption.filter((option) => option.value === post.property)[0].label
+  const deletePost = async () => {
+    try {
 
-  const typeOptionLabel = typeOption.filter((option) => option.value === post.type)[0].label
+      //알림 삭제
+
+      //이미지 cloud 삭제
+
+
+      await apiRequest.delete(`/posts/${id}`);
+      navigate("/list");
+
+    }catch (err) {
+      console.log(err);
+    }
+  };
+
+  const typeRoomLabel = roomOption.filter((option) => option.value === post.property)[0].label;
+
+  const typeOptionLabel = typeOption.filter((option) => option.value === post.type)[0].label;
 
   return (
       <div className="singlePage">
@@ -280,9 +295,14 @@ function SinglePage() {
                   {
                       currentUser.id === post.userId
                       && (
-                          <Button outlined className="message" onClick={() => navigate(`/update/${id}`)}>
-                            수정
-                          </Button>
+                          <>
+                            <Button outlined className="message" onClick={() => navigate(`/update/${id}`)}>
+                              수정
+                            </Button>
+                            <Button outlined className="message" onClick={deletePost}>
+                              삭제
+                            </Button>
+                          </>
                       )
                   }
                 </div>

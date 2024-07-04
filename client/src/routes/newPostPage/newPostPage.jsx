@@ -27,27 +27,27 @@ export const safeOptions = [
   {value: 'cctv', label: 'CCTV', img: '/bath.png'},
   {value: 'safety_door', label: '현관보안', img: '/bath.png'},
   {value: 'window_guard', label: '방범창', img: '/bath.png'},
-]
+];
 
 export const petOption = [
-  {value: 'yes', label: '가능' },
-  {value: 'no', label: '불가능' },
-]
+  {value: 'yes', label: '가능'},
+  {value: 'no', label: '불가능'},
+];
 
 export const roomOption = [
-      {value: 'apartment', label: '아파트' },
-      {value: 'condo', label: '주택'},
-      {value: 'officetel', label: '오피스텔'},
-      {value: 'one_room', label: '원룸'},
-      {value: 'two_room', label: '투룸'},
-      {value: 'land', label: '땅'},
-]
+  {value: 'apartment', label: '아파트'},
+  {value: 'condo', label: '주택'},
+  {value: 'officetel', label: '오피스텔'},
+  {value: 'one_room', label: '원룸'},
+  {value: 'two_room', label: '투룸'},
+  {value: 'land', label: '땅'},
+];
 
 export const typeOption = [
-    {value: 'month_pay', label: '월세'},
-    {value: 'year_pay', label: '전세'},
-    {value: 'sell', label: '매매'},
-]
+  {value: 'month_pay', label: '월세'},
+  {value: 'year_pay', label: '전세'},
+  {value: 'sell', label: '매매'},
+];
 
 export const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.VITE_CLOUD_NAME}/upload`;
 
@@ -55,12 +55,10 @@ function NewPostPage() {
   const [error, setError] = useState("");
   const {clearSaveProgress, location, clearLocation} = useContext(UserProgressContext);
   const [files, setFiles] = useState([]);
-  // const [imageUrl, setImageUrl] = useState([]);
-  const [post, setPost] = useState(null);
+
 
   const navigate = useNavigate();
   const [safeOptionsValue, setSafeOptionsValue] = useState([]);
-
   const [optionsValue, setOptionsValue] = useState([]);
 
 
@@ -177,9 +175,9 @@ function NewPostPage() {
 
     } catch (err) {
       console.log(err);
-      setError(error);
+      setError(err.message);
     }
-  }, [files]);
+  }, [files, optionsValue, safeOptionsValue]);
 
 
   useEffect(() => {
@@ -245,9 +243,8 @@ function NewPostPage() {
               <span className="label">이미지 업로드</span>
               <DropZone files={files} setFiles={setFiles} multiple={true}/>
             </div>
-
-            {error && <span>error</span>}
           </form>
+          {error && <span>error</span>}
         </div>
       </div>
     </div>

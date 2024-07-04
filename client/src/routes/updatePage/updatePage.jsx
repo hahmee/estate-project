@@ -14,12 +14,14 @@ function UpdatePage() {
     const post = useLoaderData();
     const [error, setError] = useState("");
     const [files, setFiles] = useState([]);
-    const [optionsValue, setOptionsValue] = useState([]);
-    const [safeOptionsValue, setSafeOptionsValue] = useState([]);
+    const [optionsValue, setOptionsValue] = useState(options.filter(option => post.postDetail.option.includes(option.value)));
+    const [safeOptionsValue, setSafeOptionsValue] = useState(safeOptions.filter(option => post.postDetail.safeOption.includes(option.value)));
     const [defaultImage, setDefaultImage] = useState(post.images);
     const navigate = useNavigate();
     const {clearSaveProgress} = useContext(UserProgressContext);
     const { id } = useParams();
+
+
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
@@ -28,7 +30,6 @@ function UpdatePage() {
         const optionList = optionsValue.map(value => value.value);
         const safeOptionList = safeOptionsValue.map(value => value.value);
         let imageUrl = [...defaultImage];
-
 
         try {
 
@@ -88,15 +89,15 @@ function UpdatePage() {
             navigate("/read/" + res.data);
 
         } catch (err) {
-            console.log(err);
-            setError(error);
+            console.error((err).message);
+            setError((err).message);
         }
-    }, [files]);
+    }, [files, optionsValue, safeOptionsValue, defaultImage]);
+
 
     useEffect(() => {
         clearSaveProgress();
     }, []);
-
 
 
     const div = <>
@@ -142,7 +143,7 @@ function UpdatePage() {
                                 name="option"
                                 label="옵션"
                                 options={options}
-                                defaultValue={options.filter(option => post.postDetail.option.includes(option.value))}
+                                value={optionsValue}
                                 onChange={(e) => setOptionsValue(e)}
                             />
                             <Selection
@@ -151,8 +152,8 @@ function UpdatePage() {
                                 name="safeOption"
                                 label="보안/안전시설"
                                 options={safeOptions}
+                                value={safeOptionsValue}
                                 onChange={(e) => setSafeOptionsValue(e)}
-                                defaultValue={safeOptions.filter(option => post.postDetail.safeOption.includes(option.value))}
                             />
                             <Input label="주차" id="parking" min={0} name="parking" type="number"
                                    defaultValue={post.postDetail.parking}/>
@@ -169,10 +170,11 @@ function UpdatePage() {
 
                         <div className="item imageUpload">
                             <span className="label">이미지 업로드</span>
-                            <DropZone files={files} setFiles={setFiles} multiple={true} defaultImage={defaultImage} setDefaultImage={setDefaultImage}/>
+                            <DropZone files={files} setFiles={setFiles} multiple={true} defaultImage={defaultImage}
+                                      setDefaultImage={setDefaultImage}/>
                         </div>
 
-                        {error && <span>error</span>}
+                        {error && <span>{error}</span>}
                     </form>
                 </div>
             </div>

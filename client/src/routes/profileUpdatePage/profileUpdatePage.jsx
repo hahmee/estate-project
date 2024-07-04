@@ -113,6 +113,7 @@ function ProfileUpdatePage() {
             </div>
             <div className="item">
               <Input
+                  disabled
                   id="email"
                   name="email"
                   type="email"

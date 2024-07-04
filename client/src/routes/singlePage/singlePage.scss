@@ -9,12 +9,9 @@
   .contents {
     display: grid;
     margin-top: 30px;
-    //grid-template-columns: 780px 360px;
     grid-template-columns: 3fr 1fr;
-
     @include md {
       grid-template-columns: none;
-
     }
 
     @include sm{

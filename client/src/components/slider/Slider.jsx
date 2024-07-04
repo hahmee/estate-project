@@ -4,18 +4,10 @@ import "./slider.scss";
 function Slider({ images }) {
 
 
-  // images = ["https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   "https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   "https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   "https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   "https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //
-  // ];
-
-
   const autoImgClass = () => {
 
-    let className = ''
+    let className = '';
+
     switch (images.length) {
       case 2:
         className = 'imgItemOne';
@@ -33,15 +25,6 @@ function Slider({ images }) {
     return className;
   }
 
-
-
-
-  // images = ["https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   "https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   "https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   "https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  //   "https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  // ];
   const [imageIndex, setImageIndex] = useState(null);
 
   const changeSlide = (direction) => {
@@ -83,17 +66,21 @@ function Slider({ images }) {
           <div className="bigImage">
             <img src={images[0]} alt="image" onClick={() => setImageIndex(0)}/>
           </div>
-          <div className="smallImages">
-            {images.slice(0, 5).slice(1).map((image, index) => (
-                <div key={index} className={autoImgClass()}>
-                  <img
-                      src={image}
-                      alt="image"
-                      onClick={() => setImageIndex(index + 1)}
-                  />
-                </div>
-            ))}
-          </div>
+          {
+              images.length > 1 &&
+              <div className="smallImages">
+                {images.slice(0, 5).slice(1).map((image, index) => (
+                    <div key={index} className={autoImgClass()}>
+                      <img
+                          src={image}
+                          alt="image"
+                          onClick={() => setImageIndex(index + 1)}
+                      />
+                    </div>
+                ))}
+              </div>
+          }
+
         </div>
       </>
   );
