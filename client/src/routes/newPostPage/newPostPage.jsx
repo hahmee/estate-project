@@ -29,7 +29,7 @@ export const safeOptions = [
   {value: 'window_guard', label: '방범창', img: '/bath.png'},
 ]
 
-const petOption = [
+export const petOption = [
   {value: 'yes', label: '가능' },
   {value: 'no', label: '불가능' },
 ]
@@ -120,7 +120,7 @@ function NewPostPage() {
       //
       // }
 
-      //문제 발생
+      //문제 발생 =  map에서 await가 안되는게 문제였음
       // files.map(async file => {
       //   const formData = new FormData();
       //   const config = {
@@ -167,8 +167,10 @@ function NewPostPage() {
           school: parseInt(inputs.school),
           bus: parseInt(inputs.bus),
           direction: inputs.direction,
+          parking: parseInt(inputs.parking),
         },
       });
+
       navigate("/read/" + res.data.id);
       clearLocation();
 

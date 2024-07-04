@@ -11,6 +11,7 @@ import NewPostPage from "./routes/newPostPage/newPostPage";
 import {chatPageLoader, listPageLoader, profilePageLoader, singlePageLoader} from "./lib/loaders";
 import NewChatPage from "./routes/newChatPage/NewChatPage.jsx";
 import NewLocationPage from "./routes/newLocationPage/newLocationPage.jsx";
+import UpdatePage from "./routes/updatePage/updatePage.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -53,6 +54,11 @@ function App() {
         {
           path: "/add",
           element: <NewPostPage />,
+        },
+        {
+          path: "update/:id",
+          element: <UpdatePage />,
+          loader: singlePageLoader,
         },
         ]
     },

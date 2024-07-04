@@ -10,7 +10,7 @@ function ThumbNail({file,deleteImage}) {
                 삭제
             </div>
             <span>
-             <img src={file.preview} alt="image" />
+             <img src={file.preview || file} alt="image" />
             </span>
         </div>
     );

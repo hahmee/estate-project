@@ -1,6 +1,6 @@
 import "./singlePage.scss";
 import Map from "../../components/map/Map";
-import { useNavigate, useLoaderData } from "react-router-dom";
+import {useNavigate, useLoaderData, useParams} from "react-router-dom";
 import DOMPurify from "dompurify";
 import {useCallback, useContext, useEffect, useRef, useState} from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -15,6 +15,7 @@ function SinglePage() {
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const handleSave = async () => {
     if (!currentUser) {
@@ -33,8 +34,6 @@ function SinglePage() {
   const typeRoomLabel = roomOption.filter((option) => option.value === post.property)[0].label
 
   const typeOptionLabel = typeOption.filter((option) => option.value === post.type)[0].label
-
-  console.log('post', post);
 
   return (
       <div className="singlePage">
@@ -256,6 +255,16 @@ function SinglePage() {
 
                 </div>
 
+                <Button
+                    outlined
+                    onClick={handleSave}
+                    style={{
+                      backgroundColor: saved ? "#fece51" : "#fff",
+                      borderColor: saved ? "#fece51" : "rgb(221, 221, 221)"
+                    }}
+                >
+                  저장
+                </Button>
                 <div className="buttonDiv">
                   {
                       currentUser.id !== post.userId
@@ -265,17 +274,19 @@ function SinglePage() {
                           </Button>
                       )
                   }
-                  <Button
-                      outlined
-                      onClick={handleSave}
-                      style={{
-                        backgroundColor: saved ? "#fece51" : "#fff",
-                        borderColor: saved ? "#fece51" : "rgb(221, 221, 221)"
-                      }}
-                  >
-                    저장
-                  </Button>
+
                 </div>
+                <div className="buttonDiv">
+                  {
+                      currentUser.id === post.userId
+                      && (
+                          <Button outlined className="message" onClick={() => navigate(`/update/${id}`)}>
+                            수정
+                          </Button>
+                      )
+                  }
+                </div>
+
 
               </div>
             </div>

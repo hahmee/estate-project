@@ -47,7 +47,7 @@ export const getPosts = async (req, res) => {
     // }, 3000);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to get posts" });
+    res.status(500).json({ message: "포스트를 가져오는데 실패했습니다." });
   }
 };
 
@@ -90,7 +90,7 @@ export const getPost = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: "Failed to get post" });
+    return res.status(500).json({ message: "포스트를 가져오는데 실패했습니다." });
   }
 };
 
@@ -111,16 +111,38 @@ export const addPost = async (req, res) => {
     res.status(200).json(newPost);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to create post" });
+    res.status(500).json({ message: "포스트를 저장하는데 실패했습니다." });
   }
 };
 
 export const updatePost = async (req, res) => {
+  const postId = req.params.id;
+  const body = req.body;
+  const tokenUserId = req.userId;
+
   try {
-    res.status(200).json();
+
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (post.userId !== tokenUserId) {
+      return res.status(403).json({ message: "권한이 없습니다." });
+    }
+
+    const updatedPost = await prisma.post.update({
+      where: { id: postId },
+      data: {
+        ...body.postData,
+        postDetail: {
+          update: body.postDetail,
+        },
+      },
+    });
+    res.status(200).json(updatedPost.id);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to update posts" });
+    res.status(500).json({ message: "포스트 수정하는데 실패했습니다." });
   }
 };
 
@@ -134,16 +156,16 @@ export const deletePost = async (req, res) => {
     });
 
     if (post.userId !== tokenUserId) {
-      return res.status(403).json({ message: "Not Authorized!" });
+      return res.status(403).json({ message: "권한이 없습니다." });
     }
 
     await prisma.post.delete({
       where: { id },
     });
 
-    res.status(200).json({ message: "Post deleted" });
+    res.status(200).json({ message: "포스트가 삭제되었습니다." });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to delete post" });
+    res.status(500).json({ message: "포스트를 삭제하는데 실패했습니다." });
   }
 };

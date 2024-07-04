@@ -1,19 +1,14 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback} from 'react';
 import {useDropzone} from 'react-dropzone';
 import "./dropZone.scss";
 
 import ThumbNail from "./ThumbNail.jsx";
 
-function DropZone({files, setFiles, multiple= false}) { //
-
+function DropZone({files, setFiles, multiple= false, defaultImage=null, setDefaultImage=null}) { //
     const onDrop = useCallback(acceptedFiles => {
-        // setFiles(acceptedFiles.map((file) => Object.assign(file, {
-        //     preview: URL.createObjectURL(file),
-        // })));
-        setFiles((prev) => acceptedFiles.map((file) => Object.assign(file, {
+        setFiles(acceptedFiles.map((file) => Object.assign(file, {
             preview: URL.createObjectURL(file),
         })));
-
     }, [files]);
 
     const {
@@ -30,6 +25,14 @@ function DropZone({files, setFiles, multiple= false}) { //
         }
     }
 
+    const deleteDefaultImage = (file) => {
+        const index = defaultImage.indexOf(file);
+        if (index > -1) {
+            setDefaultImage(defaultImage.filter((s, i) => (i != index)));
+        }
+
+    };
+
     return (
         <div>
             <div {...getRootProps()} className="container">
@@ -40,6 +43,9 @@ function DropZone({files, setFiles, multiple= false}) { //
             {
                 multiple &&
                 <aside className="thumbnail">
+                    {
+                        defaultImage?.map((image, idx) => <ThumbNail key={idx} file={image} deleteImage={deleteDefaultImage}/>)
+                    }
                     {
                         files.map((file, idx) => <ThumbNail key={idx} file={file} deleteImage={deleteImage}/>)
                     }
