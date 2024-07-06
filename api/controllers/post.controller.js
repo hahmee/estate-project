@@ -53,6 +53,9 @@ export const getPosts = async (req, res) => {
 
 export const getPost = async (req, res) => {
   const id = req.params.id;
+
+  console.log('toooo', req.cookies);
+
   try {
     const post = await prisma.post.findUnique({
       where: { id: id },
@@ -64,10 +67,13 @@ export const getPost = async (req, res) => {
             avatar: true,
           },
         },
+        savedPosts:true,
       },
     });
 
     const token = req.cookies?.token;
+
+    const savedCount = post.savedPosts.length;
 
     if (token) {
 
@@ -82,11 +88,11 @@ export const getPost = async (req, res) => {
               },
             },
           });
-          return res.status(200).json({ ...post, isSaved: saved ? true : false });
+          return res.status(200).json({ ...post, isSaved: saved ? true : false, savedCount });
         }
       });
     }else {
-      return res.status(200).json({ ...post, isSaved: false });
+      return res.status(200).json({ ...post, isSaved: false, savedCount });
     }
   } catch (err) {
     console.log(err);

@@ -52,7 +52,7 @@ function Register() {
 
 
 
-            <Input name="username" type="text" label="사용자 이름"/>
+            <Input name="username" type="text" label="사용자 이름"  maxLength="10" minLength="3" />
             <Input name="email" type="email" label="이메일"/>
             <Input name="password" type="password" label="비밀번호"/>
 

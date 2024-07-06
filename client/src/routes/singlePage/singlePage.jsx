@@ -8,20 +8,30 @@ import apiRequest from "../../lib/apiRequest";
 import Slider from "../../components/slider/Slider.jsx";
 import {options, roomOption, safeOptions, typeOption} from "../newPostPage/newPostPage.jsx";
 import Button from "../../UI/Button.jsx";
+import {currencyFormatter} from "../../util/formatting.js";
 
 function SinglePage() {
   const post = useLoaderData();
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [heartCnt, setHeartCnt] = useState(post.savedCount);
   const { id } = useParams();
 
   const handleSave = async () => {
     if (!currentUser) {
       navigate("/login");
     }
-    // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
-    setSaved((prev) => !prev);
+    // AFTER REACT 19 UPDATE TO USE OPTIMISTIK HOOK
+    setSaved((prev) => {
+      if (prev) {
+        setHeartCnt((hc) => hc-1);
+      }else {
+        setHeartCnt((hc) => hc+1);
+      }
+      return !prev;
+    });
+
     try {
       await apiRequest.post("/users/save", { postId: post.id });
     } catch (err) {
@@ -60,15 +70,18 @@ function SinglePage() {
                 <div className="info">
                   <div className="title">
                     <div className="post">
-                      <h2>{post.title}</h2>
-                      <div className="price">{post.price}원</div>
-                      <div className="price">{post.maintenance}원</div>
-                      <div
-                          className="bottom"
-                          dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(post.postDetail.desc),
-                          }}
-                      ></div>
+                      <div className="price">
+                        <p className="contentTitle">제목</p>
+                        <h3>{post.title}</h3>
+                      </div>
+                      <div className="price">
+                        <p className="contentTitle">가격/관리비</p>
+                        <h3>{currencyFormatter.format(post.price)}   / {currencyFormatter.format(post.maintenance)}</h3>
+                      </div>
+                      <div className="bottom">
+                        <p className="contentTitle">상세설명</p>
+                        <p>{post.postDetail.desc}</p>
+                      </div>
                       <div className="address">
                         <img src="/pin.png" alt="pin"/>
                         <span>{post.address}</span>
@@ -235,51 +248,51 @@ function SinglePage() {
                     &nbsp;
 
                     {
-                      post.price
+                      currencyFormatter.format(post.price)
                     }
                     /
                     {
-                      post.maintenance
+                      currencyFormatter.format(post.maintenance)
                     }
                   </p>
 
                 </div>
                 <div className="priceItemMiddle">
-                  <p>
-                    {
-                      typeRoomLabel
+                  <div>
+                    <span className="material-symbols-outlined">home</span>
+                    <p>{typeRoomLabel}</p>
+                  </div>
+                  <div>
+                    <span className="material-symbols-outlined">square_foot</span>
+                    <p>{post.postDetail.size}평</p>
+                  </div>
+                  <div>
+                    <span className="material-symbols-outlined">explore</span>
+                    <p>{post.postDetail.direction}</p>
+                  </div>
+                  <div>
+                    <span className="material-symbols-outlined">directions_car</span>
+                    <p>{post.postDetail.parking}대</p>
+                  </div>
+                </div>
 
-                    }
-                  </p>
-                  <p>
-                    {post.postDetail.size}평
-                  </p>
-                  <p>
-                    {post.bedroom}개 / {post.bathroom}개
-                  </p>
-                  <p>
-                    {post.address}
-                  </p>
-
+                <div className="otherItemMiddle">
+                  <div>
+                    <p className="title">방/욕실</p>
+                    <p>{post.bedroom}개/{post.bathroom}개</p>
+                  </div>
+                  <div>
+                    <p className="title">위치</p>
+                    <p>{post.address}</p>
+                  </div>
                 </div>
 
                 <div className="itemBottom">
                   <p>
                     {post.user.username}
                   </p>
-
                 </div>
 
-                <Button
-                    outlined
-                    onClick={handleSave}
-                    style={{
-                      backgroundColor: saved ? "#fece51" : "#fff",
-                      borderColor: saved ? "#fece51" : "rgb(221, 221, 221)"
-                    }}
-                >
-                  저장
-                </Button>
                 <div className="buttonDiv">
                   {
                       currentUser.id !== post.userId
@@ -289,23 +302,34 @@ function SinglePage() {
                           </Button>
                       )
                   }
-
+                  <Button
+                      outlined
+                      onClick={handleSave}
+                      className="actionBtn"
+                      style={{
+                        backgroundColor: saved ? "#fece51" : "#fff",
+                        borderColor: saved ? "#fece51" : "rgb(221, 221, 221)"
+                      }}>
+                    <div className="buttonHeart">
+                      <span className="material-symbols-outlined">favorite</span>
+                      <p>&nbsp;{heartCnt}</p>
+                    </div>
+                  </Button>
                 </div>
-                <div className="buttonDiv">
+
                   {
                       currentUser.id === post.userId
                       && (
-                          <>
-                            <Button outlined className="message" onClick={() => navigate(`/update/${id}`)}>
+                          <div className="buttonDiv">
+                            <Button outlined className="actionBtn" onClick={() => navigate(`/update/${id}`)}>
                               수정
                             </Button>
-                            <Button outlined className="message" onClick={deletePost}>
+                            <Button outlined className="actionBtn" onClick={deletePost}>
                               삭제
                             </Button>
-                          </>
+                          </div>
                       )
                   }
-                </div>
 
 
               </div>

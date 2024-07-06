@@ -4,6 +4,7 @@ import apiRequest from "../../lib/apiRequest.js";
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {savedPostStore} from "../../lib/savedPostStore.js";
+import {currencyFormatter} from "../../util/formatting.js";
 
 function Card({ card }) {
   const { currentUser } = useContext(AuthContext);
@@ -45,7 +46,7 @@ function Card({ card }) {
           <img src="/pin.png" alt="pin" />
           <span>{item.address}</span>
         </p>
-        <p className="price">$ {item.price}</p>
+        <p className="price">{currencyFormatter.format(item.price)}</p>
         <div className="bottom">
           <div className="features">
             <div className="feature">

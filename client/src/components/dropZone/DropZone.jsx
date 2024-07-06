@@ -33,27 +33,35 @@ function DropZone({files, setFiles, multiple= false, defaultImage=null, setDefau
 
     };
 
-    return (
-        <div>
-            <div {...getRootProps()} className="container">
+    if(!multiple){
+        return (
+            <div {...getRootProps()} className="containerProfile">
                 <input {...getInputProps()} />
-                <span className="material-symbols-outlined">cloud_upload</span>
-                <span>이미지를 드래그 & 드롭하거나 여기를 클릭해주세요.</span>
+                <span>이미지 변경</span>
             </div>
-            {
-                multiple &&
+        );
+    }
+    else {
+        return (
+            <div>
+                <div {...getRootProps()} className="container">
+                    <input {...getInputProps()} />
+                    <span className="material-symbols-outlined">cloud_upload</span>
+                    <span>이미지를 드래그 & 드롭하거나 여기를 클릭해주세요.</span>
+                </div>
                 <aside className="thumbnail">
                     {
-                        defaultImage?.map((image, idx) => <ThumbNail key={idx} file={image} deleteImage={deleteDefaultImage}/>)
+                        defaultImage?.map((image, idx) => <ThumbNail key={idx} file={image}
+                                                                     deleteImage={deleteDefaultImage}/>)
                     }
                     {
                         files.map((file, idx) => <ThumbNail key={idx} file={file} deleteImage={deleteImage}/>)
                     }
                 </aside>
-            }
+            </div>
+        );
+    }
 
-        </div>
-    );
 }
 
 export default DropZone;

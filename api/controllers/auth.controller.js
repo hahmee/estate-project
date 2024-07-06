@@ -41,7 +41,6 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   const {email, password, externalType='native', externalId } = req.body;
-  console.log('eeeee', email);
   try {
     // CHECK IF THE USER EXISTS
     const user = await prisma.user.findUnique({

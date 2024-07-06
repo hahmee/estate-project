@@ -27,7 +27,24 @@
       .item {
         display: flex;
         flex-direction: column;
-        //background-color: gold;
+
+        .avatarDiv {
+          position: relative;
+          width: 120px;
+          height: 120px;
+
+          &:hover{
+            div {
+              display: flex;
+            }
+          }
+          div {
+            display: none;
+          }
+
+        }
+
+
 
         img {
           width: 120px;

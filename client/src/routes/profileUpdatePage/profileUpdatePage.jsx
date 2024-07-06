@@ -109,6 +109,8 @@ function ProfileUpdatePage() {
                   type="text"
                   defaultValue={currentUser.username}
                   label="사용자 이름"
+                  maxLength="10"
+                  minLength="3"
               />
             </div>
             <div className="item">
@@ -124,16 +126,16 @@ function ProfileUpdatePage() {
 
             <div className="item">
               <p>프로필 이미지</p>
-              <img src={files[0]?.preview || currentUser.avatar || "/noavatar.jpg"} alt="avatar" className="avatar"/>
-
-              <DropZone files={files} setFiles={setFiles}/>
+              <div className="avatarDiv">
+                <img src={files[0]?.preview || currentUser.avatar || "/noavatar.jpg"} alt="avatar" className="avatar"/>
+                <DropZone files={files} setFiles={setFiles}/>
+              </div>
 
             </div>
             <div className="item">
               <Input id="password" name="password" type="password" label="비밀번호"/>
             </div>
             <div className="submit">
-
               <Button>저장</Button>
               {error && <span>error</span>}
             </div>
