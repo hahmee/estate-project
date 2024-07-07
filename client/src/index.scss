@@ -147,3 +147,15 @@ UI COMPONENT - BUTTON, MODAL, INPUT, SELECT
   }
 }
 
+
+
+/**
+   react-toastify custom css
+ */
+.Toastify__toast-container--top-right {
+  .Toastify__toast {
+    border-radius: 0px;
+  }
+}
+
+

@@ -5,9 +5,9 @@ export const getUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany();
     res.status(200).json(users);
-  } catch (err) {
+  } catch (err) {``
     console.log(err);
-    res.status(500).json({ message: "Failed to get users!" });
+    res.status(500).json({ message: "사용자 정보를 가져오는데 실패했습니다." });
   }
 };
 
@@ -20,7 +20,7 @@ export const getUser = async (req, res) => {
     res.status(200).json(user);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to get user!" });
+    res.status(500).json({ message: "사용자 정보를 가져오는데 실패했습니다." });
   }
 };
 
@@ -30,7 +30,7 @@ export const updateUser = async (req, res) => {
   const { password, avatar, ...inputs } = req.body;
 
   if (id !== tokenUserId) {
-    return res.status(403).json({ message: "Not Authorized!" });
+    return res.status(403).json({ message: "권한이 없습니다." });
   }
 
   let updatedPassword = null;
@@ -53,7 +53,7 @@ export const updateUser = async (req, res) => {
     res.status(200).json(rest);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to update users!" });
+    res.status(500).json({ message: "사용자 정보를 수정하는데 실패했습니다." });
   }
 };
 
@@ -62,17 +62,17 @@ export const deleteUser = async (req, res) => {
   const tokenUserId = req.userId;
 
   if (id !== tokenUserId) {
-    return res.status(403).json({ message: "Not Authorized!" });
+    return res.status(403).json({ message: "권한이 없습니다." });
   }
 
   try {
     await prisma.user.delete({
       where: { id },
     });
-    res.status(200).json({ message: "User deleted" });
+    res.status(200).json({ message: "사용자 정보가 삭제되었습니다." });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to delete users!" });
+    res.status(500).json({ message: "사용자 정보를 삭제하는데 실패했습니다." });
   }
 };
 
@@ -96,7 +96,7 @@ export const savePost = async (req, res) => {
           id: savedPost.id,
         },
       });
-      res.status(200).json({ message: "Post removed from saved list" });
+      res.status(200).json({ message: "저장된 리스트에서 게시물이 삭제되었습니다." });
     } else {
       await prisma.savedPost.create({
         data: {
@@ -104,11 +104,11 @@ export const savePost = async (req, res) => {
           postId,
         },
       });
-      res.status(200).json({ message: "Post saved" });
+      res.status(200).json({ message: "게시물이 저장되었습니다." });
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to save Post!" });
+    res.status(500).json({ message: "게시물을 저장하는데 실패했습니다." });
   }
 };
 
@@ -147,13 +147,11 @@ export const profilePosts = async (req, res) => {
       })
     })
 
-
-
     res.status(200).json({ userPosts, savedPosts });
 
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to get profile posts!" });
+    res.status(500).json({ message: "프로필 정보를 가져오는데 실패했습니다." });
   }
 };
 
@@ -175,7 +173,7 @@ export const getNotificationNumber = async (req, res) => {
     });
     return res.status(200).json(number);
   } catch (err) {
-    res.status(500).json({ message: "Failed to get profile posts!" });
+    res.status(500).json({ message: "프로필 정보를 가져오는데 실패했습니다." });
   }
 };
 
@@ -193,7 +191,7 @@ export const getSavedPosts = async (req, res) => {
 
     return res.status(200).json(saved);
   } catch (err) {
-    res.status(500).json({ message: "Failed to get saved posts!" });
+    res.status(500).json({ message: "저장된 포스트를 가져오는데 실패했습니다." });
   }
 
 }

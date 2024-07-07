@@ -6,19 +6,19 @@ import { AuthContext } from "../../context/AuthContext";
 import Input from "../../UI/Input.jsx";
 import Button from "../../UI/Button.jsx";
 import GoogleLoginButton from "../../components/googleLoginBtn/GoogleLoginButton.jsx";
+import {toast} from "react-toastify";
 
 function Login() {
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const {updateUser} = useContext(AuthContext);
 
   const navigate = useNavigate();
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
     const formData = new FormData(e.target);
 
     const email = formData.get("email");
@@ -31,16 +31,16 @@ function Login() {
       });
 
       updateUser(res.data);
-
+      toast.success('로그인 되었습니다.');
       navigate("/");
     } catch (err) {
-      setError(err.response.data.message);
+      toast.error(err.response.data.message);
     } finally {
       setIsLoading(false);
     }
   };
   return (
-    <div className="login">
+     <div className="login">
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
           <h2>로그인</h2>
@@ -65,9 +65,7 @@ function Login() {
               label="비밀번호"
           />
 
-
-          <Button disabled={isLoading}>로그인</Button>
-          {error && <span>{error}</span>}
+          <Button loading={isLoading}>로그인</Button>
           <Link to="/register">계정이 없으신가요?</Link>
         </form>
       </div>

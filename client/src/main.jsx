@@ -6,6 +6,8 @@ import { AuthContextProvider } from "./context/AuthContext.jsx";
 import { SocketContextProvider } from "./context/SocketContext.jsx";
 import {UserProgressContextProvider} from "./context/UserProgressContext.jsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from "react-toastify";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     // <React.StrictMode>
@@ -14,6 +16,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <AuthContextProvider>
                 <SocketContextProvider>
                     <App/>
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={3000}
+                        hideProgressBar={true}
+                        closeOnClick={true}
+                        pauseOnHover={false}
+                    />
                 </SocketContextProvider>
             </AuthContextProvider>
         </UserProgressContextProvider>

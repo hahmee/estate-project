@@ -9,10 +9,10 @@ import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import apiRequest from "../../lib/apiRequest.js";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
+import {toast, ToastContainer} from "react-toastify";
 
 function UpdatePage() {
     const post = useLoaderData();
-    const [error, setError] = useState("");
     const [files, setFiles] = useState([]);
     const [optionsValue, setOptionsValue] = useState(options.filter(option => post.postDetail.option.includes(option.value)));
     const [safeOptionsValue, setSafeOptionsValue] = useState(safeOptions.filter(option => post.postDetail.safeOption.includes(option.value)));
@@ -20,6 +20,7 @@ function UpdatePage() {
     const navigate = useNavigate();
     const {progress, setProgress, saveLocation} = useContext(UserProgressContext);
     const { id } = useParams();
+
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
@@ -32,12 +33,13 @@ function UpdatePage() {
         let imageUrl = [...defaultImage];
 
         try {
-
             //defaultImage에서 삭제된 것들 cloud에서 지우기
             // cloudinary.v2.uploader.destroy(public_id, options).then(callback);
 
             if (imageUrl.length + files.length < 1) {
-                throw new Error('이미지 한 개 이상을 첨부해야 합니다.');
+                //throw new Error('이미지 한 개 이상을 첨부해야 합니다.');
+                toast.error('이미지 한 개 이상을 첨부해야 합니다.');
+                return;
             }
 
             //해결 2 Promise all 사용 (병렬적o)
@@ -85,16 +87,15 @@ function UpdatePage() {
                     parking: parseInt(inputs.parking),
                 },
             });
+            toast.success('성공적으로 수정되었습니다.');
             navigate("/read/" + res.data);
 
         } catch (err) {
-            console.error((err).message);
-            setError((err).message);
+            toast.error(err.response.data.message);
         } finally {
             setProgress('', {...progress, loading: false});
         }
     }, [files, optionsValue, safeOptionsValue, defaultImage]);
-
 
     useEffect(() => {
         setProgress('save');
@@ -107,7 +108,6 @@ function UpdatePage() {
         });
 
     }, []);
-
 
     const div = <>
         <div className="newPostPage">
@@ -183,7 +183,7 @@ function UpdatePage() {
                                       setDefaultImage={setDefaultImage}/>
                         </div>
 
-                        {error && <span>{error}</span>}
+
                     </form>
                 </div>
             </div>

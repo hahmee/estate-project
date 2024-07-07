@@ -9,6 +9,7 @@ import DropZone from "../../components/dropZone/DropZone.jsx";
 import Selection from "../../UI/Selection.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 export const options = [
   {value: 'shoe', label: '신발장', img: '/bath.png' },
@@ -52,7 +53,6 @@ export const typeOption = [
 export const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.VITE_CLOUD_NAME}/upload`;
 
 function NewPostPage() {
-  const [error, setError] = useState("");
   const {progress, setProgress, location, clearLocation} = useContext(UserProgressContext);
   const [files, setFiles] = useState([]);
 
@@ -74,7 +74,9 @@ function NewPostPage() {
     try {
 
       if (files.length < 1) {
-        throw new Error('이미지 한 개 이상을 첨부해야 합니다.');
+        toast.error('이미지 한 개 이상을 첨부해야 합니다.');
+        return;
+        // throw new Error('이미지 한 개 이상을 첨부해야 합니다.');
       }
 
       //해결 2 Promise all 사용 (병렬적o)
@@ -169,13 +171,13 @@ function NewPostPage() {
           parking: parseInt(inputs.parking),
         },
       });
-
+      toast.success('성공적으로 수정되었습니다.');
       navigate("/read/" + res.data.id);
       clearLocation();
 
     } catch (err) {
-      console.log(err);
-      setError(err.message);
+      toast.error(err.response.data.message);
+
     } finally {
       setProgress('', {...progress, loading: false});
     }
@@ -247,7 +249,6 @@ function NewPostPage() {
               <DropZone files={files} setFiles={setFiles} multiple={true}/>
             </div>
           </form>
-          {error && <span>error</span>}
         </div>
       </div>
     </div>

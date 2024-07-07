@@ -5,15 +5,14 @@ import apiRequest from "../../lib/apiRequest";
 import Input from "../../UI/Input.jsx";
 import Button from "../../UI/Button.jsx";
 import GoogleLoginButton from "../../components/googleLoginBtn/GoogleLoginButton.jsx";
+import {toast} from "react-toastify";
 
 function Register() {
-  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
     setIsLoading(true);
     const formData = new FormData(e.target);
 
@@ -27,10 +26,10 @@ function Register() {
         email,
         password,
       });
-
+      toast.success('회원가입 되었습니다.');
       navigate("/login");
     } catch (err) {
-      setError(err.response.data.message);
+      toast.error(err.response.data.message);
     } finally {
       setIsLoading(false);
     }
@@ -57,8 +56,7 @@ function Register() {
             <Input name="password" type="password" label="비밀번호"/>
 
 
-            <Button disabled={isLoading} type='submit'>등록</Button>
-            {error && <span>{error}</span>}
+            <Button type='submit' loading={isLoading}>등록</Button>
             <Link to="/login">계정이 있으십니까?</Link>
 
 

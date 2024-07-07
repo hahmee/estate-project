@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import Button from "../../UI/Button.jsx";
 import { googleLogout } from '@react-oauth/google';
+import {toast} from "react-toastify";
 
 function ProfilePage() {
   const data = useLoaderData();
@@ -37,10 +38,11 @@ function ProfilePage() {
       if(currentUser.externalType == 'google') {
         googleLogout();
       }
-
+      toast.info('로그아웃 되었습니다.');
       navigate("/");
     } catch (err) {
       console.log(err);
+      toast.error((err).message);
     }
   };
 

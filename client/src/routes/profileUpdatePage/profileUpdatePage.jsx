@@ -10,10 +10,10 @@ import Button from "../../UI/Button.jsx";
 import axios from "axios";
 import {cloudinaryUrl} from "../newPostPage/newPostPage.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
+import {toast} from "react-toastify";
 
 function ProfileUpdatePage() {
   const { currentUser, updateUser } = useContext(AuthContext);
-  const [error, setError] = useState("");
   // const [avatar, setAvatar] = useState([]);
 
   const navigate = useNavigate();
@@ -82,8 +82,6 @@ function ProfileUpdatePage() {
         // setImageUrl(res.data.secure_url); //useState으로 하면 빈 값으로 나옴
       }
 
-      console.log('imageUrl', imageUrl);
-
       const putRes = await apiRequest.put(`/users/${currentUser.id}`, {
         username,
         email,
@@ -93,11 +91,11 @@ function ProfileUpdatePage() {
 
       console.log('putRes', putRes);
       updateUser(putRes.data);
+      toast.success('성공적으로 수정되었습니다.');
       navigate("/profile");
 
     } catch (err) {
-      console.log(err);
-      setError(err.response.data.message);
+      toast.error(err.response.data.message);
     } finally {
       setProgress('', {...progress, loading: false});
     }
@@ -145,10 +143,6 @@ function ProfileUpdatePage() {
             <div className="item">
               <Input id="password" name="password" type="password" label="비밀번호"/>
             </div>
-            {/*<div className="submit">*/}
-            {/*  <Button >저장</Button>*/}
-            {/*  {error && <span>error</span>}*/}
-            {/*</div>*/}
           </form>
         </div>
 

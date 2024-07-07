@@ -44,7 +44,7 @@ function RequireAuth() {
 
 function CreateProcess() {
     const {currentUser} = useContext(AuthContext);
-    const {progress,location} = useContext(UserProgressContext);
+    const {progress} = useContext(UserProgressContext);
 
     const navigate = useNavigate();
 
@@ -64,8 +64,6 @@ function CreateProcess() {
                 <div className="processDiv">
                     <Button outlined onClick={() => navigate(-1)}>이전</Button>
                     <Button form={progress.form} disabled={progress.disabled} onClick={()=>progress.url ? navigate(progress.url) : undefined } type="submit" loading={progress.loading}>{progress.text}</Button>
-
-                    {/*<Button form={progress.form} disabled={!location.address? true : false} onClick={()=>progress.url ? navigate(progress.url) : undefined } type="submit" loading={progress.loading}>{progress.text}</Button>*/}
                 </div>
 
             </div>

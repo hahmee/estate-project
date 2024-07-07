@@ -135,7 +135,7 @@ export const updatePost = async (req, res) => {
     }
 
     const updatedPost = await prisma.post.update({
-      where: { id: postId },
+      where: {id: postId},
       data: {
         ...body.postData,
         postDetail: {
@@ -143,10 +143,7 @@ export const updatePost = async (req, res) => {
         },
       },
     });
-
-    setTimeout(() => {
-      res.status(200).json(updatedPost.id);
-    }, 3000);
+    res.status(200).json(updatedPost.id);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "포스트 수정하는데 실패했습니다." });

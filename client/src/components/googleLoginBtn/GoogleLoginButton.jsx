@@ -5,14 +5,13 @@ import apiRequest from "../../lib/apiRequest.js";
 import {useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import "./googleLoginButton.scss";
+import {toast} from "react-toastify";
 
 function GoogleLoginButton(props) {
     const navigate = useNavigate();
     const {updateUser} = useContext(AuthContext);
 
     const handleLoginGoogle = async (email, username, avatar, externalId) => {
-        // setError("");
-        // setIsLoading(true);
         try {
             await apiRequest.post("/auth/register", {
                 username: username,
@@ -29,10 +28,11 @@ function GoogleLoginButton(props) {
             });
 
             updateUser(res.data);
+            toast.success('로그인 되었습니다.');
             navigate("/");
 
         } catch (err) {
-            //setError(err.response.data.message);
+            toast.error(err.response.data.message);
         } finally {
             //setIsLoading(false);
         }

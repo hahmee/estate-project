@@ -1,5 +1,5 @@
 import React from 'react';
-import { SyncLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 
 const Button = ({ children, textOnly, className, outlined, loading, ...props}) => {
 
@@ -18,7 +18,7 @@ const Button = ({ children, textOnly, className, outlined, loading, ...props}) =
     return (
         <button className={sCss} {...props}>
             {
-                !loading ? children : <SyncLoader/>
+                !loading ? children : <BeatLoader color='white'/>
             }
         </button>
     );

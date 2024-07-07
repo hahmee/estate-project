@@ -6,18 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/auth.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/post.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/user.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/api/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/UI/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Button.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/context/UserProgressContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/UserProgressContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/register/register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/register/register.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -92,7 +95,7 @@
       <workItem from="1719649486820" duration="183777000" />
       <workItem from="1720102761350" duration="15076000" />
       <workItem from="1720120605468" duration="5343000" />
-      <workItem from="1720272686864" duration="26374000" />
+      <workItem from="1720272686864" duration="44181000" />
     </task>
     <servers />
   </component>
