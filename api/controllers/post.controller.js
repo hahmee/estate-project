@@ -54,8 +54,6 @@ export const getPosts = async (req, res) => {
 export const getPost = async (req, res) => {
   const id = req.params.id;
 
-  console.log('toooo', req.cookies);
-
   try {
     const post = await prisma.post.findUnique({
       where: { id: id },
@@ -145,7 +143,10 @@ export const updatePost = async (req, res) => {
         },
       },
     });
-    res.status(200).json(updatedPost.id);
+
+    setTimeout(() => {
+      res.status(200).json(updatedPost.id);
+    }, 3000);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "포스트 수정하는데 실패했습니다." });

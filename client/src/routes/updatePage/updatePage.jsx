@@ -18,13 +18,13 @@ function UpdatePage() {
     const [safeOptionsValue, setSafeOptionsValue] = useState(safeOptions.filter(option => post.postDetail.safeOption.includes(option.value)));
     const [defaultImage, setDefaultImage] = useState(post.images);
     const navigate = useNavigate();
-    const {clearSaveProgress} = useContext(UserProgressContext);
+    const {progress, setProgress, saveLocation} = useContext(UserProgressContext);
     const { id } = useParams();
-
-
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
+        setProgress('',{...progress, loading: true});
+
         const formData = new FormData(e.target);
         const inputs = Object.fromEntries(formData);
         const optionList = optionsValue.map(value => value.value);
@@ -85,18 +85,27 @@ function UpdatePage() {
                     parking: parseInt(inputs.parking),
                 },
             });
-
             navigate("/read/" + res.data);
 
         } catch (err) {
             console.error((err).message);
             setError((err).message);
+        } finally {
+            setProgress('', {...progress, loading: false});
         }
     }, [files, optionsValue, safeOptionsValue, defaultImage]);
 
 
     useEffect(() => {
-        clearSaveProgress();
+        setProgress('save');
+
+        saveLocation({
+            latitude: post.latitude,
+            longitude: post.longitude,
+            city: post.city,
+            address: post.address,
+        });
+
     }, []);
 
 

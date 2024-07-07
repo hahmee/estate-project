@@ -53,7 +53,7 @@ export const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.VITE
 
 function NewPostPage() {
   const [error, setError] = useState("");
-  const {clearSaveProgress, location, clearLocation} = useContext(UserProgressContext);
+  const {progress, setProgress, location, clearLocation} = useContext(UserProgressContext);
   const [files, setFiles] = useState([]);
 
 
@@ -64,6 +64,7 @@ function NewPostPage() {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
+    setProgress('',{...progress, loading: true});
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
     let imageUrl = [];
@@ -172,17 +173,19 @@ function NewPostPage() {
       navigate("/read/" + res.data.id);
       clearLocation();
 
-
     } catch (err) {
       console.log(err);
       setError(err.message);
+    } finally {
+      setProgress('', {...progress, loading: false});
     }
   }, [files, optionsValue, safeOptionsValue]);
 
 
   useEffect(() => {
-    clearSaveProgress();
-    clearLocation();
+    // saveProgress();
+    setProgress('save');
+
   }, []);
 
   const div = <>

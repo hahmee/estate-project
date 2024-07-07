@@ -10,7 +10,7 @@ import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 
 
 function SearchMapBar2({getMapResult}) {
-    const {progress, goToAddPage,clearProgress, saveLocation,clearLocation} = useContext(UserProgressContext);
+    const {clearProgress, saveLocation} = useContext(UserProgressContext);
 
     const [location, setLocation] = useState("");
     const [status, setStatus] = useState("");
@@ -26,18 +26,15 @@ function SearchMapBar2({getMapResult}) {
         setStatus("");
         setLocation(location);
         setSuggestionsVisible(true);
-        clearProgress();
     };
 
     const handleSelect = (location,e,d) => {
-        console.log('??', e);
-        console.log('dd', d);
+
         setSuggestionsVisible(false);
         setLocation(location);
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
-                console.log('!!!',latLng,'.ssss',location);
                 saveLocation({...latLng, address: location, city:''});
                 getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: []}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
@@ -48,7 +45,6 @@ function SearchMapBar2({getMapResult}) {
     };
 
     const onError = (status, clearSuggestions) => {
-        console.log('status', status);
         setStatus( status === "ZERO_RESULTS" ? '해당 장소를 찾을 수 없습니다.' : status);
         clearSuggestions();
     }
@@ -89,7 +85,6 @@ function SearchMapBar2({getMapResult}) {
                                     {loading && <div className="suggestion-item">Loading...</div>}
                                     {status && <div className="suggestion-item">{status}</div>}
                                     {suggestions.map((suggestion, index) => {
-                                        console.log('asdf', suggestion);
                                         const className = suggestion.active
                                             ? 'suggestion-item--active'
                                             : 'suggestion-item';

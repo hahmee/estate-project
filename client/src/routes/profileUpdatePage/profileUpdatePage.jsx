@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import "./profileUpdatePage.scss";
 import { AuthContext } from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
@@ -9,6 +9,7 @@ import DropZone from "../../components/dropZone/DropZone.jsx";
 import Button from "../../UI/Button.jsx";
 import axios from "axios";
 import {cloudinaryUrl} from "../newPostPage/newPostPage.jsx";
+import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 
 function ProfileUpdatePage() {
   const { currentUser, updateUser } = useContext(AuthContext);
@@ -18,6 +19,9 @@ function ProfileUpdatePage() {
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
   // const [imageUrl, setImageUrl] = useState("");
+  const {progress, setProgress, saveProgress, location, clearLocation, changeProgress} = useContext(UserProgressContext);
+
+
 
 
   // const imageUpload = useCallback(async () => {
@@ -49,7 +53,7 @@ function ProfileUpdatePage() {
 
   const handleSubmit =  useCallback(async (e) => {
     e.preventDefault();
-    console.log('file이다.', files[0]);
+    setProgress('',{...progress, loading: true});
     const formData = new FormData(e.target);
 
     let imageUrl = "";
@@ -94,13 +98,19 @@ function ProfileUpdatePage() {
     } catch (err) {
       console.log(err);
       setError(err.response.data.message);
+    } finally {
+      setProgress('', {...progress, loading: false});
     }
   },[files, updateUser, currentUser]);
+
+  useEffect(() => {
+    setProgress('profile');
+  }, []);
 
   return (
       <div className="profileUpdatePage">
         <div className="formContainer">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} id="estate-profile-form">
             <h2>프로필 수정</h2>
             <div className="item">
               <Input
@@ -135,10 +145,10 @@ function ProfileUpdatePage() {
             <div className="item">
               <Input id="password" name="password" type="password" label="비밀번호"/>
             </div>
-            <div className="submit">
-              <Button>저장</Button>
-              {error && <span>error</span>}
-            </div>
+            {/*<div className="submit">*/}
+            {/*  <Button >저장</Button>*/}
+            {/*  {error && <span>error</span>}*/}
+            {/*</div>*/}
           </form>
         </div>
 

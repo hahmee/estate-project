@@ -1,6 +1,7 @@
 import React from 'react';
+import { SyncLoader } from "react-spinners";
 
-const Button = ({ children, textOnly, className, outlined, ...props}) => {
+const Button = ({ children, textOnly, className, outlined, loading, ...props}) => {
 
     let sCss = '';
 
@@ -15,7 +16,11 @@ const Button = ({ children, textOnly, className, outlined, ...props}) => {
     sCss += ' ' + className;
 
     return (
-        <button className={sCss} {...props}>{children}</button>
+        <button className={sCss} {...props}>
+            {
+                !loading ? children : <SyncLoader/>
+            }
+        </button>
     );
 }
 

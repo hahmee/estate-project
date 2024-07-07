@@ -60,6 +60,10 @@ function App() {
           element: <UpdatePage />,
           loader: singlePageLoader,
         },
+        {
+          path: "/profile/update",
+          element: <ProfileUpdatePage />,
+        },
         ]
     },
     {
@@ -71,10 +75,10 @@ function App() {
           element: <ProfilePage />,
           loader: profilePageLoader
         },
-        {
-          path: "/profile/update",
-          element: <ProfileUpdatePage />,
-        },
+        // {
+        //   path: "/profile/update",
+        //   element: <ProfileUpdatePage />,
+        // },
         // {
         //   path: "/location",
         //   element: <NewLocationPage />,
