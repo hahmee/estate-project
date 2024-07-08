@@ -1,19 +1,26 @@
-import { useState } from "react";
+import React, {useCallback, useState} from "react";
 import "./filter.scss";
 import { useSearchParams } from "react-router-dom";
+import SearchMapBar2 from "../searchBar/SearchMapBar2.jsx";
 
 function Filter() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState({
     type: searchParams.get("type") || "",
-    city: searchParams.get("city") || "",
+    // city: searchParams.get("city") || "",
+    // location: searchParams.get("placeId") || "",
+    latitude: searchParams.get("latitude") || "",
+    longitude: searchParams.get("longitude") || "",
     property: searchParams.get("property") || "",
     minPrice: searchParams.get("minPrice") || "",
     maxPrice: searchParams.get("maxPrice") || "",
     bedroom: searchParams.get("bedroom") || "",
   });
+  const [itemList, setItemList] = useState([]);
+
 
   const handleChange = (e) => {
+    console.log('e.target.name', e.target.name);
     setQuery({
       ...query,
       [e.target.name]: e.target.value,
@@ -24,22 +31,34 @@ function Filter() {
     setSearchParams(query);
   };
 
+  const getMapResult = useCallback((itemList) => {
+    console.log('itemListdd', itemList);
+    setItemList(itemList);
+    setQuery({
+      ...query,
+      // location: itemList[0].placeId
+      latitude: itemList[0].latitude,
+      longitude: itemList[0].longitude,
+    });
+  }, [itemList]);
+
   return (
     <div className="filter">
       <h1>
-        Search results for <b>{searchParams.get("city")}</b>
+        <b>{searchParams.get("location")}</b>에 대한 검색결과
       </h1>
-      <div className="top">
-        <div className="item">
-          <label htmlFor="city">Location</label>
-          <input
-            type="text"
-            id="city"
-            name="city"
-            placeholder="City Location"
-            onChange={handleChange}
-            defaultValue={query.city}
-          />
+      <div className="">
+        <div className="">
+          <SearchMapBar2 getMapResult={getMapResult} searchOptions={['geocode']}/>
+          {/*<label htmlFor="city">Location</label>*/}
+          {/*<input*/}
+          {/*  type="text"*/}
+          {/*  id="city"*/}
+          {/*  name="city"*/}
+          {/*  placeholder="City Location"*/}
+          {/*  onChange={handleChange}*/}
+          {/*  defaultValue={query.city}*/}
+          {/*/>*/}
         </div>
       </div>
       <div className="bottom">

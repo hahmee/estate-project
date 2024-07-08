@@ -171,7 +171,7 @@ function NewPostPage() {
           parking: parseInt(inputs.parking),
         },
       });
-      toast.success('성공적으로 수정되었습니다.');
+      toast.success('성공적으로 저장되었습니다.');
       navigate("/read/" + res.data.id);
       clearLocation();
 

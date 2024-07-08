@@ -55,8 +55,6 @@ export const UserProgressContextProvider = ({ children }) => {
         clearLocation,
     }
 
-    console.log(userProgressCtx.progress);
-
     return (
         <UserProgressContext.Provider value={userProgressCtx}>
             {children}

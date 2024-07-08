@@ -76,7 +76,7 @@ function SinglePage() {
                       </div>
                       <div className="price">
                         <p className="contentTitle">가격/관리비</p>
-                        <h3>{currencyFormatter.format(post.price)}   / {currencyFormatter.format(post.maintenance)}</h3>
+                        <h3>{currencyFormatter.format(post.price)} / {currencyFormatter.format(post.maintenance)}</h3>
                       </div>
                       <div className="bottom">
                         <p className="contentTitle">상세설명</p>
@@ -308,28 +308,28 @@ function SinglePage() {
                       className="actionBtn"
                       style={{
                         backgroundColor: saved ? "#fece51" : "#fff",
-                        borderColor: saved ? "#fece51" : "rgb(221, 221, 221)"
+                        borderColor: saved ? "#fece51" : "rgb(221, 221, 221)",
                       }}>
                     <div className="buttonHeart">
-                      <span className="material-symbols-outlined">favorite</span>
+                      <span className="material-symbols-outlined" style={{color: saved && 'red'}}>favorite</span>
                       <p>&nbsp;{heartCnt}</p>
                     </div>
                   </Button>
                 </div>
 
-                  {
-                      currentUser.id === post.userId
-                      && (
-                          <div className="buttonDiv">
-                            <Button outlined className="actionBtn" onClick={() => navigate(`/update/${id}`)}>
-                              수정
-                            </Button>
-                            <Button outlined className="actionBtn" onClick={deletePost}>
-                              삭제
-                            </Button>
-                          </div>
-                      )
-                  }
+                {
+                    currentUser.id === post.userId
+                    && (
+                        <div className="buttonDiv">
+                          <Button outlined className="actionBtn" onClick={() => navigate(`/update/${id}`)}>
+                            수정
+                          </Button>
+                          <Button outlined className="actionBtn" onClick={deletePost}>
+                            삭제
+                          </Button>
+                        </div>
+                    )
+                }
 
 
               </div>

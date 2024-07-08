@@ -9,7 +9,7 @@ import Map from "../map/Map.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 
 
-function SearchMapBar2({getMapResult}) {
+function SearchMapBar2({getMapResult, searchOptions=[]}) {
     const {clearProgress, saveLocation} = useContext(UserProgressContext);
 
     const [location, setLocation] = useState("");
@@ -28,20 +28,17 @@ function SearchMapBar2({getMapResult}) {
         setSuggestionsVisible(true);
     };
 
-    const handleSelect = (location,e,d) => {
-
+    const handleSelect = (location, placeId, suggestions) => {
         setSuggestionsVisible(false);
         setLocation(location);
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
-                saveLocation({...latLng, address: location, city:''});
-                getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: []}]);
+                searchOptions && saveLocation({...latLng, address: location});
+                getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: [], placeId}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
             })
-            // .then((latLng) => setLatLng({latitude: latLng.lat, longitude: latLng.lng}))
             .catch((error) => console.error("Error", error));
-
     };
 
     const onError = (status, clearSuggestions) => {
@@ -50,8 +47,7 @@ function SearchMapBar2({getMapResult}) {
     }
 
     const onMouseOver = (e) => {
-        console.log('e', e.target.children[0]?.textContent);
-        // setInputValue(e.target.children[0]?.textContent);
+        // console.log('e', e.target.children[0]?.textContent);
 
     };
 
@@ -68,6 +64,7 @@ function SearchMapBar2({getMapResult}) {
                     onChange={handleLocationChange}
                     onSelect={handleSelect}
                     onError={onError}
+                    searchOptions = {{types : searchOptions}}
                 >
                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                         <div className="map-content">
@@ -75,14 +72,14 @@ function SearchMapBar2({getMapResult}) {
                                 {/*<span className="material-symbols-outlined">location_on</span>*/}
                                 <input
                                     {...getInputProps({
-                                        placeholder: '주소를 입력하세요.',
+                                        placeholder: searchOptions ? '도시를 검색하세요.' : '주소를 입력하세요.',
                                         className: 'location-search-input',
                                     })}
                                 />
                             </div>
                             {
                                 suggestionsVisible && (<div className="autocomplete-dropdown-container">
-                                    {loading && <div className="suggestion-item">Loading...</div>}
+                                    {loading && <div className="suggestion-item">검색중...</div>}
                                     {status && <div className="suggestion-item">{status}</div>}
                                     {suggestions.map((suggestion, index) => {
                                         const className = suggestion.active

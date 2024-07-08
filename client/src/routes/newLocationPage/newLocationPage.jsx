@@ -12,12 +12,9 @@ function NewLocationPage() {
     const {setProgress} = useContext(UserProgressContext);
 
     const getMapResult = useCallback((itemList) => {
-
         console.log('itemList', itemList);
         setItemList(itemList);
-        setProgress('add');
-
-
+        // setProgress('add');
     }, [itemList]);
 
     useEffect(() => {
