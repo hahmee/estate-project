@@ -1,67 +1,60 @@
 import prisma from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 
-
-function arePointsNear(checkPoint, centerPoint, km) {
-  var ky = 40000 / 360;
-
-  var kx = Math.cos(Math.PI * centerPoint.lat / 180.0) * ky;
-  var dx = Math.abs(centerPoint.longitude - checkPoint.longitude) * kx;
-  var dy = Math.abs(centerPoint.latitude - checkPoint.latitude) * ky;
-  return Math.sqrt(dx * dx + dy * dy) <= km;
-}
-
 function getRadians(degree) {
   const radians = (parseFloat(degree) * Math.PI) / 180;
   return radians;
 }
-// function cosineDistanceBetweenPoints(lat1, lon1, lat2, lon2) {
-//   const R = 6371e3;
-//   const p1 = lat1 * Math.PI/180;
-//   const p2 = lat2 * Math.PI/180;
-//   const deltaP = p2 - p1;
-//   const deltaLon = lon2 - lon1;
-//   const deltaLambda = (deltaLon * Math.PI) / 180;
-//   const a = Math.sin(deltaP/2) * Math.sin(deltaP/2) + Math.cos(p1) * Math.cos(p2) * Math.sin(deltaLambda/2) * Math.sin(deltaLambda/2);
-//   const d = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
-//   return d;
-// }
 
 export const getPosts = async (req, res) => {
   const query = req.query;
   try {
     //반경 3 km 까지 검색 (위도 경도 반경 계산)
-    const xprisma = prisma.$extends({
-      result: {
-        post: {
-          distance: {
-            // the dependencies
-            needs: {latitude: true, longitude: true},
-            compute(post) {
-              // the computation logic
-              return (6371 * Math.acos(Math.cos(getRadians(query.latitude)) * Math.cos(getRadians(post.latitude)) * Math.cos(getRadians(post.longitude) - getRadians(query.longitude)) + Math.sin(getRadians(query.latitude)) * Math.sin(getRadians(post.latitude))));
+    // const xprisma = prisma.$extends({
+    //   result: {
+    //     post: {
+    //       distance: {
+    //         // the dependencies
+    //         needs: {latitude: true, longitude: true},
+    //         compute(post) {
+    //           // the computation logic
+    //           return (6371 * Math.acos(Math.cos(getRadians(query.latitude)) * Math.cos(getRadians(post.latitude)) * Math.cos(getRadians(post.longitude) - getRadians(query.longitude)) + Math.sin(getRadians(query.latitude)) * Math.sin(getRadians(post.latitude))));
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
+
+    const posts = await prisma.post.aggregateRaw({
+      pipeline: [
+        {
+          $geoNear: {
+            near: { type: "Point", coordinates: [ parseFloat(query.longitude) , parseFloat(query.latitude) ] },
+            distanceField: "dist.calculated",
+            maxDistance: 6000, //5km이내
+            query: {
+
             },
-          },
-        },
-      },
-    });
-    const post = await xprisma.post.findMany();
-    console.log('xprisma.rectsddddrectrect', post);
+            // includeLocs: "dist.location",
+            // // num: 5,
+            spherical: true
+          }
+        }
+      ],
+    })
 
+    console.log('result___', posts);
 
-    const posts = await prisma.post.findMany({
-      where: {
-        // distance: {
-        //   lte: 3 //3km
-        // },
-        property: query.property || undefined,
-        bedroom: parseInt(query.bedroom) || undefined,
-        price: {
-          gte: parseInt(query.minPrice) || undefined,
-          lte: parseInt(query.maxPrice) || undefined,
-        },
-      },
-    });
+    // const posts = await prisma.post.findMany({
+    //   where: {
+    //     property: query.property || undefined,
+    //     bedroom: parseInt(query.bedroom) || undefined,
+    //     price: {
+    //       gte: parseInt(query.minPrice) || undefined,
+    //       lte: parseInt(query.maxPrice) || undefined,
+    //     },
+    //   },
+    // });
 
     const savedPosts = await prisma.user.findUnique({
       where: {
@@ -75,7 +68,6 @@ export const getPosts = async (req, res) => {
     const savedPostIds = savedPosts.savedPosts.map((save) => {
       return save.postId;
     });
-
 
     posts.forEach((post) => {
       post.isSaved = false;
@@ -115,6 +107,7 @@ export const getPost = async (req, res) => {
 
     const token = req.cookies?.token;
 
+
     const savedCount = post.savedPosts.length;
 
     if (token) {
@@ -151,11 +144,14 @@ export const addPost = async (req, res) => {
       data: {
         ...body.postData,
         userId: tokenUserId,
+        location: { type: "Point", coordinates: [ parseFloat(body.postData.longitude), parseFloat(body.postData.latitude)]},
         postDetail: {
           create: body.postDetail,
         },
       },
     });
+
+
     res.status(200).json(newPost);
   } catch (err) {
     console.log(err);
@@ -187,7 +183,9 @@ export const updatePost = async (req, res) => {
         },
       },
     });
+
     res.status(200).json(updatedPost.id);
+
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "포스트 수정하는데 실패했습니다." });

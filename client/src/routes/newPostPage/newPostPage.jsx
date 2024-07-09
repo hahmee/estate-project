@@ -143,7 +143,7 @@ function NewPostPage() {
 
       // setPost(inputs); // await imageUpload();
 
-
+      console.log('location.city', location);
       const res = await apiRequest.post("/posts", {
         postData: {
           title: inputs.title,
@@ -156,6 +156,7 @@ function NewPostPage() {
           bathroom: parseInt(inputs.bathroom),
           latitude: location.lat.toString(),
           longitude: location.lng.toString(),
+          // coordinates: [location.lat, location.lng],
           images: imageUrl,
           maintenance: parseInt(inputs.maintenance),
         },
@@ -185,7 +186,7 @@ function NewPostPage() {
 
 
   useEffect(() => {
-    // saveProgress();
+    console.log('location', location);
     setProgress('save');
 
   }, []);

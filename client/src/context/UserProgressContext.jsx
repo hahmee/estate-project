@@ -11,8 +11,8 @@ const initialState = {
 };
 
 const initialLocation = {
-    latitude: null,
-    longitude: null,
+    lat: null,
+    lng: null,
     city: '',
     address: '',
 };

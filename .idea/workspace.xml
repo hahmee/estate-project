@@ -5,16 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/post.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/api/prisma/schema.prisma" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/filter/Filter.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/filter/Filter.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/filter/filter.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/filter/filter.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/searchMapBar2.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/searchMapBar2.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/context/UserProgressContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/UserProgressContext.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/loaders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/loaders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/homePage/homePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/homePage/homePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,15 +101,5 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar.jsx</url>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -7,6 +7,8 @@ import "./searchMapBar2.scss";
 import React, {createRef, useContext, useEffect, useRef, useState} from "react";
 import Map from "../map/Map.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
+import Button from "../../UI/Button.jsx";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 
 
 function SearchMapBar2({getMapResult, searchOptions=[]}) {
@@ -14,13 +16,27 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
 
     const [location, setLocation] = useState("");
     const [status, setStatus] = useState("");
+    const navigate = useNavigate();
 
     // const [itemList, setItemList] = useState([]);
     const [suggestionsVisible, setSuggestionsVisible] = useState(true);
     const [latLng, setLatLng] = useState({
-        latitude:null,
-        longitude:null
-    })
+        latitude: null,
+        longitude: null
+    });
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const [query, setQuery] = useState({
+        type: searchParams.get("type") || "",
+        // location: searchParams.get("placeId") || "",
+        latitude: searchParams.get("latitude") || "",
+        longitude: searchParams.get("longitude") || "",
+        property: searchParams.get("property") || "",
+        minPrice: searchParams.get("minPrice") || "",
+        maxPrice: searchParams.get("maxPrice") || "",
+        bedroom: searchParams.get("bedroom") || "",
+    });
+
 
     const handleLocationChange = (location) => {
         setStatus("");
@@ -34,7 +50,11 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
-                searchOptions && saveLocation({...latLng, address: location});
+                searchOptions && saveLocation({...latLng, address: location, city:''});
+
+                setQuery((prev) => ({ ...prev, latitude: latLng.lat, longitude: latLng.lng }));
+
+
                 getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: [], placeId}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
             })
@@ -51,9 +71,18 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
 
     };
 
+    const handleFilter = () => {
+        setSearchParams(query);
+    };
+
+    const searchClick = () => {
+        console.log('sdfasdf',query);
+
+        navigate(`/list?type=${query.type}&latitude=${query.latitude}&longitude=${query.longitude}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`);
+    };
+
     useEffect(() => {
         clearProgress();
-
     }, []);
 
     return (
@@ -64,7 +93,7 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
                     onChange={handleLocationChange}
                     onSelect={handleSelect}
                     onError={onError}
-                    searchOptions = {{types : searchOptions}}
+                    searchOptions={{types: searchOptions}}
                 >
                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                         <div className="map-content">
@@ -103,9 +132,9 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
                         </div>
                     )}
                 </PlacesAutocomplete>
-
             </div>
 
+            <Button type='button' className="searchButton" onClick={searchClick}><img src="/search.png" alt="search"/></Button>
         </div>
     );
 }
