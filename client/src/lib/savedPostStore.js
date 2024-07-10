@@ -8,11 +8,10 @@ export const savedPostStore = create((set) => ({
         set({savedPosts: res.data});
     },
     save: async (postId) => {
-        await apiRequest.post("/users/save", { postId: postId });
+        await apiRequest.post("/users/save", {postId: postId});
     },
     reset: () => {
-        set({ savedPosts: null });
+        set({savedPosts: null});
     },
-
 }));
 

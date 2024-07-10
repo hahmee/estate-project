@@ -50,7 +50,7 @@ export const getPosts = async (req, res) => {
           $geoNear: {
             near: {type: "Point", coordinates: [parseFloat(query.longitude), parseFloat(query.latitude)]},
             distanceField: "dist.calculated",
-            maxDistance: 6000, //6km이내
+            maxDistance: 200000, //6km이내
             query: {},
             spherical: true
           },
@@ -59,8 +59,6 @@ export const getPosts = async (req, res) => {
     });
 
     console.log('posts_ori', posts);
-
-
 
     const savedPosts = await prisma.user.findUnique({
       where: {
@@ -86,6 +84,7 @@ export const getPosts = async (req, res) => {
     })
 
     res.status(200).json(posts);
+
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "포스트를 가져오는데 실패했습니다." });
@@ -148,6 +147,7 @@ export const addPost = async (req, res) => {
       data: {
         ...body.postData,
         userId: tokenUserId,
+        location: { type: "Point", coordinates: [ parseFloat(body.postData.longitude), parseFloat(body.postData.latitude)]},
         postDetail: {
           create: body.postDetail,
         },

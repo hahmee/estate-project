@@ -50,10 +50,9 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
                 searchOptions && saveLocation({...latLng, address: location, city:''});
-
                 setQuery((prev) => ({ ...prev, latitude: latLng.lat, longitude: latLng.lng }));
 
-                getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: [], placeId}]);
+                getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: [], location}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
             })
             .catch((error) => console.error("Error", error));

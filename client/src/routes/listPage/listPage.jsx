@@ -6,15 +6,17 @@ import {Await, Navigate, useLoaderData, useNavigate, useSearchParams} from "reac
 import {Suspense, useContext, useEffect, useRef, useState} from "react";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
+import {useNotificationStore} from "../../lib/notificationStore.js";
+import {listPostStore} from "../../lib/listPostStore.js";
+import {useMapEvents} from "react-leaflet";
 
 
 function ListPage() {
-    const data = useLoaderData();
+    // const data = useLoaderData();
     const [searchParams, setSearchParams] = useSearchParams();
     const {currentUser} = useContext(AuthContext);
     const query = {
         type: searchParams.get("type") || "",
-        // city: searchParams.get("city") || "",
         latitude: searchParams.get("latitude") || "",
         longitude: searchParams.get("longitude") || "",
         property: searchParams.get("property") || "",
@@ -23,7 +25,11 @@ function ListPage() {
         bedroom: searchParams.get("bedroom") || "",
     }
 
+
+    const fetch = listPostStore((state) => state.fetch);
+    const posts = listPostStore((state) => state.posts);
     const savedPosts = savedPostStore((state) => state.savedPosts);
+
 
     useEffect(() => {
         const getPostList = () => {
@@ -34,6 +40,12 @@ function ListPage() {
         }
     }, [savedPosts]);
 
+
+    useEffect(() => {
+        fetch(searchParams);
+    }, []);
+
+
     if (!currentUser) return <Navigate to="/login"/>;
 
     else {
@@ -42,30 +54,15 @@ function ListPage() {
                 <div className="listContainer">
                     <div className="wrapper">
                         <Filter/>
-                        <Suspense fallback={<p>Loading...</p>}>
-                            <Await
-                                resolve={data.postResponse}
-                                errorElement={<p>Error loading posts!</p>}>
-                                {(postResponse) =>
-                                   {
-                                       return postResponse.data.map((post, idx) => (
-                                           <Card key={idx} card={post}/>
-                                       ));
-                                   }
-                                }
-                            </Await>
-                        </Suspense>
+                        {posts.map((post, idx) => (
+                            <Card key={idx} card={post}/>
+                        ))}
                     </div>
                 </div>
                 <div className="mapContainer">
-                    <Suspense fallback={<p>Loading...</p>}>
-                        <Await
-                            resolve={data.postResponse}
-                            errorElement={<p>Error loading posts!</p>}
-                        >
-                            {(postResponse) => <Map items={postResponse.data}/>}
-                        </Await>
-                    </Suspense>
+                    {
+                        <Map items={posts}/>
+                    }
                 </div>
             </div>
         );

@@ -24,7 +24,7 @@ function Card({ card }) {
     // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
     setSaved((prev) => !prev);
     try {
-      await save(card.id);// await apiRequest.post("/users/save", { postId: item.id });
+      await save(card._id.$oid);// await apiRequest.post("/users/save", { postId: item.id });
       await fetch();
     } catch (err) {
       console.log(err);
@@ -39,7 +39,7 @@ function Card({ card }) {
         </Link>
         <div className="textContainer">
           <h2 className="title">
-            <Link to={`/read/${card.id}`}>{card.title}</Link>
+            <Link to={`/read/${card._id.$oid}`}>{card.title}</Link>
           </h2>
           <p className="address">
             <img src="/pin.png" alt="pin"/>

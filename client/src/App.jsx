@@ -8,7 +8,7 @@ import Login from "./routes/login/login";
 import Register from "./routes/register/register";
 import ProfileUpdatePage from "./routes/profileUpdatePage/profileUpdatePage";
 import NewPostPage from "./routes/newPostPage/newPostPage";
-import {chatPageLoader, listPageLoader, profilePageLoader, singlePageLoader} from "./lib/loaders";
+import {chatPageLoader, profilePageLoader, singlePageLoader} from "./lib/loaders";
 import NewChatPage from "./routes/newChatPage/NewChatPage.jsx";
 import NewLocationPage from "./routes/newLocationPage/newLocationPage.jsx";
 import UpdatePage from "./routes/updatePage/updatePage.jsx";
@@ -26,7 +26,7 @@ function App() {
         {
           path: "/list",
           element: <ListPage />,
-          loader: listPageLoader,
+          // loader: listPageLoader,
         },
         {
           path: "read/:id",

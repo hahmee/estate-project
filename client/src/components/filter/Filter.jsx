@@ -33,13 +33,14 @@ function Filter() {
   };
 
   const getMapResult = useCallback((itemList) => {
-    setItemList(itemList);
-    setQuery({
-      ...query,
-      // location: itemList[0].placeId
-      latitude: itemList[0].latitude,
-      longitude: itemList[0].longitude,
-    });
+    console.log('itemList', itemList);
+    // setItemList(itemList);
+    // setQuery({
+    //   ...query,
+    //   // location: itemList[0].placeId
+    //   latitude: itemList[0].latitude,
+    //   longitude: itemList[0].longitude,
+    // });
   }, [itemList]);
 
   return (
@@ -53,7 +54,7 @@ function Filter() {
         <div className="bottom">
           <div>
             <h1>
-              <b>{searchParams.get("location")}</b>에 대한 검색결과
+              <b> </b>asdfd에 대한 검색결과
             </h1>
           </div>
           <div className="item">

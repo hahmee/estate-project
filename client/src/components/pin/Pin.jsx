@@ -11,6 +11,7 @@ import {faCircleXmark, faFontAwesome, faHeart} from "@fortawesome/free-solid-svg
 import apiRequest from "../../lib/apiRequest.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {savedPostStore} from "../../lib/savedPostStore.js";
+import {currencyFormatter} from "../../util/formatting.js";
 
 
 
@@ -33,9 +34,8 @@ function Pin({item}) {
     const fetch = savedPostStore((state) => state.fetch);
     const popup = useRef();
 
-    console.log('{item.price}',item.price);
     const customMarkerIcon = divIcon({
-        html: `<div class=${saved ? "saved-pin" : "marker"}><div>₩${item.price}</div></div>`
+        html: `<div class=${saved ? "saved-pin" : "marker"}><div>${currencyFormatter.format(item.price)}</div></div>`
     });
 
     const closePopup = () => {
