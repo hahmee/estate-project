@@ -28,7 +28,6 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
 
     const [query, setQuery] = useState({
         type: searchParams.get("type") || "",
-        // location: searchParams.get("placeId") || "",
         latitude: searchParams.get("latitude") || "",
         longitude: searchParams.get("longitude") || "",
         property: searchParams.get("property") || "",
@@ -54,7 +53,6 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
 
                 setQuery((prev) => ({ ...prev, latitude: latLng.lat, longitude: latLng.lng }));
 
-
                 getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: [], placeId}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
             })
@@ -76,9 +74,8 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     };
 
     const searchClick = () => {
-        console.log('sdfasdf',query);
-
-        navigate(`/list?type=${query.type}&latitude=${query.latitude}&longitude=${query.longitude}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`);
+        setSearchParams(query);
+        // navigate(`/list?type=${query.type}&latitude=${query.latitude}&longitude=${query.longitude}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`);
     };
 
     useEffect(() => {
@@ -134,7 +131,7 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
                 </PlacesAutocomplete>
             </div>
 
-            <Button type='button' className="searchButton" onClick={searchClick}><img src="/search.png" alt="search"/></Button>
+            <Button type='submit' className="searchButton" onClick={searchClick}><img src="/search.png" alt="search"/></Button>
         </div>
     );
 }

@@ -33,6 +33,7 @@ function Pin({item}) {
     const fetch = savedPostStore((state) => state.fetch);
     const popup = useRef();
 
+    console.log('{item.price}',item.price);
     const customMarkerIcon = divIcon({
         html: `<div class=${saved ? "saved-pin" : "marker"}><div>₩${item.price}</div></div>`
     });
@@ -61,7 +62,7 @@ function Pin({item}) {
         setSaved(item.isSaved);
     }, [item]);
 
-    if(!item.id) {
+    if(!item._id?.$oid && !item.id ) {
         return (
             <Marker position={[item.latitude, item.longitude]}></Marker>
         );

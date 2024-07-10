@@ -21,9 +21,7 @@ function Filter() {
 
   const [itemList, setItemList] = useState([]);
 
-
   const handleChange = (e) => {
-    console.log('e.target.name', e.target.name);
     setQuery({
       ...query,
       [e.target.name]: e.target.value,
@@ -35,7 +33,6 @@ function Filter() {
   };
 
   const getMapResult = useCallback((itemList) => {
-    console.log('itemLisdddtdd', itemList);
     setItemList(itemList);
     setQuery({
       ...query,
@@ -51,16 +48,6 @@ function Filter() {
         <div className="">
           <div className="">
             <SearchMapBar2 getMapResult={getMapResult} searchOptions={['geocode']}/>
-
-            {/*<label htmlFor="city">Location</label>*/}
-            {/*<input*/}
-            {/*  type="text"*/}
-            {/*  id="city"*/}
-            {/*  name="city"*/}
-            {/*  placeholder="City Location"*/}
-            {/*  onChange={handleChange}*/}
-            {/*  defaultValue={query.city}*/}
-            {/*/>*/}
           </div>
         </div>
         <div className="bottom">
@@ -126,9 +113,9 @@ function Filter() {
                 label="방 수"
             />
           </div>
-          <button onClick={handleFilter}>
-            <img src="/search.png" alt="search"/>
-          </button>
+          {/*<button onClick={handleFilter}>*/}
+          {/*  <img src="/search.png" alt="search"/>*/}
+          {/*</button>*/}
         </div>
       </div>
   );

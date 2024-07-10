@@ -14,7 +14,6 @@ datasource db {
 }
 
 
-
 model Post {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
   title      String
@@ -35,7 +34,6 @@ model Post {
   userId     String      @db.ObjectId
   postDetail PostDetail?
   savedPosts SavedPost[]
-
 }
 
 enum Type {

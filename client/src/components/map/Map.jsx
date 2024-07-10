@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import FlyMapTo from "./FlyMapTo.jsx";
 
 function Map({ items }) {
+  console.log('items', items);
   const position = items.length === 1 ? [parseFloat(items[0].latitude), parseFloat(items[0].longitude)] : [37, 127];
   return (
     <MapContainer

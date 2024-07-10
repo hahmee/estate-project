@@ -8,8 +8,10 @@ function getRadians(degree) {
 
 export const getPosts = async (req, res) => {
   const query = req.query;
+
   try {
-    //반경 3 km 까지 검색 (위도 경도 반경 계산)
+
+    // 반경 3 km 까지 검색 (위도 경도 반경 계산)
     // const xprisma = prisma.$extends({
     //   result: {
     //     post: {
@@ -21,40 +23,44 @@ export const getPosts = async (req, res) => {
     //           return (6371 * Math.acos(Math.cos(getRadians(query.latitude)) * Math.cos(getRadians(post.latitude)) * Math.cos(getRadians(post.longitude) - getRadians(query.longitude)) + Math.sin(getRadians(query.latitude)) * Math.sin(getRadians(post.latitude))));
     //         },
     //       },
+    //       isSaved: {
+    //         compute() {
+    //           return false;
+    //         }
+    //       },
+    //     },
+    //   },
+    //   query: {
+    //     post: {
+    //       async findMany({model, operation, args, query}) {
+    //         // take incoming `where` and set `age`
+    //         args.where = {...args.where, price: {gt: 10}}
+    //
+    //         return query(args)
+    //       },
     //     },
     //   },
     // });
+    // const posts = await xprisma.post.findMany({});
+
 
     const posts = await prisma.post.aggregateRaw({
       pipeline: [
         {
           $geoNear: {
-            near: { type: "Point", coordinates: [ parseFloat(query.longitude) , parseFloat(query.latitude) ] },
+            near: {type: "Point", coordinates: [parseFloat(query.longitude), parseFloat(query.latitude)]},
             distanceField: "dist.calculated",
-            maxDistance: 6000, //5km이내
-            query: {
-
-            },
-            // includeLocs: "dist.location",
-            // // num: 5,
+            maxDistance: 6000, //6km이내
+            query: {},
             spherical: true
-          }
+          },
         }
       ],
-    })
+    });
 
-    console.log('result___', posts);
+    console.log('posts_ori', posts);
 
-    // const posts = await prisma.post.findMany({
-    //   where: {
-    //     property: query.property || undefined,
-    //     bedroom: parseInt(query.bedroom) || undefined,
-    //     price: {
-    //       gte: parseInt(query.minPrice) || undefined,
-    //       lte: parseInt(query.maxPrice) || undefined,
-    //     },
-    //   },
-    // });
+
 
     const savedPosts = await prisma.user.findUnique({
       where: {
@@ -69,6 +75,7 @@ export const getPosts = async (req, res) => {
       return save.postId;
     });
 
+
     posts.forEach((post) => {
       post.isSaved = false;
       savedPostIds.forEach((savedId) => {
@@ -78,9 +85,7 @@ export const getPosts = async (req, res) => {
       })
     })
 
-    // setTimeout(() => {
     res.status(200).json(posts);
-    // }, 3000);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "포스트를 가져오는데 실패했습니다." });
@@ -106,7 +111,6 @@ export const getPost = async (req, res) => {
     });
 
     const token = req.cookies?.token;
-
 
     const savedCount = post.savedPosts.length;
 
@@ -144,14 +148,11 @@ export const addPost = async (req, res) => {
       data: {
         ...body.postData,
         userId: tokenUserId,
-        location: { type: "Point", coordinates: [ parseFloat(body.postData.longitude), parseFloat(body.postData.latitude)]},
         postDetail: {
           create: body.postDetail,
         },
       },
     });
-
-
     res.status(200).json(newPost);
   } catch (err) {
     console.log(err);
@@ -175,7 +176,7 @@ export const updatePost = async (req, res) => {
     }
 
     const updatedPost = await prisma.post.update({
-      where: {id: postId},
+      where: { id: postId },
       data: {
         ...body.postData,
         postDetail: {
@@ -184,8 +185,9 @@ export const updatePost = async (req, res) => {
       },
     });
 
-    res.status(200).json(updatedPost.id);
-
+    setTimeout(() => {
+      res.status(200).json(updatedPost.id);
+    }, 3000);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "포스트 수정하는데 실패했습니다." });

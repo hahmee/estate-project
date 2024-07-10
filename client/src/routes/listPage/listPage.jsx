@@ -26,7 +26,6 @@ function ListPage() {
     const savedPosts = savedPostStore((state) => state.savedPosts);
 
     useEffect(() => {
-        console.log('savedPosts', savedPosts);
         const getPostList = () => {
             setSearchParams(query);
         }
@@ -35,8 +34,6 @@ function ListPage() {
         }
     }, [savedPosts]);
 
-
-    console.log('postResponse', data.postResponse);
     if (!currentUser) return <Navigate to="/login"/>;
 
     else {
@@ -48,12 +45,13 @@ function ListPage() {
                         <Suspense fallback={<p>Loading...</p>}>
                             <Await
                                 resolve={data.postResponse}
-                                errorElement={<p>Error loading posts!</p>}
-                            >
+                                errorElement={<p>Error loading posts!</p>}>
                                 {(postResponse) =>
-                                    postResponse.data.map((post, idx) => (
-                                        <Card key={idx} card={post}/>
-                                    ))
+                                   {
+                                       return postResponse.data.map((post, idx) => (
+                                           <Card key={idx} card={post}/>
+                                       ));
+                                   }
                                 }
                             </Await>
                         </Suspense>
