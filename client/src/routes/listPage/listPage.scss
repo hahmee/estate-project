@@ -22,6 +22,48 @@
       &::-webkit-scrollbar {
         display: none; /* Chrome, Safari, Opera*/
       }
+
+      .loadingDiv {
+
+        display: flex;
+        gap: 20px;
+
+        .loading {
+          background-color: rgb(226 232 240 / 1);
+          animation: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;
+        }
+        .imgElement {
+          flex: 2;
+          height: 200px;
+        }
+        .textElement {
+          flex: 3;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          div {
+            height: 26px;
+            &:nth-child(1) {
+              width: 100%;
+            }
+            &:nth-child(2) {
+              width: 80%;
+            }
+            &:nth-child(3) {
+              width: 60%;
+            }
+            &:nth-child(4) {
+              width: 40%;
+            }
+          }
+        }
+
+        @keyframes pulse {
+          50% {
+            opacity: .5
+          }
+        }
+      }
     }
   }
   .mapContainer {

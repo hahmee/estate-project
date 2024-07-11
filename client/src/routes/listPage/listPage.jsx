@@ -44,6 +44,8 @@ function ListPage() {
         fetch(searchParams);
     }, []);
 
+    console.log('posts', posts);
+
 
     if (!currentUser) return <Navigate to="/login"/>;
 
@@ -53,9 +55,21 @@ function ListPage() {
                 <div className="listContainer">
                     <div className="wrapper">
                         <Filter/>
-                        {posts.map((post, idx) => (
-                            <Card key={idx} card={post}/>
-                        ))}
+                        {
+                            (posts.length < 1) ? (<div className="loadingDiv">
+                                    <div className="imgElement loading"/>
+                                    <div className="textElement">
+                                        <div className="loading"/>
+                                        <div className="loading"/>
+                                        <div className="loading"/>
+                                        <div className="loading"/>
+                                    </div>
+                                </div>) :
+                                posts.map((post, idx) => (
+                                    <Card key={idx} card={post}/>
+                                ))
+                        }
+
                     </div>
                 </div>
                 <div className="mapContainer">

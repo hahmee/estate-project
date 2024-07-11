@@ -12,6 +12,7 @@ function Map({items}) {
   const position = items.length === 1 ? [parseFloat(items[0].latitude), parseFloat(items[0].longitude)] : [37, 127];
   const fetch = listPostStore((state) => state.fetch);
 
+  //zoom, drag 이벤트
   const HandlerComponent = () => {
     const map = useMapEvents({
       zoomend: (e) => {
@@ -22,7 +23,6 @@ function Map({items}) {
       dragend: (e) => {
         const dragPosition = e.target.getCenter(); //{lat,lng}
         fetch(`type=&latitude=${dragPosition.lat}&longitude=${dragPosition.lng}&property=&minPrice=&maxPrice=&bedroom=`);
-
       }
     });
     return null;

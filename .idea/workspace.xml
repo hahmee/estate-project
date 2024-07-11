@@ -10,8 +10,9 @@
       <change beforePath="$PROJECT_DIR$/client/src/components/card/Card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/card/Card.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/Map.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/savedPostStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/savedPostStore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/listPostStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/listPostStore.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/listPage/listPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/listPage/listPage.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +90,7 @@
       <workItem from="1720415218217" duration="17826000" />
       <workItem from="1720542229427" duration="9012000" />
       <workItem from="1720587702448" duration="32351000" />
-      <workItem from="1720637488406" duration="4813000" />
+      <workItem from="1720637488406" duration="9843000" />
     </task>
     <servers />
   </component>
