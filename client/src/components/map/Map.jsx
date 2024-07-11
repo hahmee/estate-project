@@ -17,12 +17,15 @@ function Map({items}) {
     const map = useMapEvents({
       zoomend: (e) => {
         //줌 중심 위치 찾기
-        const zoomPosition = e.target.getCenter(); //{lat,lng}
-        fetch(`type=&latitude=${zoomPosition.lat}&longitude=${zoomPosition.lng}&property=&minPrice=&maxPrice=&bedroom=`);
+        const center = e.target.getCenter(); //{lat,lng}
+        const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
+
+        fetch(`type=&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=&minPrice=&maxPrice=&bedroom=`);
       },
       dragend: (e) => {
-        const dragPosition = e.target.getCenter(); //{lat,lng}
-        fetch(`type=&latitude=${dragPosition.lat}&longitude=${dragPosition.lng}&property=&minPrice=&maxPrice=&bedroom=`);
+        const center = e.target.getCenter(); //{lat,lng}
+        const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
+        fetch(`type=&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=&minPrice=&maxPrice=&bedroom=`);
       }
     });
     return null;
@@ -39,6 +42,8 @@ function Map({items}) {
           zoomDelta={0}
           maxZoom={10}
           minZoom={3}
+          worldCopyJump={true}
+
       >
         <FlyMapTo items={items}/>
         <HandlerComponent/>

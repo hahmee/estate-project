@@ -50,14 +50,12 @@ export const getPosts = async (req, res) => {
           $geoNear: {
             near: {type: "Point", coordinates: [parseFloat(query.longitude), parseFloat(query.latitude)]},
             distanceField: "dist.calculated",
+            maxDistance: 200000, //2000 meters
             spherical: true,
-            maxDistance: 2000000, // error
           },
         }
       ],
     });
-
-    console.log('posts_ori', posts);
 
     const savedPosts = await prisma.user.findUnique({
       where: {

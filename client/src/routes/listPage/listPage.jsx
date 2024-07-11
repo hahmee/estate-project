@@ -9,11 +9,14 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 import {useNotificationStore} from "../../lib/notificationStore.js";
 import {listPostStore} from "../../lib/listPostStore.js";
 import {useMapEvents} from "react-leaflet";
+import ListLoading from "../../components/loading/ListLoading.jsx";
+import {toast} from "react-toastify";
 
 
 function ListPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     const {currentUser} = useContext(AuthContext);
+    const [isLoading, setIsLoading] = useState(false);
     const query = {
         type: searchParams.get("type") || "",
         latitude: searchParams.get("latitude") || "",
@@ -33,6 +36,13 @@ function ListPage() {
         const getPostList = () => {
             //MAP색칠 현재 누른아이의 lat, lng
             fetch(`type=&latitude=${currentSavedPost.latitude}&longitude=${currentSavedPost.longitude}&property=&minPrice=&maxPrice=&bedroom=`);
+            // fetch(`type=&latitude=${currentSavedPost.latitude}&longitude=${currentSavedPost.longitude}&property=&minPrice=&maxPrice=&bedroom=`).then((result) => {
+            // }).catch((err) => {
+            //     toast.error(err.response.data.message);
+            // }).finally(() => {
+            //     setIsLoading(false);
+            // })
+
         }
         if (currentUser) {
             getPostList();
@@ -41,7 +51,18 @@ function ListPage() {
 
 
     useEffect(() => {
+
         fetch(searchParams);
+        // setIsLoading(true);
+        // fetch(searchParams).then((result) => {
+        // }).catch((err) => {
+        //     toast.error(err.response.data.message);
+        // }).finally(() => {
+        //     setIsLoading(false);
+        // })
+
+
+
     }, []);
 
     console.log('posts', posts);
@@ -56,20 +77,17 @@ function ListPage() {
                     <div className="wrapper">
                         <Filter/>
                         {
-                            (posts.length < 1) ? (<div className="loadingDiv">
-                                    <div className="imgElement loading"/>
-                                    <div className="textElement">
-                                        <div className="loading"/>
-                                        <div className="loading"/>
-                                        <div className="loading"/>
-                                        <div className="loading"/>
-                                    </div>
+                            isLoading && <ListLoading/>
+                        }
+                        {
+                            (posts.length < 1) ? (
+                                <div>
+                                  검색결과가 없습니다.
                                 </div>) :
                                 posts.map((post, idx) => (
                                     <Card key={idx} card={post}/>
                                 ))
                         }
-
                     </div>
                 </div>
                 <div className="mapContainer">
