@@ -12,6 +12,7 @@ function Card({ card }) {
   const [saved, setSaved] = useState(card.isSaved);
   const save = savedPostStore((state) => state.save);
   const fetch = savedPostStore((state) => state.fetch);
+  const setCurrentSavedPost = savedPostStore((state) => state.setCurrentSavedPost);
 
   useEffect(() => {
     setSaved(card.isSaved);
@@ -25,7 +26,9 @@ function Card({ card }) {
     setSaved((prev) => !prev);
     try {
       await save(card._id.$oid);// await apiRequest.post("/users/save", { postId: item.id });
+      setCurrentSavedPost(card);
       await fetch();
+
     } catch (err) {
       console.log(err);
       setSaved((prev) => !prev);

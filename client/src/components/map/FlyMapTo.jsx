@@ -13,7 +13,6 @@ function FlyMapTo({items}) {
     const [searchParams, setSearchParams] = useSearchParams();
     const query = {
         type: searchParams.get("type") || "",
-        // city: searchParams.get("city") || "",
         latitude: searchParams.get("latitude") || "",
         longitude: searchParams.get("longitude") || "",
         property: searchParams.get("property") || "",

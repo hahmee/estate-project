@@ -1,8 +1,10 @@
 import {create} from "zustand";
 import apiRequest from "./apiRequest.js";
+import {singlePostData as currentSavedPost} from "./dummydata.js";
 
 export const savedPostStore = create((set) => ({
-    savedPosts: null,
+    savedPosts: [],
+    currentSavedPost: {},
     fetch: async () => {
         const res = await apiRequest("/users/savedPosts");
         set({savedPosts: res.data});
@@ -13,5 +15,8 @@ export const savedPostStore = create((set) => ({
     reset: () => {
         set({savedPosts: null});
     },
+    setCurrentSavedPost : (currentSavedPost) => {
+        set({currentSavedPost});
+    }
 }));
 

@@ -11,31 +11,22 @@ function Map({items}) {
   const [zoomLevel, setZoomLevel] = useState(5);
   const position = items.length === 1 ? [parseFloat(items[0].latitude), parseFloat(items[0].longitude)] : [37, 127];
   const fetch = listPostStore((state) => state.fetch);
-  const posts = listPostStore((state) => state.posts);
-  const setPosts = listPostStore((state) => state.setPosts);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const query = {
-    type: searchParams.get("type") || "",
-    latitude: searchParams.get("latitude") || "",
-    longitude: searchParams.get("longitude") || "",
-    property: searchParams.get("property") || "",
-    minPrice: searchParams.get("minPrice") || "",
-    maxPrice: searchParams.get("maxPrice") || "",
-    bedroom: searchParams.get("bedroom") || "",
+
+  const HandlerComponent = () => {
+    const map = useMapEvents({
+      zoomend: (e) => {
+        //줌 중심 위치 찾기
+        const zoomPosition = e.target.getCenter(); //{lat,lng}
+        fetch(`type=&latitude=${zoomPosition.lat}&longitude=${zoomPosition.lng}&property=&minPrice=&maxPrice=&bedroom=`);
+      },
+      dragend: (e) => {
+        const dragPosition = e.target.getCenter(); //{lat,lng}
+        fetch(`type=&latitude=${dragPosition.lat}&longitude=${dragPosition.lng}&property=&minPrice=&maxPrice=&bedroom=`);
+
+      }
+    });
+    return null;
   }
-
-  const handleZoomEnd = useCallback(async (e) => {
-    // console.log('Map zoom level:', e.target.getZoom());
-
-    //줌 중심 위치 찾기
-    const zoomPosition = e.target._lastCenter; //{lat,lng}
-    // console.log('eeee', zoomPosition);
-    // const res = await apiRequest.get(`/posts?type=&latitude=${zoomPosition.lat}&longitude=${zoomPosition.lng}&property=&minPrice=&maxPrice=&bedroom=`);
-    // setSearchParams({...searchParams, latitude: zoomPosition.lat, longitude: zoomPosition.lng});
-    fetch(`type=&latitude=${zoomPosition.lat}&longitude=${zoomPosition.lng}&property=&minPrice=&maxPrice=&bedroom=`);
-  }, [fetch]);
-
-
   return (
       <MapContainer
           center={position}
@@ -50,15 +41,20 @@ function Map({items}) {
           minZoom={3}
       >
         <FlyMapTo items={items}/>
-        <ZoomEventHandlers handleZoomEnd={handleZoomEnd}/>
+        <HandlerComponent/>
       </MapContainer>
   );
 
 }
 
-const ZoomEventHandlers = ({ handleZoomEnd }) => {
-  useMapEvent('zoomend', handleZoomEnd);
-  return null;
-};
+// const ZoomEventHandlers = ({ handleZoomEnd }) => {
+//   useMapEvent('zoomend', handleZoomEnd);
+//   return null;
+// };
+// const DragEventHandlers = ({ handleDragEnd }) => {
+//   useMapEvent('dragend', handleDragEnd);
+//   return null;
+// };
+
 
 export default Map;

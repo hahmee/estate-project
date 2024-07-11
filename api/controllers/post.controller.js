@@ -9,6 +9,8 @@ function getRadians(degree) {
 export const getPosts = async (req, res) => {
   const query = req.query;
 
+  console.log('querygg', query);
+
   try {
 
     // 반경 3 km 까지 검색 (위도 경도 반경 계산)
@@ -51,7 +53,7 @@ export const getPosts = async (req, res) => {
             near: {type: "Point", coordinates: [parseFloat(query.longitude), parseFloat(query.latitude)]},
             distanceField: "dist.calculated",
             maxDistance: 200000, //6km이내
-            query: {},
+            // query: {},
             spherical: true
           },
         }
@@ -77,7 +79,7 @@ export const getPosts = async (req, res) => {
     posts.forEach((post) => {
       post.isSaved = false;
       savedPostIds.forEach((savedId) => {
-        if(post.id === savedId) {
+        if(post._id.$oid === savedId) {
           post.isSaved = true;
         }
       })

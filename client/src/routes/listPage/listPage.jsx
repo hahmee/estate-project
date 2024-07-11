@@ -12,7 +12,6 @@ import {useMapEvents} from "react-leaflet";
 
 
 function ListPage() {
-    // const data = useLoaderData();
     const [searchParams, setSearchParams] = useSearchParams();
     const {currentUser} = useContext(AuthContext);
     const query = {
@@ -25,15 +24,15 @@ function ListPage() {
         bedroom: searchParams.get("bedroom") || "",
     }
 
-
     const fetch = listPostStore((state) => state.fetch);
     const posts = listPostStore((state) => state.posts);
     const savedPosts = savedPostStore((state) => state.savedPosts);
-
+    const currentSavedPost = savedPostStore((state) => state.currentSavedPost);
 
     useEffect(() => {
         const getPostList = () => {
-            setSearchParams(query);
+            //MAP색칠 현재 누른아이의 lat, lng
+            fetch(`type=&latitude=${currentSavedPost.latitude}&longitude=${currentSavedPost.longitude}&property=&minPrice=&maxPrice=&bedroom=`);
         }
         if (currentUser) {
             getPostList();
