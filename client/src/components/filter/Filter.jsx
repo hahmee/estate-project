@@ -5,9 +5,13 @@ import SearchMapBar2 from "../searchBar/SearchMapBar2.jsx";
 import Selection from "../../UI/Selection.jsx";
 import {roomOption, typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 import Input from "../../UI/Input.jsx";
+import {listPostStore} from "../../lib/listPostStore.js";
+import {singlePostData as item} from "../../lib/dummydata.js";
 
 function Filter() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const fetch = listPostStore((state) => state.fetch);
+  const posts = listPostStore((state) => state.posts);
   const [query, setQuery] = useState({
     type: searchParams.get("type") || "",
     // location: searchParams.get("placeId") || "",
@@ -28,19 +32,9 @@ function Filter() {
     });
   };
 
-  const handleFilter = () => {
-    setSearchParams(query);
-  };
-
-  const getMapResult = useCallback((itemList) => {
+  const getMapResult = useCallback(async (itemList) => {
     console.log('itemList', itemList);
-    // setItemList(itemList);
-    // setQuery({
-    //   ...query,
-    //   // location: itemList[0].placeId
-    //   latitude: itemList[0].latitude,
-    //   longitude: itemList[0].longitude,
-    // });
+
   }, [itemList]);
 
   return (
@@ -54,7 +48,7 @@ function Filter() {
         <div className="bottom">
           <div>
             <h1>
-              <b> </b>asdfd에 대한 검색결과
+              <b> </b>에 대한 검색결과
             </h1>
           </div>
           <div className="item">

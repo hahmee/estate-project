@@ -11,12 +11,14 @@ import {listPostStore} from "../../lib/listPostStore.js";
 import {useMapEvents} from "react-leaflet";
 import ListLoading from "../../components/loading/ListLoading.jsx";
 import {toast} from "react-toastify";
+import MapLoading from "../../components/loading/MapLoading.jsx";
 
 
 function ListPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     const {currentUser} = useContext(AuthContext);
-    const [isLoading, setIsLoading] = useState(false);
+    const isLoading = listPostStore((state) => state.isLoading);
+    const setIsLoading = listPostStore((state) => state.setIsLoading);
     const query = {
         type: searchParams.get("type") || "",
         latitude: searchParams.get("latitude") || "",
@@ -33,39 +35,12 @@ function ListPage() {
     const currentSavedPost = savedPostStore((state) => state.currentSavedPost);
 
     useEffect(() => {
-        const getPostList = () => {
+        if (currentUser && Object.keys(currentSavedPost).length > 0) {
+            console.log('MAP색칠 현재 누른아이의 lat, l');
             //MAP색칠 현재 누른아이의 lat, lng
             fetch(`type=&latitude=${currentSavedPost.latitude}&longitude=${currentSavedPost.longitude}&property=&minPrice=&maxPrice=&bedroom=`);
-            // fetch(`type=&latitude=${currentSavedPost.latitude}&longitude=${currentSavedPost.longitude}&property=&minPrice=&maxPrice=&bedroom=`).then((result) => {
-            // }).catch((err) => {
-            //     toast.error(err.response.data.message);
-            // }).finally(() => {
-            //     setIsLoading(false);
-            // })
-
-        }
-        if (currentUser) {
-            getPostList();
         }
     }, [savedPosts]);
-
-
-    useEffect(() => {
-
-        fetch(searchParams);
-        // setIsLoading(true);
-        // fetch(searchParams).then((result) => {
-        // }).catch((err) => {
-        //     toast.error(err.response.data.message);
-        // }).finally(() => {
-        //     setIsLoading(false);
-        // })
-
-
-
-    }, []);
-
-    console.log('posts', posts);
 
 
     if (!currentUser) return <Navigate to="/login"/>;
@@ -77,17 +52,16 @@ function ListPage() {
                     <div className="wrapper">
                         <Filter/>
                         {
-                            isLoading && <ListLoading/>
+                            isLoading ? <ListLoading/> :
+                                (posts.length < 1) ? (
+                                        <div>
+                                            검색결과가 없습니다.
+                                        </div>) :
+                                    posts.map((post, idx) => (
+                                        <Card key={idx} card={post}/>
+                                    ))
                         }
-                        {
-                            (posts.length < 1) ? (
-                                <div>
-                                  검색결과가 없습니다.
-                                </div>) :
-                                posts.map((post, idx) => (
-                                    <Card key={idx} card={post}/>
-                                ))
-                        }
+
                     </div>
                 </div>
                 <div className="mapContainer">

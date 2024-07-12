@@ -5,11 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/loading/ListLoading.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/loading/listLoad.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/loading/MapLoading.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/loading/mapLoading.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/post.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/filter/Filter.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/filter/Filter.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/loading/ListLoading.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/loading/ListLoading.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/loading/listLoad.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/loading/listLoading.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/Map.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/map.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/map.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/listPostStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/listPostStore.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/listPage/listPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/listPage/listPage.scss" afterDir="false" />
     </list>
@@ -35,6 +42,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Node.js.MapLoading.jsx.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/dev/youtube/estate-project/client/src/components/loading",
@@ -89,7 +97,7 @@
       <workItem from="1720415218217" duration="17826000" />
       <workItem from="1720542229427" duration="9012000" />
       <workItem from="1720587702448" duration="32351000" />
-      <workItem from="1720637488406" duration="15516000" />
+      <workItem from="1720637488406" duration="42201000" />
     </task>
     <servers />
   </component>

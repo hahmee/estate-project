@@ -1,6 +1,7 @@
 .loadingDiv {
   display: flex;
   gap: 20px;
+
   .loading {
     background-color: rgb(226 232 240 / 1);
     animation: pulse 2s cubic-bezier(.4, 0, .6, 1) infinite;

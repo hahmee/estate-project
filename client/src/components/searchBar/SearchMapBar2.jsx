@@ -9,13 +9,16 @@ import Map from "../map/Map.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import Button from "../../UI/Button.jsx";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {listPostStore} from "../../lib/listPostStore.js";
 
 
 function SearchMapBar2({getMapResult, searchOptions=[]}) {
-    const {clearProgress, saveLocation} = useContext(UserProgressContext);
-
+    const {clearProgress, saveLocation, location:userLocation} = useContext(UserProgressContext);
     const [location, setLocation] = useState("");
     const [status, setStatus] = useState("");
+    const setIsLoading = listPostStore((state) => state.setIsLoading);
+    const setIsFetch = listPostStore((state) => state.setIsFetch);
+
     const navigate = useNavigate();
 
     // const [itemList, setItemList] = useState([]);
@@ -25,6 +28,7 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
         longitude: null
     });
     const [searchParams, setSearchParams] = useSearchParams();
+    const fetch = listPostStore((state) => state.fetch);
 
     const [query, setQuery] = useState({
         type: searchParams.get("type") || "",
@@ -68,13 +72,15 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
 
     };
 
-    const handleFilter = () => {
-        setSearchParams(query);
-    };
+    const searchClick = async () => {
 
-    const searchClick = () => {
-        setSearchParams(query);
-        // navigate(`/list?type=${query.type}&latitude=${query.latitude}&longitude=${query.longitude}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`);
+        setIsLoading(true);
+        await fetch(`type=&latitude=${userLocation.lat}&longitude=${userLocation.lng}&property=&minPrice=&maxPrice=&bedroom=`);
+        setIsLoading(false);
+        setIsFetch(true);
+
+        // setSearchParams(query);
+        navigate(`/list?type=${query.type}&latitude=${query.latitude}&longitude=${query.longitude}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`);
     };
 
     useEffect(() => {
