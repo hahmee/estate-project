@@ -1,18 +1,18 @@
 import PlacesAutocomplete, {geocodeByAddress, getLatLng,} from 'react-places-autocomplete';
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import Button from "../../UI/Button.jsx";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {listPostStore} from "../../lib/listPostStore.js";
-import "./searchMapBar2.scss";
+import "./searchMainBar.scss";
 
-
-function SearchMapBar2({getMapResult, searchOptions=[]}) {
+function SearchMainBar({searchOptions=[]}) {
     const {clearProgress, saveLocation, location:userLocation} = useContext(UserProgressContext);
     const [location, setLocation] = useState(userLocation.address);
     const [status, setStatus] = useState("");
     const setIsLoading = listPostStore((state) => state.setIsLoading);
     const setIsFetch = listPostStore((state) => state.setIsFetch);
+    const inputRef = useRef();
 
     const navigate = useNavigate();
 
@@ -49,7 +49,6 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
                 searchOptions && saveLocation({...latLng, address: location, city:''});
                 setQuery((prev) => ({ ...prev, latitude: latLng.lat, longitude: latLng.lng }));
 
-                getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: [], location}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
             })
             .catch((error) => console.error("Error", error));
@@ -60,13 +59,7 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
         clearSuggestions();
     }
 
-    const onMouseOver = (e) => {
-        // console.log('e', e.target.children[0]?.textContent);
-
-    };
-
     const searchClick = async () => {
-
         setIsLoading(true);
         await fetch(`type=&location=${userLocation.address}&latitude=${userLocation.lat}&longitude=${userLocation.lng}&property=&minPrice=&maxPrice=&bedroom=`);
         setIsLoading(false);
@@ -79,8 +72,8 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     }, []);
 
     return (
-        <div className="main">
-            <div className="map-search">
+        <div className="mainBar">
+            <div>
                 <PlacesAutocomplete
                     value={location}
                     onChange={handleLocationChange}
@@ -89,21 +82,25 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
                     searchOptions={{types: searchOptions}}
                 >
                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
-                        <div className="map-content">
+                        <div>
                             <div className="map-item">
-                                {/*<span className="material-symbols-outlined">location_on</span>*/}
                                 <input
                                     {...getInputProps({
                                         placeholder: searchOptions ? '도시를 검색하세요.' : '주소를 입력하세요.',
                                         className: 'location-search-input',
                                     })}
+                                    ref={inputRef}
                                 />
+                                <div className="searchButton">
+                                    <span className="material-symbols-outlined" onClick={searchClick}>search</span>
+                                    <span className="searchText">검색</span>
+                                </div>
                             </div>
                             {
                                 suggestionsVisible && (<div className="autocomplete-dropdown-container">
                                     {loading && <div className="suggestion-item">검색중...</div>}
                                     {status && <div className="suggestion-item">{status}</div>}
-                                    {suggestions.map((suggestion, index) => {
+                                    {suggestions.map((suggestion) => {
                                         const className = suggestion.active
                                             ? 'suggestion-item--active'
                                             : 'suggestion-item';
@@ -113,7 +110,6 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
                                                 {...getSuggestionItemProps(suggestion, {
                                                     className,
                                                 })}
-                                                onMouseOver={onMouseOver}
                                             >
                                                 <span>{suggestion.description}</span>
                                             </div>
@@ -126,9 +122,10 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
                 </PlacesAutocomplete>
             </div>
 
-            <Button type='submit' className="searchButton" onClick={searchClick}><img src="/search.png" alt="search"/></Button>
+
         </div>
+
     );
 }
 
-export default SearchMapBar2;
+export default SearchMainBar;

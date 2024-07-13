@@ -18,5 +18,4 @@ export const listPostStore = create((set) => ({
   setIsFetch: (isFetch) => {
     set({isFetch});
   }
-
 }));

@@ -2,16 +2,12 @@ import "./listPage.scss";
 import Filter from "../../components/filter/Filter";
 import Card from "../../components/card/Card";
 import Map from "../../components/map/Map";
-import {Await, Navigate, useLoaderData, useNavigate, useSearchParams} from "react-router-dom";
-import {Suspense, useContext, useEffect, useRef, useState} from "react";
+import {Navigate, useSearchParams} from "react-router-dom";
+import {useContext, useEffect} from "react";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
-import {useNotificationStore} from "../../lib/notificationStore.js";
 import {listPostStore} from "../../lib/listPostStore.js";
-import {useMapEvents} from "react-leaflet";
 import ListLoading from "../../components/loading/ListLoading.jsx";
-import {toast} from "react-toastify";
-import MapLoading from "../../components/loading/MapLoading.jsx";
 
 
 function ListPage() {
@@ -21,6 +17,7 @@ function ListPage() {
     const setIsLoading = listPostStore((state) => state.setIsLoading);
     const query = {
         type: searchParams.get("type") || "",
+        location: searchParams.get("location") || "",
         latitude: searchParams.get("latitude") || "",
         longitude: searchParams.get("longitude") || "",
         property: searchParams.get("property") || "",
@@ -36,8 +33,6 @@ function ListPage() {
 
     useEffect(() => {
         if (currentUser && Object.keys(currentSavedPost).length > 0) {
-            console.log('MAP색칠 현재 누른아이의 lat, l');
-            //MAP색칠 현재 누른아이의 lat, lng
             fetch(`type=&latitude=${currentSavedPost.latitude}&longitude=${currentSavedPost.longitude}&property=&minPrice=&maxPrice=&bedroom=`);
         }
     }, [savedPosts]);
@@ -50,7 +45,7 @@ function ListPage() {
             <div className="listPage">
                 <div className="listContainer">
                     <div className="wrapper">
-                        <Filter/>
+                        {/*<Filter/>*/}
                         {
                             isLoading ? <ListLoading/> :
                                 (posts.length < 1) ? (

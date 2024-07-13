@@ -1,9 +1,8 @@
-import {MapContainer, useMapEvent, useMapEvents} from "react-leaflet";
+import {MapContainer, useMapEvents} from "react-leaflet";
 import "./map.scss";
 import "leaflet/dist/leaflet.css";
 import FlyMapTo from "./FlyMapTo.jsx";
-import {useCallback, useEffect, useState} from "react";
-import apiRequest from "../../lib/apiRequest.js";
+import {useCallback, useState} from "react";
 import {listPostStore} from "../../lib/listPostStore.js";
 import {useSearchParams} from "react-router-dom";
 import MapLoading from "../loading/MapLoading.jsx";
@@ -69,17 +68,7 @@ function Map({items}) {
         </MapContainer>
       </>
   );
-
 }
-
-// const ZoomEventHandlers = ({ handleZoomEnd }) => {
-//   useMapEvent('zoomend', handleZoomEnd);
-//   return null;
-// };
-// const DragEventHandlers = ({ handleDragEnd }) => {
-//   useMapEvent('dragend', handleDragEnd);
-//   return null;
-// };
 
 
 export default Map;

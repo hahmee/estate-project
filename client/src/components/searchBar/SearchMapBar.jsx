@@ -9,7 +9,6 @@ import {
   useMapsLibrary,
   useMap
 } from "@vis.gl/react-google-maps";
-
 import "./searchMapBar.scss";
 
 

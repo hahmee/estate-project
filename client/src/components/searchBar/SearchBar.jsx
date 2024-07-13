@@ -1,16 +1,7 @@
-import {useEffect, useRef, useState} from "react";
+import {useState} from "react";
 import "./searchBar.scss";
-import { Link } from "react-router-dom";
-import {
-  AdvancedMarker,
-  APIProvider,
-  ControlPosition,
-  Map,
-  MapControl,
-  useAdvancedMarkerRef,
-  useMapsLibrary,
-  useMap
-} from "@vis.gl/react-google-maps";
+import {Link} from "react-router-dom";
+import {useAdvancedMarkerRef} from "@vis.gl/react-google-maps";
 
 const types = ["buy", "rent"];
 
