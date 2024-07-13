@@ -1,10 +1,9 @@
-import React, {useCallback, useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import "./navbar.scss";
 import {Link, useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import {useNotificationStore} from "../../lib/notificationStore";
 import Button from "../../UI/Button.jsx";
-import SearchMainBar from "../searchBar/SearchMainBar.jsx";
 
 function Navbar() {
     const [open, setOpen] = useState(false);
@@ -18,23 +17,22 @@ function Navbar() {
     const navigate = useNavigate();
 
 
-    const getMapResult = useCallback(async (itemList) => {
-    }, []);
-
-
     if (currentUser) fetch();
 
     return (
         <nav>
             <div className="left">
                 <a href="/" className="logo">
+                    <span className="material-symbols-outlined">
+                    apartment
+                    </span>
                     <span>Estate</span>
                 </a>
             </div>
 
 
             <div className="middle">
-                <SearchMainBar getMapResult={getMapResult} searchOptions={['geocode']}/>
+                {/*<SearchMainBar getMapResult={getMapResult} searchOptions={['geocode']}/>*/}
             </div>
 
             <div className="right">

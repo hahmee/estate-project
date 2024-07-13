@@ -23,7 +23,6 @@ nav {
     display: flex;
     align-items: center;
     gap: 50px;
-    background-color: gold;
     height: 100%;
 
     .logo {
@@ -31,7 +30,7 @@ nav {
       font-size: 20px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      //gap: 10px;
 
       img {
         width: 28px;
@@ -59,7 +58,6 @@ nav {
   .right {
     flex: 2;
     display: flex;
-    background-color: green;
     align-items: center;
     justify-content: flex-end;
     height: 100%;

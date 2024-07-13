@@ -83,17 +83,28 @@ function SearchMainBar({searchOptions=[]}) {
                 >
                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                         <div>
-                            <div className="map-item">
-                                <input
-                                    {...getInputProps({
-                                        placeholder: searchOptions ? '도시를 검색하세요.' : '주소를 입력하세요.',
-                                        className: 'location-search-input',
-                                    })}
-                                    ref={inputRef}
-                                />
-                                <div className="searchButton">
+                            <div className="bar">
+                                <div className="location">
+                                    <p>위치</p>
+                                    <input type="text"
+                                           placeholder="Where are you going?"
+                                           {...getInputProps({
+                                               placeholder: searchOptions ? '도시를 검색하세요.' : '주소를 입력하세요.',
+                                               className: 'location-search-input',
+                                           })}/>
+                                </div>
+                                <div className="check-in">
+                                    <p>유형</p>
+                                    <input type="text" placeholder="Add dates"/>
+                                </div>
+                                <div className="check-out">
+                                    <p>금액</p>
+                                    <input type="text" placeholder="Add dates"/>
+                                </div>
+                                <div className="guests">
+                                    <p>크기</p>
+                                    <input type="text" placeholder="Add guests"/>
                                     <span className="material-symbols-outlined" onClick={searchClick}>search</span>
-                                    <span className="searchText">검색</span>
                                 </div>
                             </div>
                             {

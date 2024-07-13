@@ -38,9 +38,8 @@ function HomePage() {
           </div>
         </div>
       </div>
-      {/*<div className="imgContainer">*/}
-      {/*  <img src="" alt="" />*/}
-      {/*</div>*/}
+      <div className="imgContainer">
+      </div>
     </div>
   );
 }
