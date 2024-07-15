@@ -91,7 +91,6 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                         <div className="map-content">
                             <div className="map-item">
-                                {/*<span className="material-symbols-outlined">location_on</span>*/}
                                 <input
                                     {...getInputProps({
                                         placeholder: searchOptions ? '도시를 검색하세요.' : '주소를 입력하세요.',

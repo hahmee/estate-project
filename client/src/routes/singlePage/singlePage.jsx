@@ -1,9 +1,8 @@
 import "./singlePage.scss";
 import Map from "../../components/map/Map";
-import {useNavigate, useLoaderData, useParams} from "react-router-dom";
-import DOMPurify from "dompurify";
-import {useCallback, useContext, useEffect, useRef, useState} from "react";
-import { AuthContext } from "../../context/AuthContext";
+import {useLoaderData, useNavigate, useParams} from "react-router-dom";
+import {useContext, useState} from "react";
+import {AuthContext} from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
 import Slider from "../../components/slider/Slider.jsx";
 import {options, roomOption, safeOptions, typeOption} from "../newPostPage/newPostPage.jsx";

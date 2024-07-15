@@ -1,164 +1,227 @@
+
 @import "../../responsive.scss";
 
-nav {
-  height: 80px;
-  display: flex;
-  justify-content: space-between;
+
+header {
   align-items: center;
+  background: white;
+  display: flex;
+  height: 5em;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  transition: background 0.25s;
+}
 
-  a {
-    transition: all 0.4s ease;
+header.top {
+  //background: #bbbbbb;
+  height: 168px;
+  padding:0;
+}
 
-    @include sm {
-      display: none;
-    }
+.logo {
+  font-size: 2em;
+  position: absolute;
+  top:0;
+}
 
-    &:hover {
-      scale: 1.05;
-    }
-  }
+.search {
+  align-items: center;
+  background: white;
+  border-radius:100vw;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  height: 48px; //3em
+  left: 50%;
+  max-width: 40%;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  //transition: all 0.25s;
+}
+.top .search {
+  max-width: 75%;
+  height:64px;
+  transform: translate(-50%, -10%);
+  width: 53em;
+}
 
-  .left {
-    flex: 3;
-    display: flex;
-    align-items: center;
-    gap: 50px;
-    height: 100%;
+.search div:not(.inputDiv){
+  border-radius:inherit;
+  padding:0.8rem 1.5rem;
+  //transition:background 250ms ease;
+}
 
-    .logo {
-      font-weight: bold;
-      font-size: 20px;
-      display: flex;
-      align-items: center;
-      //gap: 10px;
+.search div:hover:not(.clickedMenu){
+  background:hsl(0 0% 87%);
+}
 
-      img {
-        width: 28px;
-      }
+.location{
+  width:34%;
+  margin-right: 5px;
+}
+.check-in, .check-out{
+  width:22%;
+  margin-right: 3px;
+}
 
-      span {
-        @include md {
-          display: none;
-        }
+.guests{
+  width:22%;
+  margin-left: 3px;
+}
 
-        @include sm {
-          display: initial;
-        }
-      }
-    }
-  }
-
-  .middle {
-    flex: 4;
-    align-items: center;
-    height: 100%;
-    display: flex;
-  }
-
-  .right {
-    flex: 2;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    height: 100%;
-
-    @include md {
-      background-color: transparent;
-    }
-
-    a {
-      //padding: 12px 24px;
-      margin: 20px;
-    }
-
-    .user{
-      display: flex;
-      align-items: center;
-      position: relative;
-
-      img{
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-right: 5px;
-      }
-
-      span{
-        font-weight: 700;
-        @include sm{
-          display: none;
-        }
-      }
-
-      .profile{
-        //padding: 12px 24px;
-        cursor: pointer;
-        border: none;
-        display: flex;
-        align-items: center;
-        position: relative;
-
-        .notification{
-          position: absolute;
-          top: 4px;
-          right:45px;
-          background-color: red;
-          color: white;
-          border-radius: 50%;
-          width: 26px;
-          height: 26px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-      }
-    }
-
-    .register {
-
-    }
-
-    .menuIcon {
-      display: none;
-      z-index: 999;
-
-      img {
-        width: 36px;
-        height: 36px;
-        cursor: pointer;
-      }
-
-      @include sm {
-        display: inline;
-      }
-    }
-
-    .menu {
-      position: absolute;
-      top: 0;
-      right: -50%;
-      background-color: black;
-      color: white;
-      height: 100vh;
-      width: 50%;
-      transition: all 1s ease;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-
-      &.active {
-        right: 0;
-      }
-
-      @include sm {
-        a {
-          display: initial;
-        }
-      }
-    }
+input:not([type='range']), .inputDiv{
+  background:none;
+  border:none;
+  width: 100%;
+  height: 20px;
+  background-color: gold;
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  &:focus {
+    outline:none;
   }
 }
+
+::placeholder{
+  font-size:0.75rem;
+}
+.guests{
+  position: relative;
+}
+.guests span{
+  position:absolute;
+  top:50%;
+  right:10px;
+  transform:translateY(-50%);
+  background:#FF385C;
+  color:white;
+  font-size:1.5rem;
+  padding:.8rem;
+  border-radius:50%;
+}
+
+.search>div{
+  position:relative;
+}
+
+.search>div::before{
+  position:absolute;
+  content:"";
+  left:0;
+  top:50%;
+  transform:translateY(-50%);
+  width:1px;
+  height:55%;
+  background:hsl(0 0% 90%);
+}
+
+.search>div:nth-of-type(1)::before{
+  background:transparent;
+}
+
+
+.search>div:hover::before{
+  background:transparent;
+}
+
+.notClicked {
+  background-color: #eeeeee;
+}
+
+.clickedMenu{
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  //pointer-events: none;
+
+}
+
+
+
+/////////////////////////
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  align-items: center;
+  cursor: default;
+  border-color: rgb(204, 204, 204);
+  border-radius: 20px;
+  outline: 0px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+  top: 150px;
+  width: 52em;
+  font-weight: normal;
+  z-index: 100000;
+
+  .suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  .suggestion-item--active {
+    padding: 10px;
+    background-color: #eee;
+    cursor: pointer;
+  }
+
+}
+
+
+.otherSuggestion{
+  align-items: center;
+  background: white;
+  border-radius:12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  left: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: 95%;
+  transform: translateX(-50%);
+  //transition: all 0.25s;
+  width: 53em;
+  font-weight: normal;
+  padding: 1em 0 1rem 0;
+  justify-content: center;
+  text-align: center;
+
+  p {
+    font-size: 18px;
+    color: #222222;
+  }
+
+  .selectBig {
+    margin: 20px 0 20px 0;
+  }
+  .selectDiv {
+    display: flex;
+    flex-flow: row;
+    gap:10px;
+    margin:12px;
+    justify-content: center;
+    padding:2px;
+  }
+  .selectDivSlider{
+    margin-top: 12px;
+  }
+
+  .labelDiv {
+    padding: 5px 25px;
+    border: 1px solid #999999;
+    border-radius:20px;
+  }
+
+
+  .clicked {
+    border: 2.6px solid #222222;
+  }
+
+
+}
+

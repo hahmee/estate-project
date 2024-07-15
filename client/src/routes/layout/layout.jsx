@@ -1,24 +1,43 @@
 import "./layout.scss";
 import Navbar from "../../components/navbar/Navbar";
 import {Navigate, Outlet, useNavigate} from "react-router-dom";
-import React, { useContext } from "react";
+import React, {useCallback, useContext, useEffect, useLayoutEffect, useRef, useState} from "react";
 import { AuthContext } from "../../context/AuthContext";
 import Button from "../../UI/Button.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 
 function Layout() {
-  return (
-      <div className="app">
-        <div className="layout">
-          <div className="navbar">
-            <Navbar />
-          </div>
-          <div className="content">
-            <Outlet />
-          </div>
+    const layoutRef = useRef();
+
+    const [scrollTop, setScrollTop] = useState('');
+
+    const handleScroll = useCallback((e) => {
+        if (e.target.scrollTop === 0) {
+            console.log('??')
+            setScrollTop("top");
+        } else {
+            setScrollTop("");
+        }
+    }, []);
+
+    useLayoutEffect(() => {
+        setScrollTop("top");
+        if (layoutRef.current) {
+            layoutRef.current.addEventListener('scroll', handleScroll,false);
+            return () => layoutRef.current.removeEventListener('scroll', handleScroll,false);
+        }
+    }, []);
+
+    return (
+        <div className="app" ref={layoutRef}>
+            <div className="layout">
+                <Navbar scrollTop={scrollTop}/>
+                <div className="content">
+                    <Outlet/>
+                </div>
+            </div>
         </div>
-      </div>
-  );
+    );
 }
 
 function RequireAuth() {
