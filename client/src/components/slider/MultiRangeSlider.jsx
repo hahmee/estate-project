@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import PropTypes from "prop-types";
 import "./multiRangeSlider.scss";
-import Input from "../../UI/Input.jsx";
-import {currencyFormatter} from "../../util/formatting.js";
 
-const MultiRangeSlider = ({ min, max, onChange,step }) => {
-    const [minVal, setMinVal] = useState(min);
-    const [maxVal, setMaxVal] = useState(max);
+const MultiRangeSlider = ({min, max, minVal, setMinVal, maxVal, setMaxVal, onChange, step, text, stepCondition, format}) => {
+
+
+    // const [minVal, setMinVal] = useState(min);
+    // const [maxVal, setMaxVal] = useState(max);
 
     const [stepVal, setStepVal] = useState(step);
     const minValRef = useRef(null);
@@ -19,10 +19,6 @@ const MultiRangeSlider = ({ min, max, onChange,step }) => {
         [min, max]
     );
 
-    const handleInputChange = (e) => {
-        // console.log(e.currentTarget.value);
-        // setCurrentStepIndex(e.currentTarget.value);
-    };
 
     // Set width of the range to decrease from the left side
     useEffect(() => {
@@ -51,7 +47,7 @@ const MultiRangeSlider = ({ min, max, onChange,step }) => {
 
     // Get min and max values when their state changes
     useEffect(() => {
-        onChange({ min: minVal, max: maxVal });
+        onChange({min: minVal, max: maxVal});
     }, [minVal, maxVal, onChange]);
 
     return (
@@ -64,11 +60,9 @@ const MultiRangeSlider = ({ min, max, onChange,step }) => {
                 step={stepVal}
                 ref={minValRef}
                 onChange={(event) => {
-                    if (event.target.value < 500000000) {
-                        setStepVal(50000000);
-                    } else {
-                        setStepVal(100000000);
-                    }
+
+                    if (stepCondition) setStepVal(stepCondition(event));
+
                     const value = Math.min(+event.target.value, maxVal - stepVal);
                     setMinVal(value);
                     event.target.value = value.toString();
@@ -83,11 +77,9 @@ const MultiRangeSlider = ({ min, max, onChange,step }) => {
                 step={stepVal}
                 ref={maxValRef}
                 onChange={(event) => {
-                    if (event.target.value < 500000000) {
-                        setStepVal(50000000);
-                    } else {
-                        setStepVal(100000000);
-                    }
+
+                    if (stepCondition) setStepVal(stepCondition(event));
+
                     const value = Math.max(+event.target.value, minVal + stepVal);
                     setMaxVal(value);
                     event.target.value = value.toString();
@@ -99,22 +91,23 @@ const MultiRangeSlider = ({ min, max, onChange,step }) => {
                 <div className="slider__track"/>
                 <div ref={range} className="slider__range"/>
                 <div className="slider__column__left"/>
-                <div className="slider__left-value">최소</div>
+                <div className="slider__left-value">{text.left}</div>
                 <div className="slider__column__middle"/>
-                <div className="slider__middle-value">{currencyFormatter.format(max/2)}</div>
+                <div className="slider__middle-value">{text.middle}</div>
                 <div className="slider__column__right"/>
-                <div className="slider__right-value">최대</div>
-
+                <div className="slider__right-value">{text.right}</div>
             </div>
 
             <div className="sliderResult">
                 <div className="sliderValue">
-                    {currencyFormatter.format(minVal)}
+                    {
+                        format(minVal)
+                    }
                 </div>
                 <div className="divideLine"/>
                 <div className="sliderValue">
                     {
-                        (max === maxVal) ? <p className="infinite">무제한</p> : <p>{currencyFormatter.format(maxVal)}</p>
+                        (max === maxVal) ? <p className="infinite">{text.total}</p> : <p>{format(maxVal)}</p>
                     }
                 </div>
             </div>
@@ -126,7 +119,9 @@ const MultiRangeSlider = ({ min, max, onChange,step }) => {
 MultiRangeSlider.propTypes = {
     min: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
-    // onChange: PropTypes.func.isRequired
+    step: PropTypes.number.isRequired,
+    text: PropTypes.object.isRequired,
+    onChange: PropTypes.func.isRequired
 };
 
 export default MultiRangeSlider;

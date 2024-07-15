@@ -1,7 +1,6 @@
 
 @import "../../responsive.scss";
 
-
 header {
   align-items: center;
   background: white;
@@ -15,7 +14,6 @@ header {
 }
 
 header.top {
-  //background: #bbbbbb;
   height: 168px;
   padding:0;
 }
@@ -78,11 +76,12 @@ input:not([type='range']), .inputDiv{
   border:none;
   width: 100%;
   height: 20px;
-  background-color: gold;
   display: flex;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: normal;
+  font-size: 14px;
   &:focus {
     outline:none;
   }
@@ -94,7 +93,7 @@ input:not([type='range']), .inputDiv{
 .guests{
   position: relative;
 }
-.guests span{
+.guests span:nth-of-type(2){
   position:absolute;
   top:50%;
   right:10px;
@@ -182,7 +181,7 @@ input:not([type='range']), .inputDiv{
   left: 50%;
   overflow: hidden;
   position: absolute;
-  top: 95%;
+  top: 20%;
   transform: translateX(-50%);
   //transition: all 0.25s;
   width: 53em;
@@ -208,7 +207,7 @@ input:not([type='range']), .inputDiv{
     padding:2px;
   }
   .selectDivSlider{
-    margin-top: 12px;
+    margin-top: 17px;
   }
 
   .labelDiv {
@@ -219,9 +218,21 @@ input:not([type='range']), .inputDiv{
 
 
   .clicked {
-    border: 2.6px solid #222222;
+    border-color: #222222;
+    background-color: #eeeeee;
   }
-
 
 }
 
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  //background-color: gold;
+}

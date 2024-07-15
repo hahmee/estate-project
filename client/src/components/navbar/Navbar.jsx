@@ -1,14 +1,23 @@
-import React, {useCallback, useContext, useEffect, useLayoutEffect, useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 import "./navbar.scss";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import {useNotificationStore} from "../../lib/notificationStore";
-import Button from "../../UI/Button.jsx";
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import {listPostStore} from "../../lib/listPostStore.js";
 import {roomOption, typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 import MultiRangeSlider from "../slider/MultiRangeSlider.jsx";
+import {currencyFormatter} from "../../util/formatting.js";
+import map from "../map/Map.jsx";
+
+
+
+export const MAX_PRICE = 1000000000;
+export const MIN_PRICE = 0;
+
+export const MAX_SIZE = 60;
+export const MIN_SIZE = 0;
 
 function Navbar({scrollTop = null, searchOptions = []}) {
 
@@ -43,8 +52,13 @@ function Navbar({scrollTop = null, searchOptions = []}) {
     const [searchParams, setSearchParams] = useSearchParams();
     const setIsLoading = listPostStore((state) => state.setIsLoading);
     const setIsFetch = listPostStore((state) => state.setIsFetch);
-    const [types, setTypes] = useState([]);
-    const [rooms, setRooms] = useState([]);
+    const [types, setTypes] = useState(typeOption.map((type) => type.value));
+    const [rooms, setRooms] = useState(roomOption.map((type) => type.value));
+    const [minPrice, setMinPrice] = useState(MIN_PRICE);
+    const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
+    const [minSize, setMinSize] = useState(MIN_SIZE);
+    const [maxSize, setMaxSize] = useState(MAX_SIZE);
+
 
     const [query, setQuery] = useState({
         type: searchParams.get("type") || "",
@@ -90,34 +104,9 @@ function Navbar({scrollTop = null, searchOptions = []}) {
     };
 
     const clickMenu = (number) => {
-        console.log('asdfasd', number);
+        console.log(number);
         setCurrentClicked(number);
         setNotClicked('notClicked');
-    };
-
-    const showMenu = () => {
-
-        let show = null;
-        switch (currentClicked) {
-
-            case 1:
-                show = <Category types={types} setTypes={setTypes} rooms={rooms} setRooms={setRooms}/>
-                break;
-            case 2:
-                show = <Category types={types} setTypes={setTypes} rooms={rooms} setRooms={setRooms}/>
-                break;
-            case 3:
-                show = <Price/>
-                break;
-            case 4:
-                show = <Category types={types} setTypes={setTypes} rooms={rooms} setRooms={setRooms}/>
-                break;
-
-        }
-
-        return show;
-
-
     };
 
 
@@ -154,28 +143,29 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                                     <p>유형</p>
                                     <span className="inputDiv">
                                         {
-                                            types.map((type) => {
-                                                return <p
-                                                    key={type}>{typeOption.find(option => option.value === type).label}, &nbsp;</p>
-                                            })
-                                        }
-                                        {
-                                            rooms.map((type) => {
-                                                return <p
-                                                    key={type}>{roomOption.find(option => option.value === type).label}, &nbsp;</p>
-                                            })
+                                            (types.length + rooms.length === 9) ?
+                                                '모든 유형' : [...types, ...rooms].map((type) => {
+                                                    return <p
+                                                        key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
+                                                })
                                         }
                                     </span>
                                 </div>
                                 <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`}
                                      onClick={() => clickMenu(3)}>
                                     <p>가격</p>
-                                    <input type="text" placeholder="Add dates"/>
+                                    <span className="inputDiv">
+                                        {currencyFormatter.format(minPrice)}&nbsp;~&nbsp;{(MAX_PRICE === maxPrice) ? '무제한' : currencyFormatter.format(maxPrice)}
+
+                                    </span>
                                 </div>
                                 <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
                                      onClick={() => clickMenu(4)}>
                                     <p>크기</p>
-                                    <input type="text" placeholder="Add guests"/>
+                                    <span className="inputDiv">
+                                        {minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}
+
+                                    </span>
                                     <span className="material-symbols-outlined" onClick={searchClick}>search</span>
                                 </div>
                             </div>
@@ -205,37 +195,111 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                 </PlacesAutocomplete>
 
 
+                <Category types={types} setTypes={setTypes} rooms={rooms} setRooms={setRooms}
+                          shown={(currentClicked === 2)} close={() => {
+                    setCurrentClicked(0);
+                }}/>
 
-                {showMenu()}
+                <Price minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice} setMaxPrice={setMaxPrice}
+                       shown={(currentClicked === 3)} close={() => {
+                    setCurrentClicked(0);
+                }}/>
+
+                <Size minSize={minSize} setMinSize={setMinSize} maxSize={maxSize} setMaxSize={setMaxSize}
+                      shown={(currentClicked === 4)} close={() => {
+                    setCurrentClicked(0);
+                }}/>
+
             </div>
         </header>
-
 
     );
 }
 
 
-const Price = () => {
+const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close}) => {
 
-
-    return (<div className="otherSuggestion">
-        <div className="selectBig">
-            <p>금액대를 설정해주세요.</p>
-            <div className="selectDivSlider">
-                <MultiRangeSlider
-                    min={0}
-                    max={1000000000}
-                    step={50000000}
-                    onChange={({min, max}) => console.log(`min = ${min}, max = ${max}`)}
-                />
+    return (
+        <Modal
+            shown={shown}
+            close={close}
+        >
+            <div className="otherSuggestion" onClick={e => e.stopPropagation()}>
+                <div className="selectBig">
+                    <p>방 크기를 설정해주세요.</p>
+                    <div className="selectDivSlider">
+                        <MultiRangeSlider
+                            min={MIN_SIZE}
+                            max={MAX_SIZE}
+                            minVal={minSize}
+                            setMinVal={setMinSize}
+                            maxVal={maxSize}
+                            setMaxVal={setMaxSize}
+                            step={10}
+                            text={{left: '10평 미만', right: '60평 이상', middle: '30평대', total: '60평 이상'}}
+                            format={(data) => `${data}평`}
+                            onChange={({min, max}) => {
+                                setMinSize(min);
+                                setMaxSize(max);
+                            }}
+                        />
+                    </div>
+                </div>
             </div>
-        </div>
+        </Modal>
+    );
 
-    </div>);
+};
+const Price = ({minPrice, setMinPrice, maxPrice, setMaxPrice, shown, close}) => {
 
-}
+    const stepCondition = (event) => {
+        if (event.target.value < 500000000) { //오억
+            return 50000000;
+        } else {
+            return 100000000;
+        }
+    }
 
-const Category = ({types, rooms, setTypes, setRooms}) => {
+    return (
+        <Modal
+            shown={shown}
+            close={close}
+        >
+            <div className="otherSuggestion" onClick={e => e.stopPropagation()}>
+                <div className="selectBig">
+                    <p>금액대를 설정해주세요.</p>
+                    <div className="selectDivSlider">
+                        <MultiRangeSlider
+                            min={MIN_PRICE}
+                            max={MAX_PRICE}
+                            minVal={minPrice}
+                            maxVal={maxPrice}
+                            step={50000000}
+                            setMinVal={setMinPrice}
+                            setMaxVal={setMaxPrice}
+                            stepCondition={stepCondition}
+                            text={{
+                                left: '최소',
+                                right: '최대',
+                                middle: currencyFormatter.format(1000000000 / 2),
+                                total: '무제한'
+                            }}
+                            format={currencyFormatter.format}
+                            onChange={({min, max}) => {
+                                setMinPrice(min);
+                                setMaxPrice(max);
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
+        </Modal>
+    );
+
+};
+
+const Category = ({types, rooms, setTypes, setRooms, shown, close}) => {
+
 
     const clickTypeOption = (option) => {
 
@@ -256,34 +320,97 @@ const Category = ({types, rooms, setTypes, setRooms}) => {
 
     }
 
-    return (<div className="otherSuggestion">
-        <div className="selectBig">
-            <p>거래 유형을 선택하세요.</p>
+    return (
+        <Modal
+            shown={shown}
+            close={close}
+        >
+            <div className="otherSuggestion" onClick={e => e.stopPropagation()}>
+                <div className="selectBig">
+                    <p>거래 유형을 선택하세요.</p>
 
-            <div className="selectDiv">
-                {
-                    typeOption.map((option) => {
-                        return <div key={option.value}
-                                    className={`labelDiv ${types.includes(option.value) && 'clicked'}`}
-                                    onClick={() => clickTypeOption(option)}>{option.label}</div>
-                    })
-                }
+                    <div className="selectDiv">
+                        {
+                            typeOption.map((option) => {
+
+                                return <div key={option.value}
+                                            className={`labelDiv ${types.includes(option.value) && 'clicked'}`}
+                                            onClick={() => clickTypeOption(option)}>{option.label}</div>
+                            })
+                        }
+                    </div>
+                </div>
+
+                <div className="selectBig">
+                    <p>매물 종류를 선택하세요.</p>
+                    <div className="selectDiv">
+                        {
+                            roomOption.map((option) => {
+                                return <div key={option.value}
+                                            className={`labelDiv ${rooms.includes(option.value) && 'clicked'}`}
+                                            onClick={() => clickRoomOption(option)}>{option.label}</div>
+                            })
+                        }
+                    </div>
+                </div>
+            </div>
+        </Modal>
+    )
+
+//     return (
+//         <div className="otherSuggestion" onClick={e => e.stopPropagation()}>
+//             <div className="selectBig">
+//                 <p>거래 유형을 선택하세요.</p>
+//
+//                 <div className="selectDiv">
+//                     {
+//                         typeOption.map((option) => {
+//
+//                             return <div key={option.value}
+//                                         className={`labelDiv ${types.includes(option.value) && 'clicked'}`}
+//                                         onClick={() => clickTypeOption(option)}>{option.label}</div>
+//                         })
+//                     }
+//                 </div>
+//             </div>
+//
+//             <div className="selectBig">
+//                 <p>매물 종류를 선택하세요.</p>
+//                 <div className="selectDiv">
+//                     {
+//                         roomOption.map((option) => {
+//                             return <div key={option.value}
+//                                         className={`labelDiv ${rooms.includes(option.value) && 'clicked'}`}
+//                                         onClick={() => clickRoomOption(option)}>{option.label}</div>
+//                         })
+//                     }
+//                 </div>
+//             </div>
+//         </div>);
+// };
+
+
+};
+
+
+function Modal({ children, shown, close }) {
+    return shown ? (
+        <div
+            className="modal-backdrop"
+            onClick={() => {
+                close();
+            }}
+        >
+            <div
+                className="modal-content"
+                onClick={(e) => {
+                    e.stopPropagation();
+                }}
+            >
+                {children}
             </div>
         </div>
-
-        <div className="selectBig">
-            <p>매물 종류를 선택하세요.</p>
-            <div className="selectDiv">
-                {
-                    roomOption.map((option) => {
-                        return <div key={option.value}
-                                    className={`labelDiv ${rooms.includes(option.value) && 'clicked'}`}
-                                    onClick={() => clickRoomOption(option)}>{option.label}</div>
-                    })
-                }
-            </div>
-        </div>
-    </div>);
-
+    ) : null;
 }
+
 export default Navbar;
