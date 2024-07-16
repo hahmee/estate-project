@@ -2,27 +2,61 @@
 @import "../../responsive.scss";
 
 header {
-  align-items: center;
   background: white;
   display: flex;
   height: 5em;
-  justify-content: space-between;
+  //justify-content: space-between;
   position: sticky;
   top: 0;
   width: 100%;
   transition: background 0.25s;
+  border-bottom: 1px solid rgb(237, 237, 237);
+  padding-left: 80px;
+  padding-right: 80px;
+  background-color: gold;
+
+}
+.fix {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: blue;
+  //align-items: center;
+  //align-items: baseline;
+  line-height: 5em;
+
+  .logo {
+    font-weight: bold;
+    font-size: 20px;
+    background-color: green;
+    display: flex;
+    //align-items: center;
+    gap:5px;
+    //line-height: 5em;
+  }
+
+  button {
+    height: 2.5em;
+    //line-height: 4em;
+  }
+  .material-symbols-outlined {
+
+    line-height: 3.4em;
+  }
+  .userNav {
+    background: white;
+    display: flex;
+    height: 100%;
+    //align-items: center;
+  }
 }
 
-header.top {
+header.topNav {
   height: 168px;
-  padding:0;
+  padding-left: 80px;
+  padding-right: 80px;
 }
 
-.logo {
-  font-size: 2em;
-  position: absolute;
-  top:0;
-}
 
 .search {
   align-items: center;
@@ -38,13 +72,19 @@ header.top {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  //transition: all 0.25s;
+  transition: all 0.25s;
+  p {
+    display: none;
+  }
 }
-.top .search {
+.topNav .search {
   max-width: 75%;
   height:64px;
   transform: translate(-50%, -10%);
   width: 53em;
+}
+.topNav p {
+  display: block;
 }
 
 .search div:not(.inputDiv){
@@ -60,15 +100,21 @@ header.top {
 .location{
   width:34%;
   margin-right: 5px;
+  font-weight: normal;
+  font-size: 12px;
 }
 .check-in, .check-out{
-  width:22%;
+  width:17%;
   margin-right: 3px;
-}
+  font-weight: normal;
+  font-size: 12px;
 
+}
 .guests{
-  width:22%;
+  width:32%;
   margin-left: 3px;
+  font-weight: normal;
+  font-size: 12px;
 }
 
 input:not([type='range']), .inputDiv{
@@ -82,17 +128,19 @@ input:not([type='range']), .inputDiv{
   text-overflow: ellipsis;
   font-weight: normal;
   font-size: 14px;
+  color:#6a6a6a;
   &:focus {
     outline:none;
   }
 }
 
 ::placeholder{
-  font-size:0.75rem;
+  color:#6a6a6a;
 }
 .guests{
   position: relative;
 }
+
 .guests span:nth-of-type(2){
   position:absolute;
   top:50%;
@@ -100,10 +148,16 @@ input:not([type='range']), .inputDiv{
   transform:translateY(-50%);
   background:#FF385C;
   color:white;
-  font-size:1.5rem;
-  padding:.8rem;
+  font-size:1.2rem;
+  padding:.4em;
   border-radius:50%;
 }
+
+.topNav .guests span:nth-of-type(2){
+  font-size:1.5rem;
+  padding:.5em;
+}
+
 
 .search>div{
   position:relative;
@@ -112,11 +166,11 @@ input:not([type='range']), .inputDiv{
 .search>div::before{
   position:absolute;
   content:"";
-  left:0;
+  left:0px;
   top:50%;
   transform:translateY(-50%);
   width:1px;
-  height:55%;
+  height:40px;
   background:hsl(0 0% 90%);
 }
 
@@ -136,8 +190,6 @@ input:not([type='range']), .inputDiv{
 .clickedMenu{
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.2);
   background-color: white;
-  //pointer-events: none;
-
 }
 
 
@@ -208,7 +260,6 @@ input:not([type='range']), .inputDiv{
   padding: 1em 0 1rem 0;
   justify-content: center;
   text-align: center;
-
   p {
     font-size: 18px;
     color: #222222;
@@ -243,3 +294,7 @@ input:not([type='range']), .inputDiv{
 
 }
 
+
+.displayNone {
+  display: none;
+}

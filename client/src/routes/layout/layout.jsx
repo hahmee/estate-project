@@ -9,29 +9,32 @@ import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 function Layout() {
     const layoutRef = useRef();
 
-    const [scrollTop, setScrollTop] = useState('');
+    const [scrollTop, setScrollTop] = useState(false);
+
 
     const handleScroll = useCallback((e) => {
+        console.log('scrollTop값',scrollTop, e.target.scrollTop);
         if (e.target.scrollTop === 0) {
-            console.log('??')
-            setScrollTop("top");
-        } else {
-            setScrollTop("");
+            setScrollTop(true);
         }
-    }, []);
+        else {
+            setScrollTop(false);
+        }
 
-    useLayoutEffect(() => {
-        setScrollTop("top");
+    }, [scrollTop]);
+
+    useEffect(() => {
+        setScrollTop(true);
         if (layoutRef.current) {
-            layoutRef.current.addEventListener('scroll', handleScroll,false);
-            return () => layoutRef.current.removeEventListener('scroll', handleScroll,false);
+            layoutRef.current.addEventListener('scroll', handleScroll, false);
+            return () => layoutRef.current.removeEventListener('scroll', handleScroll, false);
         }
     }, []);
 
     return (
         <div className="app" ref={layoutRef}>
+            <Navbar scrollTop={scrollTop} setScrollTop={setScrollTop}/>
             <div className="layout">
-                <Navbar scrollTop={scrollTop}/>
                 <div className="content">
                     <Outlet/>
                 </div>
