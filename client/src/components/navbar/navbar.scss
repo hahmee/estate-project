@@ -144,18 +144,36 @@ input:not([type='range']), .inputDiv{
 
 /////////////////////////
 
-.autocomplete-dropdown-container {
-  position: absolute;
-  align-items: center;
+//.autocomplete-dropdown-container {
+//  position: absolute;
+//  align-items: center;
+//  cursor: default;
+//  border-color: rgb(204, 204, 204);
+//  border-radius: 20px;
+//  outline: 0px;
+//  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+//  top: 150px;
+//  width: 52em;
+//  font-weight: normal;
+//  z-index: 100000;
+//
+//  .suggestion-item {
+//    padding: 10px;
+//    cursor: pointer;
+//  }
+//  .suggestion-item--active {
+//    padding: 10px;
+//    background-color: #eee;
+//    cursor: pointer;
+//  }
+//
+//}
+
+.autocomplete-dropdown{
+  //align-items: center;
   cursor: default;
-  border-color: rgb(204, 204, 204);
-  border-radius: 20px;
-  outline: 0px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
   top: 150px;
   width: 52em;
-  font-weight: normal;
-  z-index: 100000;
 
   .suggestion-item {
     padding: 10px;
@@ -170,6 +188,7 @@ input:not([type='range']), .inputDiv{
 }
 
 
+
 .otherSuggestion{
   align-items: center;
   background: white;
@@ -181,7 +200,7 @@ input:not([type='range']), .inputDiv{
   left: 50%;
   overflow: hidden;
   position: absolute;
-  top: 20%;
+  top: 100%;
   transform: translateX(-50%);
   //transition: all 0.25s;
   width: 53em;
@@ -224,15 +243,3 @@ input:not([type='range']), .inputDiv{
 
 }
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-  //background-color: gold;
-}

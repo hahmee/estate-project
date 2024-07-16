@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import "./navbar.scss";
 import {useNavigate, useSearchParams} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
@@ -21,6 +21,7 @@ export const MIN_SIZE = 0;
 
 function Navbar({scrollTop = null, searchOptions = []}) {
 
+    const inputRef = useRef();
 
     const [open, setOpen] = useState(false);
 
@@ -59,6 +60,14 @@ function Navbar({scrollTop = null, searchOptions = []}) {
     const [minSize, setMinSize] = useState(MIN_SIZE);
     const [maxSize, setMaxSize] = useState(MAX_SIZE);
 
+
+    // useEffect(() => {
+    //     console.log(inputRef.current);
+    //     console.log(inputRef.current.setAttribute);
+    //
+    //     //외부 클릭하면 이거 실행
+    //     inputRef.current.setAttribute('aria-expanded', 'true');
+    // }, [inputRef]);
 
     const [query, setQuery] = useState({
         type: searchParams.get("type") || "",
@@ -104,11 +113,9 @@ function Navbar({scrollTop = null, searchOptions = []}) {
     };
 
     const clickMenu = (number) => {
-        console.log(number);
         setCurrentClicked(number);
         setNotClicked('notClicked');
     };
-
 
     if (currentUser) fetch();
 
@@ -136,7 +143,8 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                                            {...getInputProps({
                                                placeholder: searchOptions ? '도시를 검색하세요.' : '주소를 입력하세요.',
                                                className: 'location-search-input',
-                                           })}/>
+                                           })}
+                                           ref={inputRef}/>
                                 </div>
                                 <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`}
                                      onClick={() => clickMenu(2)}>
@@ -169,46 +177,38 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                                     <span className="material-symbols-outlined" onClick={searchClick}>search</span>
                                 </div>
                             </div>
-                            {
-                                suggestionsVisible && (<div className="autocomplete-dropdown-container">
-                                    {loading && <div className="suggestion-item">검색중...</div>}
-                                    {status && <div className="suggestion-item">{status}</div>}
-                                    {suggestions.map((suggestion) => {
-                                        const className = suggestion.active
-                                            ? 'suggestion-item--active'
-                                            : 'suggestion-item';
-                                        return (
-                                            <div
-                                                key={suggestion.placeId}
-                                                {...getSuggestionItemProps(suggestion, {
-                                                    className,
-                                                })}
-                                            >
-                                                <span>{suggestion.description}</span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>)
-                            }
+
+                            {/*<div className="autocomplete-dropdown-container">*/}
+                            {/*    {loading && <div className="suggestion-item">검색중...</div>}*/}
+                            {/*    {status && <div className="suggestion-item">{status}</div>}*/}
+                            {/*    {suggestions.map((suggestion) => {*/}
+                            {/*        const className = suggestion.active*/}
+                            {/*            ? 'suggestion-item--active'*/}
+                            {/*            : 'suggestion-item';*/}
+                            {/*        return (*/}
+                            {/*            <div*/}
+                            {/*                key={suggestion.placeId}*/}
+                            {/*                {...getSuggestionItemProps(suggestion, {*/}
+                            {/*                    className,*/}
+                            {/*                })}*/}
+                            {/*            >*/}
+                            {/*                <span>{suggestion.description}</span>*/}
+                            {/*            </div>*/}
+                            {/*        );*/}
+                            {/*    })}*/}
+                            {/*</div>*/}
+
+                            <Location suggestions={suggestions} getSuggestionItemProps={getSuggestionItemProps} loading={loading} status={status} shown={(currentClicked === 1)} close={() => {setCurrentClicked(0);}}/>
+
+                            <Category types={types} setTypes={setTypes} rooms={rooms} setRooms={setRooms} shown={(currentClicked === 2)} close={() => {setCurrentClicked(0);}}/>
+
+                            <Price minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice} setMaxPrice={setMaxPrice} shown={(currentClicked === 3)} close={() => {setCurrentClicked(0);}}/>
+
+                            <Size minSize={minSize} setMinSize={setMinSize} maxSize={maxSize} setMaxSize={setMaxSize} shown={(currentClicked === 4)} close={() => {setCurrentClicked(0);}}/>
                         </div>
                     )}
                 </PlacesAutocomplete>
 
-
-                <Category types={types} setTypes={setTypes} rooms={rooms} setRooms={setRooms}
-                          shown={(currentClicked === 2)} close={() => {
-                    setCurrentClicked(0);
-                }}/>
-
-                <Price minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice} setMaxPrice={setMaxPrice}
-                       shown={(currentClicked === 3)} close={() => {
-                    setCurrentClicked(0);
-                }}/>
-
-                <Size minSize={minSize} setMinSize={setMinSize} maxSize={maxSize} setMaxSize={setMaxSize}
-                      shown={(currentClicked === 4)} close={() => {
-                    setCurrentClicked(0);
-                }}/>
 
             </div>
         </header>
@@ -216,15 +216,48 @@ function Navbar({scrollTop = null, searchOptions = []}) {
     );
 }
 
-
-const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close}) => {
+const Location = ({suggestions, getSuggestionItemProps, loading, status, shown, close}) => {
+    // console.log(suggestions);
 
     return (
-        <Modal
+        <Dropdown
             shown={shown}
             close={close}
         >
-            <div className="otherSuggestion" onClick={e => e.stopPropagation()}>
+            <div className="otherSuggestion">
+                <div className="autocomplete-dropdown">
+                    {loading && <div className="suggestion-item">검색중...</div>}
+                    {status && <div className="suggestion-item">{status}</div>}
+                    {suggestions.map((suggestion) => {
+                        const className = suggestion.active
+                            ? 'suggestion-item--active'
+                            : 'suggestion-item';
+                        return (
+                            <div
+                                key={suggestion.placeId}
+                                {...getSuggestionItemProps(suggestion, {
+                                    className,
+                                })}
+                            >
+                                <span>{suggestion.description}</span>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </Dropdown>
+
+    );
+
+};
+
+const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close}) => {
+    return (
+        <Dropdown
+            shown={shown}
+            close={close}
+        >
+            <div className="otherSuggestion">
                 <div className="selectBig">
                     <p>방 크기를 설정해주세요.</p>
                     <div className="selectDivSlider">
@@ -246,7 +279,7 @@ const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close}) => {
                     </div>
                 </div>
             </div>
-        </Modal>
+        </Dropdown>
     );
 
 };
@@ -259,13 +292,12 @@ const Price = ({minPrice, setMinPrice, maxPrice, setMaxPrice, shown, close}) => 
             return 100000000;
         }
     }
-
     return (
-        <Modal
+        <Dropdown
             shown={shown}
             close={close}
         >
-            <div className="otherSuggestion" onClick={e => e.stopPropagation()}>
+            <div className="otherSuggestion">
                 <div className="selectBig">
                     <p>금액대를 설정해주세요.</p>
                     <div className="selectDivSlider">
@@ -293,16 +325,13 @@ const Price = ({minPrice, setMinPrice, maxPrice, setMaxPrice, shown, close}) => 
                     </div>
                 </div>
             </div>
-        </Modal>
+        </Dropdown>
     );
-
 };
 
 const Category = ({types, rooms, setTypes, setRooms, shown, close}) => {
 
-
     const clickTypeOption = (option) => {
-
         if (types.includes(option.value)) {
             setTypes((prev) => prev.filter((element) => (element != option.value)));
         } else {
@@ -317,15 +346,14 @@ const Category = ({types, rooms, setTypes, setRooms, shown, close}) => {
         } else {
             setRooms([...rooms, option.value]);
         }
-
     }
 
     return (
-        <Modal
+        <Dropdown
             shown={shown}
             close={close}
         >
-            <div className="otherSuggestion" onClick={e => e.stopPropagation()}>
+            <div className="otherSuggestion">
                 <div className="selectBig">
                     <p>거래 유형을 선택하세요.</p>
 
@@ -354,61 +382,31 @@ const Category = ({types, rooms, setTypes, setRooms, shown, close}) => {
                     </div>
                 </div>
             </div>
-        </Modal>
-    )
-
-//     return (
-//         <div className="otherSuggestion" onClick={e => e.stopPropagation()}>
-//             <div className="selectBig">
-//                 <p>거래 유형을 선택하세요.</p>
-//
-//                 <div className="selectDiv">
-//                     {
-//                         typeOption.map((option) => {
-//
-//                             return <div key={option.value}
-//                                         className={`labelDiv ${types.includes(option.value) && 'clicked'}`}
-//                                         onClick={() => clickTypeOption(option)}>{option.label}</div>
-//                         })
-//                     }
-//                 </div>
-//             </div>
-//
-//             <div className="selectBig">
-//                 <p>매물 종류를 선택하세요.</p>
-//                 <div className="selectDiv">
-//                     {
-//                         roomOption.map((option) => {
-//                             return <div key={option.value}
-//                                         className={`labelDiv ${rooms.includes(option.value) && 'clicked'}`}
-//                                         onClick={() => clickRoomOption(option)}>{option.label}</div>
-//                         })
-//                     }
-//                 </div>
-//             </div>
-//         </div>);
-// };
-
-
+        </Dropdown>);
 };
 
 
-function Modal({ children, shown, close }) {
+function Dropdown({ children, shown, close }) {
+
+    const wrapperRef = useRef(null);
+
+    useEffect(() => {
+
+        document.addEventListener("click", handleClickOutside, true);
+        return () => {
+            document.removeEventListener("click", handleClickOutside, true);
+        };
+    }, []);
+
+    const handleClickOutside = event => {
+        if (wrapperRef.current && !wrapperRef.current.contains(event.target)) { //wrapperRef 말고 외부를 클릭했다면
+            close();
+        }
+    };
+
     return shown ? (
-        <div
-            className="modal-backdrop"
-            onClick={() => {
-                close();
-            }}
-        >
-            <div
-                className="modal-content"
-                onClick={(e) => {
-                    e.stopPropagation();
-                }}
-            >
-                {children}
-            </div>
+        <div ref={wrapperRef}>
+            {children}
         </div>
     ) : null;
 }
