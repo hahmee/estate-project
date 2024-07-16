@@ -1,145 +1,168 @@
 
 @import "../../responsive.scss";
 
-header {
-  background: white;
+nav {
+  width: 100%;
   display: flex;
-  height: 5em;
-  //justify-content: space-between;
+  flex-direction: column;
   position: sticky;
   top: 0;
-  width: 100%;
-  transition: background 0.25s;
+  padding-left: 80px;
+  padding-right: 80px;
   border-bottom: 1px solid rgb(237, 237, 237);
-  padding-left: 80px;
-  padding-right: 80px;
-  background-color: gold;
+  background-color: white;
 
-}
-.fix {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  background-color: blue;
-  //align-items: center;
-  //align-items: baseline;
-  line-height: 5em;
-
-  .logo {
-    font-weight: bold;
-    font-size: 20px;
-    background-color: green;
+  .upperNav {
     display: flex;
-    //align-items: center;
-    gap:5px;
-    //line-height: 5em;
+    align-items: center;
+    height: 80px;
+    div {
+      flex: 1;
+    }
+    .logo{
+      display: flex;
+      align-items: center;
+      cursor: default;
+    }
+    .user {
+      display: flex;
+      justify-content: flex-end;
+      gap:6px;
+
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 5px;
+      }
+
+      span {
+        font-weight: 700;
+        @include sm {
+          display: none;
+        }
+      }
+
+      .profile{
+        cursor: pointer;
+        border: none;
+        display: flex;
+        align-items: center;
+
+        .notification{
+          position: absolute;
+          top: -5px;
+          left:26px;
+          background-color: red;
+          color: white;
+          border-radius: 50%;
+          width: 26px;
+          height: 26px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+      }
+    }
+
   }
 
-  button {
-    height: 2.5em;
-    //line-height: 4em;
-  }
-  .material-symbols-outlined {
+  .bottomNav {
+    position: relative;
+    width: 100%;
 
-    line-height: 3.4em;
-  }
-  .userNav {
-    background: white;
-    display: flex;
-    height: 100%;
-    //align-items: center;
+    .search {
+      position: absolute;
+      display: flex;
+      border-radius: 100vw;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.2);
+      height: 3em;
+      margin: auto;
+      top: -65px;
+      width: 300px;
+      left: 50%;
+      transform: translate(-50%, 0);
+      transition: all 0.25s;
+
+      div:not(.inputDiv){
+        border-radius:inherit;
+        padding:0.8rem 1.5rem;
+      }
+
+      div:hover:not(.clickedMenu){
+        background:hsl(0 0% 87%);
+      }
+
+      .location{
+        width:34%;
+        margin-right: 5px;
+        font-weight: normal;
+        font-size: 12px;
+
+        ::placeholder{
+          color:#6a6a6a;
+        }
+
+      }
+      .check-in, .check-out{
+        width:17%;
+        margin-right: 3px;
+        font-weight: normal;
+        font-size: 12px;
+
+      }
+      .guests{
+        width:32%;
+        margin-left: 3px;
+        font-weight: normal;
+        font-size: 12px;
+      }
+
+      input:not([type='range']), .inputDiv{
+        background:none;
+        border:none;
+        width: 100%;
+        height: 20px;
+        display: flex;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: normal;
+        font-size: 14px;
+        color:#6a6a6a;
+        cursor: pointer;
+        &:focus {
+          outline:none;
+        }
+      }
+
+      input[type='text'] {
+        cursor: text;
+      }
+
+    }
   }
 }
 
-header.topNav {
-  height: 168px;
-  padding-left: 80px;
-  padding-right: 80px;
-}
+.bottomNav.topNav {
+  height: 86px;
 
-
-.search {
-  align-items: center;
-  background: white;
-  border-radius:100vw;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  display: flex;
-  height: 48px; //3em
-  left: 50%;
-  max-width: 40%;
-  overflow: hidden;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.25s;
-  p {
-    display: none;
-  }
 }
 .topNav .search {
-  max-width: 75%;
-  height:64px;
-  transform: translate(-50%, -10%);
-  width: 53em;
-}
-.topNav p {
-  display: block;
+  top:0 !important;
+  margin-top: 7px !important;
+  width: 848px !important;
+  height: 64px !important;
 }
 
-.search div:not(.inputDiv){
-  border-radius:inherit;
-  padding:0.8rem 1.5rem;
-  //transition:background 250ms ease;
-}
 
-.search div:hover:not(.clickedMenu){
-  background:hsl(0 0% 87%);
-}
 
-.location{
-  width:34%;
-  margin-right: 5px;
-  font-weight: normal;
-  font-size: 12px;
-}
-.check-in, .check-out{
-  width:17%;
-  margin-right: 3px;
-  font-weight: normal;
-  font-size: 12px;
 
-}
-.guests{
-  width:32%;
-  margin-left: 3px;
-  font-weight: normal;
-  font-size: 12px;
-}
 
-input:not([type='range']), .inputDiv{
-  background:none;
-  border:none;
-  width: 100%;
-  height: 20px;
-  display: flex;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: normal;
-  font-size: 14px;
-  color:#6a6a6a;
-  &:focus {
-    outline:none;
-  }
-}
 
-::placeholder{
-  color:#6a6a6a;
-}
-.guests{
-  position: relative;
-}
+
 
 .guests span:nth-of-type(2){
   position:absolute;
@@ -153,11 +176,11 @@ input:not([type='range']), .inputDiv{
   border-radius:50%;
 }
 
+
 .topNav .guests span:nth-of-type(2){
   font-size:1.5rem;
   padding:.5em;
 }
-
 
 .search>div{
   position:relative;
@@ -166,7 +189,7 @@ input:not([type='range']), .inputDiv{
 .search>div::before{
   position:absolute;
   content:"";
-  left:0px;
+  left:0;
   top:50%;
   transform:translateY(-50%);
   width:1px;
@@ -177,7 +200,6 @@ input:not([type='range']), .inputDiv{
 .search>div:nth-of-type(1)::before{
   background:transparent;
 }
-
 
 .search>div:hover::before{
   background:transparent;
@@ -192,37 +214,7 @@ input:not([type='range']), .inputDiv{
   background-color: white;
 }
 
-
-
-/////////////////////////
-
-//.autocomplete-dropdown-container {
-//  position: absolute;
-//  align-items: center;
-//  cursor: default;
-//  border-color: rgb(204, 204, 204);
-//  border-radius: 20px;
-//  outline: 0px;
-//  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-//  top: 150px;
-//  width: 52em;
-//  font-weight: normal;
-//  z-index: 100000;
-//
-//  .suggestion-item {
-//    padding: 10px;
-//    cursor: pointer;
-//  }
-//  .suggestion-item--active {
-//    padding: 10px;
-//    background-color: #eee;
-//    cursor: pointer;
-//  }
-//
-//}
-
 .autocomplete-dropdown{
-  //align-items: center;
   cursor: default;
   top: 150px;
   width: 52em;
@@ -236,15 +228,12 @@ input:not([type='range']), .inputDiv{
     background-color: #eee;
     cursor: pointer;
   }
-
 }
 
-
-
-.otherSuggestion{
+.otherSuggestion {
   align-items: center;
   background: white;
-  border-radius:12px;
+  border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 2px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   display: flex;
@@ -260,6 +249,7 @@ input:not([type='range']), .inputDiv{
   padding: 1em 0 1rem 0;
   justify-content: center;
   text-align: center;
+
   p {
     font-size: 18px;
     color: #222222;
@@ -268,24 +258,25 @@ input:not([type='range']), .inputDiv{
   .selectBig {
     margin: 20px 0 20px 0;
   }
+
   .selectDiv {
     display: flex;
     flex-flow: row;
-    gap:10px;
-    margin:12px;
+    gap: 10px;
+    margin: 12px;
     justify-content: center;
-    padding:2px;
+    padding: 2px;
   }
-  .selectDivSlider{
+
+  .selectDivSlider {
     margin-top: 17px;
   }
 
   .labelDiv {
     padding: 5px 25px;
     border: 1px solid #999999;
-    border-radius:20px;
+    border-radius: 20px;
   }
-
 
   .clicked {
     border-color: #222222;
@@ -293,7 +284,6 @@ input:not([type='range']), .inputDiv{
   }
 
 }
-
 
 .displayNone {
   display: none;

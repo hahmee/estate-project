@@ -45,8 +45,6 @@ function Navbar({scrollTop = null, searchOptions = []}) {
     });
 
     const [notClicked, setNotClicked] = useState(false);
-
-
     const [currentClicked, setCurrentClicked] = useState(0);
     const [status, setStatus] = useState("");
     const [suggestionsVisible, setSuggestionsVisible] = useState(true);
@@ -59,7 +57,6 @@ function Navbar({scrollTop = null, searchOptions = []}) {
     const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
     const [minSize, setMinSize] = useState(MIN_SIZE);
     const [maxSize, setMaxSize] = useState(MAX_SIZE);
-
     const [query, setQuery] = useState({
         type: searchParams.get("type") || "",
         latitude: searchParams.get("latitude") || "",
@@ -124,34 +121,30 @@ function Navbar({scrollTop = null, searchOptions = []}) {
     }, []);
 
 
-    // useEffect(() => {
-    //
-    //
-    // }, [scrollTop]);
-
     if (currentUser) fetch();
 
     return (
         <>
-            <header className={scrollTop ? "topNav" : null}>
-                <div className='fix'>
-                    <a href="/" className="logo">
+            <nav>
+                <div className='upperNav'>
+                    <div className="logo" onClick={() => navigate('/')}>
                         <span className="material-symbols-outlined">apartment</span>
                         <span className="estate_logo">Estate</span>
+                    </div>
+                    <div></div>
+                    <div className="user">
                         <Button onClick={() => navigate("/location")}>포스팅하기</Button>
-
-                    </a>
-                    <Button onClick={() => navigate("/location")}>포스팅하기</Button>
-
-                    {/*<div className="userNav">*/}
-                    {/*    <Button onClick={() => navigate("/location")}>포스팅하기</Button>*/}
-
-                    {/*</div>*/}
+                        <Link to="/profile" className="profile">
+                            {number > 0 && <div className="notification">{number}</div>}
+                            <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar"/>
+                            <span>{currentUser.username}</span>
+                        </Link>
+                    </div>
 
                 </div>
 
 
-                <div>
+                <div className={scrollTop ? "bottomNav topNav" : "bottomNav"}>
                     <PlacesAutocomplete
                         value={location}
                         onChange={handleLocationChange}
@@ -160,7 +153,7 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                         searchOptions={{types: searchOptions}}
                     >
                         {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
-                            <div>
+                            <>
                                 <div className={`search ${notClicked && 'notClicked'}`} onClick={openTopScrollNav}>
                                     <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
                                          onClick={() => clickMenu(1)}>
@@ -195,11 +188,11 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                                          onClick={() => clickMenu(4)}>
                                         <p>크기</p>
                                         <span className="inputDiv">
-                                        {minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}
-
-                                    </span>
+                                            {minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}
+                                        </span>
                                         <span className="material-symbols-outlined" onClick={searchClick}>search</span>
                                     </div>
+
                                 </div>
 
                                 <Location suggestions={suggestions} getSuggestionItemProps={getSuggestionItemProps}
@@ -216,13 +209,11 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                                 <Size minSize={minSize} setMinSize={setMinSize} maxSize={maxSize}
                                       setMaxSize={setMaxSize}
                                       shown={(currentClicked === 4)} close={closeDropdown} scrollTop={scrollTop}/>
-                            </div>
+                            </>
                         )}
                     </PlacesAutocomplete>
-
-
                 </div>
-            </header>
+            </nav>
         </>
 
     );
@@ -236,7 +227,7 @@ const Location = ({suggestions, getSuggestionItemProps, loading, status, shown, 
             close={close}
             scrollTop={scrollTop}
         >
-        <div className='otherSuggestion'>
+            <div className='otherSuggestion'>
                 <div className="autocomplete-dropdown">
                     {loading && <div className="suggestion-item">검색중...</div>}
                     {status && <div className="suggestion-item">{status}</div>}
