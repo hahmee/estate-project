@@ -9,6 +9,7 @@ function getRadians(degree) {
 export const getPosts = async (req, res) => {
   const query = req.query;
 
+  console.log('query입니다.', query);
   try {
 
     // 반경 3 km 까지 검색 (위도 경도 반경 계산)
@@ -44,18 +45,27 @@ export const getPosts = async (req, res) => {
     // const posts = await xprisma.post.findMany({});
 
 
+    //mongodb Atlas에 create Index {location:2dsphere} 작업 필요
     const posts = await prisma.post.aggregateRaw({
       pipeline: [
         {
           $geoNear: {
             near: {type: "Point", coordinates: [parseFloat(query.longitude), parseFloat(query.latitude)]},
             distanceField: "dist.calculated",
-            maxDistance: 200000, //2000 meters
+            maxDistance: 200000,
             spherical: true,
+            query: {
+              price: {$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
+              type: {$in: query.type},
+              property: {$in: query.property},
+              // size: {$gte: Number(query.minSize), $lte: Number(query.maxSize)},
+            }
           },
-        }
+        },
       ],
     });
+
+    console.log('posts입니다.', posts);
 
     const savedPosts = await prisma.user.findUnique({
       where: {

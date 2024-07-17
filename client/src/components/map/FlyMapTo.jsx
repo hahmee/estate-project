@@ -1,10 +1,8 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Marker, Popup, TileLayer, useMap, useMapEvents} from "react-leaflet";
+import React, {useEffect} from 'react';
+import {Marker, TileLayer, useMap} from "react-leaflet";
 import Pin from "../pin/Pin.jsx";
 import {divIcon} from "leaflet/src/layer/index.js";
-import {currencyFormatter} from "../../util/formatting.js";
 import {useSearchParams} from "react-router-dom";
-import {AuthContext} from "../../context/AuthContext.jsx";
 
 
 function FlyMapTo({items}) {

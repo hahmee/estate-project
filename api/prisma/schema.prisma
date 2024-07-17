@@ -29,6 +29,7 @@ model Post {
   type       Type
   property   Property
   maintenance Int
+  size        Int?
   createdAt  DateTime    @default(now())
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String      @db.ObjectId
@@ -57,7 +58,6 @@ model PostDetail {
   pet        Pet
   option     Option[]
   safeOption SafeOption[]
-  size       Int?
   school     Int?
   bus        Int?
   direction  String

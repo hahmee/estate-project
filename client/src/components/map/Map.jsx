@@ -8,6 +8,7 @@ import {useSearchParams} from "react-router-dom";
 import MapLoading from "../loading/MapLoading.jsx";
 
 function Map({items}) {
+  console.log('items', items);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [zoomLevel, setZoomLevel] = useState(5);

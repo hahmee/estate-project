@@ -28,7 +28,8 @@ function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
 
     const {currentUser} = useContext(AuthContext);
 
-    const fetch = useNotificationStore((state) => state.fetch);
+    const userFetch = useNotificationStore((state) => state.fetch);
+    const postFetch = listPostStore((state) => state.fetch);
 
     const number = useNotificationStore((state) => state.number);
 
@@ -99,10 +100,19 @@ function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
 
     const searchClick = async () => {
         setIsLoading(true);
-        await fetch(`type=&location=${userLocation.address}&latitude=${userLocation.lat}&longitude=${userLocation.lng}&property=&minPrice=&maxPrice=&bedroom=`);
+        console.log(types);
+        console.log(rooms);
+
+        const sendTypes = types.join('&type=');
+
+        const sendProperties = rooms.join('&property=');
+
+        await postFetch(`type=${sendTypes}&location=${userLocation.address}&latitude=${userLocation.lat}&longitude=${userLocation.lng}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);
         setIsLoading(false);
         setIsFetch(true);
-        navigate(`/list?type=&${query.type}&location=${userLocation.address}&latitude=${query.latitude}&longitude=${query.longitude}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`);
+        navigate(`/list?type=${sendTypes}&location=${userLocation.address}&latitude=${userLocation.lat}&longitude=${userLocation.lng}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);
+
+        // navigate(`/list?type=&${sendTypes}&location=${userLocation.address}&latitude=${query.latitude}&longitude=${query.longitude}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`);
     };
 
     const clickMenu = (number) => {
@@ -116,12 +126,11 @@ function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
     };
 
     const openTopScrollNav = useCallback(() => {
-        console.log('zz');
         setScrollTop(true);
-    }, []);
+    }, [scrollTop]);
 
 
-    if (currentUser) fetch();
+    if (currentUser) userFetch();
 
     return (
         <>
