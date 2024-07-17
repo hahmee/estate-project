@@ -5,38 +5,47 @@ import React, {useCallback, useContext, useEffect, useLayoutEffect, useRef, useS
 import { AuthContext } from "../../context/AuthContext";
 import Button from "../../UI/Button.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
+import {NavbarContext} from "../../context/NavbarContext.jsx";
+import {de} from "timeago.js/lib/lang/index.js";
 
 function Layout() {
     const layoutRef = useRef();
 
-    const [scrollTop, setScrollTop] = useState(false);
-
+    const {scrollTop, changeScrollTop, fixedNavbar} = useContext(NavbarContext);
 
     const handleScroll = useCallback((e) => {
         if (e.target.scrollTop === 0) {
-            setScrollTop(true);
+            changeScrollTop(true);
+        } else {
+            changeScrollTop(false);
         }
-        else {
-            setScrollTop(false);
-        }
-
     }, [scrollTop]);
 
+
     useEffect(() => {
-        setScrollTop(true);
         if (layoutRef.current) {
-            layoutRef.current.addEventListener('scroll', handleScroll, false);
+            if(!fixedNavbar) {
+                changeScrollTop(true);
+                layoutRef.current.addEventListener('scroll', handleScroll, false);
+            }else { // 고정
+                changeScrollTop(false);
+                layoutRef.current.removeEventListener('scroll', handleScroll, false)
+            }
             return () => layoutRef.current.removeEventListener('scroll', handleScroll, false);
         }
-    }, []);
-    //
-    // useEffect(()=>{
-    //     console.log('scrollTop', scrollTop);
-    // },[scrollTop])
+    }, [fixedNavbar]);
+
+    // useEffect(() => {
+    //     changeScrollTop(true);
+    //     if (layoutRef.current) {
+    //         layoutRef.current.addEventListener('scroll', handleScroll, false);
+    //         return () => layoutRef.current.removeEventListener('scroll', handleScroll, false);
+    //     }
+    // }, []);
 
     return (
         <div className="app" ref={layoutRef}>
-            <Navbar scrollTop={scrollTop} setScrollTop={setScrollTop} setScrollTop={setScrollTop}/>
+            <Navbar/>
             <div className="layout">
                 <div className="content">
                     <Outlet/>
@@ -48,7 +57,6 @@ function Layout() {
 
 function RequireAuth() {
   const { currentUser } = useContext(AuthContext);
-
   if (!currentUser) return <Navigate to="/login" />;
 
   else {

@@ -26,18 +26,19 @@ function Map({items}) {
     const map = useMapEvents({
       zoomend: useCallback(async (e) => {
         if (!isFetch) {
+
+
           await setIsLoading(true);
           //줌 중심 위치 찾기
           const center = e.target.getCenter(); //{lat,lng}
           const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
-          await fetch(`type=&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=&minPrice=&maxPrice=&bedroom=`);
+          await fetch(`type=year_pay&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=&minPrice=&maxPrice=&bedroom=`);
           await setIsLoading(false);
         }
         setIsFetch(false);
       }, [isFetch]),
       dragend: async (e) => {
         await setIsLoading(true);
-
         const center = e.target.getCenter(); //{lat,lng}
         const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
         await fetch(`type=&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=&minPrice=&maxPrice=&bedroom=`);

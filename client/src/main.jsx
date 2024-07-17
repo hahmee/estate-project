@@ -8,24 +8,27 @@ import {UserProgressContextProvider} from "./context/UserProgressContext.jsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from "react-toastify";
+import {NavbarContextProvider} from "./context/NavbarContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     // <React.StrictMode>
-    <GoogleOAuthProvider clientId={process.env.VITE_GOOGLE_CLIENT_ID}>
-        <UserProgressContextProvider>
-            <AuthContextProvider>
-                <SocketContextProvider>
-                    <App/>
-                    <ToastContainer
-                        position="top-right"
-                        autoClose={2500}
-                        hideProgressBar={true}
-                        closeOnClick={true}
-                        pauseOnHover={false}
-                    />
-                </SocketContextProvider>
-            </AuthContextProvider>
-        </UserProgressContextProvider>
-    </GoogleOAuthProvider>
+    <NavbarContextProvider>
+        <GoogleOAuthProvider clientId={process.env.VITE_GOOGLE_CLIENT_ID}>
+            <UserProgressContextProvider>
+                <AuthContextProvider>
+                    <SocketContextProvider>
+                        <App/>
+                        <ToastContainer
+                            position="top-right"
+                            autoClose={2500}
+                            hideProgressBar={true}
+                            closeOnClick={true}
+                            pauseOnHover={false}
+                        />
+                    </SocketContextProvider>
+                </AuthContextProvider>
+            </UserProgressContextProvider>
+        </GoogleOAuthProvider>
+    </NavbarContextProvider>
     // </React.StrictMode>
 );

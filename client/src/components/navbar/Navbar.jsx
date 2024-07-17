@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import "./navbar.scss";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
@@ -9,10 +9,9 @@ import {listPostStore} from "../../lib/listPostStore.js";
 import {roomOption, typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 import MultiRangeSlider from "../slider/MultiRangeSlider.jsx";
 import {currencyFormatter} from "../../util/formatting.js";
-import map from "../map/Map.jsx";
 import Dropdown from "../dropdown/Dropdown.jsx";
 import Button from "../../UI/Button.jsx";
-
+import {NavbarContext} from "../../context/NavbarContext.jsx";
 
 
 export const MAX_PRICE = 1000000000;
@@ -21,9 +20,12 @@ export const MIN_PRICE = 0;
 export const MAX_SIZE = 60;
 export const MIN_SIZE = 0;
 
-function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
+function Navbar({searchOptions = []}) {
+
 
     const [open, setOpen] = useState(false);
+
+    const {scrollTop, changeScrollTop} = useContext(NavbarContext);
 
 
     const {currentUser} = useContext(AuthContext);
@@ -34,7 +36,6 @@ function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
     const number = useNotificationStore((state) => state.number);
 
     const navigate = useNavigate();
-
 
     const {clearProgress, saveLocation, location: userLocation} = useContext(UserProgressContext);
 
@@ -75,7 +76,6 @@ function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
     };
 
     const handleSelect = (location, placeId, suggestions) => {
-        console.log('select', location);
         setSuggestionsVisible(false);
         setLocation(location);
         geocodeByAddress(location)
@@ -98,10 +98,10 @@ function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
         clearSuggestions();
     }
 
-    const searchClick = async () => {
+    const searchClick = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         setIsLoading(true);
-        console.log(types);
-        console.log(rooms);
 
         const sendTypes = types.join('&type=');
 
@@ -122,11 +122,12 @@ function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
 
     const closeDropdown = () => {
         setCurrentClicked(0);
-        setNotClicked("");
+        setNotClicked(false);
     };
 
     const openTopScrollNav = useCallback(() => {
-        setScrollTop(true);
+        // setScrollTop(true);
+        changeScrollTop(true);
     }, [scrollTop]);
 
 
@@ -173,7 +174,6 @@ function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
                         {/*</div>*/}
 
                     </div>
-
                 </div>
 
 
@@ -223,7 +223,8 @@ function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
                                         <span className="inputDiv">
                                             {minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}
                                         </span>
-                                        <span className="material-symbols-outlined" onClick={searchClick}>search</span>
+                                        <span className="material-symbols-outlined"
+                                              onClick={(e) => searchClick(e)}>search</span>
                                     </div>
 
                                 </div>

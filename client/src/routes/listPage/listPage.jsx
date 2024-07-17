@@ -8,6 +8,8 @@ import {savedPostStore} from "../../lib/savedPostStore.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {listPostStore} from "../../lib/listPostStore.js";
 import ListLoading from "../../components/loading/ListLoading.jsx";
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import {NavbarContext} from "../../context/NavbarContext.jsx";
 
 
 function ListPage() {
@@ -30,6 +32,7 @@ function ListPage() {
     const posts = listPostStore((state) => state.posts);
     const savedPosts = savedPostStore((state) => state.savedPosts);
     const currentSavedPost = savedPostStore((state) => state.currentSavedPost);
+    const {scrollTop, changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
 
     useEffect(() => {
         if (currentUser && Object.keys(currentSavedPost).length > 0) {
@@ -37,6 +40,15 @@ function ListPage() {
         }
     }, [savedPosts]);
 
+
+    useEffect(() => {
+        changeScrollTop(false);
+        changeFixedNavbar(true);
+        return () => {
+            changeFixedNavbar(false);
+        };
+
+    }, []);
 
     if (!currentUser) return <Navigate to="/login"/>;
 
@@ -46,6 +58,16 @@ function ListPage() {
                 <div className="listContainer">
                     <div className="wrapper">
                         {/*<Filter/>*/}
+                        {
+                            isLoading ? <ListLoading/> :
+                                (posts.length < 1) ? (
+                                        <div>
+                                            검색결과가 없습니다.
+                                        </div>) :
+                                    posts.map((post, idx) => (
+                                        <Card key={idx} card={post}/>
+                                    ))
+                        }
                         {
                             isLoading ? <ListLoading/> :
                                 (posts.length < 1) ? (

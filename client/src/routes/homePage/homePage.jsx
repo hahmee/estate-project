@@ -1,10 +1,5 @@
-import SearchBar from "../../components/searchBar/SearchBar";
 import "./homePage.scss";
-import SearchMapBar from "../../components/searchBar/SearchMapBar.jsx";
-import SearchMapBar2 from "../../components/searchBar/SearchMapBar2.jsx";
-import {useCallback, useState} from "react";
-import {useSearchParams} from "react-router-dom";
-import Filter from "../../components/filter/Filter.jsx";
+import "leaflet/dist/leaflet.css";
 
 function HomePage() {
 
