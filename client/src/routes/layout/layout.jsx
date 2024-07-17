@@ -13,7 +13,6 @@ function Layout() {
 
 
     const handleScroll = useCallback((e) => {
-        console.log('scrollTop값',scrollTop, e.target.scrollTop);
         if (e.target.scrollTop === 0) {
             setScrollTop(true);
         }
@@ -30,10 +29,14 @@ function Layout() {
             return () => layoutRef.current.removeEventListener('scroll', handleScroll, false);
         }
     }, []);
+    //
+    // useEffect(()=>{
+    //     console.log('scrollTop', scrollTop);
+    // },[scrollTop])
 
     return (
         <div className="app" ref={layoutRef}>
-            <Navbar scrollTop={scrollTop} setScrollTop={setScrollTop}/>
+            <Navbar scrollTop={scrollTop} setScrollTop={setScrollTop} setScrollTop={setScrollTop}/>
             <div className="layout">
                 <div className="content">
                     <Outlet/>

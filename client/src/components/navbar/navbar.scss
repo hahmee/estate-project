@@ -9,9 +9,8 @@ nav {
   top: 0;
   padding-left: 80px;
   padding-right: 80px;
-  border-bottom: 1px solid rgb(237, 237, 237);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.01), 0 2px 2px rgba(0, 0, 0, 0.08);
   background-color: white;
-
   .upperNav {
     display: flex;
     align-items: center;
@@ -22,12 +21,12 @@ nav {
     .logo{
       display: flex;
       align-items: center;
-      cursor: default;
+      cursor: pointer;
     }
     .user {
       display: flex;
       justify-content: flex-end;
-      gap:6px;
+      gap:10px;
 
       img {
         width: 40px;
@@ -81,10 +80,12 @@ nav {
       height: 3em;
       margin: auto;
       top: -65px;
-      width: 300px;
+      width: 380px;
       left: 50%;
+      background-color: white;
       transform: translate(-50%, 0);
       transition: all 0.25s;
+      cursor: pointer;
 
       div:not(.inputDiv){
         border-radius:inherit;
@@ -169,7 +170,7 @@ nav {
   top:50%;
   right:10px;
   transform:translateY(-50%);
-  background:#FF385C;
+  background-color:#3CB371;
   color:white;
   font-size:1.2rem;
   padding:.4em;
@@ -287,4 +288,48 @@ nav {
 
 .displayNone {
   display: none;
+}
+
+
+
+
+.menuIcon {
+  display: none;
+  z-index: 999;
+
+  img {
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+  }
+
+  @include sm {
+    display: inline;
+  }
+}
+
+.menu {
+  position: absolute;
+  top: 0;
+  right: -50%;
+  background-color: black;
+  color: white;
+  height: 100vh;
+  width: 50%;
+  transition: all 1s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+
+  &.active {
+    right: 0;
+  }
+
+  @include sm {
+    a {
+      display: initial;
+    }
+  }
 }

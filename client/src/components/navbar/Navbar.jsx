@@ -21,7 +21,7 @@ export const MIN_PRICE = 0;
 export const MAX_SIZE = 60;
 export const MIN_SIZE = 0;
 
-function Navbar({scrollTop = null, searchOptions = []}) {
+function Navbar({scrollTop = null, setScrollTop=null, searchOptions = []}) {
 
     const [open, setOpen] = useState(false);
 
@@ -117,7 +117,7 @@ function Navbar({scrollTop = null, searchOptions = []}) {
 
     const openTopScrollNav = useCallback(() => {
         console.log('zz');
-
+        setScrollTop(true);
     }, []);
 
 
@@ -133,12 +133,36 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                     </div>
                     <div></div>
                     <div className="user">
-                        <Button onClick={() => navigate("/location")}>포스팅하기</Button>
-                        <Link to="/profile" className="profile">
-                            {number > 0 && <div className="notification">{number}</div>}
-                            <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar"/>
-                            <span>{currentUser.username}</span>
-                        </Link>
+                        {
+                            currentUser ? (
+                                <>
+                                    <Button onClick={() => navigate("/location")}>포스팅하기</Button>
+                                    <Link to="/profile" className="profile">
+                                        {number > 0 && <div className="notification">{number}</div>}
+                                        <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar"/>
+                                        <span>{currentUser.username}</span>
+                                    </Link>
+                                </>
+                            ) : (
+
+                                <>
+                                    <Button outlined onClick={() => navigate("/login")}>로그인</Button>
+                                    <Button outlined onClick={() => navigate("/register")}>회원가입</Button>
+                                </>
+                            )
+                        }
+
+                        {/*<div className="menuIcon">*/}
+                        {/*    <img*/}
+                        {/*        src="/menu.png"*/}
+                        {/*        alt=""*/}
+                        {/*        onClick={() => setOpen((prev) => !prev)}*/}
+                        {/*    />*/}
+                        {/*</div>*/}
+                        {/*<div className={open ? "menu active" : "menu"}>*/}
+                        {/*    <a href="/">메인페이지</a>*/}
+                        {/*</div>*/}
+
                     </div>
 
                 </div>
@@ -157,7 +181,7 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                                 <div className={`search ${notClicked && 'notClicked'}`} onClick={openTopScrollNav}>
                                     <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
                                          onClick={() => clickMenu(1)}>
-                                        <p>위치</p>
+                                        <p className={scrollTop ? null : 'displayNone'}>위치</p>
                                         <input type="text"
                                                {...getInputProps({
                                                    placeholder: searchOptions ? '도시를 검색하세요.' : '주소를 입력하세요.',
@@ -166,7 +190,7 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                                     </div>
                                     <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`}
                                          onClick={() => clickMenu(2)}>
-                                        <p>유형</p>
+                                        <p className={scrollTop ? null : 'displayNone'}>유형</p>
                                         <span className="inputDiv">
                                         {
                                             (types.length + rooms.length === 9) ?
@@ -179,14 +203,14 @@ function Navbar({scrollTop = null, searchOptions = []}) {
                                     </div>
                                     <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`}
                                          onClick={() => clickMenu(3)}>
-                                        <p>가격</p>
+                                        <p className={scrollTop ? null : 'displayNone'}>가격</p>
                                         <span className="inputDiv">
                                         {currencyFormatter.format(minPrice)}&nbsp;~&nbsp;{(MAX_PRICE === maxPrice) ? '무제한' : currencyFormatter.format(maxPrice)}
                                     </span>
                                     </div>
                                     <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
                                          onClick={() => clickMenu(4)}>
-                                        <p>크기</p>
+                                        <p className={scrollTop ? null : 'displayNone'}>크기</p>
                                         <span className="inputDiv">
                                             {minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}
                                         </span>
