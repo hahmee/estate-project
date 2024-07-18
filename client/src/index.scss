@@ -11,8 +11,10 @@ a {
 
 body{
   font-family: "Lato", sans-serif;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  //overflow-x: hidden;
+  //overflow-y: hidden;
+  //overflow: scroll !important;
+
 }
 
 
@@ -162,6 +164,12 @@ UI COMPONENT - BUTTON, MODAL, INPUT, SELECT
   react-leaflet-map css
  */
 .leaflet-container {
-  //width: 100%;
-  height: 100vh;
+  ////width: 100%;
+  //height: 100vh;
+  //width: 20%;
+  //height: 50%;
+  //outline: none;
+  ////overflow: hidden;
+  //background: rgb(248, 249, 250);
+  //position: fixed;
 }

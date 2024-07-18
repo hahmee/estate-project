@@ -1,14 +1,10 @@
 .map{
-  //width: 100%;
-  //height: 100%;
-
-  background-color: greenyellow;
-
-  //border-radius: 20px;
+  width: inherit;
+  height: inherit;
+  outline: none;
   position: absolute;
   top: 0;
-  left: 0;
-  bottom: 0;
+  background: rgb(248, 249, 250);
   //z-index: 101;
 }
 

@@ -56,7 +56,7 @@ function ListPage() {
         return (
             <div className="listPage">
                 <div className="listContainer">
-                    <div className="wrapper">
+                    <div className="wrapperList">
                         {/*<Filter/>*/}
                         {
                             isLoading ? <ListLoading/> :
@@ -78,9 +78,19 @@ function ListPage() {
                                         <Card key={idx} card={post}/>
                                     ))
                         }
-
+                        {
+                            isLoading ? <ListLoading/> :
+                                (posts.length < 1) ? (
+                                        <div>
+                                            검색결과가 없습니다.
+                                        </div>) :
+                                    posts.map((post, idx) => (
+                                        <Card key={idx} card={post}/>
+                                    ))
+                        }
                     </div>
                 </div>
+
                 <div className="mapContainer">
                     {
                         <Map items={posts}/>
