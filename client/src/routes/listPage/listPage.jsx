@@ -77,7 +77,7 @@ function ListPage() {
 
                 <div className="mapContainer">
                     {
-                        <Map items={posts}/>
+                        <Map items={posts} listPageMap={true}/>
                     }
                 </div>
             </div>

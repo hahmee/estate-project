@@ -1,4 +1,4 @@
-.map{
+.listPageMap{
   width: inherit;
   height: inherit;
   outline: none;
@@ -8,6 +8,12 @@
   //z-index: 101;
 }
 
+.map {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  background: rgb(248, 249, 250);
+}
 .searchLocation {
   .searchLocationIn {
     background-color: black;

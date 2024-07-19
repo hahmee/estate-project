@@ -27,7 +27,7 @@ function Navbar({searchOptions = []}) {
 
     const {scrollTop, changeScrollTop} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
-    const {searchValue, changeSearchValue} = useContext(SearchbarContext);
+    const {searchValue, changeSearchValue, clearSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
     const postFetch = listPostStore((state) => state.fetch);
     const number = useNotificationStore((state) => state.number);
@@ -142,6 +142,10 @@ function Navbar({searchOptions = []}) {
         setMinSize(searchValue.minSize);
 
     }, [searchValue]);
+
+    useEffect(() => {
+        return () => clearSearchValue();
+    }, []);
 
     if (currentUser) userFetch();
 

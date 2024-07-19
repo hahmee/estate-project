@@ -5,10 +5,11 @@ import {divIcon} from "leaflet/src/layer/index.js";
 import {useSearchParams} from "react-router-dom";
 
 
-function FlyMapTo({items}) {
+function FlyMapTo({items, listPageMap}) {
     const map = useMap();
 
     const [searchParams, setSearchParams] = useSearchParams();
+
     const query = {
         type: searchParams.get("type") || "",
         latitude: searchParams.get("latitude") || "",
@@ -19,33 +20,44 @@ function FlyMapTo({items}) {
         bedroom: searchParams.get("bedroom") || "",
     }
 
-    // const position =  [query.latitude, query.longitude];
-    // const position = items.length === 1 ? [parseFloat(items[0].latitude), parseFloat(items[0].longitude)] : [37, 127];
+    const position = listPageMap ? [query.latitude, query.longitude] : [parseFloat(items[0].latitude), parseFloat(items[0].longitude)];
 
-
+    //검정색 점
     const customMarkerIcon = divIcon({
         html: `<div class="searchLocation"><div class="searchLocationIn"></div></div>`
     });
 
     //검색할때만
     useEffect(() => {
-        // map.flyTo(position)
-        map.flyTo([query.latitude, query.longitude]);
-
+        map.flyTo(position);
     }, [searchParams]);
 
-    return (
-        <div>
-            <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <Marker position={[query.latitude, query.longitude]} icon={customMarkerIcon}></Marker>
-            {items.map((item,idx) => (
-              <Pin item={item} key={idx}/>
-            ))}
-        </div>
-    );
+    if (listPageMap) {
+        return (
+            <div>
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                />
+                <Marker position={position} icon={customMarkerIcon}></Marker>
+                {items.map((item, idx) => (
+                    <Pin item={item} key={idx}/>
+                ))}
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                />
+                <Marker position={position}></Marker>
+            </div>
+        );
+
+    }
+
 }
 
 export default FlyMapTo;

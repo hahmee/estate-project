@@ -23,8 +23,6 @@ const settings = {
     slidesToScroll: 1,
 };
 
-
-
 function Pin({item}) {
 
     const navigate = useNavigate();

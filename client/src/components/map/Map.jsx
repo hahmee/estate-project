@@ -1,19 +1,16 @@
-import {MapContainer, useMapEvents} from "react-leaflet";
+import {MapContainer, Marker, Popup, TileLayer, useMapEvents} from "react-leaflet";
 import "./map.scss";
 import "leaflet/dist/leaflet.css";
 import FlyMapTo from "./FlyMapTo.jsx";
 import {useCallback, useContext, useState} from "react";
 import {listPostStore} from "../../lib/listPostStore.js";
-import {useSearchParams} from "react-router-dom";
+import {useParams, useSearchParams} from "react-router-dom";
 import MapLoading from "../loading/MapLoading.jsx";
 import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 
-function Map({items}) {
+function Map({items, listPageMap = false}) {
   const [searchParams, setSearchParams] = useSearchParams();
-
   const [zoomLevel, setZoomLevel] = useState(5);
-  // const position = items.length === 1 ? [parseFloat(items[0].latitude), parseFloat(items[0].longitude)] : [37, 127];
-  const position = [parseFloat(searchParams.get("latitude")), parseFloat(searchParams.get("longitude"))];
   const {searchValue, changeSearchValue} = useContext(SearchbarContext);
 
   const postFetch = listPostStore((state) => state.fetch);
@@ -33,7 +30,7 @@ function Map({items}) {
     maxSize: searchParams.get("maxSize") || "",
   }
 
-
+  const position = listPageMap ? [parseFloat(searchParams.get("latitude")), parseFloat(searchParams.get("longitude"))] : [items[0].latitude, items[0].longitude];
   //zoom, drag 이벤트
   const HandlerComponent = () => {
     const map = useMapEvents({
@@ -65,7 +62,6 @@ function Map({items}) {
 
         const sendTypes = query.type.join('&type=');
         const sendProperties = query.property.join('&property=');
-
         await postFetch(`type=${sendTypes}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
 
         await setIsLoading(false);
@@ -83,7 +79,7 @@ function Map({items}) {
             center={position}
             zoom={zoomLevel}
             scrollWheelZoom={true}
-            className="map"
+            className={listPageMap ? "listPageMap" : "map"}
             zoomAnimation={true}
             zoomControl={true}
             zoomSnap={0.25}
@@ -92,11 +88,16 @@ function Map({items}) {
             minZoom={3}
             worldCopyJump={true}
         >
-          <FlyMapTo items={items}/>
-          <HandlerComponent/>
+          <FlyMapTo items={items} listPageMap={listPageMap}/>
+          {
+            listPageMap && <HandlerComponent/>
+          }
         </MapContainer>
       </>
   );
+
+
+
 }
 
 
