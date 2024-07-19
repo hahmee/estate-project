@@ -13,7 +13,7 @@ function Layout() {
     const {scrollTop, changeScrollTop, fixedNavbar, changeOutsideClick, outsideClick} = useContext(NavbarContext);
 
     const handleScroll = useCallback((e) => {
-        if (e.target.scrollTop === 0 && !outsideClick) {
+        if (e.target.scrollTop === 0) {
             changeScrollTop(true);
         } else { //0 아닐때
             changeScrollTop(false);

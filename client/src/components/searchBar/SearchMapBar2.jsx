@@ -66,7 +66,6 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     };
 
     const searchClick = async () => {
-
         setIsLoading(true);
         await fetch(`type=&location=${userLocation.address}&latitude=${userLocation.lat}&longitude=${userLocation.lng}&property=&minPrice=&maxPrice=&bedroom=`);
         setIsLoading(false);

@@ -18,25 +18,30 @@ function ListPage() {
     const isLoading = listPostStore((state) => state.isLoading);
     const setIsLoading = listPostStore((state) => state.setIsLoading);
     const query = {
-        type: searchParams.get("type") || "",
+        type: searchParams.getAll("type") || "",
         location: searchParams.get("location") || "",
         latitude: searchParams.get("latitude") || "",
         longitude: searchParams.get("longitude") || "",
-        property: searchParams.get("property") || "",
+        property: searchParams.getAll("property") || "",
         minPrice: searchParams.get("minPrice") || "",
         maxPrice: searchParams.get("maxPrice") || "",
-        bedroom: searchParams.get("bedroom") || "",
+        minSize: searchParams.get("minSize") || "",
+        maxSize: searchParams.get("maxSize") || "",
     }
 
-    const fetch = listPostStore((state) => state.fetch);
+    const postFetch = listPostStore((state) => state.fetch);
     const posts = listPostStore((state) => state.posts);
     const savedPosts = savedPostStore((state) => state.savedPosts);
     const currentSavedPost = savedPostStore((state) => state.currentSavedPost);
     const {scrollTop, changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
 
+
     useEffect(() => {
+        const sendTypes = query.type.join('&type=');
+        const sendProperties = query.property.join('&property=');
+
         if (currentUser && Object.keys(currentSavedPost).length > 0) {
-            fetch(`type=&latitude=${currentSavedPost.latitude}&longitude=${currentSavedPost.longitude}&property=&minPrice=&maxPrice=&bedroom=`);
+            postFetch(`type=${sendTypes}&location=${query.location}&latitude=${query.latitude}&longitude=${query.longitude}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
         }
     }, [savedPosts]);
 
@@ -58,26 +63,6 @@ function ListPage() {
                 <div className="listContainer">
                     <div className="wrapperList">
                         {/*<Filter/>*/}
-                        {
-                            isLoading ? <ListLoading/> :
-                                (posts.length < 1) ? (
-                                        <div>
-                                            검색결과가 없습니다.
-                                        </div>) :
-                                    posts.map((post, idx) => (
-                                        <Card key={idx} card={post}/>
-                                    ))
-                        }
-                        {
-                            isLoading ? <ListLoading/> :
-                                (posts.length < 1) ? (
-                                        <div>
-                                            검색결과가 없습니다.
-                                        </div>) :
-                                    posts.map((post, idx) => (
-                                        <Card key={idx} card={post}/>
-                                    ))
-                        }
                         {
                             isLoading ? <ListLoading/> :
                                 (posts.length < 1) ? (

@@ -44,6 +44,22 @@ export const getPosts = async (req, res) => {
     // });
     // const posts = await xprisma.post.findMany({});
 
+    console.log('query.type', query.type);
+    console.log('query.typeList', [query.type]);
+
+    let queryType = [];
+    let queryProperty = [];
+
+    if (typeof query.type  === 'string' || query.type  instanceof String) {
+      queryType = [query.type];
+    }else {
+      queryType = query.type;
+    }
+    if (typeof query.property=== 'string' || query.property  instanceof String) {
+      queryProperty = [query.property];
+    }else {
+      queryProperty = query.property;
+    }
 
     //mongodb Atlas에 create Index {location:2dsphere} 작업 필요
     const posts = await prisma.post.aggregateRaw({
@@ -56,9 +72,9 @@ export const getPosts = async (req, res) => {
             spherical: true,
             query: {
               price: {$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
-              type: {$in: query.type},
-              property: {$in: query.property},
-              // size: {$gte: Number(query.minSize), $lte: Number(query.maxSize)},
+              type: {$in: queryType},
+              property: {$in: queryProperty},
+              // size: {$gte: Number(query.minSize), $lte: Number(query.maxSize)}, //저장 완료되면 주석 풀기
             }
           },
         },

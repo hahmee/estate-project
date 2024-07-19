@@ -104,7 +104,6 @@ function Navbar({searchOptions = []}) {
         setIsLoading(true);
 
         const sendTypes = types.join('&type=');
-
         const sendProperties = rooms.join('&property=');
 
         await postFetch(`type=${sendTypes}&location=${userLocation.address}&latitude=${userLocation.lat}&longitude=${userLocation.lng}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);

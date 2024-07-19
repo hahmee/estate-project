@@ -46,6 +46,7 @@ function Map({items}) {
     });
     return null;
   }
+
   return (
       <>
         {

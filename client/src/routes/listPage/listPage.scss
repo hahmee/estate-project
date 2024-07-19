@@ -6,6 +6,12 @@
   display: grid;
   grid-template-columns: 1.2fr 1fr;
 
+  @include md {
+    grid-template-columns: 1fr;
+
+  }
+
+
   .listContainer {
     .wrapperList {
       padding-right: 50px;
@@ -19,6 +25,7 @@
       &::-webkit-scrollbar {
         display: none; /* Chrome, Safari, Opera*/
       }
+
     }
   }
 

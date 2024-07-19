@@ -37,7 +37,6 @@ function Card({ card }) {
 
   if(!card) return (<div>빈칸입니다.</div>);
 
-
   return (
       <div className="card">
         <Link to={`/read/${card._id.$oid}`} className="imageContainer">
