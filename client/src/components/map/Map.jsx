@@ -2,10 +2,11 @@ import {MapContainer, useMapEvents} from "react-leaflet";
 import "./map.scss";
 import "leaflet/dist/leaflet.css";
 import FlyMapTo from "./FlyMapTo.jsx";
-import {useCallback, useState} from "react";
+import {useCallback, useContext, useState} from "react";
 import {listPostStore} from "../../lib/listPostStore.js";
 import {useSearchParams} from "react-router-dom";
 import MapLoading from "../loading/MapLoading.jsx";
+import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 
 function Map({items}) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -13,6 +14,7 @@ function Map({items}) {
   const [zoomLevel, setZoomLevel] = useState(5);
   // const position = items.length === 1 ? [parseFloat(items[0].latitude), parseFloat(items[0].longitude)] : [37, 127];
   const position = [parseFloat(searchParams.get("latitude")), parseFloat(searchParams.get("longitude"))];
+  const {searchValue, changeSearchValue} = useContext(SearchbarContext);
 
   const postFetch = listPostStore((state) => state.fetch);
   const isLoading = listPostStore((state) => state.isLoading);
@@ -37,29 +39,34 @@ function Map({items}) {
     const map = useMapEvents({
       zoomend: useCallback(async (e) => {
         if (!isFetch) {
-          console.log('zoomend');
-
+          changeSearchValue({...searchValue, location: '지도 표시 지역'});
           await setIsLoading(true);
           //줌 중심 위치 찾기
           const center = e.target.getCenter(); //{lat,lng}
           const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
-          // await fetch(`type=year_pay&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=&minPrice=&maxPrice=&bedroom=`);
-          // await postFetch(`type=${query.type}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${query.property}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
-          await postFetch(`latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}`);
+
+          const sendTypes = query.type.join('&type=');
+          const sendProperties = query.property.join('&property=');
+
+          await postFetch(`type=${sendTypes}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
+
 
           await setIsLoading(false);
         }
         setIsFetch(false);
       }, [isFetch]),
       dragend: async (e) => {
-        console.log('dragend');
+
+        changeSearchValue({...searchValue, location: '지도 표시 지역'});
 
         await setIsLoading(true);
         const center = e.target.getCenter(); //{lat,lng}
         const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
-        // await postFetch(`type=&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=&minPrice=&maxPrice=&bedroom=`);
-        // await postFetch(`type=${query.type}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${query.property}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
-        await postFetch(`latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}`);
+
+        const sendTypes = query.type.join('&type=');
+        const sendProperties = query.property.join('&property=');
+
+        await postFetch(`type=${sendTypes}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
 
         await setIsLoading(false);
       }

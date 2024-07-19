@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import "./navbar.scss";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
@@ -12,6 +12,8 @@ import {currencyFormatter} from "../../util/formatting.js";
 import Dropdown from "../dropdown/Dropdown.jsx";
 import Button from "../../UI/Button.jsx";
 import {NavbarContext} from "../../context/NavbarContext.jsx";
+import {toast} from "react-toastify";
+import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 
 
 export const MAX_PRICE = 1000000000;
@@ -23,68 +25,45 @@ export const MIN_SIZE = 0;
 function Navbar({searchOptions = []}) {
 
 
-    const [open, setOpen] = useState(false);
-
     const {scrollTop, changeScrollTop} = useContext(NavbarContext);
-
-
     const {currentUser} = useContext(AuthContext);
-
+    const {searchValue, changeSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
     const postFetch = listPostStore((state) => state.fetch);
-
     const number = useNotificationStore((state) => state.number);
-
     const navigate = useNavigate();
-
-    const {clearProgress, saveLocation, location: userLocation} = useContext(UserProgressContext);
-
-    const [location, setLocation] = useState(userLocation.address);
-
-    const [latLng, setLatLng] = useState({
-        latitude: null,
-        longitude: null
-    });
-
+    const [latitude, setLatitude] = useState(searchValue.latitude);
+    const [longitude, setLongitude] = useState(searchValue.longitude);
+    const [location, setLocation] = useState(searchValue.location);
     const [notClicked, setNotClicked] = useState(false);
     const [currentClicked, setCurrentClicked] = useState(0);
     const [status, setStatus] = useState("");
-    const [suggestionsVisible, setSuggestionsVisible] = useState(true);
-    const [searchParams, setSearchParams] = useSearchParams();
     const setIsLoading = listPostStore((state) => state.setIsLoading);
     const setIsFetch = listPostStore((state) => state.setIsFetch);
-    const [types, setTypes] = useState(typeOption.map((type) => type.value));
-    const [rooms, setRooms] = useState(roomOption.map((type) => type.value));
+    const [types, setTypes] = useState(searchValue.payType);
+    const [rooms, setRooms] = useState(searchValue.propertyType);
     const [minPrice, setMinPrice] = useState(MIN_PRICE);
     const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
     const [minSize, setMinSize] = useState(MIN_SIZE);
     const [maxSize, setMaxSize] = useState(MAX_SIZE);
-    const [query, setQuery] = useState({
-        type: searchParams.get("type") || "",
-        latitude: searchParams.get("latitude") || "",
-        longitude: searchParams.get("longitude") || "",
-        property: searchParams.get("property") || "",
-        minPrice: searchParams.get("minPrice") || "",
-        maxPrice: searchParams.get("maxPrice") || "",
-        bedroom: searchParams.get("bedroom") || "",
-    });
+
+
 
     const handleLocationChange = (location) => {
         setStatus("");
         setLocation(location);
-        setSuggestionsVisible(true);
+        // setSuggestionsVisible(true);
     };
 
     const handleSelect = (location, placeId, suggestions) => {
-        setSuggestionsVisible(false);
+        // setSuggestionsVisible(false);
         setLocation(location);
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
-                searchOptions && saveLocation({...latLng, address: location, city: ''});
-                setQuery((prev) => ({...prev, latitude: latLng.lat, longitude: latLng.lng}));
-
-                return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
+                setLatitude(latLng.lat);
+                setLongitude(latLng.lng);
+                setLocation(location);
             })
             .catch((error) => console.error("Error", error));
 
@@ -103,14 +82,37 @@ function Navbar({searchOptions = []}) {
         e.stopPropagation();
         setIsLoading(true);
 
+        if(!location) {
+            toast.error('주소지를 입력해주세요.');
+            return;
+        }
+        if(types.length < 1) {
+            toast.error('거래 유형을 선택해주세요.');
+            return;
+        }
+
+        if(rooms.length < 1) {
+            toast.error('매물 종류를 선택해주세요.');
+            return;
+        }
+
+        changeSearchValue({
+            location,
+            payType: types,
+            propertyType: rooms,
+            minPrice,
+            maxPrice,
+            minSize,
+            maxSize
+        })
+
         const sendTypes = types.join('&type=');
         const sendProperties = rooms.join('&property=');
 
-        await postFetch(`type=${sendTypes}&location=${userLocation.address}&latitude=${userLocation.lat}&longitude=${userLocation.lng}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);
+        await postFetch(`type=${sendTypes}&location=${location}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);
         setIsLoading(false);
         setIsFetch(true);
-        navigate(`/list?type=${sendTypes}&location=${userLocation.address}&latitude=${userLocation.lat}&longitude=${userLocation.lng}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);
-
+        navigate(`/list?type=${sendTypes}&location=${location}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);
         // navigate(`/list?type=&${sendTypes}&location=${userLocation.address}&latitude=${query.latitude}&longitude=${query.longitude}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`);
     };
 
@@ -128,6 +130,18 @@ function Navbar({searchOptions = []}) {
         changeScrollTop(true);
     }, [scrollTop]);
 
+
+    useEffect(() => {
+        //다시 usestate값 넣어주기
+        setTypes(searchValue.payType);
+        setRooms(searchValue.propertyType);
+        setLocation(searchValue.location);
+        setMaxPrice(searchValue.maxPrice);
+        setMinPrice(searchValue.minPrice);
+        setMaxSize(searchValue.maxSize);
+        setMinSize(searchValue.minSize);
+
+    }, [searchValue]);
 
     if (currentUser) userFetch();
 
@@ -208,8 +222,7 @@ function Navbar({searchOptions = []}) {
                                         {
                                             (types.length + rooms.length === 9) ?
                                                 '모든 유형' : [...types, ...rooms].map((type) => {
-                                                    return <p
-                                                        key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
+                                                    return <p key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
                                                 })
                                         }
                                     </span>

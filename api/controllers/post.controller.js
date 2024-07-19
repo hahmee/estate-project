@@ -66,19 +66,17 @@ export const getPosts = async (req, res) => {
     }
 
 
-
     //minPrice 값 없을 때
-    const minPriceQuery = (query.minPrice === null || query.minPrice === undefined) ? {$gte: 0} :{$gte: Number(query.minPrice)};
+    const minPriceQuery = (query.minPrice === null || query.minPrice === undefined) ? {$gte: 0} : {$gte: Number(query.minPrice)};
     //maxPrice 값 없을 때
     const maxPriceQuery = (query.maxPrice === null || query.maxPrice === undefined || query.maxPrice === MAX_PRICE) ? {} : {$lte: Number(query.maxPrice)};
 
 
     //size
     //minSize 값 없을 때
-    const minSizeQuery = (query.minSize === null || query.minSize === undefined) ? {$gte: 0} :{$gte: Number(query.minSize)};
+    const minSizeQuery = (query.minSize === null || query.minSize === undefined) ? {$gte: 0} : {$gte: Number(query.minSize)};
     //maxSize 값 없을 때
     const maxSizeQuery = (query.maxSize === null || query.maxSize === undefined || query.maxSize === MAX_SIZE) ? {} : {$lte: Number(query.maxSize)};
-
 
 
     //mongodb Atlas에 create Index {location:2dsphere} 작업 필요
@@ -128,8 +126,9 @@ export const getPosts = async (req, res) => {
 
 
     // setTimeout(() => {
-    res.status(200).json(posts);
+      res.status(200).json(posts);
     // }, 1500);
+
 
   } catch (err) {
     console.log(err);
