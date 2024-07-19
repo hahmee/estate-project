@@ -126,7 +126,6 @@ function Navbar({searchOptions = []}) {
     };
 
     const openTopScrollNav = useCallback(() => {
-        // setScrollTop(true);
         changeScrollTop(true);
     }, [scrollTop]);
 
@@ -135,7 +134,13 @@ function Navbar({searchOptions = []}) {
 
     return (
         <>
-            <nav>
+            {
+                (scrollTop && currentClicked !== 0 ) && <div className="searchClickBackground"></div>
+
+            //밖에 클릭했을 때 기본 nav로 돌아가게[
+            }
+
+            <nav className={scrollTop ? "topNav" : "null"}>
                 <div className='upperNav'>
                     <div className="logo" onClick={() => navigate('/')}>
                         <span className="material-symbols-outlined">apartment</span>
@@ -187,7 +192,7 @@ function Navbar({searchOptions = []}) {
                     >
                         {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                             <>
-                                <div className={`search ${notClicked && 'notClicked'}`} onClick={openTopScrollNav}>
+                                <div className={`search ${notClicked ?'notClicked' : null}`} onClick={openTopScrollNav}>
                                     <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
                                          onClick={() => clickMenu(1)}>
                                         <p className={scrollTop ? null : 'displayNone'}>위치</p>
@@ -295,7 +300,6 @@ const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close, scrollTop
             shown={shown}
             close={close}
             scrollTop={scrollTop}
-
         >
             <div className='otherSuggestion'>
                 <div className="selectBig">

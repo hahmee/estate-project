@@ -1,39 +1,55 @@
 import "./layout.scss";
 import Navbar from "../../components/navbar/Navbar";
 import {Navigate, Outlet, useNavigate} from "react-router-dom";
-import React, {useCallback, useContext, useEffect, useLayoutEffect, useRef, useState} from "react";
-import { AuthContext } from "../../context/AuthContext";
+import React, {useCallback, useContext, useEffect, useRef} from "react";
+import {AuthContext} from "../../context/AuthContext";
 import Button from "../../UI/Button.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import {NavbarContext} from "../../context/NavbarContext.jsx";
-import {de} from "timeago.js/lib/lang/index.js";
 
 function Layout() {
     const layoutRef = useRef();
 
-    const {scrollTop, changeScrollTop, fixedNavbar} = useContext(NavbarContext);
+    const {scrollTop, changeScrollTop, fixedNavbar, changeOutsideClick, outsideClick} = useContext(NavbarContext);
 
     const handleScroll = useCallback((e) => {
-        if (e.target.scrollTop === 0) {
+        if (e.target.scrollTop === 0 && !outsideClick) {
             changeScrollTop(true);
-        } else {
+        } else { //0 아닐때
             changeScrollTop(false);
         }
     }, [scrollTop]);
 
+    // useEffect(() => {
+    //     console.log('dropdownOutside', dropdownOutside);
+    //     console.log('scrollTop?', scrollTop);
+    //
+    //     if(dropdownOutside) {
+    //         if (!scrollTop) { //현재 스크롤이 탑에 가있지 않을 경우에 -> scroll 값 필요
+    //             changeScrollTop(true);
+    //         }
+    //     }else {
+    //     }
+    //
+    //
+    // }, [dropdownOutside, scrollTop]);
+
 
     useEffect(() => {
+        // console.log('outsideClick', outsideClick); // outsideClick true라면 changeScrollTop(false)가 되어야함 // 근데 스크롤값이 0이라면 예외
         if (layoutRef.current) {
-            if(!fixedNavbar) {
+
+            if (!fixedNavbar) { //고정 아니라면
                 changeScrollTop(true);
                 layoutRef.current.addEventListener('scroll', handleScroll, false);
-            }else { // 고정
+            } else { // 고정
                 changeScrollTop(false);
-                layoutRef.current.removeEventListener('scroll', handleScroll, false)
+                layoutRef.current.removeEventListener('scroll', handleScroll, false);
             }
             return () => layoutRef.current.removeEventListener('scroll', handleScroll, false);
         }
-    }, [fixedNavbar]);
+    }, [fixedNavbar, outsideClick]);
+
 
     // useEffect(() => {
     //     changeScrollTop(true);
@@ -46,9 +62,11 @@ function Layout() {
     return (
         <div className="app" ref={layoutRef}>
             <Navbar/>
-            <div className="layout">
-                <div className="content">
-                    <Outlet/>
+            <div className="layoutUpper">
+                <div className="layout">
+                    <div className="content">
+                        <Outlet/>
+                    </div>
                 </div>
             </div>
         </div>
