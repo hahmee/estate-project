@@ -20,25 +20,9 @@ function Layout() {
         }
     }, [scrollTop]);
 
-    // useEffect(() => {
-    //     console.log('dropdownOutside', dropdownOutside);
-    //     console.log('scrollTop?', scrollTop);
-    //
-    //     if(dropdownOutside) {
-    //         if (!scrollTop) { //현재 스크롤이 탑에 가있지 않을 경우에 -> scroll 값 필요
-    //             changeScrollTop(true);
-    //         }
-    //     }else {
-    //     }
-    //
-    //
-    // }, [dropdownOutside, scrollTop]);
-
 
     useEffect(() => {
-        // console.log('outsideClick', outsideClick); // outsideClick true라면 changeScrollTop(false)가 되어야함 // 근데 스크롤값이 0이라면 예외
         if (layoutRef.current) {
-
             if (!fixedNavbar) { //고정 아니라면
                 changeScrollTop(true);
                 layoutRef.current.addEventListener('scroll', handleScroll, false);
@@ -46,22 +30,14 @@ function Layout() {
                 changeScrollTop(false);
                 layoutRef.current.removeEventListener('scroll', handleScroll, false);
             }
-            return () => layoutRef.current.removeEventListener('scroll', handleScroll, false);
+            // return () => layoutRef.current.removeEventListener('scroll', handleScroll, false); // 안하면 location페이지에서 에러남
         }
     }, [fixedNavbar, outsideClick]);
 
 
-    // useEffect(() => {
-    //     changeScrollTop(true);
-    //     if (layoutRef.current) {
-    //         layoutRef.current.addEventListener('scroll', handleScroll, false);
-    //         return () => layoutRef.current.removeEventListener('scroll', handleScroll, false);
-    //     }
-    // }, []);
-
     return (
         <div className="app" ref={layoutRef}>
-            <Navbar/>
+            <Navbar isSearchBar={true}/>
             <div className="layoutUpper">
                 <div className="layout">
                     <div className="content">
@@ -104,22 +80,25 @@ function CreateProcess() {
     else {
         return (
             <div className="app">
-                <div className="layout">
-                    <div className="navbar">
-                        <Navbar/>
-                    </div>
-                    <div>
-                        <Outlet/>
+                <Navbar isSearchBar={false}/>
+                <div className="layoutUpper">
+                    <div className="layout">
+                        <div className="content">
+                            <Outlet/>
+                        </div>
                     </div>
                 </div>
                 <div className="processDiv">
                     <Button outlined onClick={() => navigate(-1)}>이전</Button>
-                    <Button form={progress.form} disabled={progress.disabled} onClick={()=>progress.url ? navigate(progress.url) : undefined } type="submit" loading={progress.loading}>{progress.text}</Button>
+                    <Button form={progress.form} disabled={progress.disabled}
+                            onClick={() => progress.url ? navigate(progress.url) : undefined} type="submit"
+                            loading={progress.loading}>{progress.text}</Button>
                 </div>
 
             </div>
         );
     }
+
 }
 
 export {Layout, RequireAuth, CreateProcess};

@@ -1,10 +1,10 @@
-import {MapContainer, Marker, Popup, TileLayer, useMapEvents} from "react-leaflet";
+import {MapContainer, useMapEvents} from "react-leaflet";
 import "./map.scss";
 import "leaflet/dist/leaflet.css";
 import FlyMapTo from "./FlyMapTo.jsx";
-import {useCallback, useContext, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {listPostStore} from "../../lib/listPostStore.js";
-import {useParams, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import MapLoading from "../loading/MapLoading.jsx";
 import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 
@@ -12,7 +12,7 @@ function Map({items, listPageMap = false}) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [zoomLevel, setZoomLevel] = useState(5);
   const {searchValue, changeSearchValue} = useContext(SearchbarContext);
-
+  const [position, setPosition] = useState([37,127]);
   const postFetch = listPostStore((state) => state.fetch);
   const isLoading = listPostStore((state) => state.isLoading);
   const setIsLoading = listPostStore((state) => state.setIsLoading);
@@ -28,9 +28,30 @@ function Map({items, listPageMap = false}) {
     maxPrice: searchParams.get("maxPrice") || "",
     minSize: searchParams.get("minSize") || "",
     maxSize: searchParams.get("maxSize") || "",
-  }
+  };
 
-  const position = listPageMap ? [parseFloat(searchParams.get("latitude")), parseFloat(searchParams.get("longitude"))] : [items[0].latitude, items[0].longitude];
+  console.log('itemsasdfasdfasdfasafasdfasfasdf', items);
+
+  useEffect(() => {
+
+    if(listPageMap) {
+      setPosition([parseFloat(searchParams.get("latitude")), parseFloat(searchParams.get("longitude"))]);
+    }else {
+      if ( items && items.length < 1) {
+        setPosition([37, 127]);
+      }else{
+        setPosition([parseFloat(items[0]?.latitude), parseFloat(items[0]?.longitude)]);
+      }
+    }
+
+  }, []);
+
+  useEffect(() => {
+    console.log('itemszzz', items);
+    setPosition([items[0]?.latitude, items[0]?.longitude]);
+
+  }, [items]);
+
   //zoom, drag 이벤트
   const HandlerComponent = () => {
     const map = useMapEvents({
@@ -83,7 +104,7 @@ function Map({items, listPageMap = false}) {
             zoomAnimation={true}
             zoomControl={true}
             zoomSnap={0.25}
-            zoomDelta={0}
+            zoomDelta={1}
             maxZoom={10}
             minZoom={3}
             worldCopyJump={true}

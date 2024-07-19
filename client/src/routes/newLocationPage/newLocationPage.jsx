@@ -1,5 +1,4 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import SearchMapBar from "../../components/searchBar/SearchMapBar.jsx";
 import SearchMapBar2 from "../../components/searchBar/SearchMapBar2.jsx";
 import "./newLocation.scss";
 import Map from "../../components/map/Map.jsx";
@@ -12,7 +11,7 @@ function NewLocationPage() {
     const {setProgress} = useContext(UserProgressContext);
 
     const getMapResult = useCallback((itemList) => {
-        console.log('itemList', itemList);
+        console.log('itemsList', itemList);
         setItemList(itemList);
         // setProgress('add');
     }, [itemList]);
@@ -20,6 +19,8 @@ function NewLocationPage() {
     useEffect(() => {
         setProgress('add');
     }, []);
+
+    console.log('itemList', itemList);
 
     return (
         <div className="locationPage">

@@ -1,37 +1,30 @@
 import PlacesAutocomplete, {geocodeByAddress, getLatLng,} from 'react-places-autocomplete';
 import React, {useContext, useEffect, useState} from "react";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
-import Button from "../../UI/Button.jsx";
-import {useNavigate, useSearchParams} from "react-router-dom";
-import {listPostStore} from "../../lib/listPostStore.js";
+import {useSearchParams} from "react-router-dom";
 import "./searchMapBar2.scss";
 
 
 function SearchMapBar2({getMapResult, searchOptions=[]}) {
-    const {clearProgress, saveLocation, location:userLocation} = useContext(UserProgressContext);
+    const {clearProgress, saveLocation, location: userLocation} = useContext(UserProgressContext);
     const [location, setLocation] = useState(userLocation.address);
     const [status, setStatus] = useState("");
-    const setIsLoading = listPostStore((state) => state.setIsLoading);
-    const setIsFetch = listPostStore((state) => state.setIsFetch);
-
-    const navigate = useNavigate();
-
     const [suggestionsVisible, setSuggestionsVisible] = useState(true);
     const [latLng, setLatLng] = useState({
         latitude: null,
         longitude: null
     });
     const [searchParams, setSearchParams] = useSearchParams();
-    const fetch = listPostStore((state) => state.fetch);
-
     const [query, setQuery] = useState({
-        type: searchParams.get("type") || "",
+        type: searchParams.getAll("type") || "",
+        location: searchParams.get("location") || "",
         latitude: searchParams.get("latitude") || "",
         longitude: searchParams.get("longitude") || "",
-        property: searchParams.get("property") || "",
+        property: searchParams.getAll("property") || "",
         minPrice: searchParams.get("minPrice") || "",
         maxPrice: searchParams.get("maxPrice") || "",
-        bedroom: searchParams.get("bedroom") || "",
+        minSize: searchParams.get("minSize") || "",
+        maxSize: searchParams.get("maxSize") || "",
     });
 
     const handleLocationChange = (location) => {
@@ -41,13 +34,14 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     };
 
     const handleSelect = (location, placeId, suggestions) => {
+        console.log('handleSelect', location);
         setSuggestionsVisible(false);
         setLocation(location);
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
-                searchOptions && saveLocation({...latLng, address: location, city:''});
-                setQuery((prev) => ({ ...prev, latitude: latLng.lat, longitude: latLng.lng }));
+                searchOptions && saveLocation({...latLng, address: location, city: ''});
+                setQuery((prev) => ({...prev, latitude: latLng.lat, longitude: latLng.lng}));
 
                 getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: [], location}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
@@ -60,21 +54,8 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
         clearSuggestions();
     }
 
-    const onMouseOver = (e) => {
-        // console.log('e', e.target.children[0]?.textContent);
-
-    };
-
-    const searchClick = async () => {
-        setIsLoading(true);
-        await fetch(`type=&location=${userLocation.address}&latitude=${userLocation.lat}&longitude=${userLocation.lng}&property=&minPrice=&maxPrice=&bedroom=`);
-        setIsLoading(false);
-        setIsFetch(true);
-        navigate(`/list?type=&${query.type}&location=${userLocation.address}&latitude=${query.latitude}&longitude=${query.longitude}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`);
-    };
-
     useEffect(() => {
-        clearProgress();
+        clearProgress(); // clean-up함수에다 넣기
     }, []);
 
     return (
@@ -111,7 +92,6 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
                                                 {...getSuggestionItemProps(suggestion, {
                                                     className,
                                                 })}
-                                                onMouseOver={onMouseOver}
                                             >
                                                 <span>{suggestion.description}</span>
                                             </div>
@@ -123,8 +103,6 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
                     )}
                 </PlacesAutocomplete>
             </div>
-
-            <Button type='submit' className="searchButton" onClick={searchClick}><img src="/search.png" alt="search"/></Button>
         </div>
     );
 }

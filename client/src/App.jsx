@@ -49,7 +49,7 @@ function App() {
       children: [
         {
           path: "/location",
-          element: <NewLocationPage />,
+          element: <NewLocationPage/>,
         },
         {
           path: "/add",

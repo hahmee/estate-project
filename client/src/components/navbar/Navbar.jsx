@@ -22,7 +22,7 @@ export const MIN_PRICE = 0;
 export const MAX_SIZE = 60;
 export const MIN_SIZE = 0;
 
-function Navbar({searchOptions = []}) {
+function Navbar({isSearchBar}) {
 
 
     const {scrollTop, changeScrollTop} = useContext(NavbarContext);
@@ -48,15 +48,12 @@ function Navbar({searchOptions = []}) {
     const [maxSize, setMaxSize] = useState(MAX_SIZE);
 
 
-
     const handleLocationChange = (location) => {
         setStatus("");
         setLocation(location);
-        // setSuggestionsVisible(true);
     };
 
     const handleSelect = (location, placeId, suggestions) => {
-        // setSuggestionsVisible(false);
         setLocation(location);
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
@@ -152,9 +149,9 @@ function Navbar({searchOptions = []}) {
     return (
         <>
             {
-                (scrollTop && currentClicked !== 0 ) && <div className="searchClickBackground"></div>
+                (scrollTop && currentClicked !== 0) && <div className="searchClickBackground"></div>
 
-            //밖에 클릭했을 때 기본 nav로 돌아가게[
+                //밖에 클릭했을 때 기본 nav로 돌아가게[
             }
 
             <nav className={scrollTop ? "topNav" : "null"}>
@@ -198,80 +195,93 @@ function Navbar({searchOptions = []}) {
                     </div>
                 </div>
 
-
-                <div className={scrollTop ? "bottomNav topNav" : "bottomNav"}>
-                    <PlacesAutocomplete
-                        value={location}
-                        onChange={handleLocationChange}
-                        onSelect={handleSelect}
-                        onError={onError}
-                        searchOptions={{types: searchOptions}}
-                    >
-                        {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
-                            <>
-                                <div className={`search ${notClicked ?'notClicked' : null}`} onClick={openTopScrollNav}>
-                                    <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
-                                         onClick={() => clickMenu(1)}>
-                                        <p className={scrollTop ? null : 'displayNone'}>위치</p>
-                                        <input type="text"
-                                               {...getInputProps({
-                                                   placeholder: searchOptions ? '도시를 검색하세요.' : '주소를 입력하세요.',
-                                                   className: 'inputDiv',
-                                               })}/>
-                                    </div>
-                                    <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`}
-                                         onClick={() => clickMenu(2)}>
-                                        <p className={scrollTop ? null : 'displayNone'}>유형</p>
-                                        <span className="inputDiv">
+                {
+                    isSearchBar
+                    &&
+                    (
+                        <div className={scrollTop ? "bottomNav topNav" : "bottomNav"}>
+                            <PlacesAutocomplete
+                                value={location}
+                                onChange={handleLocationChange}
+                                onSelect={handleSelect}
+                                onError={onError}
+                            >
+                                {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
+                                    <>
+                                        <div className={`search ${notClicked ? 'notClicked' : null}`}
+                                             onClick={openTopScrollNav}>
+                                            <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
+                                                 onClick={() => clickMenu(1)}>
+                                                <p className={scrollTop ? null : 'displayNone'}>위치</p>
+                                                <input type="text"
+                                                       {...getInputProps({
+                                                           placeholder: '도시를 검색하세요.',
+                                                           className: 'inputDiv',
+                                                       })}/>
+                                            </div>
+                                            <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`}
+                                                 onClick={() => clickMenu(2)}>
+                                                <p className={scrollTop ? null : 'displayNone'}>유형</p>
+                                                <span className="inputDiv">
                                         {
                                             (types.length + rooms.length === 9) ?
                                                 '모든 유형' : [...types, ...rooms].map((type) => {
-                                                    return <p key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
+                                                    return <p
+                                                        key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
                                                 })
                                         }
                                     </span>
-                                    </div>
-                                    <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`}
-                                         onClick={() => clickMenu(3)}>
-                                        <p className={scrollTop ? null : 'displayNone'}>가격</p>
-                                        <span className="inputDiv">
+                                            </div>
+                                            <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`}
+                                                 onClick={() => clickMenu(3)}>
+                                                <p className={scrollTop ? null : 'displayNone'}>가격</p>
+                                                <span className="inputDiv">
                                         {currencyFormatter.format(minPrice)}&nbsp;~&nbsp;{(MAX_PRICE === maxPrice) ? '무제한' : currencyFormatter.format(maxPrice)}
                                     </span>
-                                    </div>
-                                    <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
-                                         onClick={() => clickMenu(4)}>
-                                        <p className={scrollTop ? null : 'displayNone'}>크기</p>
-                                        <span className="inputDiv">
+                                            </div>
+                                            <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
+                                                 onClick={() => clickMenu(4)}>
+                                                <p className={scrollTop ? null : 'displayNone'}>크기</p>
+                                                <span className="inputDiv">
                                             {minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}
                                         </span>
-                                        <span className="material-symbols-outlined"
-                                              onClick={(e) => searchClick(e)}>search</span>
-                                    </div>
+                                                <span className="material-symbols-outlined"
+                                                      onClick={(e) => searchClick(e)}>search</span>
+                                            </div>
 
-                                </div>
+                                        </div>
 
-                                <Location suggestions={suggestions} getSuggestionItemProps={getSuggestionItemProps}
-                                          loading={loading} status={status} shown={(currentClicked === 1)}
-                                          close={closeDropdown} scrollTop={scrollTop}/>
+                                        <Location suggestions={suggestions}
+                                                  getSuggestionItemProps={getSuggestionItemProps}
+                                                  loading={loading} status={status} shown={(currentClicked === 1)}
+                                                  close={closeDropdown} scrollTop={scrollTop}/>
 
-                                <Category types={types} setTypes={setTypes} rooms={rooms} setRooms={setRooms}
-                                          shown={(currentClicked === 2)} close={closeDropdown} scrollTop={scrollTop}/>
+                                        <Category types={types} setTypes={setTypes} rooms={rooms}
+                                                  setRooms={setRooms}
+                                                  shown={(currentClicked === 2)} close={closeDropdown}
+                                                  scrollTop={scrollTop}/>
 
-                                <Price minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice}
-                                       setMaxPrice={setMaxPrice} shown={(currentClicked === 3)} close={closeDropdown}
-                                       scrollTop={scrollTop}/>
+                                        <Price minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice}
+                                               setMaxPrice={setMaxPrice} shown={(currentClicked === 3)}
+                                               close={closeDropdown}
+                                               scrollTop={scrollTop}/>
 
-                                <Size minSize={minSize} setMinSize={setMinSize} maxSize={maxSize}
-                                      setMaxSize={setMaxSize}
-                                      shown={(currentClicked === 4)} close={closeDropdown} scrollTop={scrollTop}/>
-                            </>
-                        )}
-                    </PlacesAutocomplete>
-                </div>
+                                        <Size minSize={minSize} setMinSize={setMinSize} maxSize={maxSize}
+                                              setMaxSize={setMaxSize}
+                                              shown={(currentClicked === 4)} close={closeDropdown}
+                                              scrollTop={scrollTop}/>
+                                    </>
+                                )}
+                            </PlacesAutocomplete>
+                        </div>
+                    )
+                }
+
             </nav>
         </>
 
-    );
+    )
+        ;
 }
 
 const Location = ({suggestions, getSuggestionItemProps, loading, status, shown, close, scrollTop}) => {
