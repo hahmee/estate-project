@@ -1,6 +1,13 @@
 import prisma from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 
+export const roomType = ['apartment', 'condo', 'officetel', 'one_room', 'two_room', 'land'];
+export const payType = ['month_pay', 'year_pay', 'sell'];
+export const MAX_PRICE = 1000000000;
+export const MIN_PRICE = 0;
+export const MAX_SIZE = 60;
+export const MIN_SIZE = 0;
+
 function getRadians(degree) {
   const radians = (parseFloat(degree) * Math.PI) / 180;
   return radians;
@@ -44,22 +51,35 @@ export const getPosts = async (req, res) => {
     // });
     // const posts = await xprisma.post.findMany({});
 
-    console.log('query.type', query.type);
-    console.log('query.typeList', [query.type]);
-
     let queryType = [];
     let queryProperty = [];
 
-    if (typeof query.type  === 'string' || query.type  instanceof String) {
-      queryType = [query.type];
-    }else {
+    if (typeof query.type === 'string' || query.type instanceof String) { // 한개 선택했을 때 string으로 받음
+      queryType = [query.type]; //리스트로 만들어주기
+    } else {
       queryType = query.type;
     }
-    if (typeof query.property=== 'string' || query.property  instanceof String) {
+    if (typeof query.property === 'string' || query.property instanceof String) {
       queryProperty = [query.property];
-    }else {
+    } else {
       queryProperty = query.property;
     }
+
+
+
+    //minPrice 값 없을 때
+    const minPriceQuery = (query.minPrice === null || query.minPrice === undefined) ? {$gte: 0} :{$gte: Number(query.minPrice)};
+    //maxPrice 값 없을 때
+    const maxPriceQuery = (query.maxPrice === null || query.maxPrice === undefined || query.maxPrice === MAX_PRICE) ? {} : {$lte: Number(query.maxPrice)};
+
+
+    //size
+    //minSize 값 없을 때
+    const minSizeQuery = (query.minSize === null || query.minSize === undefined) ? {$gte: 0} :{$gte: Number(query.minSize)};
+    //maxSize 값 없을 때
+    const maxSizeQuery = (query.maxSize === null || query.maxSize === undefined || query.maxSize === MAX_SIZE) ? {} : {$lte: Number(query.maxSize)};
+
+
 
     //mongodb Atlas에 create Index {location:2dsphere} 작업 필요
     const posts = await prisma.post.aggregateRaw({
@@ -71,10 +91,10 @@ export const getPosts = async (req, res) => {
             maxDistance: 200000,
             spherical: true,
             query: {
-              price: {$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
-              type: {$in: queryType},
-              property: {$in: queryProperty},
-              // size: {$gte: Number(query.minSize), $lte: Number(query.maxSize)}, //저장 완료되면 주석 풀기
+              price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
+              type: {$in: (query.type === undefined || query.type === null) ? payType : queryType},
+              property: {$in: (query.property === undefined || query.property === null) ? roomType : queryProperty},
+              // size:  {...minSizeQuery, ...maxSizeQuery}, //저장 완료되면 주석 풀기
             }
           },
         },
@@ -100,7 +120,7 @@ export const getPosts = async (req, res) => {
     posts.forEach((post) => {
       post.isSaved = false;
       savedPostIds.forEach((savedId) => {
-        if(post._id.$oid === savedId) {
+        if (post._id.$oid === savedId) {
           post.isSaved = true;
         }
       })
@@ -108,7 +128,7 @@ export const getPosts = async (req, res) => {
 
 
     // setTimeout(() => {
-      res.status(200).json(posts);
+    res.status(200).json(posts);
     // }, 1500);
 
   } catch (err) {
