@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/map/FlyMapTo2.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/map/Map2.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/map/FlyMapToSingle.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/map/MapSingle.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/FlyMapTo2.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/Map.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/Map2.jsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +98,7 @@
       <workItem from="1721183657766" duration="65056000" />
       <workItem from="1721349630086" duration="28060000" />
       <workItem from="1721402675799" duration="3197000" />
-      <workItem from="1721457664374" duration="2165000" />
+      <workItem from="1721457664374" duration="3728000" />
     </task>
     <servers />
   </component>

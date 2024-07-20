@@ -8,7 +8,7 @@ import {useSearchParams} from "react-router-dom";
 import MapLoading from "../loading/MapLoading.jsx";
 import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 
-function Map({items, listPageMap = false}) {
+function Map({items}) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [zoomLevel, setZoomLevel] = useState(5);
   const {searchValue, changeSearchValue} = useContext(SearchbarContext);
@@ -30,26 +30,12 @@ function Map({items, listPageMap = false}) {
     maxSize: searchParams.get("maxSize") || "",
   };
 
-  console.log('itemsasdfasdfasdfasafasdfasfasdf', items);
-
   useEffect(() => {
-
-    if(listPageMap) {
       setPosition([parseFloat(searchParams.get("latitude")), parseFloat(searchParams.get("longitude"))]);
-    }else {
-      if ( items && items.length < 1) {
-        setPosition([37, 127]);
-      }else{
-        setPosition([parseFloat(items[0]?.latitude), parseFloat(items[0]?.longitude)]);
-      }
-    }
-
   }, []);
 
   useEffect(() => {
-    console.log('itemszzz', items);
     setPosition([items[0]?.latitude, items[0]?.longitude]);
-
   }, [items]);
 
   //zoom, drag 이벤트
@@ -100,7 +86,7 @@ function Map({items, listPageMap = false}) {
             center={position}
             zoom={zoomLevel}
             scrollWheelZoom={true}
-            className={listPageMap ? "listPageMap" : "map"}
+            className="listPageMap"
             zoomAnimation={true}
             zoomControl={true}
             zoomSnap={0.25}
@@ -109,10 +95,8 @@ function Map({items, listPageMap = false}) {
             minZoom={3}
             worldCopyJump={true}
         >
-          <FlyMapTo items={items} listPageMap={listPageMap}/>
-          {
-            listPageMap && <HandlerComponent/>
-          }
+          <FlyMapTo items={items}/>
+          <HandlerComponent/>
         </MapContainer>
       </>
   );

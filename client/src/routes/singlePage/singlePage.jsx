@@ -8,6 +8,7 @@ import Slider from "../../components/slider/Slider.jsx";
 import {options, roomOption, safeOptions, typeOption} from "../newPostPage/newPostPage.jsx";
 import Button from "../../UI/Button.jsx";
 import {currencyFormatter} from "../../util/formatting.js";
+import MapSingle from "../../components/map/MapSingle.jsx";
 
 function SinglePage() {
   const post = useLoaderData();
@@ -228,9 +229,8 @@ function SinglePage() {
                   <span>{post.address}</span>
                 </div>
                 <div className="mapContainer">
-                  <Map items={[{latitude: post.latitude, longitude: post.longitude, images: []}]}/>
+                  <MapSingle items={[{latitude: post.latitude, longitude: post.longitude, images: []}]}/>
                 </div>
-
 
               </div>
             </div>

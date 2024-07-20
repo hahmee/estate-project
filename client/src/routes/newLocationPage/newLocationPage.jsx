@@ -3,7 +3,7 @@ import SearchMapBar2 from "../../components/searchBar/SearchMapBar2.jsx";
 import "./newLocation.scss";
 import Map from "../../components/map/Map.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
-import Map2 from "../../components/map/Map2.jsx";
+import MapSingle from "../../components/map/MapSingle.jsx";
 
 function NewLocationPage() {
 
@@ -29,7 +29,7 @@ function NewLocationPage() {
             <div>
                 <SearchMapBar2 getMapResult={getMapResult}/>
                 <div className="mapContainer">
-                    <Map2 items={itemList}/>
+                    <MapSingle items={itemList}/>
                 </div>
             </div>
 

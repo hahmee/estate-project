@@ -5,7 +5,7 @@ import {divIcon} from "leaflet/src/layer/index.js";
 import {useSearchParams} from "react-router-dom";
 
 
-function FlyMapTo({items, listPageMap}) {
+function FlyMapTo({items}) {
     const map = useMap();
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -28,50 +28,30 @@ function FlyMapTo({items, listPageMap}) {
         html: `<div class="searchLocation"><div class="searchLocationIn"></div></div>`
     });
 
-    //검색할때만
+    //검색 위치가 변경될때만
     useEffect(() => {
-        console.log('searchParams', searchParams);
-        map.flyTo(position);
-    }, [searchParams]);
-
+        setPosition([parseFloat(query.latitude), parseFloat(query.longitude)]);
+        map.flyTo([parseFloat(query.latitude), parseFloat(query.longitude)]);
+    }, [query.latitude, query.longitude]);
 
     useEffect(() => {
-        if(listPageMap) {
-            setPosition([parseFloat(query.latitude), parseFloat(query.longitude)]);
-        }else {
-            if (items && items.length < 1) {
-                setPosition([37, 127]);
-            }else{
-                setPosition( [parseFloat(items[0].latitude), parseFloat(items[0].longitude)]);
-            }
-        }
+        setPosition([parseFloat(query.latitude), parseFloat(query.longitude)]);
     }, []);
 
-    if (listPageMap) {
-        return (
-            <div>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <Marker position={position} icon={customMarkerIcon}></Marker>
-                {items.map((item, idx) => (
-                    <Pin item={item} key={idx}/>
-                ))}
-            </div>
-        );
-    } else {
-        return (
-            <div>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <Marker position={position}></Marker>
-            </div>
-        );
 
-    }
+    return (
+        <div>
+            <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Marker position={position} icon={customMarkerIcon}></Marker>
+            {items.map((item, idx) => (
+                <Pin item={item} key={idx}/>
+            ))}
+        </div>
+    );
+
 
 }
 
