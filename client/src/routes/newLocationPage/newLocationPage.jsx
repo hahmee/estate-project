@@ -3,6 +3,7 @@ import SearchMapBar2 from "../../components/searchBar/SearchMapBar2.jsx";
 import "./newLocation.scss";
 import Map from "../../components/map/Map.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
+import Map2 from "../../components/map/Map2.jsx";
 
 function NewLocationPage() {
 
@@ -13,7 +14,7 @@ function NewLocationPage() {
     const getMapResult = useCallback((itemList) => {
         console.log('itemsList', itemList);
         setItemList(itemList);
-        // setProgress('add');
+        setProgress('add');
     }, [itemList]);
 
     useEffect(() => {
@@ -28,7 +29,7 @@ function NewLocationPage() {
             <div>
                 <SearchMapBar2 getMapResult={getMapResult}/>
                 <div className="mapContainer">
-                    <Map items={itemList}/>
+                    <Map2 items={itemList}/>
                 </div>
             </div>
 

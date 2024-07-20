@@ -5,7 +5,7 @@ import {divIcon} from "leaflet/src/layer/index.js";
 import {useSearchParams} from "react-router-dom";
 
 
-function FlyMapTo({items, listPageMap}) {
+function FlyMapTo2({items, listPageMap}) {
     const map = useMap();
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -29,11 +29,18 @@ function FlyMapTo({items, listPageMap}) {
     });
 
     //검색할때만
-    useEffect(() => {
-        console.log('searchParams', searchParams);
-        map.flyTo(position);
-    }, [searchParams]);
+    // useEffect(() => {
+    //     console.log('searchParams', searchParams);
+    //     map.flyTo(position);
+    // }, [searchParams]);
 
+    //items 변경될때만 flyto
+    useEffect(() => {
+        if (items && items.length > 0) {
+            setPosition([items[0].latitude, items[0].longitude]);
+            map.flyTo([items[0].latitude, items[0].longitude]);
+        }
+    }, [items]);
 
     useEffect(() => {
         if(listPageMap) {
@@ -75,4 +82,4 @@ function FlyMapTo({items, listPageMap}) {
 
 }
 
-export default FlyMapTo;
+export default FlyMapTo2;
