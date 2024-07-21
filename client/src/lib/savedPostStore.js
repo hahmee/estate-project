@@ -1,6 +1,5 @@
 import {create} from "zustand";
 import apiRequest from "./apiRequest.js";
-import {singlePostData as currentSavedPost} from "./dummydata.js";
 
 export const savedPostStore = create((set) => ({
     savedPosts: [],

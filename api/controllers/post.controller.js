@@ -9,7 +9,7 @@ export const MAX_SIZE = 60;
 export const MIN_SIZE = 0;
 
 function getRadians(degree) {
-  const radians = (parseFloat(degree) * Math.PI) / 180;
+  const radians = (Number(degree) * Math.PI) / 180;
   return radians;
 }
 
@@ -67,16 +67,14 @@ export const getPosts = async (req, res) => {
 
 
     //minPrice 값 없을 때
-    const minPriceQuery = (query.minPrice === null || query.minPrice === undefined) ? {$gte: 0} : {$gte: Number(query.minPrice)};
+    const minPriceQuery = (query.minPrice === null || query.minPrice === undefined) ? {$gte: MIN_PRICE} : {$gte: Number(query.minPrice)};
     //maxPrice 값 없을 때
-    const maxPriceQuery = (query.maxPrice === null || query.maxPrice === undefined || query.maxPrice === MAX_PRICE) ? {} : {$lte: Number(query.maxPrice)};
+    const maxPriceQuery = (query.maxPrice === null || query.maxPrice === undefined || Number(query.maxPrice) >= MAX_PRICE) ? {} : {$lte: Number(query.maxPrice)};
 
-
-    //size
     //minSize 값 없을 때
-    const minSizeQuery = (query.minSize === null || query.minSize === undefined) ? {$gte: 0} : {$gte: Number(query.minSize)};
-    //maxSize 값 없을 때
-    const maxSizeQuery = (query.maxSize === null || query.maxSize === undefined || query.maxSize === MAX_SIZE) ? {} : {$lte: Number(query.maxSize)};
+    const minSizeQuery = (query.minSize === null || query.minSize === undefined) ? {$gte: MIN_SIZE} : {$gte: Number(query.minSize)};
+    //maxSize 값 없을 때 (60이상 값이 들어오면 사이즈 무한대로 보여줌)
+    const maxSizeQuery = (query.maxSize === null || query.maxSize === undefined || Number(query.maxSize) >= MAX_SIZE) ? {} : {$lte: Number(query.maxSize)};
 
 
     //mongodb Atlas에 create Index {location:2dsphere} 작업 필요
@@ -84,7 +82,7 @@ export const getPosts = async (req, res) => {
       pipeline: [
         {
           $geoNear: {
-            near: {type: "Point", coordinates: [parseFloat(query.longitude), parseFloat(query.latitude)]},
+            near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
             distanceField: "dist.calculated",
             maxDistance: 200000,
             spherical: true,
@@ -92,7 +90,7 @@ export const getPosts = async (req, res) => {
               price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
               type: {$in: (query.type === undefined || query.type === null) ? payType : queryType},
               property: {$in: (query.property === undefined || query.property === null) ? roomType : queryProperty},
-              // size:  {...minSizeQuery, ...maxSizeQuery}, //저장 완료되면 주석 풀기
+              size:  {...minSizeQuery, ...maxSizeQuery},
             }
           },
         },
@@ -192,7 +190,7 @@ export const addPost = async (req, res) => {
       data: {
         ...body.postData,
         userId: tokenUserId,
-        location: { type: "Point", coordinates: [ parseFloat(body.postData.longitude), parseFloat(body.postData.latitude)]},
+        location: { type: "Point", coordinates: [ Number(body.postData.longitude), Number(body.postData.latitude)]},
         postDetail: {
           create: body.postDetail,
         },

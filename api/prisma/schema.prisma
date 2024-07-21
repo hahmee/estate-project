@@ -29,7 +29,7 @@ model Post {
   type       Type
   property   Property
   maintenance Int
-  size        Int?
+  size        Int
   createdAt  DateTime    @default(now())
   user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String      @db.ObjectId

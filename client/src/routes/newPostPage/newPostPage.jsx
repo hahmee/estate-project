@@ -149,27 +149,27 @@ function NewPostPage() {
           title: inputs.title,
           property: inputs.property,
           type: inputs.type,
-          price: parseInt(inputs.price),
+          price: Number(inputs.price),
           address: location.address,
           city: location.city,
-          bedroom: parseInt(inputs.bedroom),
-          bathroom: parseInt(inputs.bathroom),
+          bedroom: Number(inputs.bedroom),
+          bathroom: Number(inputs.bathroom),
           latitude: location.lat.toString(),
           longitude: location.lng.toString(),
           // coordinates: [location.lat, location.lng],
           images: imageUrl,
-          maintenance: parseInt(inputs.maintenance),
+          size: Number(inputs.size),
+          maintenance: Number(inputs.maintenance),
         },
         postDetail: {
           desc: inputs.description,
           pet: inputs.pet,
           option: optionList,
           safeOption: safeOptionList,
-          size: parseInt(inputs.size),
-          school: parseInt(inputs.school),
-          bus: parseInt(inputs.bus),
+          school: Number(inputs.school),
+          bus: Number(inputs.bus),
           direction: inputs.direction,
-          parking: parseInt(inputs.parking),
+          parking: Number(inputs.parking),
         },
       });
       toast.success('성공적으로 저장되었습니다.');
@@ -188,7 +188,6 @@ function NewPostPage() {
   useEffect(() => {
     console.log('location', location);
     setProgress('save');
-
   }, []);
 
   const div = <>

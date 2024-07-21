@@ -150,7 +150,7 @@ function SinglePage() {
                 <div className="sizes">
                   <div className="size">
                     <img src="/size.png" alt="size"/>
-                    <span>{post.postDetail.size} 평</span>
+                    <span>{post.size} 평</span>
                   </div>
                   <div className="size">
                     <img src="/bed.png" alt="bed"/>
@@ -263,7 +263,7 @@ function SinglePage() {
                   </div>
                   <div>
                     <span className="material-symbols-outlined">square_foot</span>
-                    <p>{post.postDetail.size}평</p>
+                    <p>{post.size}평</p>
                   </div>
                   <div>
                     <span className="material-symbols-outlined">explore</span>

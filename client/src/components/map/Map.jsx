@@ -10,58 +10,63 @@ import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 
 function Map({items}) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [zoomLevel, setZoomLevel] = useState(5);
+  const [zoomLevel, setZoomLevel] = useState(50);
   const {searchValue, changeSearchValue} = useContext(SearchbarContext);
-  const [position, setPosition] = useState([37,127]);
+  const position = [Number(searchParams.get("latitude")), Number(searchParams.get("longitude"))];
   const postFetch = listPostStore((state) => state.fetch);
   const isLoading = listPostStore((state) => state.isLoading);
   const setIsLoading = listPostStore((state) => state.setIsLoading);
   const setIsFetch = listPostStore((state) => state.setIsFetch);
   const isFetch = listPostStore((state) => state.isFetch);
   const query = {
-    type: searchParams.getAll("type") || "",
+    type: searchParams.getAll("type") || [],
     location: searchParams.get("location") || "",
     latitude: searchParams.get("latitude") || "",
     longitude: searchParams.get("longitude") || "",
-    property: searchParams.getAll("property") || "",
+    property: searchParams.getAll("property") || [],
     minPrice: searchParams.get("minPrice") || "",
     maxPrice: searchParams.get("maxPrice") || "",
     minSize: searchParams.get("minSize") || "",
     maxSize: searchParams.get("maxSize") || "",
   };
 
-  useEffect(() => {
-      setPosition([parseFloat(searchParams.get("latitude")), parseFloat(searchParams.get("longitude"))]);
-  }, []);
-
-  useEffect(() => {
-    setPosition([items[0]?.latitude, items[0]?.longitude]);
-  }, [items]);
 
   //zoom, drag 이벤트
   const HandlerComponent = () => {
     const map = useMapEvents({
       zoomend: useCallback(async (e) => {
-        if (!isFetch) {
-          changeSearchValue({...searchValue, location: '지도 표시 지역'});
+        if (!isFetch) { // 서칭창으로 검색했을 때 zoomend가 항상 실행됨 -> 맵에서 zoom 했을 때만 실행되도록 & 외부에서 url 쳐서 들어올때도 막아야함
+          console.log('zoomeend', isFetch);
+          // changeSearchValue({...searchValue, location: '지도 표시 지역'});
           await setIsLoading(true);
           //줌 중심 위치 찾기
           const center = e.target.getCenter(); //{lat,lng}
           const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
+          console.log('wrappedCenter', wrappedCenter);
+          // const sendTypes = query.type.join('&type=');
+          // const sendProperties = query.property.join('&property=');
 
-          const sendTypes = query.type.join('&type=');
-          const sendProperties = query.property.join('&property=');
-
-          await postFetch(`type=${sendTypes}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
+          // await postFetch(`type=${sendTypes}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
+          await setSearchParams({...query, location: query.location, latitude: Number(wrappedCenter.lat), longitude: Number(wrappedCenter.lng) });
+          // await setSearchParams({...query, location: query.location, latitude: query.latitude, longitude: query.longitude });
 
 
           await setIsLoading(false);
+        }else {
+          // await setIsLoading(true);
+          //
+          // await setSearchParams({...query, location: query.location, latitude: query.latitude, longitude: query.longitude });
+          //
+          // await setIsLoading(false);
+
+
         }
         setIsFetch(false);
       }, [isFetch]),
       dragend: async (e) => {
+        console.log('dragend');
 
-        changeSearchValue({...searchValue, location: '지도 표시 지역'});
+        // changeSearchValue({...searchValue, location: '지도 표시 지역'});
 
         await setIsLoading(true);
         const center = e.target.getCenter(); //{lat,lng}
@@ -69,7 +74,10 @@ function Map({items}) {
 
         const sendTypes = query.type.join('&type=');
         const sendProperties = query.property.join('&property=');
-        await postFetch(`type=${sendTypes}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
+        // await postFetch(`type=${sendTypes}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
+        //쿼리스트링 변경
+        await setSearchParams({...query,location: query.location, latitude: Number(wrappedCenter.lat), longitude: Number(wrappedCenter.lng) });
+        // await setSearchParams({...query, location: query.location, latitude: query.latitude, longitude: query.longitude });
 
         await setIsLoading(false);
       }
@@ -84,15 +92,15 @@ function Map({items}) {
         }
         <MapContainer
             center={position}
-            zoom={zoomLevel}
+            zoom={18}
             scrollWheelZoom={true}
             className="listPageMap"
             zoomAnimation={true}
             zoomControl={true}
             zoomSnap={0.25}
             zoomDelta={1}
-            maxZoom={10}
-            minZoom={3}
+            maxZoom={30}
+            minZoom={1}
             worldCopyJump={true}
         >
           <FlyMapTo items={items}/>
@@ -100,8 +108,6 @@ function Map({items}) {
         </MapContainer>
       </>
   );
-
-
 
 }
 

@@ -16,11 +16,11 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     });
     const [searchParams, setSearchParams] = useSearchParams();
     const [query, setQuery] = useState({
-        type: searchParams.getAll("type") || "",
+        type: searchParams.getAll("type") || [],
         location: searchParams.get("location") || "",
         latitude: searchParams.get("latitude") || "",
         longitude: searchParams.get("longitude") || "",
-        property: searchParams.getAll("property") || "",
+        property: searchParams.getAll("property") || [],
         minPrice: searchParams.get("minPrice") || "",
         maxPrice: searchParams.get("maxPrice") || "",
         minSize: searchParams.get("minSize") || "",
@@ -34,7 +34,6 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     };
 
     const handleSelect = (location, placeId, suggestions) => {
-        console.log('handleSelect', location);
         setSuggestionsVisible(false);
         setLocation(location);
         geocodeByAddress(location)

@@ -22,7 +22,7 @@ function MapSingle({items}) {
         if (items && items.length < 1) {
             setPosition([37, 127]);
         } else {
-            setPosition([parseFloat(items[0]?.latitude), parseFloat(items[0]?.longitude)]);
+            setPosition([Number(items[0]?.latitude), Number(items[0]?.longitude)]);
         }
 
     }, []);

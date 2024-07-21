@@ -7,16 +7,14 @@ import {useSearchParams} from "react-router-dom";
 
 function FlyMapTo({items}) {
     const map = useMap();
-
     const [searchParams, setSearchParams] = useSearchParams();
-    const [position, setPosition] = useState([37, 127]);
-
+    const position = [Number(searchParams.get("latitude")), Number(searchParams.get("longitude"))];
     const query = {
-        type: searchParams.getAll("type") || "",
+        type: searchParams.getAll("type") ||[],
         location: searchParams.get("location") || "",
         latitude: searchParams.get("latitude") || "",
         longitude: searchParams.get("longitude") || "",
-        property: searchParams.getAll("property") || "",
+        property: searchParams.getAll("property") || [],
         minPrice: searchParams.get("minPrice") || "",
         maxPrice: searchParams.get("maxPrice") || "",
         minSize: searchParams.get("minSize") || "",
@@ -30,13 +28,14 @@ function FlyMapTo({items}) {
 
     //검색 위치가 변경될때만
     useEffect(() => {
-        setPosition([parseFloat(query.latitude), parseFloat(query.longitude)]);
-        map.flyTo([parseFloat(query.latitude), parseFloat(query.longitude)]);
-    }, [query.latitude, query.longitude]);
+        // console.log('?');
+        map.flyTo(position);
+        // map.flyTo(position, 18, {
+        //     animate: true,
+        //     duration: 2.2
+        // });
 
-    useEffect(() => {
-        setPosition([parseFloat(query.latitude), parseFloat(query.longitude)]);
-    }, []);
+    }, [query.latitude, query.longitude]);
 
 
     return (
