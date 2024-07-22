@@ -6,7 +6,6 @@ import {useContext, useEffect} from "react";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {listPostStore} from "../../lib/listPostStore.js";
-import ListLoading from "../../components/loading/ListLoading.jsx";
 import {NavbarContext} from "../../context/NavbarContext.jsx";
 import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 import {roomOption, typeOption} from "../newPostPage/newPostPage.jsx";
@@ -18,15 +17,17 @@ function ListPage() {
     const {currentUser} = useContext(AuthContext);
     const {clearSearchValue, searchValue, changeSearchValue} = useContext(SearchbarContext);
     const query = {
-        type: searchParams.getAll("type") || typeOption.map((type) => type.value),
+        type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
         location: searchParams.get("location") || "",
         latitude: searchParams.get("latitude") || "",
         longitude: searchParams.get("longitude") || "",
-        property: searchParams.getAll("property") || roomOption.map((type) => type.value),
+        property: searchParams.getAll("property") < 1 ? roomOption.map((type) => type.value) : searchParams.getAll("property"),
         minPrice: searchParams.get("minPrice") || MIN_PRICE,
         maxPrice: searchParams.get("maxPrice") || MAX_PRICE,
         minSize: searchParams.get("minSize") || MIN_SIZE,
         maxSize: searchParams.get("maxSize") || MAX_SIZE,
+        searchedLat: searchParams.get("searchedLat") || "",
+        searchedLng:  searchParams.get("searchedLng") || "",
     };
     const setIsFetch = listPostStore((state) => state.setIsFetch);
     const postFetch = listPostStore((state) => state.fetch);
@@ -58,6 +59,8 @@ function ListPage() {
             maxPrice: query.maxPrice,
             minSize: query.minSize,
             maxSize: query.maxSize,
+            latitude: query.latitude,
+            longitude: query.longitude
         });
 
     }, [searchParams]);

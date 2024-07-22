@@ -1,10 +1,9 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import "./navbar.scss";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import {useNotificationStore} from "../../lib/notificationStore";
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
-import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import {listPostStore} from "../../lib/listPostStore.js";
 import {roomOption, typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 import MultiRangeSlider from "../slider/MultiRangeSlider.jsx";
@@ -27,9 +26,8 @@ function Navbar({isSearchBar}) {
 
     const {scrollTop, changeScrollTop} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
-    const {searchValue, changeSearchValue, clearSearchValue} = useContext(SearchbarContext);
+    const {searchValue, clearSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
-    const postFetch = listPostStore((state) => state.fetch);
     const number = useNotificationStore((state) => state.number);
     const navigate = useNavigate();
 
@@ -37,48 +35,8 @@ function Navbar({isSearchBar}) {
     const [currentClicked, setCurrentClicked] = useState(0);
     const [status, setStatus] = useState("");
     const setIsLoading = listPostStore((state) => state.setIsLoading);
-    const setIsFetch = listPostStore((state) => state.setIsFetch);
-
-
-    const [searchParams, setSearchParams] = useSearchParams();
-
-
-    const query= {
-        type: searchParams.getAll("type") || typeOption.map((type) => type.value),
-        location: searchParams.get("location") || "",
-        latitude: searchParams.get("latitude") || "",
-        longitude: searchParams.get("longitude") || "",
-        property: searchParams.getAll("property") || roomOption.map((type) => type.value),
-        minPrice: searchParams.get("minPrice") || MIN_PRICE,
-        maxPrice: searchParams.get("maxPrice") || MAX_PRICE,
-        minSize: searchParams.get("minSize") || MIN_SIZE,
-        maxSize: searchParams.get("maxSize") || MAX_SIZE,
-    };
-
-    // const [types, setTypes] = useState(searchValue.payType);
-    // const [rooms, setRooms] = useState(searchValue.propertyType);
-    // const [minPrice, setMinPrice] = useState(searchValue.minPrice);
-    // const [maxPrice, setMaxPrice] = useState(searchValue.maxPrice);
-    // const [minSize, setMinSize] = useState(searchValue.minSize);
-    // const [maxSize, setMaxSize] = useState(searchValue.maxSize);
-    // const [latitude, setLatitude] = useState('');
-    // const [longitude, setLongitude] = useState('');
-    // const [location, setLocation] = useState(searchValue.location);
-
-    // const [types, setTypes] = useState((query.type && query.type.length > 0) ? query.type : typeOption.map((type) => type.value));
-    // const [rooms, setRooms] = useState((query.property && query.property.length > 0) ? query.property : roomOption.map((type) => type.value));
-    // const [minPrice, setMinPrice] = useState(query.minPrice);
-    // const [maxPrice, setMaxPrice] = useState(query.maxPrice);
-    // const [minSize, setMinSize] = useState(query.minSize);
-    // const [maxSize, setMaxSize] = useState(query.maxSize);
-    // const [latitude, setLatitude] = useState(query.latitude);
-    // const [longitude, setLongitude] = useState(query.longitude);
-    // const [location, setLocation] = useState(query.location);
-
-
-
-    const [latitude, setLatitude] = useState(null);
-    const [longitude, setLongitude] = useState(null);
+    const [latitude, setLatitude] = useState("");
+    const [longitude, setLongitude] = useState("");
     const [location, setLocation] = useState(searchValue.location);
     const [minPrice, setMinPrice] = useState(searchValue.minPrice);
     const [maxPrice, setMaxPrice] = useState(searchValue.maxPrice);
@@ -86,7 +44,6 @@ function Navbar({isSearchBar}) {
     const [maxSize, setMaxSize] = useState(searchValue.maxSize);
     const [types, setTypes] = useState(searchValue.payType);
     const [rooms, setRooms] = useState(searchValue.propertyType);
-
 
     const handleLocationChange = (location) => {
         setStatus("");
@@ -140,7 +97,7 @@ function Navbar({isSearchBar}) {
 
         setIsLoading(false);
         //url이 변경되게 해야함..
-        navigate(`/list?type=${sendTypes}&location=${location}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);
+        navigate(`/list?type=${sendTypes}&location=${location}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}&searchedLng=${longitude}`);
 
     };
 
@@ -160,6 +117,8 @@ function Navbar({isSearchBar}) {
 
     useEffect(() => {
         setLocation(searchValue.location);
+        setLatitude(searchValue.latitude);
+        setLongitude(searchValue.longitude);
         setMinPrice(searchValue.minPrice);
         setMaxPrice(searchValue.maxPrice);
         setMinSize(searchValue.minSize);
