@@ -20,7 +20,6 @@ const settings = {
 };
 
 function Pin({item}) {
-    console.log(item)
     const navigate = useNavigate();
     const { currentUser } = useContext(AuthContext);
     const [saved, setSaved] = useState(item.isSaved);

@@ -48,6 +48,7 @@ function Navbar({isSearchBar}) {
     const handleLocationChange = (location) => {
         setStatus("");
         setLocation(location);
+
     };
 
     const handleSelect = (location, placeId, suggestions) => {
@@ -76,10 +77,11 @@ function Navbar({isSearchBar}) {
         e.stopPropagation();
         setIsLoading(true);
 
-        if (!location) {
-            toast.error('주소지를 입력해주세요.');
+        if (!location || !latitude || !longitude) {
+            toast.error('주소지를 정확히 입력해주세요.');
             return;
         }
+
         if (types.length < 1) {
             toast.error('거래 유형을 선택해주세요.');
             return;

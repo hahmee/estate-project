@@ -102,6 +102,11 @@ export const getPosts = async (req, res) => {
             as: "savedPostList"
           }
         },
+        {
+          $sort: {
+            _id: 1,
+          }
+        }
       ],
     });
 
@@ -127,7 +132,7 @@ export const getPosts = async (req, res) => {
       })
     });
 
-    // console.log('완성', posts);
+    console.log('완성', posts);
     // setTimeout(() => {
       res.status(200).json(posts);
     // }, 1500);
