@@ -40,30 +40,30 @@ function Navbar({isSearchBar}) {
     const setIsFetch = listPostStore((state) => state.setIsFetch);
 
 
-    // const [searchParams, setSearchParams] = useSearchParams();
-    // const query = {
-    //     type: searchParams.getAll("type") ||[],
-    //     // type: searchParams.getAll("type") && searchParams.getAll("type").length > 0 ? searchParams.getAll("type") : typeOption.map((type) => type.value),
-    //     location: searchParams.get("location") || "",
-    //     latitude: searchParams.get("latitude") || "",
-    //     longitude: searchParams.get("longitude") || "",
-    //     property: searchParams.get("property") || [],
-    //     // property: searchParams.getAll("property") && searchParams.getAll("property").length > 0 ? searchParams.getAll("property") : roomOption.map((type) => type.value),
-    //     minPrice: searchParams.get("minPrice") || MIN_PRICE,
-    //     maxPrice: searchParams.get("maxPrice") || MAX_PRICE,
-    //     minSize: searchParams.get("minSize") || MIN_SIZE,
-    //     maxSize: searchParams.get("maxSize") || MAX_SIZE,
-    // };
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const [types, setTypes] = useState(searchValue.payType);
-    const [rooms, setRooms] = useState(searchValue.propertyType);
-    const [minPrice, setMinPrice] = useState(searchValue.minPrice);
-    const [maxPrice, setMaxPrice] = useState(searchValue.maxPrice);
-    const [minSize, setMinSize] = useState(searchValue.minSize);
-    const [maxSize, setMaxSize] = useState(searchValue.maxSize);
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
-    const [location, setLocation] = useState(searchValue.location);
+
+    const query= {
+        type: searchParams.getAll("type") || typeOption.map((type) => type.value),
+        location: searchParams.get("location") || "",
+        latitude: searchParams.get("latitude") || "",
+        longitude: searchParams.get("longitude") || "",
+        property: searchParams.getAll("property") || roomOption.map((type) => type.value),
+        minPrice: searchParams.get("minPrice") || MIN_PRICE,
+        maxPrice: searchParams.get("maxPrice") || MAX_PRICE,
+        minSize: searchParams.get("minSize") || MIN_SIZE,
+        maxSize: searchParams.get("maxSize") || MAX_SIZE,
+    };
+
+    // const [types, setTypes] = useState(searchValue.payType);
+    // const [rooms, setRooms] = useState(searchValue.propertyType);
+    // const [minPrice, setMinPrice] = useState(searchValue.minPrice);
+    // const [maxPrice, setMaxPrice] = useState(searchValue.maxPrice);
+    // const [minSize, setMinSize] = useState(searchValue.minSize);
+    // const [maxSize, setMaxSize] = useState(searchValue.maxSize);
+    // const [latitude, setLatitude] = useState('');
+    // const [longitude, setLongitude] = useState('');
+    // const [location, setLocation] = useState(searchValue.location);
 
     // const [types, setTypes] = useState((query.type && query.type.length > 0) ? query.type : typeOption.map((type) => type.value));
     // const [rooms, setRooms] = useState((query.property && query.property.length > 0) ? query.property : roomOption.map((type) => type.value));
@@ -75,20 +75,18 @@ function Navbar({isSearchBar}) {
     // const [longitude, setLongitude] = useState(query.longitude);
     // const [location, setLocation] = useState(query.location);
 
-    // const [latitude, setLatitude] = useState(searchValue.latitude);
-    // const [longitude, setLongitude] = useState(searchValue.longitude);
-    // const [location, setLocation] = useState(searchValue.location);
 
-    // console.log('maxSize', maxSize);
-    // console.log('types', types);
-    // console.log('property', rooms);
 
-    // const [minPrice, setMinPrice] = useState(MIN_PRICE);
-    // const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
-    // const [minSize, setMinSize] = useState(MIN_SIZE);
-    // const [maxSize, setMaxSize] = useState(MAX_SIZE);
-    // const [types, setTypes] = useState(searchValue.payType);
-    // const [rooms, setRooms] = useState(searchValue.propertyType);
+    const [latitude, setLatitude] = useState(null);
+    const [longitude, setLongitude] = useState(null);
+    const [location, setLocation] = useState(searchValue.location);
+    const [minPrice, setMinPrice] = useState(searchValue.minPrice);
+    const [maxPrice, setMaxPrice] = useState(searchValue.maxPrice);
+    const [minSize, setMinSize] = useState(searchValue.minSize);
+    const [maxSize, setMaxSize] = useState(searchValue.maxSize);
+    const [types, setTypes] = useState(searchValue.payType);
+    const [rooms, setRooms] = useState(searchValue.propertyType);
+
 
     const handleLocationChange = (location) => {
         setStatus("");
@@ -121,16 +119,16 @@ function Navbar({isSearchBar}) {
         e.stopPropagation();
         setIsLoading(true);
 
-        if(!location) {
+        if (!location) {
             toast.error('주소지를 입력해주세요.');
             return;
         }
-        if(types.length < 1) {
+        if (types.length < 1) {
             toast.error('거래 유형을 선택해주세요.');
             return;
         }
 
-        if(rooms.length < 1) {
+        if (rooms.length < 1) {
             toast.error('매물 종류를 선택해주세요.');
             return;
         }
@@ -140,27 +138,10 @@ function Navbar({isSearchBar}) {
         const sendProperties = rooms.join('&property=');
 
 
-        //search로 click 했을 때만 해당됨
-        // changeSearchValue({
-        //     location,
-        //     payType: types,
-        //     propertyType: rooms,
-        //     minPrice,
-        //     maxPrice,
-        //     minSize,
-        //     maxSize
-        // })
-        //
-        // const sendTypes = types.join('&type=');
-        // const sendProperties = rooms.join('&property=');
-        //
-        // await postFetch(`type=${sendTypes}&location=${location}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);
         setIsLoading(false);
-        // setIsFetch(true);
-        // //url이 변경되게 해야함..
+        //url이 변경되게 해야함..
         navigate(`/list?type=${sendTypes}&location=${location}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);
 
-        // navigate(`/list?type=${sendTypes}&location=${location}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}`);
     };
 
     const clickMenu = (number) => {
@@ -177,18 +158,15 @@ function Navbar({isSearchBar}) {
         changeScrollTop(true);
     }, [scrollTop]);
 
-
-    // useEffect(() => {
-    //     //다시 usestate값 넣어주기
-    //     setTypes(searchValue.payType);
-    //     setRooms(searchValue.propertyType);
-    //     setLocation(searchValue.location);
-    //     setMaxPrice(searchValue.maxPrice);
-    //     setMinPrice(searchValue.minPrice);
-    //     setMaxSize(searchValue.maxSize);
-    //     setMinSize(searchValue.minSize);
-    //
-    // }, [searchValue]);
+    useEffect(() => {
+        setLocation(searchValue.location);
+        setMinPrice(searchValue.minPrice);
+        setMaxPrice(searchValue.maxPrice);
+        setMinSize(searchValue.minSize);
+        setMaxSize(searchValue.maxSize);
+        setTypes(searchValue.payType);
+        setRooms(searchValue.propertyType);
+    }, [searchValue]);
 
     useEffect(() => {
         return () => clearSearchValue();
@@ -264,8 +242,8 @@ function Navbar({isSearchBar}) {
                                                 <p className={scrollTop ? null : 'displayNone'}>유형</p>
                                                 <span className="inputDiv">
                                         {
-                                            ((types.length > 0 && rooms.length > 0) && (types.length + rooms.length === 9)) ?
-                                                '모든 유형' : [...types, ...rooms].map((type) => {
+                                            ((types && rooms) && (types.length + rooms.length === 9)) ?
+                                                '모든 유형' :  [...types, ...rooms].map((type) => {
                                                     return <p key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
                                                 })
                                         }
@@ -444,7 +422,7 @@ const Category = ({types, rooms, setTypes, setRooms, shown, close, scrollTop}) =
 
 
     const clickTypeOption = (option) => {
-        if (types.includes(option.value)) {
+        if (types?.includes(option.value)) {
             setTypes((prev) => prev.filter((element) => (element != option.value)));
         } else {
             setTypes([...types, option.value]);
@@ -453,7 +431,7 @@ const Category = ({types, rooms, setTypes, setRooms, shown, close, scrollTop}) =
 
     const clickRoomOption = (option) => {
 
-        if (rooms.includes(option.value)) {
+        if (rooms?.includes(option.value)) {
             setRooms((prev) => prev.filter((element) => (element != option.value)));
         } else {
             setRooms([...rooms, option.value]);
@@ -475,7 +453,7 @@ const Category = ({types, rooms, setTypes, setRooms, shown, close, scrollTop}) =
                             typeOption.map((option) => {
 
                                 return <div key={option.value}
-                                            className={`labelDiv ${types.includes(option.value) && 'clicked'}`}
+                                            className={`labelDiv ${types?.includes(option.value) && 'clicked'}`}
                                             onClick={() => clickTypeOption(option)}>{option.label}</div>
                             })
                         }
@@ -488,7 +466,7 @@ const Category = ({types, rooms, setTypes, setRooms, shown, close, scrollTop}) =
                         {
                             roomOption.map((option) => {
                                 return <div key={option.value}
-                                            className={`labelDiv ${rooms.includes(option.value) && 'clicked'}`}
+                                            className={`labelDiv ${rooms?.includes(option.value) && 'clicked'}`}
                                             onClick={() => clickRoomOption(option)}>{option.label}</div>
                             })
                         }

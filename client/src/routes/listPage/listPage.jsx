@@ -44,7 +44,6 @@ function ListPage() {
 
     //searchParams 가 변경될때마다 fetch 실행
     useEffect(() => {
-        console.log('listPage');
         const sendTypes = query.type.join('&type=');//searchValue.payType.join('&type='); // //
         const sendProperties = query.property.join('&property=');//searchParams.propertyType.join('&property=');////
 
@@ -53,23 +52,13 @@ function ListPage() {
         //searchbar context에 url 값 넣기
         changeSearchValue({
             location: query.location,
-            payType: sendTypes,
-            propertyType: sendProperties,
+            payType: query.type,
+            propertyType: query.property,
             minPrice: query.minPrice,
             maxPrice: query.maxPrice,
             minSize: query.minSize,
             maxSize: query.maxSize,
         });
-
-        // changeSearchValue({
-        //     location: searchValue.location,
-        //     payType: sendTypes,
-        //     propertyType: sendProperties,
-        //     minPrice: searchValue.minPrice,
-        //     maxPrice: searchValue.maxPrice,
-        //     minSize: searchValue.minSize,
-        //     maxSize: searchValue.maxSize,
-        // });
 
     }, [searchParams]);
 
@@ -82,7 +71,6 @@ function ListPage() {
             changeFixedNavbar(false);
             //정리
             clearSearchValue();
-            console.log('?/??');
         };
 
     }, []);

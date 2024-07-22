@@ -37,47 +37,30 @@ function Map({items}) {
       zoomend: useCallback(async (e) => {
         if (!isFetch) { // 서칭창으로 검색했을 때 zoomend가 항상 실행됨 -> 맵에서 zoom 했을 때만 실행되도록 & 외부에서 url 쳐서 들어올때도 막아야함
           console.log('zoomeend', isFetch);
-          // changeSearchValue({...searchValue, location: '지도 표시 지역'});
+          changeSearchValue({...searchValue, location: '지도 표시 지역'});
           await setIsLoading(true);
           //줌 중심 위치 찾기
           const center = e.target.getCenter(); //{lat,lng}
           const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
-          console.log('wrappedCenter', wrappedCenter);
-          // const sendTypes = query.type.join('&type=');
-          // const sendProperties = query.property.join('&property=');
 
-          // await postFetch(`type=${sendTypes}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
-          await setSearchParams({...query, location: query.location, latitude: Number(wrappedCenter.lat), longitude: Number(wrappedCenter.lng) });
-          // await setSearchParams({...query, location: query.location, latitude: query.latitude, longitude: query.longitude });
+          await setSearchParams({...query, location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng });
 
 
           await setIsLoading(false);
-        }else {
-          // await setIsLoading(true);
-          //
-          // await setSearchParams({...query, location: query.location, latitude: query.latitude, longitude: query.longitude });
-          //
-          // await setIsLoading(false);
-
-
         }
         setIsFetch(false);
       }, [isFetch]),
       dragend: async (e) => {
         console.log('dragend');
 
-        // changeSearchValue({...searchValue, location: '지도 표시 지역'});
+        changeSearchValue({...searchValue, location: '지도 표시 지역'});
 
         await setIsLoading(true);
         const center = e.target.getCenter(); //{lat,lng}
         const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
 
-        const sendTypes = query.type.join('&type=');
-        const sendProperties = query.property.join('&property=');
-        // await postFetch(`type=${sendTypes}&location=${query.location}&latitude=${wrappedCenter.lat}&longitude=${wrappedCenter.lng}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
         //쿼리스트링 변경
-        await setSearchParams({...query,location: query.location, latitude: Number(wrappedCenter.lat), longitude: Number(wrappedCenter.lng) });
-        // await setSearchParams({...query, location: query.location, latitude: query.latitude, longitude: query.longitude });
+        await setSearchParams({...query,location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng });
 
         await setIsLoading(false);
       }

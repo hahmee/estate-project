@@ -67,14 +67,14 @@ export const getPosts = async (req, res) => {
 
 
     //minPrice 값 없을 때
-    const minPriceQuery = (query.minPrice === null || query.minPrice === undefined) ? {$gte: MIN_PRICE} : {$gte: Number(query.minPrice)};
+    const minPriceQuery = (query.minPrice === null || query.minPrice === undefined || query.minPrice === "") ? {$gte: MIN_PRICE} : {$gte: Number(query.minPrice)};
     //maxPrice 값 없을 때
-    const maxPriceQuery = (query.maxPrice === null || query.maxPrice === undefined || Number(query.maxPrice) >= MAX_PRICE) ? {} : {$lte: Number(query.maxPrice)};
+    const maxPriceQuery = (query.maxPrice === null || query.maxPrice === undefined || Number(query.maxPrice) >= MAX_PRICE || query.maxPrice === "") ? {} : {$lte: Number(query.maxPrice)};
 
     //minSize 값 없을 때
-    const minSizeQuery = (query.minSize === null || query.minSize === undefined) ? {$gte: MIN_SIZE} : {$gte: Number(query.minSize)};
+    const minSizeQuery = (query.minSize === null || query.minSize === undefined || query.minSize ==="") ? {$gte: MIN_SIZE} : {$gte: Number(query.minSize)};
     //maxSize 값 없을 때 (60이상 값이 들어오면 사이즈 무한대로 보여줌)
-    const maxSizeQuery = (query.maxSize === null || query.maxSize === undefined || Number(query.maxSize) >= MAX_SIZE) ? {} : {$lte: Number(query.maxSize)};
+    const maxSizeQuery = (query.maxSize === null || query.maxSize === undefined || Number(query.maxSize) >= MAX_SIZE || query.maxSize === "") ? {} : {$lte: Number(query.maxSize)};
 
 
     //mongodb Atlas에 create Index {location:2dsphere} 작업 필요
@@ -88,8 +88,8 @@ export const getPosts = async (req, res) => {
             spherical: true,
             query: {
               price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
-              type: {$in: (query.type === undefined || query.type === null) ? payType : queryType},
-              property: {$in: (query.property === undefined || query.property === null) ? roomType : queryProperty},
+              type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
+              property: {$in: (query.property === undefined || query.property === null || query.property ==="") ? roomType : queryProperty},
               size:  {...minSizeQuery, ...maxSizeQuery},
             }
           },
