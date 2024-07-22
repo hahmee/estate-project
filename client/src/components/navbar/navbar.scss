@@ -235,14 +235,32 @@ nav.topNav {
   top: 150px;
   width: 52em;
 
+
   .suggestion-item {
     padding: 10px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap:10px;
+
   }
   .suggestion-item--active {
     padding: 10px;
     background-color: #eee;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap:10px;
+  }
+  .locationIcon{
+    background: #d9d9d9;
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333333;
   }
 }
 
@@ -292,11 +310,14 @@ nav.topNav {
     padding: 5px 25px;
     border: 1px solid #999999;
     border-radius: 20px;
+    font-weight: 500;
   }
 
   .clicked {
-    border-color: #222222;
-    background-color: #eeeeee;
+    border-color: #3CB371;
+    background-color: #3CB371;
+    color: white;
+    font-weight: 600;
   }
 
 }

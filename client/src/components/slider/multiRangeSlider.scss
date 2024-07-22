@@ -56,7 +56,7 @@
   }
 
   .slider__range {
-    background-color: gray;
+    background-color: #3CB371;
     z-index: 2;
   }
 
@@ -114,7 +114,7 @@
     background-color: white;
     border: none;
     border-radius: 50%;
-    box-shadow: 0 0 1px 1px #DDDDDD;
+    box-shadow: 0 0 1px 1px #999999;
     cursor: pointer;
     height: 18px;
     width: 18px;
@@ -125,10 +125,10 @@
 
   /* For Firefox browsers */
   .thumb::-moz-range-thumb {
-    background-color: #f1f5f7;
+    background-color: white;
     border: none;
     border-radius: 50%;
-    box-shadow: 0 0 1px 1px #ced4da;
+    box-shadow: 0 0 1px 1px #999999;
     cursor: pointer;
     height: 18px;
     width: 18px;
@@ -143,6 +143,7 @@
     margin-top: 5em;
     justify-content: space-between;
     align-items: center;
+    font-weight: 600;
 
     .divideLine {
       width: 20px;

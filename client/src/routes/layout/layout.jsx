@@ -20,20 +20,34 @@ function Layout() {
         }
     }, [scrollTop]);
 
+    useEffect(() => {
+
+
+        if(fixedNavbar) { //Navbar 상단에 고정시킨다면
+            changeScrollTop(false); //scroll값이 top에 가는 값 거짓
+        }
+    }, [scrollTop, fixedNavbar]);
 
     useEffect(() => {
         if (layoutRef.current) {
-            if (!fixedNavbar) { //고정 아니라면
-                changeScrollTop(true);
-                layoutRef.current.addEventListener('scroll', handleScroll, false);
-            } else { // 고정
-                changeScrollTop(false);
-                layoutRef.current.removeEventListener('scroll', handleScroll, false);
-            }
-            // return () => layoutRef.current.removeEventListener('scroll', handleScroll, false); // 안하면 location페이지에서 에러남
-        }
-    }, [fixedNavbar, outsideClick]);
+            changeScrollTop(true);
+            layoutRef.current.addEventListener('scroll', handleScroll, true);
+            // if (!fixedNavbar) { //고정 아니라면
+            //     console.log('gg');
+            //     changeScrollTop(true);
+            //     layoutRef.current.addEventListener('scroll', handleScroll, true);
+            // } else { // 고정
+            //     console.log('kk');
+            //     changeScrollTop(false);
+            //     layoutRef.current.removeEventListener('scroll', handleScroll, true);
+            // }
 
+            // return () => layoutRef.current.removeEventListener('scroll', handleScroll, true); // 안하면 location페이지에서 에러남
+        }
+
+        // console.log('fixedNavbar', fixedNavbar);
+
+    }, []);
 
     return (
         <div className="app" ref={layoutRef}>

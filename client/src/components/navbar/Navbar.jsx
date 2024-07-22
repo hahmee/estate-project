@@ -23,8 +23,7 @@ export const MIN_SIZE = 0;
 
 function Navbar({isSearchBar}) {
 
-
-    const {scrollTop, changeScrollTop} = useContext(NavbarContext);
+    const {scrollTop, changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
     const {searchValue, clearSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
@@ -48,7 +47,6 @@ function Navbar({isSearchBar}) {
     const handleLocationChange = (location) => {
         setStatus("");
         setLocation(location);
-
     };
 
     const handleSelect = (location, placeId, suggestions) => {
@@ -96,7 +94,6 @@ function Navbar({isSearchBar}) {
         const sendTypes = types.join('&type=');
         const sendProperties = rooms.join('&property=');
 
-
         setIsLoading(false);
         //url이 변경되게 해야함..
         navigate(`/list?type=${sendTypes}&location=${location}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}&searchedLng=${longitude}`);
@@ -108,13 +105,15 @@ function Navbar({isSearchBar}) {
         setNotClicked(true);
     };
 
-    const closeDropdown = () => {
+    const closeDropdown = useCallback(() => {
         setCurrentClicked(0);
         setNotClicked(false);
-    };
+        changeFixedNavbar(true); //위로 고정
+    },[]);
 
     const openTopScrollNav = useCallback(() => {
         changeScrollTop(true);
+        changeFixedNavbar(false);// 위로 고정 안 함
     }, [scrollTop]);
 
     useEffect(() => {
@@ -140,11 +139,10 @@ function Navbar({isSearchBar}) {
         <>
             {
                 (scrollTop && currentClicked !== 0) && <div className="searchClickBackground"></div>
-
-                //밖에 클릭했을 때 기본 nav로 돌아가게[
+                //밖에 클릭했을 때 기본 nav로 돌아가게
             }
 
-            <nav className={scrollTop ? "topNav" : "null"}>
+            <nav className={scrollTop ? "topNav" : null}>
                 <div className='upperNav'>
                     <div className="logo" onClick={() => navigate('/')}>
                         <span className="material-symbols-outlined">apartment</span>
@@ -202,12 +200,12 @@ function Navbar({isSearchBar}) {
                                                  onClick={() => clickMenu(2)}>
                                                 <p className={scrollTop ? null : 'displayNone'}>유형</p>
                                                 <span className="inputDiv">
-                                        {
-                                            ((types && rooms) && (types.length + rooms.length === 9)) ?
-                                                '모든 유형' :  [...types, ...rooms].map((type) => {
-                                                    return <p key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
-                                                })
-                                        }
+                                            {
+                                                ((types && rooms) && (types.length + rooms.length === 9)) ?
+                                                    '모든 유형' :  [...types, ...rooms].map((type) => {
+                                                        return <p key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
+                                                    })
+                                            }
                                     </span>
                                             </div>
                                             <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`}
@@ -220,11 +218,8 @@ function Navbar({isSearchBar}) {
                                             <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
                                                  onClick={() => clickMenu(4)}>
                                                 <p className={scrollTop ? null : 'displayNone'}>크기</p>
-                                                <span className="inputDiv">
-                                            {minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}
-                                        </span>
-                                                <span className="material-symbols-outlined"
-                                                      onClick={(e) => searchClick(e)}>search</span>
+                                                <span className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
+                                                <span className="material-symbols-outlined" onClick={(e) => searchClick(e)}>search</span>
                                             </div>
 
                                         </div>
@@ -284,6 +279,9 @@ const Location = ({suggestions, getSuggestionItemProps, loading, status, shown, 
                                     className,
                                 })}
                             >
+                                <div className="locationIcon">
+                                    <span className="material-symbols-outlined">location_on</span>
+                                </div>
                                 <span>{suggestion.description}</span>
                             </div>
                         );
@@ -412,7 +410,6 @@ const Category = ({types, rooms, setTypes, setRooms, shown, close, scrollTop}) =
                     <div className="selectDiv">
                         {
                             typeOption.map((option) => {
-
                                 return <div key={option.value}
                                             className={`labelDiv ${types?.includes(option.value) && 'clicked'}`}
                                             onClick={() => clickTypeOption(option)}>{option.label}</div>
