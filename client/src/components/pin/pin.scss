@@ -80,11 +80,8 @@
   .popupContainer {
     display: flex;
     flex-direction: column;
-    //width: 200px;
-    //height: 250px;
-
     margin: 0;
-    //width: 100%;
+    height: 100%;
 
     img {
       width: 100%;
@@ -95,18 +92,43 @@
     }
 
     .textContainer {
-      display: grid;
-      background: gold;
+      display: flex;
+      //margin: auto;
+      padding:5px 10px;
+      //background: gold;
       //margin:10px 5px;
-      //flex-direction: column;
+      flex-direction: column;
       //justify-content: space-between;
+
+      div {
+        color:#444444;
+        font-size: 15px;
+        &:nth-child(1) {
+          display: flex;
+          justify-content: space-between;
+          font-weight: 600;
+          font-size: 17px;
+          align-items: center;
+          .savedCnt {
+            display: flex;
+            align-items: center;
+            gap:1px;
+          }
+        }
+        &:nth-child(4) {
+          font-weight: 600;
+        }
+
+      }
+
     }
 
     .icons {
       z-index: 3;
       .pinButton {
+        top:10px;
         position: absolute;
-        right:0;
+        right:53px;
         .red {
           color:red
         }
@@ -117,8 +139,9 @@
       }
 
       .pinRightButton {
+        top:10px;
         position: absolute;
-        right:45px;
+        right:10px;
 
         span{
           font-size: 20px;

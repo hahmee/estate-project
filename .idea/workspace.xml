@@ -7,15 +7,8 @@
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/post.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/api/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/UI/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Button.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/card/Card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/card/Card.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/list/List.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/list/List.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/pin/Pin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pin/Pin.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/pin/pin.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pin/pin.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +93,7 @@
       <workItem from="1721183657766" duration="65056000" />
       <workItem from="1721349630086" duration="28060000" />
       <workItem from="1721402675799" duration="3197000" />
-      <workItem from="1721457664374" duration="57305000" />
+      <workItem from="1721457664374" duration="61229000" />
     </task>
     <servers />
   </component>
