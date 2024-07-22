@@ -54,18 +54,18 @@ function RequireAuth() {
   if (!currentUser) return <Navigate to="/login" />;
 
   else {
-    return (
-        <div className="app">
-            <div className="layout">
-                <div className="navbar">
-                    <Navbar/>
-                </div>
-                <div className="content">
-                    <Outlet/>
-                </div>
-            </div>
-        </div>
-    );
+      return (
+          <div className="app">
+              <Navbar isSearchBar={false}/>
+              <div className="layoutUpper">
+                  <div className="layout">
+                      <div className="content">
+                          <Outlet/>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      );
   }
 }
 

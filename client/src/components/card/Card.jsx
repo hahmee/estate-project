@@ -1,6 +1,5 @@
-import {Link, useLoaderData, useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "./card.scss";
-import apiRequest from "../../lib/apiRequest.js";
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {savedPostStore} from "../../lib/savedPostStore.js";
@@ -25,7 +24,7 @@ function Card({ card }) {
     // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
     setSaved((prev) => !prev);
     try {
-      await save(card._id.$oid);// await apiRequest.post("/users/save", { postId: item.id });
+      await save(card?._id?.$oid || card.id);// await apiRequest.post("/users/save", { postId: item.id });
       setCurrentSavedPost(card);
       await savePostsFetch();
 
@@ -39,12 +38,12 @@ function Card({ card }) {
 
   return (
       <div className="card">
-        <Link to={`/read/${card._id.$oid}`} className="imageContainer">
+        <Link to={`/read/${card?._id?.$oid || card.id}`} className="imageContainer">
           <img src={card.images[0]} alt="image"/>
         </Link>
         <div className="textContainer">
           <h2 className="title">
-            <Link to={`/read/${card._id.$oid}`}>{card.title}</Link>
+            <Link to={`/read/${card?._id?.$oid || card.id}`}>{card.title}</Link>
           </h2>
           <p className="address">
             <img src="/pin.png" alt="pin"/>
@@ -63,9 +62,7 @@ function Card({ card }) {
               </div>
             </div>
             <div className="icons">
-              <div className="icon" style={{
-                backgroundColor: saved ? "#fece51" : "white",
-              }} onClick={handleSave}>
+              <div className="icon" style={{backgroundColor: saved ? "#fece51" : "white",}} onClick={handleSave}>
                 <img src="/save.png" alt="save"/>
               </div>
             </div>

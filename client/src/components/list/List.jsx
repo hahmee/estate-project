@@ -1,10 +1,7 @@
 import './list.scss'
-import Card from"../card/Card"
-import {useLoaderData} from "react-router-dom";
-import {useEffect} from "react";
+import Card from "../card/Card"
 
 function List({posts}){
-
   return (
       <div className='list'>
         {

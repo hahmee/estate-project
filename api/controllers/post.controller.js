@@ -91,13 +91,23 @@ export const getPosts = async (req, res) => {
               type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
               property: {$in: (query.property === undefined || query.property === null || query.property ==="") ? roomType : queryProperty},
               size:  {...minSizeQuery, ...maxSizeQuery},
-            }
+              // includes: {savedPosts: true}
+            },
           },
+        },
+        {
+          $lookup: {
+            from: "SavedPost",
+            localField: "_id",
+            foreignField: "postId",
+            as: "savedPostList"
+          }
         },
       ],
     });
 
-    console.log('posts입니다.', posts);
+    console.log('posts입니다.ㅇㅇㅇㅇzzz', posts);
+    // console.log('posts입니다.ㅇㅇㅇㅇzzz', posts[0].savedPosts);
 
     const savedPosts = await prisma.user.findUnique({
       where: {
@@ -112,6 +122,8 @@ export const getPosts = async (req, res) => {
       return save.postId;
     });
 
+    // console.log('savedPosts입니다~', savedPosts);
+    // console.log('savedPostIds입니다~', savedPostIds);
 
     posts.forEach((post) => {
       post.isSaved = false;
@@ -120,9 +132,9 @@ export const getPosts = async (req, res) => {
           post.isSaved = true;
         }
       })
-    })
+    });
 
-
+    // console.log('완성', posts);
     // setTimeout(() => {
       res.status(200).json(posts);
     // }, 1500);

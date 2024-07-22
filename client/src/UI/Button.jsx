@@ -1,7 +1,7 @@
 import React from 'react';
 import { BeatLoader } from "react-spinners";
 
-const Button = ({ children, textOnly, className, outlined, loading, ...props}) => {
+const Button = ({ children, textOnly,round, className, outlined, loading, ...props}) => {
 
     let sCss = '';
 
@@ -9,7 +9,10 @@ const Button = ({ children, textOnly, className, outlined, loading, ...props}) =
         sCss = 'outlined-button';
     }else if (textOnly) {
         sCss = 'text-button';
-    } else {
+    } else if (round) {
+        sCss = 'round-button';
+    }
+    else {
         sCss = 'button';
     }
 

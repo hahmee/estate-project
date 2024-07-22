@@ -95,23 +95,36 @@
     }
 
     .textContainer {
-      display: flex;
-      margin:10px 5px;
-      flex-direction: column;
-      justify-content: space-between;
+      display: grid;
+      background: gold;
+      //margin:10px 5px;
+      //flex-direction: column;
+      //justify-content: space-between;
     }
 
     .icons {
-      display: flex;
-      gap: 20px;
-      position: absolute;
-      top: 0;
-      right: 0;
-      border: none;
-      text-align: center;
       z-index: 3;
-      //height: 20px;
-      //border-radius: 50%;
+      .pinButton {
+        position: absolute;
+        right:0;
+        .red {
+          color:red
+        }
+        span{
+          font-size: 20px;
+          font-weight: 600;
+        }
+      }
+
+      .pinRightButton {
+        position: absolute;
+        right:45px;
+
+        span{
+          font-size: 20px;
+          font-weight: 600;
+        }
+      }
 
       .icon {
         border: 1px solid #999;

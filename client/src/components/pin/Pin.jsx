@@ -12,6 +12,7 @@ import apiRequest from "../../lib/apiRequest.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import {currencyFormatter} from "../../util/formatting.js";
+import Button from "../../UI/Button.jsx";
 
 
 
@@ -24,12 +25,11 @@ const settings = {
 };
 
 function Pin({item}) {
-
     const navigate = useNavigate();
     const { currentUser } = useContext(AuthContext);
     const [saved, setSaved] = useState(item.isSaved);
     const save = savedPostStore((state) => state.save);
-    const fetch = savedPostStore((state) => state.fetch);
+    const savedPostFetch = savedPostStore((state) => state.fetch);
     const popup = useRef();
 
     const customMarkerIcon = divIcon({
@@ -47,8 +47,8 @@ function Pin({item}) {
         // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
         setSaved((prev) => !prev);
         try {
-            await save(item.id);// await apiRequest.post("/users/save", { postId: item.id });
-            await fetch();
+            await save( item._id?.$oid || item.id);// await apiRequest.post("/users/save", { postId: item.id });
+            await savedPostFetch();
 
         } catch (err) {
             console.log(err);
@@ -71,16 +71,16 @@ function Pin({item}) {
                 <Popup className="popup" ref={popup}>
                     <div className="popupContainer">
                         <div className="icons">
-                            <div className="icon" onClick={handleSave}>
+                            <Button round onClick={handleSave} className="pinButton">
                                 {
-                                    saved ? <FontAwesomeIcon icon={faHeart} style={{backgroundColor: 'red'}}/> :
-                                        <FontAwesomeIcon icon={faHeart}/>
+                                    saved ? <span className="material-symbols-outlined red">favorite</span> :
+                                        <span className="material-symbols-outlined">favorite</span>
                                 }
-                            </div>
-                            <div className="icon" onClick={closePopup}>
-                                <FontAwesomeIcon icon={faCircleXmark}/>
-                            </div>
+                            </Button>
 
+                            <Button round onClick={closePopup} className="pinRightButton">
+                                <span className="material-symbols-outlined">close</span>
+                            </Button>
                         </div>
                         <Slider {...settings} className="slick-slider">
                             {
@@ -92,8 +92,13 @@ function Pin({item}) {
 
                         <div className="textContainer">
                             <Link to={`/read/${item.id}`}>{item.title}</Link>
-                            <span>{item.bedroom} bedroom</span>
-                            <b>₩{item.price}</b>
+                            <span>{item.savedPostList.length}</span>
+
+                            <span>{item.size}평</span>
+                            <span>{item.type}</span>
+                            <span>{item.property}</span>
+
+                            <b>{currencyFormatter.format(item.price)}</b>
                         </div>
                     </div>
                 </Popup>

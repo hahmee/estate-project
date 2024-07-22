@@ -2,12 +2,12 @@ import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import "./profilePage.scss";
 import apiRequest from "../../lib/apiRequest";
-import {Await, defer, Link, useLoaderData, useNavigate, useRevalidator, useSearchParams} from "react-router-dom";
-import {Suspense, useContext, useEffect, useState} from "react";
-import { AuthContext } from "../../context/AuthContext";
+import {Await, useLoaderData, useNavigate, useSearchParams} from "react-router-dom";
+import {Suspense, useContext, useEffect} from "react";
+import {AuthContext} from "../../context/AuthContext";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import Button from "../../UI/Button.jsx";
-import { googleLogout } from '@react-oauth/google';
+import {googleLogout} from '@react-oauth/google';
 import {toast} from "react-toastify";
 
 function ProfilePage() {
@@ -17,18 +17,9 @@ function ProfilePage() {
 
   const navigate = useNavigate();
 
-  const savedPosts = savedPostStore((state) => state.savedPosts);
+  const currentSavedPost = savedPostStore((state) => state.currentSavedPost);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const query = {
-    type: searchParams.get("type") || "",
-    city: searchParams.get("city") || "",
-    property: searchParams.get("property") || "",
-    minPrice: searchParams.get("minPrice") || "",
-    maxPrice: searchParams.get("maxPrice") || "",
-    bedroom: searchParams.get("bedroom") || "",
-  }
 
   const handleLogout = async () => {
     try {
@@ -47,12 +38,10 @@ function ProfilePage() {
   };
 
   useEffect(() => {
-    const getPostList = () => {
-      setSearchParams(query);
-    }
-    getPostList();
 
-  }, [savedPosts]);
+    setSearchParams();
+
+  }, [currentSavedPost]);
 
   return (
       <div className="profilePage">
