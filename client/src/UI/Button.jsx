@@ -1,16 +1,19 @@
 import React from 'react';
 import { BeatLoader } from "react-spinners";
 
-const Button = ({ children, textOnly,round, className, outlined, loading, ...props}) => {
+const Button = ({children, textOnly, icon, round, className, outlined, loading, ...props}) => {
+
 
     let sCss = '';
 
     if (outlined) {
         sCss = 'outlined-button';
-    }else if (textOnly) {
+    } else if (textOnly) {
         sCss = 'text-button';
     } else if (round) {
         sCss = 'round-button';
+    }else if (icon) {
+        sCss = 'icon-button';
     }
     else {
         sCss = 'button';
@@ -25,6 +28,6 @@ const Button = ({ children, textOnly,round, className, outlined, loading, ...pro
             }
         </button>
     );
-}
+};
 
 export default Button;

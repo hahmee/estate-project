@@ -305,12 +305,9 @@ function SinglePage() {
                       outlined
                       onClick={handleSave}
                       className="actionBtn"
-                      style={{
-                        backgroundColor: saved ? "#fece51" : "#fff",
-                        borderColor: saved ? "#fece51" : "rgb(221, 221, 221)",
-                      }}>
+                  >
                     <div className="buttonHeart">
-                      <span className="material-symbols-outlined" style={{color: saved && 'red'}}>favorite</span>
+                      <span className={`material-symbols-outlined ${saved ? "clickedHeart" : ""}`}>favorite</span>
                       <p>&nbsp;{heartCnt}</p>
                     </div>
                   </Button>

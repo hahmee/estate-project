@@ -29,6 +29,7 @@ function Pin({item}) {
     const savedPostFetch = savedPostStore((state) => state.fetch);
     const popup = useRef();
 
+
     const customMarkerIcon = divIcon({
         html: `<div class=${saved ? "saved-pin" : "marker"}><div>${currencyFormatter.format(item.price)}</div></div>`
     });
@@ -72,11 +73,10 @@ function Pin({item}) {
                         <div className="icons">
                             <Button round onClick={handleSave} className="pinButton">
                                 {
-                                    saved ? <span className="material-symbols-outlined red">favorite</span> :
+                                    saved ? <span className="material-symbols-outlined clickedHeart">favorite</span> :
                                         <span className="material-symbols-outlined">favorite</span>
                                 }
                             </Button>
-
                             <Button round onClick={closePopup} className="pinRightButton">
                                 <span className="material-symbols-outlined">close</span>
                             </Button>
@@ -89,8 +89,8 @@ function Pin({item}) {
                             }
                         </Slider>
                         <div className="textContainer">
-                        <div>
-                                <div onClick={`/read/${item.id}`}>{item.title}</div>
+                            <div>
+                                <div onClick={() => navigate(`/read/${item.id}`)}>{item.title}</div>
                                 <div className="savedCnt">
                                     <span className="material-symbols-outlined"
                                           style={{fontSize: '18px'}}>favorite</span>

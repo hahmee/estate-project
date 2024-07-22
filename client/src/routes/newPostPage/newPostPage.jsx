@@ -207,7 +207,7 @@ function NewPostPage() {
             </div>
 
             <div className="item">
-              <Input label="면적" min={0} id="size" name="size" type="number"/>
+              <Input label="면적(평)" min={0} id="size" name="size" type="number"/>
               <Input label="가격" id="price" name="price" type="number"/>
               <Input label="관리비" id="maintenance" name="maintenance" type="number"/>
             </div>

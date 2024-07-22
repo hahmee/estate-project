@@ -13,7 +13,7 @@
   position: relative;
   border: 1px solid #bbb;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-  background-color: rgb(254, 206, 81);
+  background-color: #ff6e7e;
   padding: 0px 20px;
   height: 28px;
   border-radius: 28px;
@@ -129,8 +129,9 @@
         top:10px;
         position: absolute;
         right:53px;
-        .red {
-          color:red
+        .clickedHeart {
+          font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+          color:#DB4455;
         }
         span{
           font-size: 20px;

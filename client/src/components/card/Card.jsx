@@ -4,6 +4,7 @@ import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import {currencyFormatter} from "../../util/formatting.js";
+import Button from "../../UI/Button.jsx";
 
 function Card({ card }) {
   const { currentUser } = useContext(AuthContext);
@@ -54,17 +55,19 @@ function Card({ card }) {
             <div className="features">
               <div className="feature">
                 <img src="/bed.png" alt="bed"/>
-                <span>{card.bedroom} bedroom</span>
+                <span>{card.bedroom} 침실</span>
               </div>
               <div className="feature">
                 <img src="/bath.png" alt="bath"/>
-                <span>{card.bathroom} bathroom</span>
+                <span>{card.bathroom} 욕실</span>
               </div>
             </div>
             <div className="icons">
-              <div className="icon" style={{backgroundColor: saved ? "#fece51" : "white",}} onClick={handleSave}>
-                <img src="/save.png" alt="save"/>
-              </div>
+              <Button icon onClick={handleSave} className="icon">
+                {
+                  <span className={`material-symbols-outlined icon ${saved ? "clickedHeart" : ""}`}>favorite</span>
+                }
+              </Button>
             </div>
           </div>
         </div>

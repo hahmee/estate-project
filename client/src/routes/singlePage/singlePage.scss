@@ -116,6 +116,10 @@
               p {
                 font-weight: 700;
               }
+              .clickedHeart {
+                font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+                color:#DB4455;
+              }
             }
           }
         }

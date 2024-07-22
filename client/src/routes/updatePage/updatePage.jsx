@@ -129,8 +129,8 @@ function UpdatePage() {
                         </div>
 
                         <div className="item">
-                            <Input label="면적" min={0} id="size" name="size" type="number"
-                                   defaultValue={post.postDetail.size}/>
+                            <Input label="면적(평)" min={0} id="size" name="size" type="number"
+                                   defaultValue={post.size}/>
                             <Input label="가격" id="price" name="price" type="number" defaultValue={post.price}/>
                             <Input label="관리비" id="maintenance" name="maintenance" type="number"
                                    defaultValue={post.maintenance}/>
