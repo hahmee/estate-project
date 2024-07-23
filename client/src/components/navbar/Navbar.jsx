@@ -1,6 +1,6 @@
-import React, {useCallback, useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import "./navbar.scss";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import {useNotificationStore} from "../../lib/notificationStore";
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
@@ -13,6 +13,7 @@ import Button from "../../UI/Button.jsx";
 import {NavbarContext} from "../../context/NavbarContext.jsx";
 import {toast} from "react-toastify";
 import {SearchbarContext} from "../../context/SearchbarContext.jsx";
+import {usePageUrlStore} from "../../lib/pageUrlStore.js";
 
 
 export const MAX_PRICE = 1000000000;
@@ -43,6 +44,15 @@ function Navbar({isSearchBar}) {
     const [maxSize, setMaxSize] = useState(searchValue.maxSize);
     const [types, setTypes] = useState(searchValue.payType);
     const [rooms, setRooms] = useState(searchValue.propertyType);
+
+
+    const setCurrentUrl = usePageUrlStore((state) => state.setCurrentUrl);
+    const setPrvUrl = usePageUrlStore((state) => state.setPrvUrl);
+    const currentLocation = useLocation();
+    const [prevLocation, setPrevLocation] = useState(null);
+    const lastSavedLocation = useRef(null); // temp buffer
+
+
 
     const handleLocationChange = (location) => {
         setStatus("");
@@ -127,6 +137,19 @@ function Navbar({isSearchBar}) {
         setTypes(searchValue.payType);
         setRooms(searchValue.propertyType);
     }, [searchValue]);
+
+
+    //pageUrlStorage에 url 변경될때마다 현재 url 담는다.
+    useEffect(() => {
+        setPrevLocation(lastSavedLocation.current); //lastSavedLocation담겨있는 값 넣기
+        lastSavedLocation.current = currentLocation; // 현재 값 lastSavedLocation에 넣기
+        setCurrentUrl(currentLocation);
+    }, [currentLocation]);
+
+    //pageUrlStorage에 url 변경될때마다 이전 url 담는다.
+    useEffect(() => {
+        setPrvUrl(prevLocation);
+    }, [prevLocation]);
 
     useEffect(() => {
         return () => clearSearchValue();

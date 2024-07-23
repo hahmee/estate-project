@@ -1,5 +1,4 @@
 import "./singlePage.scss";
-import Map from "../../components/map/Map";
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import {useContext, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
@@ -9,15 +8,16 @@ import {options, roomOption, safeOptions, typeOption} from "../newPostPage/newPo
 import Button from "../../UI/Button.jsx";
 import {currencyFormatter} from "../../util/formatting.js";
 import MapSingle from "../../components/map/MapSingle.jsx";
+import {usePageUrlStore} from "../../lib/pageUrlStore.js";
 
 function SinglePage() {
   const post = useLoaderData();
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const previousUrl = usePageUrlStore((state) => state.previousUrl);
   const [heartCnt, setHeartCnt] = useState(post.savedCount);
   const { id } = useParams();
-
   const handleSave = async () => {
     if (!currentUser) {
       navigate("/login");
@@ -49,7 +49,9 @@ function SinglePage() {
 
 
       await apiRequest.delete(`/posts/${id}`);
-      navigate("/list");
+
+      //이전페이지로 되돌아간다
+      navigate(`${previousUrl.pathname}${previousUrl.search}`);
 
     }catch (err) {
       console.log(err);
@@ -302,13 +304,13 @@ function SinglePage() {
                       )
                   }
                   <Button
-                      outlined
+                      // outlined
                       onClick={handleSave}
                       className="actionBtn"
                   >
                     <div className="buttonHeart">
                       <span className={`material-symbols-outlined ${saved ? "clickedHeart" : ""}`}>favorite</span>
-                      <p>&nbsp;{heartCnt}</p>
+                      <span>{heartCnt}</span>
                     </div>
                   </Button>
                 </div>

@@ -15,7 +15,7 @@ import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../../components/navbar/
 function ListPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     const {currentUser} = useContext(AuthContext);
-    const {clearSearchValue, searchValue, changeSearchValue} = useContext(SearchbarContext);
+    const {clearSearchValue, changeSearchValue} = useContext(SearchbarContext);
     const query = {
         type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
         location: searchParams.get("location") || "",
@@ -95,26 +95,7 @@ function ListPage() {
                                         <Card key={idx} card={post}/>
                                     ))
                         }
-                        {
-                            // isLoading ? <ListLoading/> :
-                            (posts.length < 1) ? (
-                                    <div className="noFinding">
-                                        검색 결과가 없습니다.
-                                    </div>) :
-                                posts.map((post, idx) => (
-                                    <Card key={idx} card={post}/>
-                                ))
-                        }
-                        {
-                            // isLoading ? <ListLoading/> :
-                            (posts.length < 1) ? (
-                                    <div className="noFinding">
-                                        검색 결과가 없습니다.
-                                    </div>) :
-                                posts.map((post, idx) => (
-                                    <Card key={idx} card={post}/>
-                                ))
-                        }
+
                     </div>
                 </div>
 

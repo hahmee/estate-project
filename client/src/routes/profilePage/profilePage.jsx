@@ -2,7 +2,7 @@ import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import "./profilePage.scss";
 import apiRequest from "../../lib/apiRequest";
-import {Await, useLoaderData, useNavigate, useSearchParams} from "react-router-dom";
+import {Await, useLoaderData, useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {Suspense, useContext, useEffect} from "react";
 import {AuthContext} from "../../context/AuthContext";
 import {savedPostStore} from "../../lib/savedPostStore.js";
@@ -20,7 +20,6 @@ function ProfilePage() {
   const currentSavedPost = savedPostStore((state) => state.currentSavedPost);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
   const handleLogout = async () => {
     try {
       await apiRequest.post("/auth/logout");

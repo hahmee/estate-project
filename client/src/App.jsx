@@ -1,5 +1,5 @@
 import HomePage from "./routes/homePage/homePage";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import ListPage from "./routes/listPage/listPage";
 import {CreateProcess, Layout, RequireAuth} from "./routes/layout/layout";
 import SinglePage from "./routes/singlePage/singlePage";
@@ -14,6 +14,7 @@ import NewLocationPage from "./routes/newLocationPage/newLocationPage.jsx";
 import UpdatePage from "./routes/updatePage/updatePage.jsx";
 
 function App() {
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -30,7 +31,7 @@ function App() {
         },
         {
           path: "read/:id",
-          element: <SinglePage />,
+          element: <SinglePage/>,
           loader: singlePageLoader,
         },
         {
