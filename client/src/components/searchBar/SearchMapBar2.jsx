@@ -1,4 +1,4 @@
-import PlacesAutocomplete, {geocodeByAddress, getLatLng,} from 'react-places-autocomplete';
+import PlacesAutocomplete, {geocodeByAddress, geocodeByPlaceId, getLatLng,} from 'react-places-autocomplete';
 import React, {useContext, useEffect, useState} from "react";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import {useSearchParams} from "react-router-dom";
@@ -33,7 +33,14 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
         setSuggestionsVisible(true);
     };
 
-    const handleSelect = (location, placeId, suggestions) => {
+    const handleSelect = async (location, placeId, suggestions) => {
+        // console.log('location', location);
+        // console.log('suggestions',suggestions)
+        const [place] = await geocodeByPlaceId(placeId);
+        console.log('place', place);
+        const {long_name: postalCode = ''} = place.address_components.find(c => c.types.includes('postal_code')) || {};
+        // console.log("postalCode", postalCode);
+
         setSuggestionsVisible(false);
         setLocation(location);
         geocodeByAddress(location)

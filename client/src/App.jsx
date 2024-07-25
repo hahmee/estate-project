@@ -8,10 +8,11 @@ import Login from "./routes/login/login";
 import Register from "./routes/register/register";
 import ProfileUpdatePage from "./routes/profileUpdatePage/profileUpdatePage";
 import NewPostPage from "./routes/newPostPage/newPostPage";
-import {chatPageLoader, profilePageLoader, singlePageLoader} from "./lib/loaders";
+import {chatPageLoader, messagePageLoader, profilePageLoader, singlePageLoader} from "./lib/loaders";
 import NewChatPage from "./routes/newChatPage/NewChatPage.jsx";
 import NewLocationPage from "./routes/newLocationPage/newLocationPage.jsx";
 import UpdatePage from "./routes/updatePage/updatePage.jsx";
+import MessagePage from "./routes/messagePage/messagePage.jsx";
 
 function App() {
 
@@ -75,6 +76,11 @@ function App() {
           path: "/profile",
           element: <ProfilePage />,
           loader: profilePageLoader
+        },
+        {
+          path: "/messages",
+          element: <MessagePage />,
+          loader: messagePageLoader
         },
         // {
         //   path: "/profile/update",

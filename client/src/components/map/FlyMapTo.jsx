@@ -5,6 +5,7 @@ import {divIcon} from "leaflet/src/layer/index.js";
 import {useSearchParams} from "react-router-dom";
 import {roomOption, typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../navbar/Navbar.jsx";
+import {listPostStore} from "../../lib/listPostStore.js";
 
 
 function FlyMapTo({items}) {
@@ -35,7 +36,7 @@ function FlyMapTo({items}) {
     //검색 위치가 변경될때만
     useEffect(() => {
         map.flyTo(position);
-        // map.flyTo(position, 18, {
+        // map.flyTo(position, 2, {
         //     animate: true,
         //     duration: 2.2
         // });

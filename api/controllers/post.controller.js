@@ -84,7 +84,7 @@ export const getPosts = async (req, res) => {
           $geoNear: {
             near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
             distanceField: "dist.calculated",
-            maxDistance: 200000,
+            maxDistance: 200, //200km  200000
             spherical: true,
             query: {
               price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},

@@ -1,5 +1,6 @@
 import prisma from "../lib/prisma.js";
 
+
 export const getChats = async (req, res) => {
   const tokenUserId = req.userId;
 
@@ -71,7 +72,7 @@ export const getChatByUserId = async (req, res) => {
 
       await prisma.chat.update({
         where: {
-          getByUserId:{
+          getByUserId: {
             user1Id: tokenUserId,
             user2Id: req.query.receiver
           }

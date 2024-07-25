@@ -18,6 +18,7 @@ export const SearchbarContextProvider = ({children}) => {
         latitude:'',
         longitude:'',
     };
+
     const [searchValue, setSearchValue] = useState(initialState);
 
     const changeSearchValue = (value) => {

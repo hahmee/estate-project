@@ -49,6 +49,7 @@ function ProfilePage() {
             <div className="title">
               <h1>사용자 정보</h1>
               <div className="buttonList">
+                <Button outlined onClick={() => navigate("/messages")}>메시지</Button>
                 <Button outlined onClick={() => navigate("/profile/update")}>프로필 수정</Button>
                 <Button outlined onClick={handleLogout}>로그아웃</Button>
               </div>

@@ -3,7 +3,7 @@ import "./navbar.scss";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import {useNotificationStore} from "../../lib/notificationStore";
-import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
+import PlacesAutocomplete, {geocodeByAddress, geocodeByPlaceId, getLatLng} from "react-places-autocomplete";
 import {listPostStore} from "../../lib/listPostStore.js";
 import {roomOption, typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 import MultiRangeSlider from "../slider/MultiRangeSlider.jsx";
@@ -59,7 +59,13 @@ function Navbar({isSearchBar}) {
         setLocation(location);
     };
 
-    const handleSelect = (location, placeId, suggestions) => {
+    const handleSelect =async (location, placeId, suggestions) => {
+        const [place] = await geocodeByPlaceId(placeId);
+        console.log('place', place);
+        const {long_name: postalCode = ''} = place.address_components.find(c => c.types.includes('postal_code')) || {};
+        // console.log("postalCode", postalCode);
+
+
         setLocation(location);
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
@@ -205,6 +211,8 @@ function Navbar({isSearchBar}) {
                                 onChange={handleLocationChange}
                                 onSelect={handleSelect}
                                 onError={onError}
+                                // searchOptions={{types: ['geocode']}}
+                                searchOptions={{types: ['country', 'locality', 'sublocality']}}
                             >
                                 {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                                     <>
@@ -225,8 +233,9 @@ function Navbar({isSearchBar}) {
                                                 <span className="inputDiv">
                                             {
                                                 ((types && rooms) && (types.length + rooms.length === 9)) ?
-                                                    '모든 유형' :  [...types, ...rooms].map((type) => {
-                                                        return <p key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
+                                                    '모든 유형' : [...types, ...rooms].map((type) => {
+                                                        return <p
+                                                            key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
                                                     })
                                             }
                                     </span>
@@ -241,8 +250,10 @@ function Navbar({isSearchBar}) {
                                             <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
                                                  onClick={() => clickMenu(4)}>
                                                 <p className={scrollTop ? null : 'displayNone'}>크기</p>
-                                                <span className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
-                                                <span className="material-symbols-outlined" onClick={(e) => searchClick(e)}>search</span>
+                                                <span
+                                                    className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
+                                                <span className="material-symbols-outlined"
+                                                      onClick={(e) => searchClick(e)}>search</span>
                                             </div>
 
                                         </div>

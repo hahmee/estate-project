@@ -73,7 +73,7 @@ function ListPage() {
         return () => {
             changeFixedNavbar(false);
             //정리
-            clearSearchValue();
+            // clearSearchValue(); //error
         };
 
     }, []);
@@ -95,7 +95,26 @@ function ListPage() {
                                         <Card key={idx} card={post}/>
                                     ))
                         }
-
+                        {
+                            // isLoading ? <ListLoading/> :
+                            (posts.length < 1) ? (
+                                    <div className="noFinding">
+                                        검색 결과가 없습니다.
+                                    </div>) :
+                                posts.map((post, idx) => (
+                                    <Card key={idx} card={post}/>
+                                ))
+                        }
+                        {
+                            // isLoading ? <ListLoading/> :
+                            (posts.length < 1) ? (
+                                    <div className="noFinding">
+                                        검색 결과가 없습니다.
+                                    </div>) :
+                                posts.map((post, idx) => (
+                                    <Card key={idx} card={post}/>
+                                ))
+                        }
                     </div>
                 </div>
 

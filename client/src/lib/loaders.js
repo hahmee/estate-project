@@ -34,3 +34,11 @@ export const chatPageLoader = async ({ request, params }) => {
   });
 };
 
+export const messagePageLoader = async ({ request, params }) => {
+  const chatPromise = apiRequest("/chats");
+  return defer({
+    chatResponse: chatPromise,
+  });
+};
+
+

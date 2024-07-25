@@ -6,6 +6,7 @@ import {AuthContext} from "../../context/AuthContext";
 import Button from "../../UI/Button.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import {NavbarContext} from "../../context/NavbarContext.jsx";
+import Footer from "../../components/footer/Footer.jsx";
 
 function Layout() {
     const layoutRef = useRef();
@@ -20,13 +21,11 @@ function Layout() {
         }
     }, [scrollTop]);
 
-    useEffect(() => {
-
-
-        if(fixedNavbar) { //Navbar 상단에 고정시킨다면
-            changeScrollTop(false); //scroll값이 top에 가는 값 거짓
-        }
-    }, [scrollTop, fixedNavbar]);
+    // useEffect(() => {
+    //     if(fixedNavbar) { //Navbar 상단에 고정시킨다면
+    //         changeScrollTop(false); //scroll값이 top에 가는 값 거짓
+    //     }
+    // }, [scrollTop, fixedNavbar]);
 
     useEffect(() => {
         if (layoutRef.current) {
@@ -53,34 +52,39 @@ function Layout() {
         <div className="app" ref={layoutRef}>
             <Navbar isSearchBar={true}/>
             <div className="layoutUpper">
+
                 <div className="layout">
                     <div className="content">
                         <Outlet/>
                     </div>
                 </div>
             </div>
+            <footer className="footer">
+                <Footer/>
+            </footer>
         </div>
     );
 }
 
 function RequireAuth() {
-  const { currentUser } = useContext(AuthContext);
-  if (!currentUser) return <Navigate to="/login" />;
+    const {currentUser} = useContext(AuthContext);
+    if (!currentUser) return <Navigate to="/login"/>;
 
-  else {
-      return (
-          <div className="app">
-              <Navbar isSearchBar={false}/>
-              <div className="layoutUpper">
-                  <div className="layout">
-                      <div className="content">
-                          <Outlet/>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      );
-  }
+    else {
+
+        return (
+            <div className="app">
+                <Navbar isSearchBar={false}/>
+                <div className="layoutUpper">
+                    <div className="layout">
+                        <div className="content">
+                            <Outlet/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
 function CreateProcess() {

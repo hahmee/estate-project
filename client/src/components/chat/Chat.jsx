@@ -51,6 +51,8 @@ function Chat({ chats }) {
     try {
       const res = await apiRequest.post("/messages/" + chat.id, { text });
       setChat((prev) => ({ ...prev, messages: [...prev.messages, res.data] }));
+      console.log('res', res.data);
+      console.log('chat', chat.receiver);
       e.target.reset();
       socket.emit("sendMessage", {
         receiverId: chat.receiver.id,
@@ -98,7 +100,7 @@ function Chat({ chats }) {
                           backgroundColor:
                               c.seenBy.includes(currentUser.id) || chat?.id === c.id
                                   ? "rgba(0, 0, 0, 0.04)"
-                                  : "#fecd514e",
+                                  : "green",
                         }}
                         onClick={() => handleOpenChat(c.id, c.receiver)}
                     >

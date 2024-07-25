@@ -12,7 +12,7 @@ import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../navbar/Navbar.jsx";
 
 function Map({items}) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [zoomLevel, setZoomLevel] = useState(50);
+  const [zoomLevel, setZoomLevel] = useState(11);
   const {searchValue, changeSearchValue} = useContext(SearchbarContext);
   const position = [searchParams.get("latitude"), searchParams.get("longitude")];
   const isLoading = listPostStore((state) => state.isLoading);
@@ -71,15 +71,15 @@ function Map({items}) {
         }
         <MapContainer
             center={position}
-            zoom={18}
+            zoom={zoomLevel}
             scrollWheelZoom={true}
             className="listPageMap"
             zoomAnimation={true}
             zoomControl={true}
             zoomSnap={0.25}
             zoomDelta={1}
-            maxZoom={30}
-            minZoom={1}
+            // maxZoom={30}
+            // minZoom={1}
             worldCopyJump={true}
         >
           <FlyMapTo items={items}/>

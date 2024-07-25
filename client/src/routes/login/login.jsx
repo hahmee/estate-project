@@ -34,7 +34,7 @@ function Login() {
       toast.success('로그인 되었습니다.');
       navigate("/");
     } catch (err) {
-      if(err.response) {
+      if(!err.response) {
         toast.error(err.message);
       }else {
         toast.error(err.response.data.message);

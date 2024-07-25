@@ -18,7 +18,9 @@ function SinglePage() {
   const previousUrl = usePageUrlStore((state) => state.previousUrl);
   const [heartCnt, setHeartCnt] = useState(post.savedCount);
   const { id } = useParams();
-  const handleSave = async () => {
+  const handleSave = async (e) => {
+    e.preventDefault();
+
     if (!currentUser) {
       navigate("/login");
     }
@@ -305,7 +307,7 @@ function SinglePage() {
                   }
                   <Button
                       // outlined
-                      onClick={handleSave}
+                      onClick={(e)=>handleSave(e)}
                       className="actionBtn"
                   >
                     <div className="buttonHeart">
