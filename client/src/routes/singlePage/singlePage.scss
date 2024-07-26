@@ -91,11 +91,23 @@
           }
           .itemBottom{
             margin-top: 24px;
-            font-size: 16px;
-            line-height: 26px;
             color: rgb(34, 34, 34);
             font-weight: 700;
             margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            padding:0;
+            gap:3px;
+
+            .itemBottomSpan {
+              display: flex;
+            }
+            img{
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
           }
 
           .buttonDiv{

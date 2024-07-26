@@ -291,9 +291,12 @@ function SinglePage() {
                 </div>
 
                 <div className="itemBottom">
-                  <p>
+                  <span className="itemBottomSpan">
+                    <img src={post.user.avatar} alt="유저 이미지"/>
+                  </span>
+                  <span className="itemBottomSpan">
                     {post.user.username}
-                  </p>
+                  </span>
                 </div>
 
                 <div className="buttonDiv">
@@ -305,9 +308,17 @@ function SinglePage() {
                           </Button>
                       )
                   }
+                  {
+                      currentUser.id !== post.userId
+                      && (
+                          <Button className="message" onClick={() => navigate(`/messages/${post.userId}`)}>
+                            메시지
+                          </Button>
+                      )
+                  }
                   <Button
                       // outlined
-                      onClick={(e)=>handleSave(e)}
+                      onClick={(e) => handleSave(e)}
                       className="actionBtn"
                   >
                     <div className="buttonHeart">

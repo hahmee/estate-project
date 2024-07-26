@@ -4,12 +4,10 @@
   height: 100%;
 }
 .messenger {
-  //height: calc(100vh - 70px);
-  //display: flex;
-  //background: gold;
-  //height: 100%;
   flex: 1;
   overflow-y: auto;
+  //background: gold;
+  border-right: 1px solid #eeeeee;
 }
 
 .chatMenuInput {
@@ -25,9 +23,31 @@
 
 .chatBoxWrapper {
   display: flex;
+  margin-top: 20px;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
+
+  .chatBoxUpper {
+    display: flex;
+    gap:10px;
+    align-items: center;
+    padding:10px;
+    border-radius: 10px;
+    background-color: rgb(245, 243, 243);
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+    div {
+      align-items: center;
+      align-self: center;
+      display: flex;
+      font-weight: 700;
+      line-height: 40px;
+    }
+  }
 }
 
 .chatBoxTop {
@@ -57,8 +77,6 @@
     font-size: 15px;
   }
 
-
-
 }
 
 
@@ -71,7 +89,6 @@
 //}
 
 .noConversationText {
-  margin-top: 20px;
   font-size: 28px;
   color: rgb(224, 220, 220);
   cursor: default;

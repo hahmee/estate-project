@@ -1,6 +1,6 @@
 import React, {Suspense, useCallback, useContext, useEffect, useRef, useState} from 'react';
 import "./messagePage.scss";
-import {Await, useLoaderData} from "react-router-dom";
+import {Await, useLoaderData, useParams} from "react-router-dom";
 import Conversation from "../../components/message/Conversation.jsx";
 import Message from "../../components/message/Message.jsx";
 import apiRequest from "../../lib/apiRequest.js";
@@ -10,15 +10,17 @@ import Button from "../../UI/Button.jsx";
 
 function MessagePage() {
     const data = useLoaderData();
+    const {userId} = useParams();
 
     const [currentConversation, setCurrentConversation] = useState(null);
     const [messages, setMessages] = useState([]);
     const scrollRef = useRef();
-    const { socket } = useContext(SocketContext);
-    const { currentUser } = useContext(AuthContext);
+    const {socket} = useContext(SocketContext);
+    const {currentUser} = useContext(AuthContext);
 
     const clickConversation = useCallback((currentConversation) => {
         setCurrentConversation(currentConversation);
+
     }, []);
 
 
@@ -26,7 +28,6 @@ function MessagePage() {
         const getMessages = async () => {
             try {
                 const res = await apiRequest.get("/chats/" + currentConversation?.id);
-                console.log('res', res.data);
                 setMessages(res.data.messages);
             } catch (err) {
                 console.log(err);
@@ -44,20 +45,28 @@ function MessagePage() {
         if (!text) return;
 
         try {
-            const res = await apiRequest.post("/messages/" + currentConversation.id, { text });
-            console.log('res', res.data);
-            console.log('currentConversation', currentConversation);
+            const res = await apiRequest.post("/messages/" + currentConversation.id, {text});
             setMessages([...messages, res.data]);
             e.target.reset();
             //이거 해야함 (왜?)
-                // socket.emit("sendMessage", {
-                //     receiverId: chat.receiver.id,
-                //     data: res.data,
-                // });
+            // socket.emit("sendMessage", {
+            //     receiverId: chat.receiver.id,
+            //     data: res.data,
+            // });
         } catch (err) {
             console.log(err);
         }
     };
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({behavior: "smooth"});
+    }, [messages]);
+
+    useEffect(() => {
+        console.log(userId);
+
+
+    }, []);
 
 
     return (
@@ -69,14 +78,28 @@ function MessagePage() {
                             resolve={data.chatResponse}
                             errorElement={<p>메시지를 로딩하는데 실패했습니다.</p>}
                         >
-                            {(chatResponse) => <Conversation conversations={chatResponse.data} clickConversation={clickConversation}/>}
+                            {(chatResponse) => <Conversation conversations={chatResponse.data}
+                                                             clickConversation={clickConversation}
+                                                             userId={userId}/>}
                         </Await>
+
                     </Suspense>
                 </div>
             </div>
 
             <div className="chatBox">
                 <div className="chatBoxWrapper">
+                    {
+                        currentConversation && (
+                            <div className="chatBoxUpper">
+                                <img src={currentConversation.receiver.avatar || "/noavatar.jpg"} alt="avatar"/>
+                                <div>
+                                    {currentConversation.receiver.username}
+                                </div>
+                            </div>
+                        )
+                    }
+
                     {
                         currentConversation ? (
                             <>
@@ -90,7 +113,8 @@ function MessagePage() {
                                 </div>
                                 <div className="chatBoxBottom">
                                     <form onSubmit={handleSubmit} className="chatBoxForm">
-                                        <textarea name="text" className="chatMessageInput" placeholder="메시지를 입력해주세요."></textarea>
+                                            <textarea name="text" className="chatMessageInput"
+                                                      placeholder="메시지를 입력해주세요."></textarea>
                                         <Button>보내기</Button>
                                     </form>
                                 </div>
@@ -100,6 +124,8 @@ function MessagePage() {
             </div>
         </div>
     );
+
+
 }
 
 export default MessagePage;

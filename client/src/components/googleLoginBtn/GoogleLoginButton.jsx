@@ -40,7 +40,6 @@ function GoogleLoginButton(props) {
 
     const googleLogin = useGoogleLogin({
         onSuccess: (tokenResponse) =>{
-            console.log('tokenResponse', tokenResponse);
             apiRequest.post("/auth/googleLoginAccessToken", {
                 accessToken: tokenResponse.access_token,
             }).then((response) => {
@@ -61,7 +60,7 @@ function GoogleLoginButton(props) {
             <span className="googleIcon">
                 <img src="https://img.clerk.com/static/google.svg?width=80" alt="google"/>
             </span>
-            <p>Google 로그인 버튼</p>
+            <p>Google 로그인</p>
         </Button>
     );
 }

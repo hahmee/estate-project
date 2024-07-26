@@ -1,11 +1,12 @@
 import "./register.scss";
-import { Link, useNavigate } from "react-router-dom";
-import {useContext, useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {useState} from "react";
 import apiRequest from "../../lib/apiRequest";
 import Input from "../../UI/Input.jsx";
 import Button from "../../UI/Button.jsx";
 import GoogleLoginButton from "../../components/googleLoginBtn/GoogleLoginButton.jsx";
 import {toast} from "react-toastify";
+import NaverLoginButton from "../../components/naverLoginBtn/NaverLoginButton.jsx";
 
 function Register() {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +43,7 @@ function Register() {
             <h2>회원가입</h2>
 
             <GoogleLoginButton/>
+            <NaverLoginButton/>
 
             <div className="lineDiv">
               <div className="line"></div>

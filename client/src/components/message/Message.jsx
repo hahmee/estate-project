@@ -8,7 +8,7 @@ function Message({message, own, avatar}) {
             <div className="messageTop">
                 <img
                     className="messageImg"
-                    src={avatar || "noavatar.jpg"}
+                    src={avatar || "/noavatar.jpg"}
                     alt="프로필 이미지"
                 />
                 <p className="messageText">{message.text}</p>

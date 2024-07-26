@@ -59,7 +59,7 @@ function ProfilePage() {
                 <p>프로필</p>
               </div>
               <div className="info-bottom">
-                <img src={currentUser.avatar || "noavatar.jpg"} alt="avatar"/>
+                <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar"/>
               </div>
               <div className="info-top">
                 <p>사용자이름</p>

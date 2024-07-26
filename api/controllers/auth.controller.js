@@ -99,7 +99,7 @@ export const googleLoginAccessToken = async (req, res) => {
 
   const { accessToken } = req.body;
 
-  const GOOGLE_USERINFO_REQUEST_URL="https://www.googleapis.com/oauth2/v1/userinfo";
+  const GOOGLE_USERINFO_REQUEST_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
 
   try {
     const headers = {
@@ -116,6 +116,30 @@ export const googleLoginAccessToken = async (req, res) => {
     console.log(error);
     res.status(500).json({ message: "사용자의 구글로그인 정보를 가져오는데 문제 발생했습니다." });
   }
+}
 
+export const naverLoginAccessToken = async (req, res)  => {
+  // const { accessToken } = req.body;
+
+  // const NAVER_USERINFO_REQUEST_URL="https://nid.naver.com/oauth2.0/token";
+  //
+  // const data = {
+  //       grant_type: "authorization_code",
+  //       client_id: NAVER_CLIENT_ID,
+  //       client_secret: NAVER_CLIENT_SECRET,
+  //       redirect_uri: NAVER_REDIRECT_URI,
+  //       code: code,
+  //       state: state,
+  //     };
+  //
+  // const header = {
+  //   "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+  //   "X-Naver-Client-Id": NAVER_CLIENT_ID,
+  //   "X-Naver-Client-Secret": NAVER_CLIENT_SECRET,
+  // }
+  //
+  // // 2-1. 엑세스 토큰 발급
+  // const response = await axios.post(NAVER_USERINFO_REQUEST_URL, data, { headers: header });
+  // const ACCESS_TOKEN = response.data.access_token;
 
 }

@@ -35,9 +35,16 @@ export const chatPageLoader = async ({ request, params }) => {
 };
 
 export const messagePageLoader = async ({ request, params }) => {
+  const userId = params.userId;
   const chatPromise = apiRequest("/chats");
+  const userPromise = userId ? apiRequest("/users/search/" + userId) : null;
+
+  console.log('userId', userId);
+
   return defer({
     chatResponse: chatPromise,
+    userResponse: userPromise,
+    // response: {chatResponse: chatPromise, userResponse: userPromise }
   });
 };
 

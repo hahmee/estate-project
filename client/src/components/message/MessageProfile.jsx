@@ -6,7 +6,7 @@ function MessageProfile({profile}) {
         <div>
             <div className="top">
                 <div className="user">
-                    <img src={profile.avatar || "noavatar.jpg"} alt="noavatar"/>
+                    <img src={profile.avatar || "/noavatar.jpg"} alt="noavatar"/>
                     {profile.username}
                 </div>
 

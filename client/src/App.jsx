@@ -82,6 +82,16 @@ function App() {
           element: <MessagePage />,
           loader: messagePageLoader
         },
+        {
+          path: "/messages/:userId",
+          element: <MessagePage />,
+          loader: messagePageLoader
+        },
+        // {
+        //   path: "/messages/:userId",
+        //   element: <MessagePage />,
+        //   loader: messagePageLoader
+        // },
         // {
         //   path: "/profile/update",
         //   element: <ProfileUpdatePage />,
