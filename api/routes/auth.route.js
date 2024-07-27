@@ -13,6 +13,6 @@ router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);
 router.post("/googleLoginAccessToken",  googleLoginAccessToken);
-router.post("/naverLoginAccessToken",  naverLoginAccessToken);
+router.get("/naverLoginAccessToken",  naverLoginAccessToken);
 
 export default router;

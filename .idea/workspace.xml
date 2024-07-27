@@ -5,27 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/naverLoginBtn/NaverLoginButton.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/routes/register/redirectURI.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/auth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/routes/auth.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/auth.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/routes/chat.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/chat.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/chat/Chat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/Chat.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/Conversation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/Conversation.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/Message.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/Message.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/MessageProfile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/MessageProfile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/loaders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/loaders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/register/register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/register/register.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/naverLoginBtn/NaverLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/naverLoginBtn/NaverLoginButton.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +108,8 @@
       <workItem from="1721960353481" duration="182000" />
       <workItem from="1721960729139" duration="6751000" />
       <workItem from="1721973376429" duration="12246000" />
-      <workItem from="1722002016703" duration="2510000" />
+      <workItem from="1722002016703" duration="2545000" />
+      <workItem from="1722053745439" duration="10641000" />
     </task>
     <servers />
   </component>

@@ -13,6 +13,7 @@ import NewChatPage from "./routes/newChatPage/NewChatPage.jsx";
 import NewLocationPage from "./routes/newLocationPage/newLocationPage.jsx";
 import UpdatePage from "./routes/updatePage/updatePage.jsx";
 import MessagePage from "./routes/messagePage/messagePage.jsx";
+import RedirectURI from "./routes/register/redirectURI.jsx";
 
 function App() {
 
@@ -42,6 +43,10 @@ function App() {
         {
           path: "/register",
           element: <Register />,
+        },
+        {
+          path: "/redirectURI",
+          element: <RedirectURI />,
         },
       ],
     },

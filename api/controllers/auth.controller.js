@@ -3,11 +3,11 @@ import jwt from "jsonwebtoken";
 import prisma from "../lib/prisma.js";
 import axios from "axios";
 
+
 export const register = async (req, res) => {
   const { username, email, password, avatar, externalType = 'native', externalId } = req.body;
-
+  const userInfo = req.body;
   try {
-
     // CHECK IF ALREADY EXISTS
     const user = await prisma.user.findUnique({ where: { email } });
 
@@ -119,27 +119,80 @@ export const googleLoginAccessToken = async (req, res) => {
 }
 
 export const naverLoginAccessToken = async (req, res)  => {
-  // const { accessToken } = req.body;
+  console.log('?naverLoginAccessToken');
+  console.log('code', req.param('code'));
+  console.log('state', req.param('state'));
 
-  // const NAVER_USERINFO_REQUEST_URL="https://nid.naver.com/oauth2.0/token";
-  //
-  // const data = {
-  //       grant_type: "authorization_code",
-  //       client_id: NAVER_CLIENT_ID,
-  //       client_secret: NAVER_CLIENT_SECRET,
-  //       redirect_uri: NAVER_REDIRECT_URI,
-  //       code: code,
-  //       state: state,
-  //     };
-  //
-  // const header = {
-  //   "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-  //   "X-Naver-Client-Id": NAVER_CLIENT_ID,
-  //   "X-Naver-Client-Secret": NAVER_CLIENT_SECRET,
-  // }
-  //
-  // // 2-1. 엑세스 토큰 발급
-  // const response = await axios.post(NAVER_USERINFO_REQUEST_URL, data, { headers: header });
-  // const ACCESS_TOKEN = response.data.access_token;
+  const code = req.param('code');
+  const state = req.param('state');
+
+
+  const NAVER_USERINFO_REQUEST_URL="https://nid.naver.com/oauth2.0/token";
+
+  const data = {
+        grant_type: "authorization_code",
+        client_id: process.env.NAVER_CLIENT_ID,
+        client_secret: process.env.NAVER_CLIENT_SECRET,
+        redirect_uri: process.env.NAVER_REDIRECT_URI,
+        code: code,
+        state: state,
+      };
+
+  const header = {
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+    "X-Naver-Client-Id": process.env.NAVER_CLIENT_ID,
+    "X-Naver-Client-Secret": process.env.NAVER_CLIENT_SECRET,
+  }
+
+  // 2-1. 엑세스 토큰 발급
+  const response = await axios.post(NAVER_USERINFO_REQUEST_URL, data, { headers: header });
+  const ACCESS_TOKEN = response.data.access_token;
+
+  console.log('ACCESS_TOKEN', ACCESS_TOKEN);
+  const getUserInfoData = await getUserInfo(ACCESS_TOKEN);
+
+  // 4. DB 저장
+
+
+  await register(getUserInfoData.userData);
+
+
+}
+
+//3. 정보 가져온다.
+const getUserInfo = async (accessToken) => {
+
+  const NAVER_API_URL = "https://openapi.naver.com/v1/nid/me";
+
+
+  const headers = {
+    "Authorization": `Bearer ${accessToken}`
+  }
+
+  const res = await axios.get(NAVER_API_URL, {
+    headers: headers
+  });
+
+
+  const newUserData = (externalId, username, email, avatar) => {
+    const userData = {
+      username: username,
+      email:email,
+      avatar: avatar,
+      externalType: 'naver',
+      externalId: externalId
+    };
+    return userData;
+  };
+
+  if(res.data) {
+    const data = res.data.response;
+    console.log('data', data);
+    const userData = newUserData(data.id, data.name, data.email, data.profile_image);
+
+    console.log('userData', userData);
+
+    return userData;
+  }
 
 }
