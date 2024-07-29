@@ -20,6 +20,7 @@ function ProfilePage() {
   const currentSavedPost = savedPostStore((state) => state.currentSavedPost);
 
   const [searchParams, setSearchParams] = useSearchParams();
+
   const handleLogout = async () => {
     try {
       await apiRequest.post("/auth/logout");

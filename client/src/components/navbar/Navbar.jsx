@@ -197,8 +197,6 @@ function Navbar({isSearchBar}) {
                                 </>
                             )
                         }
-
-
                     </div>
                 </div>
                 {

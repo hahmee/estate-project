@@ -7,6 +7,7 @@ import Input from "../../UI/Input.jsx";
 import Button from "../../UI/Button.jsx";
 import GoogleLoginButton from "../../components/googleLoginBtn/GoogleLoginButton.jsx";
 import {toast} from "react-toastify";
+import NaverLoginButton from "../../components/naverLoginBtn/NaverLoginButton.jsx";
 
 function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +30,7 @@ function Login() {
         email,
         password,
       });
+      console.log('res', res.data);
 
       updateUser(res.data);
       toast.success('로그인 되었습니다.');
@@ -44,36 +46,36 @@ function Login() {
     }
   };
   return (
-     <div className="login">
-      <div className="formContainer">
-        <form onSubmit={handleSubmit}>
-          <h2>로그인</h2>
-          <GoogleLoginButton/>
+      <div className="login">
+        <div className="formContainer">
+          <form onSubmit={handleSubmit}>
+            <h2>로그인</h2>
+            <GoogleLoginButton/>
+            <NaverLoginButton/>
+            <div className="lineDiv">
+              <div className="line"></div>
+              <p className="or">or</p>
+              <div className="line"></div>
+            </div>
 
-          <div className="lineDiv">
-            <div className="line"></div>
-            <p className="or">or</p>
-            <div className="line"></div>
-          </div>
+            <Input
+                name="email"
+                required
+                type="email"
+                label="이메일"
+            />
+            <Input
+                name="password"
+                type="password"
+                required
+                label="비밀번호"
+            />
 
-          <Input
-              name="email"
-              required
-              type="email"
-              label="이메일"
-          />
-          <Input
-              name="password"
-              type="password"
-              required
-              label="비밀번호"
-          />
-
-          <Button loading={isLoading}>로그인</Button>
-          <Link to="/register">계정이 없으신가요?</Link>
-        </form>
+            <Button loading={isLoading}>로그인</Button>
+            <Link to="/register">계정이 없으신가요?</Link>
+          </form>
+        </div>
       </div>
-    </div>
   );
 }
 

@@ -5,12 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/public/naver.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/auth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/routes/auth.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/auth.route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/naverLoginBtn/NaverLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/naverLoginBtn/NaverLoginButton.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/context/AuthContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/AuthContext.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/register/redirectURI.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/register/redirectURI.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/register/redirectURI.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/redirect/redirectNaverURI.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +22,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/client/src/routes/register/redirectURI.jsx" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -32,30 +38,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Node.js.MapLoading.jsx.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.auth.controller.js.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/dev/youtube/estate-project/client/src/components/facebookLoginBtn&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.HTTP Request&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.MapLoading.jsx.executor": "Run",
+    "Node.js.auth.controller.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/dev/youtube/estate-project/client/src/routes/redirect",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.HTTP Request",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\youtube\estate-project\client\src\routes\redirect" />
+      <recent name="C:\dev\youtube\estate-project\client\public" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\facebookLoginBtn" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\message" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\footer" />
-      <recent name="C:\dev\youtube\estate-project\client\src\lib" />
-      <recent name="C:\dev\youtube\estate-project\client\src\components\map" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -112,7 +118,8 @@
       <workItem from="1722053745439" duration="10641000" />
       <workItem from="1722170715863" duration="593000" />
       <workItem from="1722183870989" duration="1309000" />
-      <workItem from="1722219971212" duration="16450000" />
+      <workItem from="1722219971212" duration="18950000" />
+      <workItem from="1722260194091" duration="6894000" />
     </task>
     <servers />
   </component>
