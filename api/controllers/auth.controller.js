@@ -3,34 +3,66 @@ import jwt from "jsonwebtoken";
 import prisma from "../lib/prisma.js";
 import axios from "axios";
 
+//DB 저장
+const registerUser = async (userInfo) => {
+  const {username, email, password, avatar, externalType = 'native', externalId} = userInfo;
+
+  // CHECK IF ALREADY EXISTS
+  const user = await prisma.user.findUnique({where: {email}});
+
+  if (externalType != 'native' && user && user.externalId == externalId && user.externalType == externalType) {
+    // return res.status(200).json({message: `${externalType} 로그인, 이미 존재하는 유저입니다.`});
+    return;
+  }
+
+  // HASH THE PASSWORD
+
+  const hashedPassword = password && await bcrypt.hash(password, 10);
+
+  // CREATE A NEW USER AND SAVE TO DB
+  const newUser = await prisma.user.create({
+    data: {
+      username,
+      email,
+      password: hashedPassword,
+      avatar,
+      externalType,
+      externalId
+    },
+  });
+
+  console.log(newUser);
+
+};
 
 export const register = async (req, res) => {
-  const { username, email, password, avatar, externalType = 'native', externalId } = req.body;
-  const userInfo = req.body;
+  // const { username, email, password, avatar, externalType = 'native', externalId } = req.body;
   try {
     // CHECK IF ALREADY EXISTS
-    const user = await prisma.user.findUnique({ where: { email } });
-
-    if(externalType != 'native' && user && user.externalId == externalId && user.externalType == externalType ) {
-      return res.status(200).json({message: `${externalType} 로그인, 이미 존재하는 유저입니다.`});
-    }
-
-    // HASH THE PASSWORD
-    const hashedPassword = password && await bcrypt.hash(password, 10);
-
-    // CREATE A NEW USER AND SAVE TO DB
-    const newUser = await prisma.user.create({
-      data: {
-        username,
-        email,
-        password: hashedPassword,
-        avatar,
-        externalType,
-        externalId
-      },
-    });
-
-    console.log(newUser);
+    // const user = await prisma.user.findUnique({ where: { email } });
+    //
+    // if(externalType != 'native' && user && user.externalId == externalId && user.externalType == externalType ) {
+    //   console.log('???????sid');
+    //   return res.status(200).json({message: `${externalType} 로그인, 이미 존재하는 유저입니다.`});
+    // }
+    //
+    // // HASH THE PASSWORD
+    // const hashedPassword = password && await bcrypt.hash(password, 10);
+    //
+    // // CREATE A NEW USER AND SAVE TO DB
+    // const newUser = await prisma.user.create({
+    //   data: {
+    //     username,
+    //     email,
+    //     password: hashedPassword,
+    //     avatar,
+    //     externalType,
+    //     externalId
+    //   },
+    // });
+    //
+    // console.log(newUser);
+    registerUser(req.body);
 
     res.status(201).json({ message: "정상적으로 회원가입되었습니다." });
   } catch (err) {
@@ -119,12 +151,8 @@ export const googleLoginAccessToken = async (req, res) => {
 }
 
 export const naverLoginAccessToken = async (req, res)  => {
-  console.log('?naverLoginAccessToken');
-  console.log('code', req.param('code'));
-  console.log('state', req.param('state'));
 
-  const code = req.param('code');
-  const state = req.param('state');
+  const { code, state } = req.body;
 
 
   const NAVER_USERINFO_REQUEST_URL="https://nid.naver.com/oauth2.0/token";
@@ -144,18 +172,24 @@ export const naverLoginAccessToken = async (req, res)  => {
     "X-Naver-Client-Secret": process.env.NAVER_CLIENT_SECRET,
   }
 
-  // 2-1. 엑세스 토큰 발급
+  // 2. 엑세스 토큰 발급
   const response = await axios.post(NAVER_USERINFO_REQUEST_URL, data, { headers: header });
+  console.log('res입니다...', response.data);
   const ACCESS_TOKEN = response.data.access_token;
 
   console.log('ACCESS_TOKEN', ACCESS_TOKEN);
+
+  //3. 정보 가져온다.
   const getUserInfoData = await getUserInfo(ACCESS_TOKEN);
 
+  console.log('getUserInfoData', getUserInfoData);
+
   // 4. DB 저장
+  await registerUser(getUserInfoData);
 
-
-  await register(getUserInfoData.userData);
-
+  // 5. 프론트로
+  // res.status(201).json({ message: "정상적으로 회원가입되었습니다." });
+  res.status(200).json(getUserInfoData);
 
 }
 
@@ -164,7 +198,6 @@ const getUserInfo = async (accessToken) => {
 
   const NAVER_API_URL = "https://openapi.naver.com/v1/nid/me";
 
-
   const headers = {
     "Authorization": `Bearer ${accessToken}`
   }
@@ -172,7 +205,6 @@ const getUserInfo = async (accessToken) => {
   const res = await axios.get(NAVER_API_URL, {
     headers: headers
   });
-
 
   const newUserData = (externalId, username, email, avatar) => {
     const userData = {
