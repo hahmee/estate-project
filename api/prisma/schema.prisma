@@ -134,10 +134,6 @@ model Chat {
   seenBy    String[]  @db.ObjectId
   messages  Message[]
   lastMessage String?
-  user1Id   String
-  user2Id   String
-
-  @@unique([user1Id, user2Id], name: "getByUserId")
 }
 
 model Message {

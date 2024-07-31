@@ -44,7 +44,6 @@ export const messagePageLoader = async ({ request, params }) => {
   return defer({
     chatResponse: chatPromise,
     userResponse: userPromise,
-    // response: {chatResponse: chatPromise, userResponse: userPromise }
   });
 };
 

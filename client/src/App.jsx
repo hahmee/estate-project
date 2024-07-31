@@ -81,12 +81,12 @@ function App() {
         {
           path: "/messages",
           element: <MessagePage />,
-          loader: messagePageLoader
+          // loader: messagePageLoader
         },
         {
           path: "/messages/:userId",
           element: <MessagePage />,
-          loader: messagePageLoader
+          // loader: messagePageLoader
         },
         // {
         //   path: "/messages/:userId",

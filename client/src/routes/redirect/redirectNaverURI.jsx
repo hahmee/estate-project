@@ -35,7 +35,7 @@ const RedirectNaverURI = (props) => {
     }, []);
 
     return (
-        <div>
+        <div style={{marginTop: '30px'}}>
          네이버 로그인 중입니다......
         </div>
     );
