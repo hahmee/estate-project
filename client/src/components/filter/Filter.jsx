@@ -13,6 +13,7 @@ function Filter() {
   const [query, setQuery] = useState({
     type: searchParams.get("type") || "",
     location: searchParams.get("location") || "",
+    political: searchParams.get("political") || "",
     latitude: searchParams.get("latitude") || "",
     longitude: searchParams.get("longitude") || "",
     property: searchParams.get("property") || "",

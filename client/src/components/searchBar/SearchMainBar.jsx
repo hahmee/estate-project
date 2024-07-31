@@ -46,7 +46,7 @@ function SearchMainBar({searchOptions=[]}) {
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
-                searchOptions && saveLocation({...latLng, address: location, city:''});
+                searchOptions && saveLocation({...latLng, address: location, politicalList:[]});
                 setQuery((prev) => ({ ...prev, latitude: latLng.lat, longitude: latLng.lng }));
 
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});

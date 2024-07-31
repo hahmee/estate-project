@@ -84,9 +84,10 @@ export const getPosts = async (req, res) => {
           $geoNear: {
             near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
             distanceField: "dist.calculated",
-            maxDistance: 200, //200km  200000
+            maxDistance: 20000000, //200km  200000
             spherical: true,
             query: {
+              politicalList: { $in: [query.political] },
               price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
               type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
               property: {$in: (query.property === undefined || query.property === null || query.property ==="") ? roomType : queryProperty},
@@ -194,6 +195,8 @@ export const getPost = async (req, res) => {
 export const addPost = async (req, res) => {
   const body = req.body;
   const tokenUserId = req.userId;
+
+  console.log('body', body);
 
   try {
     const newPost = await prisma.post.create({

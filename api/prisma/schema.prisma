@@ -20,7 +20,7 @@ model Post {
   price      Int
   images     String[]
   address    String
-  city       String
+  politicalList       String[]
   bedroom    Int
   bathroom   Int
   latitude   String

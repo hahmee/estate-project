@@ -13,7 +13,7 @@ const initialState = {
 const initialLocation = {
     lat: null,
     lng: null,
-    city: '',
+    politicalList: [],
     address: '',
 };
 

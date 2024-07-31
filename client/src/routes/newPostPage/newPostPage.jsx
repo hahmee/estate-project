@@ -143,7 +143,7 @@ function NewPostPage() {
 
       // setPost(inputs); // await imageUpload();
 
-      console.log('location.city', location);
+      console.log('location', location);
       const res = await apiRequest.post("/posts", {
         postData: {
           title: inputs.title,
@@ -151,7 +151,7 @@ function NewPostPage() {
           type: inputs.type,
           price: Number(inputs.price),
           address: location.address,
-          city: location.city,
+          politicalList: location.politicalList,
           bedroom: Number(inputs.bedroom),
           bathroom: Number(inputs.bathroom),
           latitude: location.lat.toString(),

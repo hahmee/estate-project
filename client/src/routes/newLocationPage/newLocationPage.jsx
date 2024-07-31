@@ -1,7 +1,6 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import SearchMapBar2 from "../../components/searchBar/SearchMapBar2.jsx";
 import "./newLocation.scss";
-import Map from "../../components/map/Map.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import MapSingle from "../../components/map/MapSingle.jsx";
 

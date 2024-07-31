@@ -18,6 +18,7 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     const [query, setQuery] = useState({
         type: searchParams.getAll("type") || [],
         location: searchParams.get("location") || "",
+        political: searchParams.get("political") || "",
         latitude: searchParams.get("latitude") || "",
         longitude: searchParams.get("longitude") || "",
         property: searchParams.getAll("property") || [],
@@ -34,19 +35,20 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     };
 
     const handleSelect = async (location, placeId, suggestions) => {
-        // console.log('location', location);
-        // console.log('suggestions',suggestions)
+
         const [place] = await geocodeByPlaceId(placeId);
         console.log('place', place);
-        const {long_name: postalCode = ''} = place.address_components.find(c => c.types.includes('postal_code')) || {};
-        // console.log("postalCode", postalCode);
+
+
+        //political 값만 가져온다.
+        const politicalList = place.address_components.filter(c => c.types.includes('political')).map(data => data.long_name);
 
         setSuggestionsVisible(false);
         setLocation(location);
         geocodeByAddress(location)
             .then((results) => getLatLng(results[0]))
             .then((latLng) => {
-                searchOptions && saveLocation({...latLng, address: location, city: ''});
+                searchOptions && saveLocation({...latLng, address: location, politicalList});
                 setQuery((prev) => ({...prev, latitude: latLng.lat, longitude: latLng.lng}));
 
                 getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: [], location}]);

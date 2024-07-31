@@ -9,7 +9,7 @@ import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import apiRequest from "../../lib/apiRequest.js";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 
 function UpdatePage() {
     const post = useLoaderData();
@@ -103,7 +103,7 @@ function UpdatePage() {
         saveLocation({
             latitude: post.latitude,
             longitude: post.longitude,
-            city: post.city,
+            politicalList: post.politicalList,
             address: post.address,
         });
 

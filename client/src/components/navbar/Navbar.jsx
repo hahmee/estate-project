@@ -44,6 +44,7 @@ function Navbar({isSearchBar}) {
     const [maxSize, setMaxSize] = useState(searchValue.maxSize);
     const [types, setTypes] = useState(searchValue.payType);
     const [rooms, setRooms] = useState(searchValue.propertyType);
+    const [lastPoliticalValue, setLastPoliticalValue] = useState("");
 
 
     const setCurrentUrl = usePageUrlStore((state) => state.setCurrentUrl);
@@ -59,12 +60,14 @@ function Navbar({isSearchBar}) {
         setLocation(location);
     };
 
-    const handleSelect =async (location, placeId, suggestions) => {
+    const handleSelect = async (location, placeId, suggestions) => {
         const [place] = await geocodeByPlaceId(placeId);
         console.log('place', place);
-        const {long_name: postalCode = ''} = place.address_components.find(c => c.types.includes('postal_code')) || {};
-        // console.log("postalCode", postalCode);
-
+        console.log('location', location);
+        //마지막 political 값을 찾는다.
+        const {long_name: lastPoliticalValue} = place.address_components.find(c => c.types.includes('political'));
+        console.log("lastPoliticalValue", lastPoliticalValue);
+        setLastPoliticalValue(lastPoliticalValue);
 
         setLocation(location);
         geocodeByAddress(location)
@@ -112,7 +115,7 @@ function Navbar({isSearchBar}) {
 
         setIsLoading(false);
         //url이 변경되게 해야함..
-        navigate(`/list?type=${sendTypes}&location=${location}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}&searchedLng=${longitude}`);
+        navigate(`/list?type=${sendTypes}&location=${location}&political=${lastPoliticalValue}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}&searchedLng=${longitude}`);
 
     };
 
@@ -209,8 +212,10 @@ function Navbar({isSearchBar}) {
                                 onChange={handleLocationChange}
                                 onSelect={handleSelect}
                                 onError={onError}
+                                searchOptions={{types: ['political']}}
+
                                 // searchOptions={{types: ['geocode']}}
-                                searchOptions={{types: ['country', 'locality', 'sublocality']}}
+                                // searchOptions={{types: ['country', 'locality', 'sublocality']}}
                             >
                                 {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                                     <>
