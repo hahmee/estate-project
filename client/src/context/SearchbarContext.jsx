@@ -15,8 +15,9 @@ export const SearchbarContextProvider = ({children}) => {
         maxPrice: MAX_PRICE,
         minSize: MIN_SIZE,
         maxSize: MAX_SIZE,
-        latitude:'',
-        longitude:'',
+        latitude: '',
+        longitude: '',
+        viewport: {}
     };
 
     const [searchValue, setSearchValue] = useState(initialState);
@@ -34,6 +35,8 @@ export const SearchbarContextProvider = ({children}) => {
         changeSearchValue,
         clearSearchValue
     }
+
+    console.log('searchValue------', searchValue);
 
     return (
         <SearchbarContext.Provider value={searchbarCtx}>

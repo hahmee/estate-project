@@ -15,7 +15,7 @@ import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../../components/navbar/
 function ListPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     const {currentUser} = useContext(AuthContext);
-    const {clearSearchValue, changeSearchValue} = useContext(SearchbarContext);
+    const {clearSearchValue, changeSearchValue, searchValue} = useContext(SearchbarContext);
     const query = {
         type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
         location: searchParams.get("location") || "",
@@ -49,10 +49,10 @@ function ListPage() {
         const sendTypes = query.type.join('&type=');//searchValue.payType.join('&type='); // //
         const sendProperties = query.property.join('&property=');//searchParams.propertyType.join('&property=');////
 
-        postFetch(`type=${sendTypes}&location=${query.location}&political=${query.political}&latitude=${query.latitude}&longitude=${query.longitude}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}`);
+        postFetch(`type=${sendTypes}&location=${query.location}&political=${query.political}&latitude=${query.latitude}&longitude=${query.longitude}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}&search_type=autocomplete_click`);
 
         //searchbar context에 url 값 넣기
-        changeSearchValue({
+        changeSearchValue({...searchValue,
             location: query.location,
             payType: query.type,
             propertyType: query.property,

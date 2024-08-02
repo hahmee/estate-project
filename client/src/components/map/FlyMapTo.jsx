@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Marker, TileLayer, useMap} from "react-leaflet";
 import Pin from "../pin/Pin.jsx";
 import {divIcon} from "leaflet/src/layer/index.js";
 import {useSearchParams} from "react-router-dom";
 import {roomOption, typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../navbar/Navbar.jsx";
-import {listPostStore} from "../../lib/listPostStore.js";
+import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 
 
 function FlyMapTo({items}) {
     const map = useMap();
+    const {searchValue} = useContext(SearchbarContext);
     const [searchParams, setSearchParams] = useSearchParams();
     const query = {
         type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
@@ -36,11 +37,13 @@ function FlyMapTo({items}) {
 
     //검색 위치가 변경될때만
     useEffect(() => {
-        map.flyTo(position);
-        // map.flyTo(position, 2, {
-        //     animate: true,
-        //     duration: 2.2
-        // });
+        // map.flyTo(position);
+        //Setting perfect zoom level
+        const bounds = [
+            [searchValue.viewport.south, searchValue.viewport.west],//southWest
+            [searchValue.viewport.north, searchValue.viewport.east]//northEast
+        ];
+        map.flyToBounds(bounds, {duration: 1.2});
 
     }, [query.latitude, query.longitude]);
 

@@ -26,7 +26,7 @@ function Navbar({isSearchBar}) {
 
     const {scrollTop, changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
-    const {searchValue, clearSearchValue} = useContext(SearchbarContext);
+    const {searchValue, clearSearchValue, changeSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
     const number = useNotificationStore((state) => state.number);
     const navigate = useNavigate();
@@ -63,7 +63,10 @@ function Navbar({isSearchBar}) {
     const handleSelect = async (location, placeId, suggestions) => {
         const [place] = await geocodeByPlaceId(placeId);
         console.log('place', place);
+        // console.log(place.geometry.viewport.toJSON());
+        changeSearchValue({...searchValue, viewport: place.geometry.viewport.toJSON()});
         console.log('location', location);
+        // changeSearchValue
         //마지막 political 값을 찾는다.
         const {long_name: lastPoliticalValue} = place.address_components.find(c => c.types.includes('political'));
         console.log("lastPoliticalValue", lastPoliticalValue);
@@ -115,7 +118,7 @@ function Navbar({isSearchBar}) {
 
         setIsLoading(false);
         //url이 변경되게 해야함..
-        navigate(`/list?type=${sendTypes}&location=${location}&political=${lastPoliticalValue}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}&searchedLng=${longitude}`);
+        navigate(`/list?type=${sendTypes}&location=${location}&political=${lastPoliticalValue}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}&searchedLng=${longitude}&search_type=autocomplete_click`);
 
     };
 

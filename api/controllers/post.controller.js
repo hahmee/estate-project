@@ -77,23 +77,55 @@ export const getPosts = async (req, res) => {
     const maxSizeQuery = (query.maxSize === null || query.maxSize === undefined || Number(query.maxSize) >= MAX_SIZE || query.maxSize === "") ? {} : {$lte: Number(query.maxSize)};
 
 
+    let maxDistance = null;
+    if(query.search_type === 'user_map_move') {
+      maxDistance = 20000000;
+    }else {
+
+    }
+
     //mongodb Atlas에 create Index {location:2dsphere} 작업 필요
     const posts = await prisma.post.aggregateRaw({
       pipeline: [
+        // {
+        //   $geoNear: {
+        //     near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
+        //     distanceField: "dist.calculated",
+        //     maxDistance: 200, //200km  200000
+        //     spherical: true,
+        //     query: {
+        //       politicalList: { $in: [query.political] },
+        //       price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
+        //       type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
+        //       property: {$in: (query.property === undefined || query.property === null || query.property ==="") ? roomType : queryProperty},
+        //       size:  {...minSizeQuery, ...maxSizeQuery},
+        //     },
+        //   },
+        // },
+        // {
+        //   $geoNear: {
+        //     near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
+        //     distanceField: "dist.calculated",
+        //     maxDistance: 20000000, //200km  200000
+        //     spherical: true,
+        //   }
+        // },
         {
           $geoNear: {
             near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
             distanceField: "dist.calculated",
             maxDistance: 20000000, //200km  200000
             spherical: true,
-            query: {
-              politicalList: { $in: [query.political] },
-              price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
-              type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
-              property: {$in: (query.property === undefined || query.property === null || query.property ==="") ? roomType : queryProperty},
-              size:  {...minSizeQuery, ...maxSizeQuery},
-            },
-          },
+          }
+        },
+        {
+          $match: {
+            politicalList: { $in: [query.political] },
+            price: {...minPriceQuery, ...maxPriceQuery},
+            type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
+            property: {$in: (query.property === undefined || query.property === null || query.property ==="") ? roomType : queryProperty},
+            size:  {...minSizeQuery, ...maxSizeQuery},
+          }
         },
         {
           $lookup: {

@@ -12,7 +12,7 @@ import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../navbar/Navbar.jsx";
 
 function Map({items}) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [zoomLevel, setZoomLevel] = useState(11);
+  const [zoomLevel, setZoomLevel] = useState(10);
   const {searchValue, changeSearchValue} = useContext(SearchbarContext);
   const position = [searchParams.get("latitude"), searchParams.get("longitude")];
   const isLoading = listPostStore((state) => state.isLoading);
@@ -31,7 +31,7 @@ function Map({items}) {
     minSize: searchParams.get("minSize") || MIN_SIZE,
     maxSize: searchParams.get("maxSize") || MAX_SIZE,
     searchedLat: searchParams.get("searchedLat") || "",
-    searchedLng:  searchParams.get("searchedLng") || "",
+    searchedLng: searchParams.get("searchedLng") || "",
   };
 
 
@@ -45,7 +45,7 @@ function Map({items}) {
           //줌 중심 위치 찾기
           const center = e.target.getCenter(); //{lat,lng}
           const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
-          await setSearchParams({...query, location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng });
+          await setSearchParams({...query, location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng, search_type:'user_map_move'});
           await setIsLoading(false);
         }
         setIsFetch(false);
@@ -57,7 +57,7 @@ function Map({items}) {
         const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
 
         //쿼리스트링 변경
-        await setSearchParams({...query,location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng });
+        await setSearchParams({...query,location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng,search_type:'user_map_move' });
 
         await setIsLoading(false);
       }
