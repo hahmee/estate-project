@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import "./navbar.scss";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import {useNotificationStore} from "../../lib/notificationStore";
 import PlacesAutocomplete, {geocodeByAddress, geocodeByPlaceId, getLatLng} from "react-places-autocomplete";
@@ -26,7 +26,7 @@ function Navbar({isSearchBar}) {
 
     const {scrollTop, changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
-    const {searchValue, clearSearchValue, changeSearchValue} = useContext(SearchbarContext);
+    const {searchValue, clearSearchValue, changeSearchValue ,changeViewPort} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
     const number = useNotificationStore((state) => state.number);
     const navigate = useNavigate();
@@ -44,16 +44,33 @@ function Navbar({isSearchBar}) {
     const [maxSize, setMaxSize] = useState(searchValue.maxSize);
     const [types, setTypes] = useState(searchValue.payType);
     const [rooms, setRooms] = useState(searchValue.propertyType);
+    const [searchType, setSearchType] = useState(searchValue.search_type);
     const [lastPoliticalValue, setLastPoliticalValue] = useState("");
-
+    const [viewPort, setViewPort] = useState({});
 
     const setCurrentUrl = usePageUrlStore((state) => state.setCurrentUrl);
     const setPrvUrl = usePageUrlStore((state) => state.setPrvUrl);
     const currentLocation = useLocation();
     const [prevLocation, setPrevLocation] = useState(null);
     const lastSavedLocation = useRef(null); // temp buffer
+    const setIsFetch = listPostStore((state) => state.setIsFetch);
+    const [searchParams, setSearchParams] = useSearchParams();
 
-
+    const query = {
+        type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
+        location: searchParams.get("location") || "",
+        political: searchParams.get("political") || "",
+        latitude: searchParams.get("latitude") || "",
+        longitude: searchParams.get("longitude") || "",
+        property: searchParams.getAll("property") < 1 ? roomOption.map((type) => type.value) : searchParams.getAll("property"),
+        minPrice: searchParams.get("minPrice") || MIN_PRICE,
+        maxPrice: searchParams.get("maxPrice") || MAX_PRICE,
+        minSize: searchParams.get("minSize") || MIN_SIZE,
+        maxSize: searchParams.get("maxSize") || MAX_SIZE,
+        searchedLat: searchParams.get("searchedLat") || "",
+        searchedLng:  searchParams.get("searchedLng") || "",
+        search_type: searchParams.get("search_type") || "",
+    };
 
     const handleLocationChange = (location) => {
         setStatus("");
@@ -62,14 +79,11 @@ function Navbar({isSearchBar}) {
 
     const handleSelect = async (location, placeId, suggestions) => {
         const [place] = await geocodeByPlaceId(placeId);
-        console.log('place', place);
+        setViewPort(place.geometry.viewport.toJSON());
         // console.log(place.geometry.viewport.toJSON());
-        changeSearchValue({...searchValue, viewport: place.geometry.viewport.toJSON()});
-        console.log('location', location);
         // changeSearchValue
         //마지막 political 값을 찾는다.
         const {long_name: lastPoliticalValue} = place.address_components.find(c => c.types.includes('political'));
-        console.log("lastPoliticalValue", lastPoliticalValue);
         setLastPoliticalValue(lastPoliticalValue);
 
         setLocation(location);
@@ -96,6 +110,20 @@ function Navbar({isSearchBar}) {
         e.preventDefault();
         e.stopPropagation();
         setIsLoading(true);
+        setIsFetch(true);
+
+        changeSearchValue({
+            location: query.location,
+            payType: query.type,
+            propertyType: query.property,
+            minPrice: query.minPrice,
+            maxPrice: query.maxPrice,
+            minSize: query.minSize,
+            maxSize: query.maxSize,
+            latitude: query.latitude,
+            longitude: query.longitude,
+            search_type: query.search_type,
+        });
 
         if (!location || !latitude || !longitude) {
             toast.error('주소지를 정확히 입력해주세요.');
@@ -112,13 +140,13 @@ function Navbar({isSearchBar}) {
             return;
         }
 
-
         const sendTypes = types.join('&type=');
         const sendProperties = rooms.join('&property=');
+        changeViewPort(viewPort);
 
         setIsLoading(false);
         //url이 변경되게 해야함..
-        navigate(`/list?type=${sendTypes}&location=${location}&political=${lastPoliticalValue}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}&searchedLng=${longitude}&search_type=autocomplete_click`);
+        navigate(`/list?type=${sendTypes}&location=${location}&political=${lastPoliticalValue}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}&searchedLng=${longitude}&search_type=${searchType}`);
 
     };
 

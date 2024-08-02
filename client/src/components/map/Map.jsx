@@ -32,6 +32,7 @@ function Map({items}) {
     maxSize: searchParams.get("maxSize") || MAX_SIZE,
     searchedLat: searchParams.get("searchedLat") || "",
     searchedLng: searchParams.get("searchedLng") || "",
+    search_type: searchParams.get("search_type") || "",
   };
 
 
@@ -40,6 +41,7 @@ function Map({items}) {
     const map = useMapEvents({
       zoomend: useCallback(async (e) => {
         if (!isFetch) { // 서칭창으로 검색했을 때 zoomend가 항상 실행됨 -> 맵에서 zoom 했을 때만 실행되도록 & 외부에서 url 쳐서 들어올때도 막아야함
+          console.log('zoomend',searchValue)
           changeSearchValue({...searchValue, location: '지도 표시 지역'});
           await setIsLoading(true);
           //줌 중심 위치 찾기
@@ -51,6 +53,8 @@ function Map({items}) {
         setIsFetch(false);
       }, [isFetch]),
       dragend: async (e) => {
+        console.log('dragend',searchValue)
+
         changeSearchValue({...searchValue, location: '지도 표시 지역'});
         await setIsLoading(true);
         const center = e.target.getCenter(); //{lat,lng}

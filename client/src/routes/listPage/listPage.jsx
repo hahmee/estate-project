@@ -15,7 +15,7 @@ import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../../components/navbar/
 function ListPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     const {currentUser} = useContext(AuthContext);
-    const {clearSearchValue, changeSearchValue, searchValue} = useContext(SearchbarContext);
+    const {clearSearchValue, changeSearchValue, searchValue,clearViewPort} = useContext(SearchbarContext);
     const query = {
         type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
         location: searchParams.get("location") || "",
@@ -29,6 +29,7 @@ function ListPage() {
         maxSize: searchParams.get("maxSize") || MAX_SIZE,
         searchedLat: searchParams.get("searchedLat") || "",
         searchedLng:  searchParams.get("searchedLng") || "",
+        search_type: searchParams.get("search_type") || "",
     };
     const setIsFetch = listPostStore((state) => state.setIsFetch);
     const postFetch = listPostStore((state) => state.fetch);
@@ -46,23 +47,12 @@ function ListPage() {
 
     //searchParams 가 변경될때마다 fetch 실행
     useEffect(() => {
+        console.log('?');
         const sendTypes = query.type.join('&type=');//searchValue.payType.join('&type='); // //
         const sendProperties = query.property.join('&property=');//searchParams.propertyType.join('&property=');////
 
-        postFetch(`type=${sendTypes}&location=${query.location}&political=${query.political}&latitude=${query.latitude}&longitude=${query.longitude}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}&search_type=autocomplete_click`);
+        postFetch(`type=${sendTypes}&location=${query.location}&political=${query.political}&latitude=${query.latitude}&longitude=${query.longitude}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}&search_type=${query.search_type}`);
 
-        //searchbar context에 url 값 넣기
-        changeSearchValue({...searchValue,
-            location: query.location,
-            payType: query.type,
-            propertyType: query.property,
-            minPrice: query.minPrice,
-            maxPrice: query.maxPrice,
-            minSize: query.minSize,
-            maxSize: query.maxSize,
-            latitude: query.latitude,
-            longitude: query.longitude
-        });
 
     }, [searchParams]);
 
@@ -71,10 +61,25 @@ function ListPage() {
         changeScrollTop(false);
         changeFixedNavbar(true);
         setIsFetch(true);
+        //searchbar context에 url 값 넣기 -> 외부 url 을 통해서 들어온 사람들을 위해
+        changeSearchValue({
+            location: query.location,
+            payType: query.type,
+            propertyType: query.property,
+            minPrice: query.minPrice,
+            maxPrice: query.maxPrice,
+            minSize: query.minSize,
+            maxSize: query.maxSize,
+            latitude: query.latitude,
+            longitude: query.longitude,
+            search_type: query.search_type,
+        });
+
         return () => {
             changeFixedNavbar(false);
             //정리
-            // clearSearchValue(); //error
+            clearSearchValue();
+            clearViewPort();
         };
 
     }, []);

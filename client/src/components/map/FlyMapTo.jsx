@@ -10,7 +10,7 @@ import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 
 function FlyMapTo({items}) {
     const map = useMap();
-    const {searchValue} = useContext(SearchbarContext);
+    const {viewPort} = useContext(SearchbarContext);
     const [searchParams, setSearchParams] = useSearchParams();
     const query = {
         type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
@@ -25,6 +25,7 @@ function FlyMapTo({items}) {
         maxSize: searchParams.get("maxSize") || MAX_SIZE,
         searchedLat: searchParams.get("searchedLat") || "",
         searchedLng:  searchParams.get("searchedLng") || "",
+        search_type: searchParams.get("search_type") || "",
     };
 
     const position = [query.latitude, query.longitude];
@@ -37,13 +38,15 @@ function FlyMapTo({items}) {
 
     //검색 위치가 변경될때만
     useEffect(() => {
-        // map.flyTo(position);
-        //Setting perfect zoom level
-        const bounds = [
-            [searchValue.viewport.south, searchValue.viewport.west],//southWest
-            [searchValue.viewport.north, searchValue.viewport.east]//northEast
-        ];
-        map.flyToBounds(bounds, {duration: 1.2});
+        if(query.search_type === 'autocomplete_click') {
+            // map.flyTo(position);
+            //Setting perfect zoom level
+            const bounds = [
+                [viewPort.south, viewPort.west],//southWest
+                [viewPort.north, viewPort.east]//northEast
+            ];
+            map.flyToBounds(bounds, {duration: 1.2});
+        }
 
     }, [query.latitude, query.longitude]);
 
