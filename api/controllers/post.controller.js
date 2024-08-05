@@ -16,7 +16,6 @@ function getRadians(degree) {
 export const getPosts = async (req, res) => {
   const query = req.query;
 
-  console.log('query입니다.', query);
   try {
 
     // 반경 3 km 까지 검색 (위도 경도 반경 계산)
@@ -76,57 +75,40 @@ export const getPosts = async (req, res) => {
     //maxSize 값 없을 때 (60이상 값이 들어오면 사이즈 무한대로 보여줌)
     const maxSizeQuery = (query.maxSize === null || query.maxSize === undefined || Number(query.maxSize) >= MAX_SIZE || query.maxSize === "") ? {} : {$lte: Number(query.maxSize)};
 
+    let searchTypeQuery = {};
 
-    let maxDistance = null;
     if(query.search_type === 'user_map_move') {
-      maxDistance = 20000000;
-    }else {
-
+      searchTypeQuery = {
+         $geoNear: {
+           near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
+           distanceField: "dist.calculated",
+           maxDistance: 20000, //m
+           spherical: true,
+           query: {
+             politicalList: {$in: [query.political]},
+             price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
+             type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
+             property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},
+             size: {...minSizeQuery, ...maxSizeQuery},
+           },
+         }
+       }
+    }else { //autocomplete_click일 때
+      searchTypeQuery= {
+        $match: {
+          politicalList: { $in: [query.political] },
+          price: {...minPriceQuery, ...maxPriceQuery},
+          type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
+          property: {$in: (query.property === undefined || query.property === null || query.property ==="") ? roomType : queryProperty},
+          size:  {...minSizeQuery, ...maxSizeQuery},
+        }
+      }
     }
 
     //mongodb Atlas에 create Index {location:2dsphere} 작업 필요
     const posts = await prisma.post.aggregateRaw({
       pipeline: [
-        // {
-        //   $geoNear: {
-        //     near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
-        //     distanceField: "dist.calculated",
-        //     maxDistance: 200, //200km  200000
-        //     spherical: true,
-        //     query: {
-        //       politicalList: { $in: [query.political] },
-        //       price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
-        //       type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
-        //       property: {$in: (query.property === undefined || query.property === null || query.property ==="") ? roomType : queryProperty},
-        //       size:  {...minSizeQuery, ...maxSizeQuery},
-        //     },
-        //   },
-        // },
-        // {
-        //   $geoNear: {
-        //     near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
-        //     distanceField: "dist.calculated",
-        //     maxDistance: 20000000, //200km  200000
-        //     spherical: true,
-        //   }
-        // },
-        {
-          $geoNear: {
-            near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
-            distanceField: "dist.calculated",
-            maxDistance: 2000000, //200km  200000
-            spherical: true,
-          }
-        },
-        {
-          $match: {
-            politicalList: { $in: [query.political] },
-            price: {...minPriceQuery, ...maxPriceQuery},
-            type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
-            property: {$in: (query.property === undefined || query.property === null || query.property ==="") ? roomType : queryProperty},
-            size:  {...minSizeQuery, ...maxSizeQuery},
-          }
-        },
+        searchTypeQuery,
         {
           $lookup: {
             from: "SavedPost",

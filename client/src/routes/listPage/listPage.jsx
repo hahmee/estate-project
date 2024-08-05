@@ -15,7 +15,7 @@ import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../../components/navbar/
 function ListPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     const {currentUser} = useContext(AuthContext);
-    const {clearSearchValue, changeSearchValue, searchValue,clearViewPort} = useContext(SearchbarContext);
+    const {clearSearchValue, changeSearchValue, searchValue} = useContext(SearchbarContext);
     const query = {
         type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
         location: searchParams.get("location") || "",
@@ -30,6 +30,10 @@ function ListPage() {
         searchedLat: searchParams.get("searchedLat") || "",
         searchedLng:  searchParams.get("searchedLng") || "",
         search_type: searchParams.get("search_type") || "",
+        ne_lat: searchParams.get("ne_lat") || "",
+        ne_lng: searchParams.get("ne_lng") || "",
+        sw_lat: searchParams.get("sw_lat") || "",
+        sw_lng: searchParams.get("sw_lng") || "",
     };
     const setIsFetch = listPostStore((state) => state.setIsFetch);
     const postFetch = listPostStore((state) => state.fetch);
@@ -79,7 +83,6 @@ function ListPage() {
             changeFixedNavbar(false);
             //정리
             clearSearchValue();
-            clearViewPort();
         };
 
     }, []);

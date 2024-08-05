@@ -26,10 +26,14 @@ function FlyMapTo({items}) {
         searchedLat: searchParams.get("searchedLat") || "",
         searchedLng:  searchParams.get("searchedLng") || "",
         search_type: searchParams.get("search_type") || "",
+        ne_lat: searchParams.get("ne_lat") || "",
+        ne_lng: searchParams.get("ne_lng") || "",
+        sw_lat: searchParams.get("sw_lat") || "",
+        sw_lng: searchParams.get("sw_lng") || "",
     };
 
     const position = [query.latitude, query.longitude];
-    const searchedPostion = [query.searchedLat, query.searchedLng];
+    const searchedPostion = [query.searchedLat, query.searchedLng]; //검색한 곳
 
     //검정색 점
     const customMarkerIcon = divIcon({
@@ -38,14 +42,21 @@ function FlyMapTo({items}) {
 
     //검색 위치가 변경될때만
     useEffect(() => {
+        // debugger
+
+
+        console.log('ss', query);
         if(query.search_type === 'autocomplete_click') {
             // map.flyTo(position);
             //Setting perfect zoom level
             const bounds = [
-                [viewPort.south, viewPort.west],//southWest
-                [viewPort.north, viewPort.east]//northEast
+                [query.ne_lat, query.ne_lng], //southWest
+                [query.sw_lat, query.sw_lng]  //northEast
             ];
-            map.flyToBounds(bounds, {duration: 1.2});
+            console.log('bounds', bounds);
+
+            map.flyToBounds(bounds,{ animation:true, duration: 1.5}); // 1.2 속도
+
         }
 
     }, [query.latitude, query.longitude]);

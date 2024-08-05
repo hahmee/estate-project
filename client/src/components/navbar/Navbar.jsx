@@ -26,7 +26,7 @@ function Navbar({isSearchBar}) {
 
     const {scrollTop, changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
-    const {searchValue, clearSearchValue, changeSearchValue ,changeViewPort} = useContext(SearchbarContext);
+    const {searchValue, clearSearchValue, changeSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
     const number = useNotificationStore((state) => state.number);
     const navigate = useNavigate();
@@ -45,8 +45,13 @@ function Navbar({isSearchBar}) {
     const [types, setTypes] = useState(searchValue.payType);
     const [rooms, setRooms] = useState(searchValue.propertyType);
     const [searchType, setSearchType] = useState(searchValue.search_type);
+    const [neLat, setNelat] = useState(searchValue.ne_lat);
+    const [neLng, setNeLng] = useState(searchValue.ne_lng);
+    const [swLat, setSwLat] = useState(searchValue.sw_lat);
+    const [swLng, setSwLng] = useState(searchValue.sw_lng);
+
     const [lastPoliticalValue, setLastPoliticalValue] = useState("");
-    const [viewPort, setViewPort] = useState({});
+    // const [viewPort, setViewPort] = useState({});
 
     const setCurrentUrl = usePageUrlStore((state) => state.setCurrentUrl);
     const setPrvUrl = usePageUrlStore((state) => state.setPrvUrl);
@@ -68,8 +73,12 @@ function Navbar({isSearchBar}) {
         minSize: searchParams.get("minSize") || MIN_SIZE,
         maxSize: searchParams.get("maxSize") || MAX_SIZE,
         searchedLat: searchParams.get("searchedLat") || "",
-        searchedLng:  searchParams.get("searchedLng") || "",
+        searchedLng: searchParams.get("searchedLng") || "",
         search_type: searchParams.get("search_type") || "",
+        ne_lat: searchParams.get("ne_lat") || "",
+        ne_lng: searchParams.get("ne_lng") || "",
+        sw_lat: searchParams.get("sw_lat") || "",
+        sw_lng: searchParams.get("sw_lng") || "",
     };
 
     const handleLocationChange = (location) => {
@@ -79,8 +88,12 @@ function Navbar({isSearchBar}) {
 
     const handleSelect = async (location, placeId, suggestions) => {
         const [place] = await geocodeByPlaceId(placeId);
-        setViewPort(place.geometry.viewport.toJSON());
-        // console.log(place.geometry.viewport.toJSON());
+        const viewPort = place.geometry.viewport.toJSON()
+        console.log(viewPort);
+        setNelat(viewPort.south);
+        setNeLng(viewPort.west);
+        setSwLat(viewPort.north);
+        setSwLng(viewPort.east);
         // changeSearchValue
         //마지막 political 값을 찾는다.
         const {long_name: lastPoliticalValue} = place.address_components.find(c => c.types.includes('political'));
@@ -123,6 +136,10 @@ function Navbar({isSearchBar}) {
             latitude: query.latitude,
             longitude: query.longitude,
             search_type: query.search_type,
+            ne_lat: query.ne_lat,
+            ne_lng: query.ne_lng,
+            sw_lat: query.sw_lat,
+            sw_lng: query.sw_lng,
         });
 
         if (!location || !latitude || !longitude) {
@@ -142,11 +159,12 @@ function Navbar({isSearchBar}) {
 
         const sendTypes = types.join('&type=');
         const sendProperties = rooms.join('&property=');
-        changeViewPort(viewPort);
+        // changeViewPort(viewPort);
 
         setIsLoading(false);
         //url이 변경되게 해야함..
-        navigate(`/list?type=${sendTypes}&location=${location}&political=${lastPoliticalValue}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}&searchedLng=${longitude}&search_type=${searchType}`);
+        navigate(`/list?type=${sendTypes}&location=${location}&political=${lastPoliticalValue}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}
+        &searchedLng=${longitude}&search_type=${searchType}&ne_lat=${neLat}&ne_lng=${neLng}&sw_lat=${swLat}&sw_lng=${swLng}`);
 
     };
 
@@ -244,7 +262,6 @@ function Navbar({isSearchBar}) {
                                 onSelect={handleSelect}
                                 onError={onError}
                                 searchOptions={{types: ['political']}}
-
                                 // searchOptions={{types: ['geocode']}}
                                 // searchOptions={{types: ['country', 'locality', 'sublocality']}}
                             >

@@ -88,7 +88,7 @@ function Map({items}) {
             worldCopyJump={true}
         >
           <FlyMapTo items={items}/>
-          <HandlerComponent/>
+          {/*<HandlerComponent/>*/}
         </MapContainer>
       </>
   );

@@ -20,38 +20,42 @@ export const SearchbarContextProvider = ({children}) => {
         latitude: '',
         longitude: '',
         search_type: 'autocomplete_click', //autocomplete_click || user_map_move
+        ne_lat: '',
+        ne_lng: '',
+        sw_lat: '',
+        sw_lng: '',
     };
 
     const [searchValue, setSearchValue] = useState(initialState);
-    const [viewPort, setViewPort] = useState(initialViewPort);
+    // const [viewPort, setViewPort] = useState(initialViewPort);
 
     const changeSearchValue = (value) => {
         setSearchValue(value);
     }
 
-    const changeViewPort = (value) => {
-        setViewPort(value);
-    }
+    // const changeViewPort = (value) => {
+    //     setViewPort(value);
+    // }
 
     const clearSearchValue = () => {
         setSearchValue(initialState);
     }
 
-    const clearViewPort = () => {
-        setViewPort(initialViewPort);
-    }
+    // const clearViewPort = () => {
+    //     setViewPort(initialViewPort);
+    // }
 
     const searchbarCtx = {
         searchValue,
         changeSearchValue,
         clearSearchValue,
-        viewPort,
-        changeViewPort,
-        clearViewPort
+        // viewPort,
+        // changeViewPort,
+        // clearViewPort
     }
 
-    console.log('searchValue------', searchValue);
-    console.log('viewPort------', viewPort);
+    // console.log('searchValue------', searchValue);
+    // console.log('viewPort------', viewPort);
 
 
     return (
