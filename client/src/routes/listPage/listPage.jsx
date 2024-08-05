@@ -10,12 +10,13 @@ import {NavbarContext} from "../../context/NavbarContext.jsx";
 import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 import {roomOption, typeOption} from "../newPostPage/newPostPage.jsx";
 import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../../components/navbar/Navbar.jsx";
+import {numberFormatter} from "../../util/formatting.js";
 
 
 function ListPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     const {currentUser} = useContext(AuthContext);
-    const {clearSearchValue, changeSearchValue, searchValue} = useContext(SearchbarContext);
+    const {changeSearchValue, searchValue, clearSearchValue} = useContext(SearchbarContext);
     const query = {
         type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
         location: searchParams.get("location") || "",
@@ -51,7 +52,6 @@ function ListPage() {
 
     //searchParams 가 변경될때마다 fetch 실행
     useEffect(() => {
-        console.log('?');
         const sendTypes = query.type.join('&type=');//searchValue.payType.join('&type='); // //
         const sendProperties = query.property.join('&property=');//searchParams.propertyType.join('&property=');////
 
@@ -94,15 +94,20 @@ function ListPage() {
             <div className="listPage">
                 <div className="listContainer">
                     <div className="wrapperList">
+                        <div>
+                            <span>{
+                                query.search_type !== 'user_map_move' ? query.political: '지도 표시 지역'}의 매물</span>
+                            <span>&nbsp;{numberFormatter.format(posts.length)}개</span>
+                        </div>
                         {
-                           // isLoading ? <ListLoading/> :
-                                (posts.length < 1) ? (
-                                        <div className="noFinding">
-                                            검색 결과가 없습니다.
-                                        </div>) :
-                                    posts.map((post, idx) => (
-                                        <Card key={idx} card={post}/>
-                                    ))
+                            // isLoading ? <ListLoading/> :
+                            (posts.length < 1) ? (
+                                    <div className="noFinding">
+                                        검색 결과가 없습니다.
+                                    </div>) :
+                                posts.map((post, idx) => (
+                                    <Card key={idx} card={post}/>
+                                ))
                         }
                     </div>
                 </div>

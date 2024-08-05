@@ -10,7 +10,6 @@ import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 
 function FlyMapTo({items}) {
     const map = useMap();
-    const {viewPort} = useContext(SearchbarContext);
     const [searchParams, setSearchParams] = useSearchParams();
     const query = {
         type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
@@ -42,10 +41,6 @@ function FlyMapTo({items}) {
 
     //검색 위치가 변경될때만
     useEffect(() => {
-        // debugger
-
-
-        console.log('ss', query);
         if(query.search_type === 'autocomplete_click') {
             // map.flyTo(position);
             //Setting perfect zoom level
@@ -55,7 +50,10 @@ function FlyMapTo({items}) {
             ];
             console.log('bounds', bounds);
 
-            map.flyToBounds(bounds,{ animation:true, duration: 1.5}); // 1.2 속도
+//            map.fitBounds([[36,126],[37,127]],{ animate:true, duration: 1.5}); // 1.2 속도
+//             map.flyToBounds([[36,126],[37,127]],{ animate:true, duration: 1.5}); // 1.2 속도
+
+            map.fitBounds(bounds, {animate: true, duration: 1.5}); // error 발생
 
         }
 

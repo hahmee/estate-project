@@ -85,7 +85,6 @@ export const getPosts = async (req, res) => {
            maxDistance: 20000, //m
            spherical: true,
            query: {
-             politicalList: {$in: [query.political]},
              price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
              type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
              property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},

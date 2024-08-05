@@ -26,7 +26,7 @@ function Navbar({isSearchBar}) {
 
     const {scrollTop, changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
-    const {searchValue, clearSearchValue, changeSearchValue} = useContext(SearchbarContext);
+    const {searchValue, changeSearchValue, clearSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
     const number = useNotificationStore((state) => state.number);
     const navigate = useNavigate();
@@ -88,8 +88,8 @@ function Navbar({isSearchBar}) {
 
     const handleSelect = async (location, placeId, suggestions) => {
         const [place] = await geocodeByPlaceId(placeId);
+        console.log('place', place);
         const viewPort = place.geometry.viewport.toJSON()
-        console.log(viewPort);
         setNelat(viewPort.south);
         setNeLng(viewPort.west);
         setSwLat(viewPort.north);
@@ -126,20 +126,20 @@ function Navbar({isSearchBar}) {
         setIsFetch(true);
 
         changeSearchValue({
-            location: query.location,
-            payType: query.type,
-            propertyType: query.property,
-            minPrice: query.minPrice,
-            maxPrice: query.maxPrice,
-            minSize: query.minSize,
-            maxSize: query.maxSize,
-            latitude: query.latitude,
-            longitude: query.longitude,
-            search_type: query.search_type,
-            ne_lat: query.ne_lat,
-            ne_lng: query.ne_lng,
-            sw_lat: query.sw_lat,
-            sw_lng: query.sw_lng,
+            location: location,
+            payType: types,
+            propertyType: rooms,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+            minSize: minSize,
+            maxSize: maxSize,
+            latitude: latitude,
+            longitude: longitude,
+            search_type: searchType,
+            ne_lat: neLat,
+            ne_lng: neLng,
+            sw_lat: swLat,
+            sw_lng: swLng
         });
 
         if (!location || !latitude || !longitude) {
@@ -159,12 +159,10 @@ function Navbar({isSearchBar}) {
 
         const sendTypes = types.join('&type=');
         const sendProperties = rooms.join('&property=');
-        // changeViewPort(viewPort);
 
         setIsLoading(false);
         //url이 변경되게 해야함..
-        navigate(`/list?type=${sendTypes}&location=${location}&political=${lastPoliticalValue}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}
-        &searchedLng=${longitude}&search_type=${searchType}&ne_lat=${neLat}&ne_lng=${neLng}&sw_lat=${swLat}&sw_lng=${swLng}`);
+        navigate(`/list?type=${sendTypes}&location=${location}&political=${lastPoliticalValue}&latitude=${latitude}&longitude=${longitude}&property=${sendProperties}&minPrice=${minPrice}&maxPrice=${maxPrice}&minSize=${minSize}&maxSize=${maxSize}&searchedLat=${latitude}&searchedLng=${longitude}&search_type=${searchType}&ne_lat=${neLat}&ne_lng=${neLng}&sw_lat=${swLat}&sw_lng=${swLng}`);
 
     };
 
@@ -210,7 +208,7 @@ function Navbar({isSearchBar}) {
     }, [prevLocation]);
 
     useEffect(() => {
-        return () => clearSearchValue();
+        return () => clearSearchValue(); //에러나서 우선 주석
     }, []);
 
 
@@ -285,8 +283,7 @@ function Navbar({isSearchBar}) {
                                             {
                                                 ((types && rooms) && (types.length + rooms.length === 9)) ?
                                                     '모든 유형' : [...types, ...rooms].map((type) => {
-                                                        return <p
-                                                            key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
+                                                        return <p key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
                                                     })
                                             }
                                     </span>

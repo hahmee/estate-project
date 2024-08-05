@@ -47,7 +47,7 @@ function Map({items}) {
           //줌 중심 위치 찾기
           const center = e.target.getCenter(); //{lat,lng}
           const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
-          await setSearchParams({...query, location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng, search_type:'user_map_move'});
+          await setSearchParams({...query,location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng, search_type:'user_map_move'});
           await setIsLoading(false);
         }
         setIsFetch(false);
@@ -88,7 +88,7 @@ function Map({items}) {
             worldCopyJump={true}
         >
           <FlyMapTo items={items}/>
-          {/*<HandlerComponent/>*/}
+          <HandlerComponent/>
         </MapContainer>
       </>
   );
