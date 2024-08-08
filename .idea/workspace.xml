@@ -8,7 +8,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/post.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/Map.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pin/Pin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pin/Pin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pin/pin.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pin/pin.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +131,7 @@
       <workItem from="1723017409310" duration="115000" />
       <workItem from="1723017636249" duration="5501000" />
       <workItem from="1723033634134" duration="5742000" />
-      <workItem from="1723086190252" duration="6327000" />
+      <workItem from="1723086190252" duration="7248000" />
     </task>
     <servers />
   </component>

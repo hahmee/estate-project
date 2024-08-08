@@ -48,8 +48,6 @@ function Map({items}) {
           const center = e.target.getCenter(); //{lat,lng}
           const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
 
-          console.log('center', center);
-          console.log('wrappedCenter', wrappedCenter);
           //현재 bounds 찾기
           const northEast = e.target.getBounds()._northEast;
           const southWest = e.target.getBounds()._southWest;
@@ -73,9 +71,6 @@ function Map({items}) {
         await setIsLoading(true);
         const center = e.target.getCenter(); //{lat,lng}
         const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
-
-        console.log('center', center);
-        console.log('wrappedCenter', wrappedCenter);
 
         const northEast = e.target.getBounds()._northEast;
         const southWest = e.target.getBounds()._southWest;
@@ -112,7 +107,7 @@ function Map({items}) {
             zoomSnap={0.25}
             zoomDelta={1}
             // maxZoom={30}
-            // minZoom={1}
+            minZoom={3}
             worldCopyJump={true}
         >
           <FlyMapTo items={items}/>

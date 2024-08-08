@@ -77,10 +77,6 @@ export const getPosts = async (req, res) => {
 
     let searchTypeQuery = {};
 
-    console.log('querㅛ입니다.', query.property)
-    console.log('queryPRoperyty입니다.', queryProperty)
-
-
     if (query.search_type === 'user_map_move') { // || query.search_type === undefined || query.search_type === null
 
       //ne_lat, ne_lng, sw_lat, sw_lng 바운더리 안에 있는 매물들 검색

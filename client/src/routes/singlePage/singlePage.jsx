@@ -292,7 +292,7 @@ function SinglePage() {
 
                 <div className="itemBottom">
                   <span className="itemBottomSpan">
-                    <img src={post.user.avatar} alt="유저 이미지"/>
+                    <img src={post.user.avatar || "/noavatar.jpg"} alt="유저 이미지"/>
                   </span>
                   <span className="itemBottomSpan">
                     {post.user.username}
@@ -317,7 +317,6 @@ function SinglePage() {
                       )
                   }
                   <Button
-                      // outlined
                       onClick={(e) => handleSave(e)}
                       className="actionBtn"
                   >

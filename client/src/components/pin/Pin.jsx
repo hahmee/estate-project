@@ -90,10 +90,9 @@ function Pin({item}) {
                         </Slider>
                         <div className="textContainer">
                             <div>
-                                <div onClick={() => navigate(`/read/${item.id}`)}>{item.title}</div>
+                                <div onClick={() => navigate(`/read/${item._id.$oid}`)} className="pinCursor">{item.title}</div>
                                 <div className="savedCnt">
-                                    <span className="material-symbols-outlined"
-                                          style={{fontSize: '18px'}}>favorite</span>
+                                    <span className="material-symbols-outlined pinCursor" style={{fontSize: '18px'}} >favorite</span>
                                     <span>{savedCnt}</span>
                                 </div>
                             </div>

@@ -9,9 +9,9 @@
   width: auto;
 }
 
-.saved-pin {
+  .saved-pin {
   position: relative;
-  border: 1px solid #bbb;
+  border: 1px solid #fa6172;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
   background-color: #ff6e7e;
   padding: 0px 20px;
@@ -118,6 +118,10 @@
         &:nth-child(4) {
           font-weight: 600;
         }
+
+      }
+      .pinCursor {
+        cursor: pointer;
 
       }
 

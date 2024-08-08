@@ -1,11 +1,10 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Marker, TileLayer, useMap} from "react-leaflet";
 import Pin from "../pin/Pin.jsx";
 import {divIcon} from "leaflet/src/layer/index.js";
 import {useSearchParams} from "react-router-dom";
 import {roomOption, typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../navbar/Navbar.jsx";
-import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 
 
 function FlyMapTo({items}) {
@@ -39,10 +38,6 @@ function FlyMapTo({items}) {
         html: `<div class="searchLocation"><div class="searchLocationIn"></div></div>`,
     });
 
-    const customMarkerIcon2 = divIcon( {
-        html: `<div class="searchLocation"><div class="searchLocationIn"></div></div>`,
-
-    })
 
     //검색 위치가 변경될때만
     useEffect(() => {
@@ -75,11 +70,6 @@ function FlyMapTo({items}) {
             {items.map((item, idx) => (
                 <Pin item={item} key={idx}/>
             ))}
-            <Marker position={[query.ne_lat, query.ne_lng]} icon={customMarkerIcon2}></Marker>
-
-            <Marker position={[query.sw_lat, query.sw_lng]} icon={customMarkerIcon2}></Marker>
-
-
 
         </div>
     );
