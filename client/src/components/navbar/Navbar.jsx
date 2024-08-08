@@ -22,6 +22,65 @@ export const MIN_PRICE = 0;
 export const MAX_SIZE = 60;
 export const MIN_SIZE = 0;
 
+export const SEARCH_BY_REGION =[
+    {
+        img: 'https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320',
+        title: '한국',
+        placeId: "ChIJm7oRy-tVZDURS9uIugCbJJE",
+
+    },
+    {
+        img: 'https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320',
+        title: '미국',
+        placeId: "ChIJCzYy5IS16lQRQrfeQ5K5Oxw",
+    },
+    {
+        img: 'https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320',
+        title: '일본',
+        placeId: "ChIJLxl_1w9OZzQRRFJmfNR1QvU",
+    },
+    {
+        img: 'https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320',
+        title: '독일',
+        placeId:"ChIJa76xwh5ymkcRW-WRjmtd6HU",
+    },
+];
+
+export const SEARCH_BY_KOREA = [
+    {
+        title: '서울',
+        placeId: "ChIJzzlcLQGifDURm_JbQKHsEX4",
+    },
+    {
+        title: '부산',
+        placeId: "ChIJNc0j6G3raDURpwhxJHTL2DU",
+    },
+    {
+        title: '대전',
+        placeId: "ChIJAWZKutdIZTURtdOKmJ3WltE",
+    },
+    {
+        title: '대구',
+        placeId: "ChIJ1a3vsrjjZTURMC44oCngkro",
+    },
+    {
+        title: '인천',
+        placeId: "ChIJR4ITliVveTURQmG3LJD9N30",
+    },
+    {
+        title: '제주도',
+        placeId: "ChIJRUDITFTjDDURMb8emNI2vGY",
+    },
+    {
+        title: '속초',
+        placeId: "ChIJsT1we_S82F8RyD8ltFjA9Ho",
+    },
+    {
+        title: '여수',
+        placeId: "ChIJr6uLHx-UbTURi26I5drZAok",
+    }
+];
+
 function Navbar({isSearchBar}) {
 
     const {scrollTop, changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
@@ -86,9 +145,11 @@ function Navbar({isSearchBar}) {
         setLocation(location);
     };
 
-    const handleSelect = async (location, placeId, suggestions) => {
+    const handleSelect = async (location=null, placeId) => {
         const [place] = await geocodeByPlaceId(placeId);
         console.log('place', place);
+        const address = place.formatted_address;
+        console.log('location', place.formatted_address)
         const viewPort = place.geometry.viewport.toJSON()
         setNelat(viewPort.south);
         setNeLng(viewPort.west);
@@ -99,17 +160,11 @@ function Navbar({isSearchBar}) {
         const {long_name: lastPoliticalValue} = place.address_components.find(c => c.types.includes('political'));
         setLastPoliticalValue(lastPoliticalValue);
 
-        setLocation(location);
-        geocodeByAddress(location)
-            .then((results) => getLatLng(results[0]))
-            .then((latLng) => {
-                setLatitude(latLng.lat);
-                setLongitude(latLng.lng);
-                setLocation(location);
-            })
-            .catch((error) => console.error("Error", error));
+        setLocation(address);
+        setLatitude(place.geometry.location.lat());
+        setLongitude(place.geometry.location.lng());
 
-        if (location) {
+        if (address) {
             setCurrentClicked(2);
         }
     };
@@ -169,6 +224,10 @@ function Navbar({isSearchBar}) {
     const clickMenu = (number) => {
         setCurrentClicked(number);
         setNotClicked(true);
+    };
+
+    const searchByRegion = async (placeId) => {
+        handleSelect(null, placeId);
     };
 
     const closeDropdown = useCallback(() => {
@@ -283,7 +342,8 @@ function Navbar({isSearchBar}) {
                                             {
                                                 ((types && rooms) && (types.length + rooms.length === 9)) ?
                                                     '모든 유형' : [...types, ...rooms].map((type) => {
-                                                        return <p key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
+                                                        return <p
+                                                            key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
                                                     })
                                             }
                                     </span>
@@ -306,10 +366,13 @@ function Navbar({isSearchBar}) {
 
                                         </div>
 
-                                        <Location suggestions={suggestions}
-                                                  getSuggestionItemProps={getSuggestionItemProps}
-                                                  loading={loading} status={status} shown={(currentClicked === 1)}
-                                                  close={closeDropdown} scrollTop={scrollTop}/>
+                                        <Location
+                                            location={location}
+                                            suggestions={suggestions}
+                                            getSuggestionItemProps={getSuggestionItemProps}
+                                            loading={loading} status={status} shown={(currentClicked === 1)}
+                                            close={closeDropdown} scrollTop={scrollTop}
+                                            searchByRegion={searchByRegion}/>
 
                                         <Category types={types} setTypes={setTypes} rooms={rooms}
                                                   setRooms={setRooms}
@@ -338,8 +401,7 @@ function Navbar({isSearchBar}) {
     );
 }
 
-const Location = ({suggestions, getSuggestionItemProps, loading, status, shown, close, scrollTop}) => {
-
+const Location = ({location, suggestions, getSuggestionItemProps, loading, status, shown, close, scrollTop, searchByRegion}) => {
     return (
         <Dropdown
             shown={shown}
@@ -348,6 +410,34 @@ const Location = ({suggestions, getSuggestionItemProps, loading, status, shown, 
         >
             <div className='otherSuggestion'>
                 <div className="autocomplete-dropdown">
+                    {
+                        !location && (
+                            <div className="autocomplete-dropdown-content">
+                                <div className="searchByRegion">지역으로 검색하기</div>
+                                <div className="searchByRegionContent">
+                                    {
+                                        SEARCH_BY_REGION.map((data) => {
+                                            return (
+                                                <div key={data.title}><img className="regionImg" src={data.img} alt='img'
+                                                                           onClick={() => searchByRegion(data.placeId)}/>
+                                                    <div className="regionContent">{data.title}</div>
+                                                </div>);
+                                        })
+                                    }
+                                </div>
+                                <div className="searchByRegion">한국</div>
+                                <div className="searchBox">
+                                    {
+                                        SEARCH_BY_KOREA.map((data) => {
+                                            return (<div key={data.title} className="labelDiv"
+                                                         onClick={() => searchByRegion(data.placeId)}>{data.title}</div>);
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        )
+                    }
+
                     {loading && <div className="suggestion-item">검색중...</div>}
                     {status && <div className="suggestion-item">{status}</div>}
                     {suggestions.map((suggestion) => {

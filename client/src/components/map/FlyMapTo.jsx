@@ -67,6 +67,9 @@ function FlyMapTo({items}) {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             <Marker position={searchedPostion} icon={customMarkerIcon}></Marker>
+            <Marker position={[query.ne_lat, query.ne_lng]} icon={customMarkerIcon}></Marker>
+            <Marker position={[query.sw_lat, query.sw_lng]} icon={customMarkerIcon}></Marker>
+
             {items.map((item, idx) => (
                 <Pin item={item} key={idx}/>
             ))}

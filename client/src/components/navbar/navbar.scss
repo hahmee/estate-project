@@ -235,6 +235,41 @@ nav.topNav {
   top: 150px;
   width: 52em;
 
+  .autocomplete-dropdown-content {
+    display: flex;
+    flex-direction: column;
+    .searchByRegion{
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+      padding:10px;
+    }
+
+    .searchByRegionContent {
+      display: flex;
+      justify-content: center;
+      gap:22px;
+
+
+      img {
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        border: 1px solid #bbbbbb;
+      }
+    }
+    .searchBox {
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr) ;
+      grid-template-rows: repeat(2, 1fr);
+      row-gap: 12px;
+      column-gap: 8px;
+      justify-content: stretch;
+
+    }
+  }
+
   .suggestion-item {
     padding: 10px;
     cursor: pointer;
