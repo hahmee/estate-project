@@ -77,31 +77,97 @@ export const getPosts = async (req, res) => {
 
     let searchTypeQuery = {};
 
-    if(query.search_type === 'user_map_move') {
+    if (query.search_type === 'user_map_move' || query.search_type === undefined || query.search_type === null) {
+
+
+      //ne_lat, ne_lng, sw_lat, sw_lng 바운더리 안에 있는 매물들 검색
       searchTypeQuery = {
-         $geoNear: {
-           near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
-           distanceField: "dist.calculated",
-           maxDistance: 20000, //m
-           spherical: true,
-           query: {
-             price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
-             type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
-             property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},
-             size: {...minSizeQuery, ...maxSizeQuery},
-           },
-         }
-       }
-    }else { //autocomplete_click일 때
-      searchTypeQuery= {
         $match: {
-          politicalList: { $in: [query.political] },
+          location: {
+            $geoWithin: {
+              $box: [
+                [Number(query.sw_lng), Number(query.sw_lat)], // bottomLeft,
+                [Number(query.ne_lng), Number(query.ne_lat)]  // upperRight
+              ]
+            },
+          },
+        }
+        // $match: {
+        //   location: {
+        //     $geoWithin: {
+        //       $geometry: {
+        //         type: "Polygon",
+        //         coordinates: [
+        //           [
+        //             [0, 0],
+        //             [0, 4],
+        //           ],
+        //         ],
+        //       },
+        //     },
+        //   }
+        // },
+
+
+        // $geoWithin: {
+        //   $box: [ [ 49, 40 ], [ 60, 60 ] ]
+        // }
+        //
+        // $search: {
+        //   geoWithin: {
+        //     "path": "location.coordinates",
+        //     "box": {
+        //       "bottomLeft": {
+        //         "type": "Point",
+        //         "coordinates": [Number(query.sw_lat), Number(query.sw_lng)]
+        //       },
+        //       "topRight": {
+        //         "type": "Point",
+        //         "coordinates":  [Number(query.ne_lat),Number(query.ne_lng)]
+        //       }
+        //     }
+        //   }
+        // }
+        // $match: {
+        //   'loc': {
+        //     $geoWithin: { //지정된 모양 안에만 존재하는 지리 공간적 데이터가 있는 문서를 선택합니다.
+        //       // $box: [
+        //       //   [ 0, 90 ], [ 100, 300 ]
+        //       //   // [Number(query.ne_lat), Number(query.ne_lng)],
+        //       //   // [Number(query.sw_lat), Number(query.sw_lng)]
+        //       //   // [Number(query.sw_lat), Number(query.ne_lat) ],
+        //       //   // [Number(query.sw_lng), Number(query.ne_lng) ],
+        //       // ]
+        //     }
+        //   }
+        // }
+      };
+
+      //lat,lng 의 20000m 이내 매물들 검색
+      // searchTypeQuery = {
+      //   $geoNear: {
+      //     near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
+      //     distanceField: "dist.calculated",
+      //     maxDistance: 20000, //m
+      //     spherical: true,
+      //     query: {
+      //       price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
+      //       type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
+      //       property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},
+      //       size: {...minSizeQuery, ...maxSizeQuery},
+      //     },
+      //   }
+      // };
+    } else { //autocomplete_click일 때 혹은 다른 값
+      searchTypeQuery = {
+        $match: {
+          politicalList: {$in: [query.political]},
           price: {...minPriceQuery, ...maxPriceQuery},
           type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
-          property: {$in: (query.property === undefined || query.property === null || query.property ==="") ? roomType : queryProperty},
-          size:  {...minSizeQuery, ...maxSizeQuery},
+          property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},
+          size: {...minSizeQuery, ...maxSizeQuery},
         }
-      }
+      };
     }
 
     //mongodb Atlas에 create Index {location:2dsphere} 작업 필요
@@ -123,6 +189,7 @@ export const getPosts = async (req, res) => {
         }
       ],
     });
+    console.log('posts', posts);
 
     const savedPosts = await prisma.user.findUnique({
       where: {
@@ -146,7 +213,7 @@ export const getPosts = async (req, res) => {
       })
     });
 
-    console.log('완성', posts);
+    // console.log('완성', posts);
     // setTimeout(() => {
       res.status(200).json(posts);
     // }, 1500);

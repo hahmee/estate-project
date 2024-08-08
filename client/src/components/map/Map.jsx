@@ -47,8 +47,22 @@ function Map({items}) {
           //줌 중심 위치 찾기
           const center = e.target.getCenter(); //{lat,lng}
           const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
-          await setSearchParams({...query,location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng, search_type:'user_map_move'});
+
+          console.log('center', center);
+          console.log('wrappedCenter', wrappedCenter);
+          //현재 bounds 찾기
+          const northEast = e.target.getBounds()._northEast;
+          const southWest = e.target.getBounds()._southWest;
+
+          const ne_lat = northEast.lat;
+          const ne_lng = northEast.lng;
+          const sw_lat = southWest.lat;
+          const sw_lng = southWest.lng;
+
+
+          await setSearchParams({...query,location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng, search_type:'user_map_move', ne_lat,ne_lng,sw_lat,sw_lng });
           await setIsLoading(false);
+
         }
         setIsFetch(false);
       }, [isFetch]),
@@ -60,10 +74,24 @@ function Map({items}) {
         const center = e.target.getCenter(); //{lat,lng}
         const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결
 
+        console.log('center', center);
+        console.log('wrappedCenter', wrappedCenter);
+
+        const northEast = e.target.getBounds()._northEast;
+        const southWest = e.target.getBounds()._southWest;
+
+        const ne_lat = northEast.lat;
+        const ne_lng = northEast.lng;
+        const sw_lat = southWest.lat;
+        const sw_lng = southWest.lng;
+
         //쿼리스트링 변경
-        await setSearchParams({...query,location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng,search_type:'user_map_move' });
+        await setSearchParams({...query,location: query.location, latitude: wrappedCenter.lat, longitude: wrappedCenter.lng,search_type:'user_map_move', ne_lat,ne_lng,sw_lat,sw_lng });
 
         await setIsLoading(false);
+
+
+
       }
     });
     return null;

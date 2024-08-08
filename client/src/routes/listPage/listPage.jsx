@@ -43,7 +43,7 @@ function ListPage() {
     const currentSavedPost = savedPostStore((state) => state.currentSavedPost);
     const {changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
 
-    useEffect(() => {
+    useEffect(() => {//좋아요 눌렀을 때 실행
         if (currentUser && Object.keys(currentSavedPost).length > 0) {
             postFetch(`latitude=${currentSavedPost.latitude}&longitude=${currentSavedPost.longitude}`);
         }
@@ -55,7 +55,7 @@ function ListPage() {
         const sendTypes = query.type.join('&type=');//searchValue.payType.join('&type='); // //
         const sendProperties = query.property.join('&property=');//searchParams.propertyType.join('&property=');////
 
-        postFetch(`type=${sendTypes}&location=${query.location}&political=${query.political}&latitude=${query.latitude}&longitude=${query.longitude}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}&search_type=${query.search_type}`);
+        postFetch(`type=${sendTypes}&location=${query.location}&political=${query.political}&latitude=${query.latitude}&longitude=${query.longitude}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}&search_type=${query.search_type}&ne_lat=${query.ne_lat}&ne_lng=${query.ne_lng}&sw_lat=${query.sw_lat}&sw_lng=${query.sw_lng}`);
 
 
     }, [searchParams]);
@@ -96,18 +96,14 @@ function ListPage() {
                     <div className="wrapperList">
                         <div>
                             <span>{
-                                query.search_type !== 'user_map_move' ? query.political: '지도 표시 지역'}의 매물</span>
+                                query.search_type !== 'user_map_move' ? query.political : '지도 표시 지역'}의 매물</span>
                             <span>&nbsp;{numberFormatter.format(posts.length)}개</span>
                         </div>
                         {
                             // isLoading ? <ListLoading/> :
-                            (posts.length < 1) ? (
-                                    <div className="noFinding">
-                                        검색 결과가 없습니다.
-                                    </div>) :
-                                posts.map((post, idx) => (
-                                    <Card key={idx} card={post}/>
-                                ))
+                            posts.map((post, idx) => (
+                                <Card key={idx} card={post}/>
+                            ))
                         }
                     </div>
                 </div>

@@ -36,8 +36,13 @@ function FlyMapTo({items}) {
 
     //검정색 점
     const customMarkerIcon = divIcon({
-        html: `<div class="searchLocation"><div class="searchLocationIn"></div></div>`
+        html: `<div class="searchLocation"><div class="searchLocationIn"></div></div>`,
     });
+
+    const customMarkerIcon2 = divIcon( {
+        html: `<div class="searchLocation"><div class="searchLocationIn"></div></div>`,
+
+    })
 
     //검색 위치가 변경될때만
     useEffect(() => {
@@ -51,9 +56,9 @@ function FlyMapTo({items}) {
             console.log('bounds', bounds);
 
 //            map.fitBounds([[36,126],[37,127]],{ animate:true, duration: 1.5}); // 1.2 속도
-//             map.flyToBounds([[36,126],[37,127]],{ animate:true, duration: 1.5}); // 1.2 속도
+//             map.flyToBounds([[36,126],[37,127]],{ animate:true, duration: 1.5}); // // error 발생
 
-            map.fitBounds(bounds, {animate: true, duration: 1.5}); // error 발생
+            map.fitBounds(bounds, {animate: true, duration: 1.5});
 
         }
 
@@ -70,6 +75,12 @@ function FlyMapTo({items}) {
             {items.map((item, idx) => (
                 <Pin item={item} key={idx}/>
             ))}
+            {/*<Marker position={[query.ne_lat, query.ne_lng]} icon={customMarkerIcon2}></Marker>*/}
+
+            <Marker position={[query.sw_lat, query.sw_lng]} icon={customMarkerIcon2}></Marker>
+
+
+
         </div>
     );
 
