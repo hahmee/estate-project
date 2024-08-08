@@ -77,8 +77,11 @@ export const getPosts = async (req, res) => {
 
     let searchTypeQuery = {};
 
-    if (query.search_type === 'user_map_move' || query.search_type === undefined || query.search_type === null) {
+    console.log('querㅛ입니다.', query.property)
+    console.log('queryPRoperyty입니다.', queryProperty)
 
+
+    if (query.search_type === 'user_map_move') { // || query.search_type === undefined || query.search_type === null
 
       //ne_lat, ne_lng, sw_lat, sw_lng 바운더리 안에 있는 매물들 검색
       searchTypeQuery = {
@@ -91,58 +94,12 @@ export const getPosts = async (req, res) => {
               ]
             },
           },
+          price: {...minPriceQuery, ...maxPriceQuery},
+          type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
+          property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},
+          size: {...minSizeQuery, ...maxSizeQuery},
         }
-        // $match: {
-        //   location: {
-        //     $geoWithin: {
-        //       $geometry: {
-        //         type: "Polygon",
-        //         coordinates: [
-        //           [
-        //             [0, 0],
-        //             [0, 4],
-        //           ],
-        //         ],
-        //       },
-        //     },
-        //   }
-        // },
-
-
-        // $geoWithin: {
-        //   $box: [ [ 49, 40 ], [ 60, 60 ] ]
-        // }
-        //
-        // $search: {
-        //   geoWithin: {
-        //     "path": "location.coordinates",
-        //     "box": {
-        //       "bottomLeft": {
-        //         "type": "Point",
-        //         "coordinates": [Number(query.sw_lat), Number(query.sw_lng)]
-        //       },
-        //       "topRight": {
-        //         "type": "Point",
-        //         "coordinates":  [Number(query.ne_lat),Number(query.ne_lng)]
-        //       }
-        //     }
-        //   }
-        // }
-        // $match: {
-        //   'loc': {
-        //     $geoWithin: { //지정된 모양 안에만 존재하는 지리 공간적 데이터가 있는 문서를 선택합니다.
-        //       // $box: [
-        //       //   [ 0, 90 ], [ 100, 300 ]
-        //       //   // [Number(query.ne_lat), Number(query.ne_lng)],
-        //       //   // [Number(query.sw_lat), Number(query.sw_lng)]
-        //       //   // [Number(query.sw_lat), Number(query.ne_lat) ],
-        //       //   // [Number(query.sw_lng), Number(query.ne_lng) ],
-        //       // ]
-        //     }
-        //   }
-        // }
       };
-
       //lat,lng 의 20000m 이내 매물들 검색
       // searchTypeQuery = {
       //   $geoNear: {
@@ -158,7 +115,7 @@ export const getPosts = async (req, res) => {
       //     },
       //   }
       // };
-    } else { //autocomplete_click일 때 혹은 다른 값
+    } else { //autocomplete_click일 때
       searchTypeQuery = {
         $match: {
           politicalList: {$in: [query.political]},

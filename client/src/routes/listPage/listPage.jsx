@@ -44,8 +44,12 @@ function ListPage() {
     const {changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
 
     useEffect(() => {//좋아요 눌렀을 때 실행
+
+        const sendTypes = query.type.join('&type=');
+        const sendProperties = query.property.join('&property=');
+
         if (currentUser && Object.keys(currentSavedPost).length > 0) {
-            postFetch(`latitude=${currentSavedPost.latitude}&longitude=${currentSavedPost.longitude}`);
+            postFetch(`type=${sendTypes}&location=${query.location}&political=${query.political}&latitude=${currentSavedPost.latitude}&longitude=${currentSavedPost.longitude}&property=${sendProperties}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}&minSize=${query.minSize}&maxSize=${query.maxSize}&search_type=${query.search_type}&ne_lat=${query.ne_lat}&ne_lng=${query.ne_lng}&sw_lat=${query.sw_lat}&sw_lng=${query.sw_lng}`);
         }
     }, [savedPosts]);
 

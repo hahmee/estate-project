@@ -75,7 +75,7 @@ function FlyMapTo({items}) {
             {items.map((item, idx) => (
                 <Pin item={item} key={idx}/>
             ))}
-            {/*<Marker position={[query.ne_lat, query.ne_lng]} icon={customMarkerIcon2}></Marker>*/}
+            <Marker position={[query.ne_lat, query.ne_lng]} icon={customMarkerIcon2}></Marker>
 
             <Marker position={[query.sw_lat, query.sw_lng]} icon={customMarkerIcon2}></Marker>
 
