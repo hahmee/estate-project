@@ -34,7 +34,7 @@ function Login() {
 
       updateUser(res.data);
       toast.success('로그인 되었습니다.');
-      navigate("/");
+      navigate("/"); //메인페이지로 이동
     } catch (err) {
       if(!err.response) {
         toast.error(err.message);

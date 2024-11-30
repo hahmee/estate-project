@@ -1,7 +1,7 @@
 import HomePage from "./routes/homePage/homePage";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import ListPage from "./routes/listPage/listPage";
-import {CreateProcess, Layout, RequireAuth} from "./routes/layout/layout";
+import {CommonLayout, CreateProcess, Layout, RequireAuth,} from "./routes/layout/layout";
 import SinglePage from "./routes/singlePage/singlePage";
 import ProfilePage from "./routes/profilePage/profilePage";
 import Login from "./routes/login/login";
@@ -20,7 +20,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
+      element: <CommonLayout isSearchBar={true}><Layout /></CommonLayout>,
       children: [
         {
           path: "/",
@@ -48,7 +48,7 @@ function App() {
     },
     {
       path: "/",
-      element: <CreateProcess />,
+      element: <CommonLayout isSearchBar={false}><CreateProcess /></CommonLayout>,
       children: [
         {
           path: "/location",
@@ -71,7 +71,7 @@ function App() {
     },
     {
       path: "/",
-      element: <RequireAuth />,
+      element: <CommonLayout isSearchBar={false}><RequireAuth /></CommonLayout>,
       children: [
         {
           path: "/profile",
@@ -123,7 +123,7 @@ function App() {
     }
   ]);
 
-  return <RouterProvider router={router} />;
+  return <><RouterProvider router={router}></RouterProvider></>;
 }
 
 export default App;

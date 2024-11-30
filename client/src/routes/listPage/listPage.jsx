@@ -29,7 +29,7 @@ function ListPage() {
         minSize: searchParams.get("minSize") || MIN_SIZE,
         maxSize: searchParams.get("maxSize") || MAX_SIZE,
         searchedLat: searchParams.get("searchedLat") || "",
-        searchedLng:  searchParams.get("searchedLng") || "",
+        searchedLng: searchParams.get("searchedLng") || "",
         search_type: searchParams.get("search_type") || "",
         ne_lat: searchParams.get("ne_lat") || "",
         ne_lng: searchParams.get("ne_lng") || "",
@@ -91,35 +91,32 @@ function ListPage() {
 
     }, []);
 
-    if (!currentUser) return <Navigate to="/login"/>;
-
-    else {
-        return (
-            <div className="listPage">
-                <div className="listContainer">
-                    <div className="wrapperList">
-                        <div>
+    return (
+        <div className="listPage">
+            <div className="listContainer">
+                <div className="wrapperList">
+                    <div>
                             <span>{
                                 query.search_type !== 'user_map_move' ? query.political : '지도 표시 지역'}의 매물</span>
-                            <span>&nbsp;{numberFormatter.format(posts.length)}개</span>
-                        </div>
-                        {
-                            // isLoading ? <ListLoading/> :
-                            posts.map((post, idx) => (
-                                <Card key={idx} card={post}/>
-                            ))
-                        }
+                        <span>&nbsp;{numberFormatter.format(posts.length)}개</span>
                     </div>
-                </div>
-
-                <div className="mapContainer">
                     {
-                        <Map items={posts}/>
+                        // isLoading ? <ListLoading/> :
+                        posts.map((post, idx) => (
+                            <Card key={idx} card={post}/>
+                        ))
                     }
                 </div>
             </div>
-        );
-    }
+
+            <div className="mapContainer">
+                {
+                    <Map items={posts}/>
+                }
+            </div>
+        </div>
+    );
+
 
 }
 

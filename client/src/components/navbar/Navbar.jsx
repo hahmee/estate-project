@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import "./navbar.scss";
-import {Link, useLocation, useNavigate, useSearchParams} from "react-router-dom";
+import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import {useNotificationStore} from "../../lib/notificationStore";
 import PlacesAutocomplete, {geocodeByPlaceId} from "react-places-autocomplete";
@@ -14,6 +14,8 @@ import {NavbarContext} from "../../context/NavbarContext.jsx";
 import {toast} from "react-toastify";
 import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 import {usePageUrlStore} from "../../lib/pageUrlStore.js";
+import apiRequest from "../../lib/apiRequest.js";
+import {googleLogout} from "@react-oauth/google";
 
 
 export const MAX_PRICE = 1000000000;
@@ -85,7 +87,7 @@ export const SEARCH_BY_KOREA = [
 function Navbar({isSearchBar}) {
 
     const {scrollTop, changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
-    const {currentUser} = useContext(AuthContext);
+    const {currentUser, updateUser} = useContext(AuthContext);
     const {searchValue, changeSearchValue, clearSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
     const number = useNotificationStore((state) => state.number);
@@ -146,7 +148,7 @@ function Navbar({isSearchBar}) {
         setLocation(location);
     };
 
-    const handleSelect = async (location=null, placeId) => {
+    const handleSelect = async (location = null, placeId) => {
         const [place] = await geocodeByPlaceId(placeId);
         console.log('place', place);
         const address = place.formatted_address;
@@ -235,12 +237,37 @@ function Navbar({isSearchBar}) {
         setCurrentClicked(0);
         setNotClicked(false);
         changeFixedNavbar(true); //위로 고정
-    },[]);
+    }, []);
 
     const openTopScrollNav = useCallback(() => {
         changeScrollTop(true);
         changeFixedNavbar(false);// 위로 고정 안 함
     }, [scrollTop]);
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(prevState => !prevState);
+    };
+
+
+    const handleLogout = async () => {
+        try {
+            await apiRequest.post("/auth/logout");
+            updateUser(null);
+
+            if (currentUser.externalType == 'google') {
+                googleLogout();
+            }
+            toast.success('로그아웃 되었습니다.');
+
+        } catch (err) {
+            console.log(err);
+            toast.error((err).message);
+        }
+    };
+
 
     useEffect(() => {
         setLocation(searchValue.location);
@@ -260,7 +287,17 @@ function Navbar({isSearchBar}) {
         setPrevLocation(lastSavedLocation.current); //lastSavedLocation담겨있는 값 넣기
         lastSavedLocation.current = currentLocation; // 현재 값 lastSavedLocation에 넣기
         setCurrentUrl(currentLocation);
-    }, [currentLocation]);
+
+
+        const excludedPaths = ['/', '/list']; // 제외할 경로들
+        const currentPath = currentLocation.pathname; // 현재 경로
+
+        if (!excludedPaths.includes(currentPath)) {
+            changeScrollTop(false); // 특정 URL을 제외한 경로에서만 changeScrollTop(false) 호출
+        }
+
+
+    }, [currentLocation, changeScrollTop]);
 
     //pageUrlStorage에 url 변경될때마다 이전 url 담는다.
     useEffect(() => {
@@ -272,7 +309,17 @@ function Navbar({isSearchBar}) {
     }, []);
 
 
-    if (currentUser) userFetch();
+    //  고민할 것 (currentUser가 변경되지 않았는데도, 리렌더링됨)
+    // 이유 - Navbar가 Layout 안에 공통으로 있더라도, React Router에서 페이지를 이동하면 Layout이 다시 렌더링되면서 Navbar도 다시 마운트됨
+    // 고침 - CommonLayout 에 Navbar 공통
+    useEffect(() => {
+        if (currentUser) {
+            userFetch();
+        }else{
+            //currentUser 가 null이면 (로그아웃) 로그인 페이지로 이동
+            navigate("/login");
+        }
+    }, [currentUser]);
 
     return (
         <>
@@ -294,11 +341,22 @@ function Navbar({isSearchBar}) {
                             currentUser ? (
                                 <>
                                     <Button onClick={() => navigate("/location")}>포스팅하기</Button>
-                                    <Link to="/profile" className="profile">
+                                    <div className="profile" onClick={toggleDropdown}>
                                         {number > 0 && <div className="notification">{number}</div>}
                                         <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar"/>
                                         <span>{currentUser.username}</span>
-                                    </Link>
+
+                                        {/* 드롭다운 메뉴 */}
+                                        {isDropdownOpen && (
+                                            <div className={`dropdown ${isDropdownOpen ? 'open' : ''}`}>
+                                                <ul>
+                                                    <li onClick={() => navigate("/profile")}>프로필</li>
+                                                    <li onClick={() => navigate("/profile/update")}>메시지</li>
+                                                    <li onClick={handleLogout}>로그아웃</li>
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </div>
                                 </>
                             ) : (
 

@@ -9,11 +9,13 @@ import {savedPostStore} from "../../lib/savedPostStore.js";
 import Button from "../../UI/Button.jsx";
 import {googleLogout} from '@react-oauth/google';
 import {toast} from "react-toastify";
+import {NavbarContext} from "../../context/NavbarContext.jsx";
 
 function ProfilePage() {
   const data = useLoaderData();
 
   const { updateUser, currentUser } = useContext(AuthContext);
+  const {changeScrollTop} = useContext(NavbarContext);
 
   const navigate = useNavigate();
 
@@ -30,7 +32,7 @@ function ProfilePage() {
         googleLogout();
       }
       toast.info('로그아웃 되었습니다.');
-      navigate("/");
+      // navigate("/login");
     } catch (err) {
       console.log(err);
       toast.error((err).message);
@@ -42,6 +44,7 @@ function ProfilePage() {
     setSearchParams();
 
   }, [currentSavedPost]);
+
 
   return (
       <div className="profilePage">

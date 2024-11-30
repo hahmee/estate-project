@@ -20,7 +20,6 @@ export const NavbarContextProvider = ({ children }) => {
         setOutsideClick(value);
     };
 
-
     const navbarCtx = {
         scrollTop,
         changeScrollTop,

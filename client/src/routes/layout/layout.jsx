@@ -1,6 +1,6 @@
 import "./layout.scss";
 import Navbar from "../../components/navbar/Navbar";
-import {Navigate, Outlet, useNavigate} from "react-router-dom";
+import {Navigate, Outlet, useLocation, useNavigate} from "react-router-dom";
 import React, {useCallback, useContext, useEffect, useRef} from "react";
 import {AuthContext} from "../../context/AuthContext";
 import Button from "../../UI/Button.jsx";
@@ -8,10 +8,19 @@ import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import {NavbarContext} from "../../context/NavbarContext.jsx";
 import Footer from "../../components/footer/Footer.jsx";
 
+function CommonLayout({ children, isSearchBar }) {
+    return (
+        <>
+            <Navbar isSearchBar={isSearchBar}/>
+            {children}
+        </>
+    );
+}
 function Layout() {
     const layoutRef = useRef();
 
     const {scrollTop, changeScrollTop, fixedNavbar, changeOutsideClick, outsideClick} = useContext(NavbarContext);
+    const location = useLocation(); // 현재 URL 경로를 추적
 
     const handleScroll = useCallback((e) => {
         if (e.target.scrollTop === 0) {
@@ -50,9 +59,7 @@ function Layout() {
 
     return (
         <div className="app" ref={layoutRef}>
-            <Navbar isSearchBar={true}/>
             <div className="layoutUpper">
-
                 <div className="layout">
                     <div className="content">
                         <Outlet/>
@@ -68,13 +75,13 @@ function Layout() {
 
 function RequireAuth() {
     const {currentUser} = useContext(AuthContext);
+
     if (!currentUser) return <Navigate to="/login"/>;
 
     else {
 
         return (
             <div className="app">
-                <Navbar isSearchBar={false}/>
                 <div className="layoutUpper">
                     <div className="layout">
                         <div className="content">
@@ -98,7 +105,6 @@ function CreateProcess() {
     else {
         return (
             <div className="app">
-                <Navbar isSearchBar={false}/>
                 <div className="layoutUpper">
                     <div className="layout">
                         <div className="content">
@@ -119,4 +125,4 @@ function CreateProcess() {
 
 }
 
-export {Layout, RequireAuth, CreateProcess};
+export { CommonLayout, Layout, RequireAuth, CreateProcess};
