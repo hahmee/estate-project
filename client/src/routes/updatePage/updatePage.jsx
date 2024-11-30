@@ -4,7 +4,7 @@ import Input from "../../UI/Input.jsx";
 import Selection from "../../UI/Selection.jsx";
 import Textarea from "../../UI/Textarea.jsx";
 import DropZone from "../../components/dropZone/DropZone.jsx";
-import {cloudinaryUrl, options, petOption, roomOption, safeOptions, typeOption} from "../newPostPage/newPostPage.jsx";
+import {CLOUDINARY_URL, options, petOption, roomOption, safeOptions, typeOption} from "../newPostPage/newPostPage.jsx";
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import apiRequest from "../../lib/apiRequest.js";
@@ -53,7 +53,7 @@ function UpdatePage() {
                 formData.append('file', file);
                 formData.append('upload_preset', 'estate');
 
-                return axios.post(cloudinaryUrl, formData, config);
+                return axios.post(CLOUDINARY_URL, formData, config);
 
             });
 

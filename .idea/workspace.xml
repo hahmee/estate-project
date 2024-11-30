@@ -5,10 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/main.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/variables.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/card/card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/card/card.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dropZone/dropZone.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dropZone/dropZone.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/footer/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/Footer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/footer/footer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/footer.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/searchBar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/searchBar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/searchMainBar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/searchMainBar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/searchMapBar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/searchMapBar.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/searchMapBar2.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/searchMapBar2.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/multiRangeSlider.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/multiRangeSlider.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/slider.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/slider.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/homePage/homePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/homePage/homePage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/listPage/listPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/listPage/listPage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newChatPage/newChatPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newChatPage/newChatPage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocation.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocation.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/register/register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/register/register.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,30 +60,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Node.js.MapLoading.jsx.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.auth.controller.js.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/dev/youtube/estate-project/client/public&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.HTTP Request&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Node.js.MapLoading.jsx.executor": "Run",
+    "Node.js.auth.controller.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/dev/youtube/estate-project/client/src",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.HTTP Request",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\youtube\estate-project\client\src" />
       <recent name="C:\dev\youtube\estate-project\client\public" />
       <recent name="C:\dev\youtube\estate-project\client\src\routes\redirect" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\facebookLoginBtn" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\message" />
-      <recent name="C:\dev\youtube\estate-project\client\src\components\footer" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -128,7 +155,16 @@
       <workItem from="1723017409310" duration="115000" />
       <workItem from="1723017636249" duration="5501000" />
       <workItem from="1723033634134" duration="5742000" />
-      <workItem from="1723086190252" duration="13522000" />
+      <workItem from="1723086190252" duration="14382000" />
+      <workItem from="1723102340781" duration="14000" />
+      <workItem from="1723103409289" duration="202000" />
+      <workItem from="1723997530235" duration="1022000" />
+      <workItem from="1724068924968" duration="2258000" />
+      <workItem from="1724071515433" duration="3673000" />
+      <workItem from="1724120737387" duration="712000" />
+      <workItem from="1725011436408" duration="415000" />
+      <workItem from="1725016210048" duration="373000" />
+      <workItem from="1732956406764" duration="7868000" />
     </task>
     <servers />
   </component>

@@ -1,14 +1,12 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import "./profileUpdatePage.scss";
-import { AuthContext } from "../../context/AuthContext";
+import {AuthContext} from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
-import { useNavigate } from "react-router-dom";
-import UploadWidget from "../../components/uploadWidget/UploadWidget";
+import {useNavigate} from "react-router-dom";
 import Input from "../../UI/Input.jsx";
 import DropZone from "../../components/dropZone/DropZone.jsx";
-import Button from "../../UI/Button.jsx";
 import axios from "axios";
-import {cloudinaryUrl} from "../newPostPage/newPostPage.jsx";
+import {CLOUDINARY_URL} from "../newPostPage/newPostPage.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import {toast} from "react-toastify";
 
@@ -75,7 +73,7 @@ function ProfileUpdatePage() {
 
 
         //이게 늦게 응답 옴
-        const res = await axios.post(cloudinaryUrl, formData, config);
+        const res = await axios.post(CLOUDINARY_URL, formData, config);
         console.log('res', res);
 
         imageUrl = res.data.secure_url;

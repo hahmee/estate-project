@@ -1,5 +1,5 @@
 
-@import "../../responsive.scss";
+@import "../../main.scss";
 
 nav {
   width: 100%;
@@ -24,11 +24,20 @@ nav {
     div {
       flex: 1;
     }
-
     .logo {
       display: flex;
       align-items: center;
       cursor: pointer;
+      .logoImg {
+        font-size: 30px;
+        color: $primary-color;
+        margin-right: 5px;
+      }
+      .estate_logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: $primary-color;
+      }
     }
 
     .user {
@@ -180,16 +189,16 @@ nav.topNav {
 
 
 
-.guests span:nth-of-type(2){
-  position:absolute;
-  top:50%;
-  right:10px;
-  transform:translateY(-50%);
-  background-color:#3CB371;
-  color:white;
-  font-size:1.2rem;
-  padding:.4em;
-  border-radius:50%;
+.guests span:nth-of-type(2) {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background-color: $primary-color;
+  color: white;
+  font-size: 1.2rem;
+  padding: .4em;
+  border-radius: 50%;
 }
 
 
@@ -348,8 +357,8 @@ nav.topNav {
   }
 
   .clicked {
-    border-color: #3CB371;
-    background-color: #3CB371;
+    border-color: $primary-color;
+    background-color: $primary-color;
     color: white;
     font-weight: 600;
   }

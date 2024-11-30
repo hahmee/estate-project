@@ -3,7 +3,7 @@ import "./navbar.scss";
 import {Link, useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import {useNotificationStore} from "../../lib/notificationStore";
-import PlacesAutocomplete, {geocodeByAddress, geocodeByPlaceId, getLatLng} from "react-places-autocomplete";
+import PlacesAutocomplete, {geocodeByPlaceId} from "react-places-autocomplete";
 import {listPostStore} from "../../lib/listPostStore.js";
 import {roomOption, typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 import MultiRangeSlider from "../slider/MultiRangeSlider.jsx";
@@ -24,7 +24,8 @@ export const MIN_SIZE = 0;
 
 export const SEARCH_BY_REGION =[
     {
-        img: 'https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320',
+        // img: 'https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320',
+        img: '/korea.jpg',
         title: '한국',
         placeId: "ChIJm7oRy-tVZDURS9uIugCbJJE",
 
@@ -283,7 +284,8 @@ function Navbar({isSearchBar}) {
             <nav className={scrollTop ? "topNav" : null}>
                 <div className='upperNav'>
                     <div className="logo" onClick={() => navigate('/')}>
-                        <span className="material-symbols-outlined">apartment</span>
+                        {/*<span className="material-symbols-outlined">apartment</span>*/}
+                        <span className="material-symbols-outlined logoImg">house</span>
                         <span className="estate_logo">Estate</span>
                     </div>
                     <div></div>

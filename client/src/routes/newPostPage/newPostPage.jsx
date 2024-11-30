@@ -50,7 +50,7 @@ export const typeOption = [
   {value: 'sell', label: '매매'},
 ];
 
-export const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${process.env.VITE_CLOUD_NAME}/upload`;
+export const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${process.env.VITE_CLOUD_NAME}/upload`;
 
 function NewPostPage() {
   const {progress, setProgress, location, clearLocation} = useContext(UserProgressContext);
@@ -90,7 +90,7 @@ function NewPostPage() {
         formData.append('file', file);
         formData.append('upload_preset', 'estate');
 
-        return axios.post(cloudinaryUrl, formData, config);
+        return axios.post(CLOUDINARY_URL, formData, config);
 
       });
 
