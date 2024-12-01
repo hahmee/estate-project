@@ -1,6 +1,6 @@
 import "./layout.scss";
 import Navbar from "../../components/navbar/Navbar";
-import {Navigate, Outlet, useLocation, useNavigate} from "react-router-dom";
+import {Navigate, Outlet, useNavigate} from "react-router-dom";
 import React, {useCallback, useContext, useEffect, useRef} from "react";
 import {AuthContext} from "../../context/AuthContext";
 import Button from "../../UI/Button.jsx";
@@ -9,66 +9,63 @@ import {NavbarContext} from "../../context/NavbarContext.jsx";
 import Footer from "../../components/footer/Footer.jsx";
 
 function CommonLayout({ children, isSearchBar }) {
-    return (
-        <>
-            <Navbar isSearchBar={isSearchBar}/>
-            {children}
-        </>
-    );
-}
-function Layout() {
+
     const layoutRef = useRef();
+    const {scrollTop, changeScrollTop, fixedNavbar, changeFixedNavbar, changeOutsideClick, outsideClick} = useContext(NavbarContext);
 
-    const {scrollTop, changeScrollTop, fixedNavbar, changeOutsideClick, outsideClick} = useContext(NavbarContext);
-    const location = useLocation(); // 현재 URL 경로를 추적
+    const handleScroll = useCallback(() => {
+        if (layoutRef.current) {
+            const currentScrollTop = layoutRef.current.scrollTop;
+            console.log('currentScrollTop',currentScrollTop)
+            // 스크롤이 최상단인지 여부를 설정
+            changeScrollTop(currentScrollTop === 0);
 
-    const handleScroll = useCallback((e) => {
-        if (e.target.scrollTop === 0) {
-            changeScrollTop(true);
-        } else { //0 아닐때
-            changeScrollTop(false);
+            // 스크롤이 내려가면 Navbar 고정 해제, 올라가면 고정
+            if (currentScrollTop > 10) {
+                changeFixedNavbar(false); // 스크롤 내려가면 해제
+            } else {
+                changeFixedNavbar(true); // 스크롤 올라가면 고정
+            }
         }
-    }, [scrollTop]);
-
-    // useEffect(() => {
-    //     if(fixedNavbar) { //Navbar 상단에 고정시킨다면
-    //         changeScrollTop(false); //scroll값이 top에 가는 값 거짓
-    //     }
-    // }, [scrollTop, fixedNavbar]);
+    }, [changeScrollTop, changeFixedNavbar]);
 
     useEffect(() => {
-        if (layoutRef.current) {
-            changeScrollTop(true);
-            layoutRef.current.addEventListener('scroll', handleScroll, true);
-            // if (!fixedNavbar) { //고정 아니라면
-            //     console.log('gg');
-            //     changeScrollTop(true);
-            //     layoutRef.current.addEventListener('scroll', handleScroll, true);
-            // } else { // 고정
-            //     console.log('kk');
-            //     changeScrollTop(false);
-            //     layoutRef.current.removeEventListener('scroll', handleScroll, true);
-            // }
 
-            // return () => layoutRef.current.removeEventListener('scroll', handleScroll, true); // 안하면 location페이지에서 에러남
+        const currentRef = layoutRef.current;
+
+        if (currentRef) {
+            currentRef.addEventListener("scroll", handleScroll, true);
         }
 
-        // console.log('fixedNavbar', fixedNavbar);
+        return () => {
+            if (currentRef) {
+                currentRef.removeEventListener("scroll", handleScroll, true);
+            }
+        };
+    }, [handleScroll]);
 
-    }, []);
 
     return (
-        <div className="app" ref={layoutRef}>
+        <div className="common-layout" ref={layoutRef}>
+            <Navbar isSearchBar={isSearchBar}/>
+            {children}
+        </div>
+    );
+}
+//isSearchBar 가 true
+function Layout() {
+
+
+    return (
+        <div className="app" >
             <div className="layoutUpper">
                 <div className="layout">
                     <div className="content">
                         <Outlet/>
                     </div>
                 </div>
-            </div>
-            <footer className="footer">
                 <Footer/>
-            </footer>
+            </div>
         </div>
     );
 }

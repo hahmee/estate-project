@@ -1,18 +1,19 @@
 @import "../../main.scss";
 
+.common-layout {
+  overflow-y: auto; /* 스크롤 활성화 */
+  height: 100vh; /* 뷰포트 전체 높이 */
+}
+
 .app {
-  height: 100vh;
-  overflow-y: auto;
-  //max-width: 1366px;
+  background-color: #3CB371;
   overflow-anchor: none; //nav sticky때문에
 }
 .layoutUpper {
+  flex: 1; // 나머지 공간을 차지하도록 설정
 
 }
 .layout {
-  //height: 100vh;
-  //height: calc(100vh - 80px);
-  //position: relative;
   max-width: 1366px;
   margin-left: auto;
   margin-right: auto;
@@ -20,7 +21,7 @@
   padding-right: 20px;
   display: flex;
   flex-direction: column;
-
+  min-height: calc(-74px + -5rem + 100vh);
 
   @include lg {
     //background-color: rgb(247, 210, 196);
@@ -68,8 +69,4 @@
     font-size: 16px;
     border: none;
   }
-}
-
-.footer {
-  background-color: rgb(55, 55, 55);
 }

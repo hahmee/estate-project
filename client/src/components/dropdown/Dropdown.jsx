@@ -7,7 +7,6 @@ function Dropdown({children, shown, close, scrollTop}) {
 
     const {changeOutsideClick, fixedNavbar} = useContext(NavbarContext);
 
-
     const handleClickOutside = event => {
         if (wrapperRef.current && !wrapperRef.current.contains(event.target)) { //wrapperRef 말고 외부를 클릭했다면
             close();
@@ -16,6 +15,7 @@ function Dropdown({children, shown, close, scrollTop}) {
     };
     //
     useEffect(() => {
+        console.log('??/sdF?ASDF')
         if (!scrollTop && fixedNavbar) { //scrollTop이 아니고 고정이라면
 
             close(); //dropDown 닫는다

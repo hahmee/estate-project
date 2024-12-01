@@ -3,14 +3,12 @@ import SearchMapBar2 from "../../components/searchBar/SearchMapBar2.jsx";
 import "./newLocation.scss";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import MapSingle from "../../components/map/MapSingle.jsx";
-import {NavbarContext} from "../../context/NavbarContext.jsx";
 
 function NewLocationPage() {
 
     const [itemList, setItemList] = useState([]);
 
     const {setProgress} = useContext(UserProgressContext);
-    const {changeScrollTop} = useContext(NavbarContext);
 
     const getMapResult = useCallback((itemList) => {
         console.log('itemsList', itemList);

@@ -20,15 +20,15 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <CommonLayout isSearchBar={true}><Layout /></CommonLayout>,
+      element: <CommonLayout isSearchBar={true}><Layout/></CommonLayout>,
       children: [
         {
           path: "/",
-          element: <HomePage />,
+          element: <HomePage/>,
         },
         {
           path: "/list",
-          element: <ListPage />,
+          element: <ListPage/>,
           // loader: listPageLoader,
         },
         {
@@ -36,6 +36,12 @@ function App() {
           element: <SinglePage/>,
           loader: singlePageLoader,
         },
+      ],
+    },
+    {
+      path: "/",
+      element: <CommonLayout isSearchBar={false}><Layout/></CommonLayout>,
+      children: [
         {
           path: "/login",
           element: <Login />,
@@ -44,11 +50,11 @@ function App() {
           path: "/register",
           element: <Register />,
         },
-      ],
+      ]
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false}><CreateProcess /></CommonLayout>,
+      element: <CommonLayout isSearchBar={false}><CreateProcess/></CommonLayout>,
       children: [
         {
           path: "/location",
@@ -56,36 +62,36 @@ function App() {
         },
         {
           path: "/add",
-          element: <NewPostPage />,
+          element: <NewPostPage/>,
         },
         {
           path: "update/:id",
-          element: <UpdatePage />,
+          element: <UpdatePage/>,
           loader: singlePageLoader,
         },
         {
           path: "/profile/update",
-          element: <ProfileUpdatePage />,
+          element: <ProfileUpdatePage/>,
         },
-        ]
+      ]
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false}><RequireAuth /></CommonLayout>,
+      element: <CommonLayout isSearchBar={false}><RequireAuth/></CommonLayout>,
       children: [
         {
           path: "/profile",
-          element: <ProfilePage />,
+          element: <ProfilePage/>,
           loader: profilePageLoader
         },
         {
           path: "/messages",
-          element: <MessagePage />,
+          element: <MessagePage/>,
           // loader: messagePageLoader
         },
         {
           path: "/messages/:userId",
-          element: <MessagePage />,
+          element: <MessagePage/>,
           // loader: messagePageLoader
         },
         // {
@@ -106,14 +112,14 @@ function App() {
         //   element: <NewPostPage />,
         // },
         {
-          path:"/chat",
+          path: "/chat",
           element: <NewChatPage/>,
           loader: chatPageLoader
         }
       ],
     },
     {
-      path:"/",
+      path: "/",
       children: [
         {
           path: "/redirectURI",
@@ -123,7 +129,7 @@ function App() {
     }
   ]);
 
-  return <><RouterProvider router={router}></RouterProvider></>;
+  return <RouterProvider router={router}/>;
 }
 
 export default App;

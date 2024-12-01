@@ -309,7 +309,7 @@ function Navbar({isSearchBar}) {
     }, []);
 
 
-    //  고민할 것 (currentUser가 변경되지 않았는데도, 리렌더링됨)
+    //  문제 - currentUser가 변경되지 않았는데도, 리렌더링됨
     // 이유 - Navbar가 Layout 안에 공통으로 있더라도, React Router에서 페이지를 이동하면 Layout이 다시 렌더링되면서 Navbar도 다시 마운트됨
     // 고침 - CommonLayout 에 Navbar 공통
     useEffect(() => {
@@ -338,7 +338,7 @@ function Navbar({isSearchBar}) {
                     <div></div>
                     <div className="user">
                         {
-                            currentUser ? (
+                            currentUser && (
                                 <>
                                     <Button onClick={() => navigate("/location")}>포스팅하기</Button>
                                     <div className="profile" onClick={toggleDropdown}>
@@ -357,12 +357,6 @@ function Navbar({isSearchBar}) {
                                             </div>
                                         )}
                                     </div>
-                                </>
-                            ) : (
-
-                                <>
-                                    <Button outlined onClick={() => navigate("/login")}>로그인</Button>
-                                    <Button outlined onClick={() => navigate("/register")}>회원가입</Button>
                                 </>
                             )
                         }
