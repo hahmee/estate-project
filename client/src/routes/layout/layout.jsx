@@ -11,14 +11,16 @@ import Footer from "../../components/footer/Footer.jsx";
 function CommonLayout({ children, isSearchBar }) {
 
     const layoutRef = useRef();
-    const {scrollTop, changeScrollTop, fixedNavbar, changeFixedNavbar, changeOutsideClick, outsideClick} = useContext(NavbarContext);
+    const { changeScrollTop,  changeFixedNavbar,  changeIsDropDown} = useContext(NavbarContext);
 
     const handleScroll = useCallback(() => {
         if (layoutRef.current) {
             const currentScrollTop = layoutRef.current.scrollTop;
-            console.log('currentScrollTop',currentScrollTop)
             // 스크롤이 최상단인지 여부를 설정
             changeScrollTop(currentScrollTop === 0);
+
+            //스크롤이 움직이면 무조건
+            changeIsDropDown(false);
 
             // 스크롤이 내려가면 Navbar 고정 해제, 올라가면 고정
             if (currentScrollTop > 10) {
@@ -111,9 +113,7 @@ function CreateProcess() {
                 </div>
                 <div className="processDiv">
                     <Button outlined onClick={() => navigate(-1)}>이전</Button>
-                    <Button form={progress.form} disabled={progress.disabled}
-                            onClick={() => progress.url ? navigate(progress.url) : undefined} type="submit"
-                            loading={progress.loading}>{progress.text}</Button>
+                    <Button form={progress.form} disabled={progress.disabled} onClick={() => progress.url ? navigate(progress.url) : undefined} type="submit" loading={progress.loading}>{progress.text}</Button>
                 </div>
 
             </div>

@@ -24,7 +24,8 @@ function NewLocationPage() {
 
     return (
         <div className="locationPage">
-            <div><h1>위치는 어디인가요?</h1></div>
+            <div className="locationText">위치는 어디인가요?</div>
+            <div className="locationSmallText">정확한 위치를 입력해주세요.</div>
             <div>
                 <SearchMapBar2 getMapResult={getMapResult}/>
                 <div className="mapContainer">

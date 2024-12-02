@@ -5,10 +5,21 @@
   height: 100%;
   width: 100%;
   flex-direction: column;
-  padding-top: 40px;
   align-items: center;
-  //background-color: gold;
   position: relative;
+  padding-top: 40px;
+  padding-bottom: 120px;
+
+  .locationText {
+    font-size: 2rem;
+  }
+
+  .locationSmallText {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: lighter;
+    color: #888888;
+  }
 
   .processDiv {
     height: 80px;
@@ -27,7 +38,7 @@
   .nextButton {
     padding: 14px 32px;
     background-color: black;
-    color:#ffffff;
+    color: #ffffff;
     border-radius: 10px;
     font-size: 16px;
     border: none;
@@ -35,20 +46,23 @@
 
 
   .mapContainer {
-    //width: 50%;
-    //margin: auto;
     height: 600px;
     width: 630px;
-    //position: relative;
-    //position: absolute;
+    max-height: 600px; // 최대 높이를 제한
+    display: flex;
+    justify-content: center; // 콘텐츠 가운데 정렬
+    align-items: center; // 콘텐츠 가운데 정렬
+    overflow: hidden; // 내용이 넘칠 경우 숨김 처리
+    border-radius: 25px;
 
     @include md {
-      width: 100%;
+      width: 90vw;
     }
 
-
+    @include sm {
+      width: 100vw;
+    }
   }
-
 
 }
 

@@ -15,7 +15,6 @@ function Dropdown({children, shown, close, scrollTop}) {
     };
     //
     useEffect(() => {
-        console.log('??/sdF?ASDF')
         if (!scrollTop && fixedNavbar) { //scrollTop이 아니고 고정이라면
 
             close(); //dropDown 닫는다

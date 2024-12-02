@@ -18,7 +18,7 @@ import apiRequest from "../../lib/apiRequest.js";
 import {googleLogout} from "@react-oauth/google";
 
 
-export const MAX_PRICE = 1000000000;
+export const MAX_PRICE = 1000000000;// 1000000000;
 export const MIN_PRICE = 0;
 
 export const MAX_SIZE = 60;
@@ -86,7 +86,7 @@ export const SEARCH_BY_KOREA = [
 
 function Navbar({isSearchBar}) {
 
-    const {scrollTop, changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
+    const {scrollTop, changeScrollTop, changeFixedNavbar, changeIsDropDown, isDropdown} = useContext(NavbarContext);
     const {currentUser, updateUser} = useContext(AuthContext);
     const {searchValue, changeSearchValue, clearSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
@@ -225,6 +225,7 @@ function Navbar({isSearchBar}) {
     };
 
     const clickMenu = (number) => {
+        changeIsDropDown(true);
         setCurrentClicked(number);
         setNotClicked(true);
     };
@@ -245,7 +246,6 @@ function Navbar({isSearchBar}) {
     }, [scrollTop]);
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
 
     const toggleDropdown = () => {
         setIsDropdownOpen(prevState => !prevState);
@@ -402,20 +402,14 @@ function Navbar({isSearchBar}) {
                                             }
                                     </span>
                                             </div>
-                                            <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`}
-                                                 onClick={() => clickMenu(3)}>
+                                            <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`} onClick={() => clickMenu(3)}>
                                                 <p className={scrollTop ? null : 'displayNone'}>가격</p>
-                                                <span className="inputDiv">
-                                        {currencyFormatter.format(minPrice)}&nbsp;~&nbsp;{(MAX_PRICE === maxPrice) ? '무제한' : currencyFormatter.format(maxPrice)}
-                                    </span>
+                                                <span className="inputDiv">{currencyFormatter.format(minPrice)}&nbsp;~&nbsp;{(MAX_PRICE === maxPrice) ? '무제한' : currencyFormatter.format(maxPrice)}</span>
                                             </div>
-                                            <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
-                                                 onClick={() => clickMenu(4)}>
+                                            <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`} onClick={() => clickMenu(4)}>
                                                 <p className={scrollTop ? null : 'displayNone'}>크기</p>
-                                                <span
-                                                    className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
-                                                <span className="material-symbols-outlined"
-                                                      onClick={(e) => searchClick(e)}>search</span>
+                                                <span className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
+                                                <span className="material-symbols-outlined" onClick={(e) => searchClick(e)}>search</span>
                                             </div>
 
                                         </div>
@@ -424,23 +418,25 @@ function Navbar({isSearchBar}) {
                                             location={location}
                                             suggestions={suggestions}
                                             getSuggestionItemProps={getSuggestionItemProps}
-                                            loading={loading} status={status} shown={(currentClicked === 1)}
+                                            loading={loading} status={status} shown={(currentClicked === 1) && isDropdown}
                                             close={closeDropdown} scrollTop={scrollTop}
                                             searchByRegion={searchByRegion}/>
 
                                         <Category types={types} setTypes={setTypes} rooms={rooms}
                                                   setRooms={setRooms}
-                                                  shown={(currentClicked === 2)} close={closeDropdown}
+                                                  shown={(currentClicked === 2) && isDropdown} close={closeDropdown}
                                                   scrollTop={scrollTop}/>
 
                                         <Price minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice}
-                                               setMaxPrice={setMaxPrice} shown={(currentClicked === 3)}
+                                               setMaxPrice={setMaxPrice}
+                                               shown={(currentClicked === 3) && isDropdown}
                                                close={closeDropdown}
                                                scrollTop={scrollTop}/>
 
                                         <Size minSize={minSize} setMinSize={setMinSize} maxSize={maxSize}
                                               setMaxSize={setMaxSize}
-                                              shown={(currentClicked === 4)} close={closeDropdown}
+                                              shown={(currentClicked === 4) && isDropdown}
+                                              close={closeDropdown}
                                               scrollTop={scrollTop}/>
                                     </>
                                 )}
@@ -543,6 +539,7 @@ const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close, scrollTop
                             text={{left: '10평 미만', right: '60평 이상', middle: '30평대', total: '60평 이상'}}
                             format={(data) => `${data}평`}
                             onChange={({min, max}) => {
+                                console.log('dd', min, max)
                                 setMinSize(min);
                                 setMaxSize(max);
                             }}
@@ -555,14 +552,11 @@ const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close, scrollTop
 
 };
 const Price = ({minPrice, setMinPrice, maxPrice, setMaxPrice, shown, close, scrollTop}) => {
-
-
-
     const stepCondition = (event) => {
         if (event.target.value < 500000000) { //오억
-            return 50000000;
+            return 50000000; //5천만원
         } else {
-            return 100000000;
+            return 100000000; //1억
         }
     }
     return (
@@ -575,6 +569,7 @@ const Price = ({minPrice, setMinPrice, maxPrice, setMaxPrice, shown, close, scro
                 <div className="selectBig">
                     <p>금액대를 설정해주세요.</p>
                     <div className="selectDivSlider">
+
                         <MultiRangeSlider
                             min={MIN_PRICE}
                             max={MAX_PRICE}
@@ -604,7 +599,6 @@ const Price = ({minPrice, setMinPrice, maxPrice, setMaxPrice, shown, close, scro
 };
 
 const Category = ({types, rooms, setTypes, setRooms, shown, close, scrollTop}) => {
-
 
     const clickTypeOption = (option) => {
         if (types?.includes(option.value)) {

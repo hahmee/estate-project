@@ -7,6 +7,7 @@ export const NavbarContextProvider = ({ children }) => {
     const [scrollTop, setScrollTop] = useState(false);
     const [fixedNavbar, setFixedNavbar] = useState(false); //listPage에서 상단에 고정 용도
     const [outsideClick, setOutsideClick] = useState(false); //listPage에서 상단에 고정 용도
+    const [isDropdown, setIsDropdown] = useState(false); // 드롭다운 보이기 여부
 
     const changeScrollTop = (scrolltop) => {
         setScrollTop(scrolltop);
@@ -20,6 +21,10 @@ export const NavbarContextProvider = ({ children }) => {
         setOutsideClick(value);
     };
 
+    const changeIsDropDown = (value) => {
+        setIsDropdown(value);
+    };
+
     const navbarCtx = {
         scrollTop,
         changeScrollTop,
@@ -27,6 +32,8 @@ export const NavbarContextProvider = ({ children }) => {
         changeFixedNavbar,
         outsideClick,
         changeOutsideClick,
+        isDropdown,
+        changeIsDropDown,
     }
 
     return (

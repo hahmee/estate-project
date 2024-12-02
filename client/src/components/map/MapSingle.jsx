@@ -38,7 +38,7 @@ function MapSingle({items}) {
                 scrollWheelZoom={true}
                 className="map"
                 zoomAnimation={true}
-                zoomControl={true}
+                zoomControl={false}
                 zoomSnap={0.25}
                 zoomDelta={1}
                 maxZoom={10}

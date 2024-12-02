@@ -1,26 +1,19 @@
 @import "../../main.scss";
 .main{
-  //width: 100%;
-  //height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  .searchButton {z-index: 1001; }
   .map-search {
-    //position: relative;
-    z-index: 1000;
-    //width: 100%;
-    //display: flex;
-    //background-color: gold;
+    z-index: 900;
+
     .map-item {
+
     }
     .map-content {
-      //width: 100%;
-      //position: relative;
+
     }
     .material-symbols-outlined {
-      //background-color: gold;
       left: 280px;
       top: 17px;
       position: absolute;
@@ -32,8 +25,9 @@
       display: flex;
       align-items: center;
       background-color: #fff;
-      border-radius: 10px;
-      width: 630px;
+      border-radius: 25px;
+      width: calc( -30px + 100%);
+      margin-top: 20px;
       cursor: text;
       left:50%;
       transform:translateX(-50%);
@@ -41,30 +35,14 @@
       position: absolute;
       padding: 20px 20px 20px 20px;
       box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-
       font-size: 18px;
 
-      @include md {
-        width: 100%;
-
-      }
+      //@include md {
+      //  width: 100%;
+      //
+      //}
 
     }
-  }
-
-  .mapContainer {
-    //width: 50%;
-    //margin: auto;
-    height: 600px;
-    width: 630px;
-    position: relative;
-    //position: absolute;
-
-    @include md {
-      width: 100%;
-    }
-
-
   }
 
 }
@@ -72,10 +50,10 @@
 .autocomplete-dropdown-container {
   position: absolute;
   background-color: #fff;
-  width: 630px;
+  width: calc( -30px + 100%);
   left: 50%;
   transform: translateX(-50%);
-  top: 68px;
+  top: 85px;
   align-items: center;
   cursor: default;
   border-color: rgb(204, 204, 204);
@@ -111,22 +89,6 @@
     width: 100%;
 
   }
-}
-
-.autocomplete-container input {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 78px;
-  width: 100%;
-  cursor: text;
-  border: none;
-  position: relative;
-  padding: 20px 20px 20px 20px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-  margin: auto;
-  font-size: 18px;
 }
 
 .map-control{

@@ -192,7 +192,7 @@ function NewPostPage() {
 
   const div = <>
     <div className="newPostPage">
-      <h2>정보를 상세하게 입력해주세요.</h2>
+      <div className="post_title">정보를 상세하게 입력해주세요.</div>
       <div className="formContainer">
         <div className="wrapper">
           <form id="estate-post-form" onSubmit={handleSubmit}>
