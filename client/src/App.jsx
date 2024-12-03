@@ -20,7 +20,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <CommonLayout isSearchBar={true}><Layout/></CommonLayout>,
+      element: <CommonLayout isSearchBar={true} isLoginCheck = {true}><Layout/></CommonLayout>,
       children: [
         {
           path: "/",
@@ -40,7 +40,7 @@ function App() {
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false}><Layout/></CommonLayout>,
+      element: <CommonLayout isSearchBar={false} isLoginCheck = {false}><Layout/></CommonLayout>,
       children: [
         {
           path: "/login",
@@ -54,7 +54,7 @@ function App() {
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false}><CreateProcess/></CommonLayout>,
+      element: <CommonLayout isSearchBar={false} isLoginCheck = {true}><CreateProcess/></CommonLayout>,
       children: [
         {
           path: "/location",

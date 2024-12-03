@@ -7,20 +7,19 @@ import MapSingle from "../../components/map/MapSingle.jsx";
 function NewLocationPage() {
 
     const [itemList, setItemList] = useState([]);
-
     const {setProgress} = useContext(UserProgressContext);
 
     const getMapResult = useCallback((itemList) => {
+        console.log('333');
         console.log('itemsList', itemList);
         setItemList(itemList);
         setProgress('add');
     }, [itemList]);
 
     useEffect(() => {
+        console.log('e3')
         setProgress('add');
     }, []);
-
-    console.log('itemList', itemList);
 
     return (
         <div className="locationPage">

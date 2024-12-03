@@ -7,11 +7,13 @@ import Button from "../../UI/Button.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import {NavbarContext} from "../../context/NavbarContext.jsx";
 import Footer from "../../components/footer/Footer.jsx";
+import MobileMenu from "../../components/mobile-menu/MobileMenu.jsx";
 
-function CommonLayout({ children, isSearchBar }) {
+function CommonLayout({ children, isSearchBar, isLoginCheck }) {
 
     const layoutRef = useRef();
     const { changeScrollTop,  changeFixedNavbar,  changeIsDropDown} = useContext(NavbarContext);
+    const {currentUser} = useContext(AuthContext);
 
     const handleScroll = useCallback(() => {
         if (layoutRef.current) {
@@ -46,18 +48,18 @@ function CommonLayout({ children, isSearchBar }) {
         };
     }, [handleScroll]);
 
+    if (!currentUser && isLoginCheck) return <Navigate to="/login"/>;
 
     return (
         <div className="common-layout" ref={layoutRef}>
             <Navbar isSearchBar={isSearchBar}/>
             {children}
+            {/*<MobileMenu/>*/}
         </div>
     );
 }
 //isSearchBar 가 true
 function Layout() {
-
-
     return (
         <div className="app" >
             <div className="layoutUpper">
@@ -73,52 +75,40 @@ function Layout() {
 }
 
 function RequireAuth() {
-    const {currentUser} = useContext(AuthContext);
-
-    if (!currentUser) return <Navigate to="/login"/>;
-
-    else {
-
-        return (
-            <div className="app">
-                <div className="layoutUpper">
-                    <div className="layout">
-                        <div className="content">
-                            <Outlet/>
-                        </div>
+    return (
+        <div className="app">
+            <div className="layoutUpper">
+                <div className="layout">
+                    <div className="content">
+                        <Outlet/>
                     </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
-function CreateProcess() {
-    const {currentUser} = useContext(AuthContext);
-    const {progress} = useContext(UserProgressContext);
 
+function CreateProcess() {
+    const {progress} = useContext(UserProgressContext);
     const navigate = useNavigate();
 
-    if (!currentUser) return <Navigate to="/login" />;
-
-    else {
-        return (
-            <div className="app">
-                <div className="layoutUpper">
-                    <div className="layout">
-                        <div className="content">
-                            <Outlet/>
-                        </div>
+    return (
+        <div className="app">
+            <div className="layoutUpper">
+                <div className="layout">
+                    <div className="content">
+                        <Outlet/>
                     </div>
                 </div>
-                <div className="processDiv">
-                    <Button outlined onClick={() => navigate(-1)}>이전</Button>
-                    <Button form={progress.form} disabled={progress.disabled} onClick={() => progress.url ? navigate(progress.url) : undefined} type="submit" loading={progress.loading}>{progress.text}</Button>
-                </div>
-
             </div>
-        );
-    }
+            <div className="processDiv">
+                <Button outlined onClick={() => navigate(-1)}>이전</Button>
+                <Button form={progress.form} disabled={progress.disabled} onClick={() => progress.url ? navigate(progress.url) : undefined} type="submit" loading={progress.loading}>{progress.text}</Button>
+            </div>
+
+        </div>
+    );
 
 }
 

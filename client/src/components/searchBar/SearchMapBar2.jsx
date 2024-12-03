@@ -6,7 +6,7 @@ import "./searchMapBar2.scss";
 
 
 function SearchMapBar2({getMapResult, searchOptions=[]}) {
-    const {clearProgress, saveLocation, location: userLocation} = useContext(UserProgressContext);
+    const {clearProgress, saveLocation, setProgress, progress, location: userLocation, changeDisabled} = useContext(UserProgressContext);
     const [location, setLocation] = useState(userLocation.address);
     const [status, setStatus] = useState("");
     const [suggestionsVisible, setSuggestionsVisible] = useState(true);
@@ -35,10 +35,8 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     };
 
     const handleSelect = async (location, placeId, suggestions) => {
-
         const [place] = await geocodeByPlaceId(placeId);
         console.log('place', place);
-
 
         //political 값만 가져온다.
         const politicalList = place.address_components.filter(c => c.types.includes('political')).map(data => data.long_name);
@@ -50,6 +48,8 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
             .then((latLng) => {
                 searchOptions && saveLocation({...latLng, address: location, politicalList});
                 setQuery((prev) => ({...prev, latitude: latLng.lat, longitude: latLng.lng}));
+                console.log('?');
+                changeDisabled(false);
 
                 getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: [], location}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
@@ -64,6 +64,7 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
 
     useEffect(() => {
         clearProgress(); // clean-up함수에다 넣기
+        setLocation('');
     }, []);
 
     return (

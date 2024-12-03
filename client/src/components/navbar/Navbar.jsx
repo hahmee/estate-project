@@ -33,17 +33,17 @@ export const SEARCH_BY_REGION =[
 
     },
     {
-        img: 'https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320',
+        img: '/america.jpg',
         title: '미국',
         placeId: "ChIJCzYy5IS16lQRQrfeQ5K5Oxw",
     },
     {
-        img: 'https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320',
+        img: '/japan.jpg',
         title: '일본',
         placeId: "ChIJLxl_1w9OZzQRRFJmfNR1QvU",
     },
     {
-        img: 'https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320',
+        img: '/germany.jpg',
         title: '독일',
         placeId:"ChIJa76xwh5ymkcRW-WRjmtd6HU",
     },
@@ -111,9 +111,7 @@ function Navbar({isSearchBar}) {
     const [neLng, setNeLng] = useState(searchValue.ne_lng);
     const [swLat, setSwLat] = useState(searchValue.sw_lat);
     const [swLng, setSwLng] = useState(searchValue.sw_lng);
-
     const [lastPoliticalValue, setLastPoliticalValue] = useState("");
-    // const [viewPort, setViewPort] = useState({});
 
     const setCurrentUrl = usePageUrlStore((state) => state.setCurrentUrl);
     const setPrvUrl = usePageUrlStore((state) => state.setPrvUrl);
@@ -331,68 +329,64 @@ function Navbar({isSearchBar}) {
             <nav className={scrollTop ? "topNav" : null}>
                 <div className='upperNav'>
                     <div className="logo" onClick={() => navigate('/')}>
-                        {/*<span className="material-symbols-outlined">apartment</span>*/}
                         <span className="material-symbols-outlined logoImg">house</span>
                         <span className="estate_logo">Estate</span>
                     </div>
-                    <div></div>
-                    <div className="user">
+                    <div className="spand"></div>
+                    <div>
                         {
                             currentUser && (
-                                <>
+                                <div className="user">
                                     <Button onClick={() => navigate("/location")}>포스팅하기</Button>
                                     <div className="profile" onClick={toggleDropdown}>
                                         {number > 0 && <div className="notification">{number}</div>}
                                         <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar"/>
                                         <span>{currentUser.username}</span>
-
                                         {/* 드롭다운 메뉴 */}
                                         {isDropdownOpen && (
                                             <div className={`dropdown ${isDropdownOpen ? 'open' : ''}`}>
                                                 <ul>
                                                     <li onClick={() => navigate("/profile")}>프로필</li>
                                                     <li onClick={() => navigate("/profile/update")}>메시지</li>
+                                                    <li onClick={() => navigate("/profile/update")}>위시리스트</li>
                                                     <li onClick={handleLogout}>로그아웃</li>
                                                 </ul>
                                             </div>
                                         )}
                                     </div>
-                                </>
+                                </div>
                             )
                         }
                     </div>
                 </div>
                 {
-                    isSearchBar
-                    &&
+                    isSearchBar &&
                     (
-                        <div className={scrollTop ? "bottomNav topNav" : "bottomNav"}>
-                            <PlacesAutocomplete
-                                value={location}
-                                onChange={handleLocationChange}
-                                onSelect={handleSelect}
-                                onError={onError}
-                                searchOptions={{types: ['political']}}
-                                // searchOptions={{types: ['geocode']}}
-                                // searchOptions={{types: ['country', 'locality', 'sublocality']}}
-                            >
-                                {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
-                                    <>
-                                        <div className={`search ${notClicked ? 'notClicked' : null}`}
-                                             onClick={openTopScrollNav}>
-                                            <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
-                                                 onClick={() => clickMenu(1)}>
-                                                <p className={scrollTop ? null : 'displayNone'}>위치</p>
-                                                <input type="text"
-                                                       {...getInputProps({
-                                                           placeholder: '도시를 검색하세요.',
-                                                           className: 'inputDiv',
-                                                       })}/>
-                                            </div>
-                                            <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`}
-                                                 onClick={() => clickMenu(2)}>
-                                                <p className={scrollTop ? null : 'displayNone'}>유형</p>
-                                                <span className="inputDiv">
+                        <>
+                            <div className={scrollTop ? "bottomNav topNav" : "bottomNav"}>
+                                <PlacesAutocomplete
+                                    value={location}
+                                    onChange={handleLocationChange}
+                                    onSelect={handleSelect}
+                                    onError={onError}
+                                    searchOptions={{types: ['political']}}
+                                    // searchOptions={{types: ['geocode']}}
+                                    // searchOptions={{types: ['country', 'locality', 'sublocality']}}
+                                >
+                                    {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
+                                        <>
+                                            <div className={`search ${notClicked ? 'notClicked' : null}`} onClick={openTopScrollNav}>
+                                                <div className={`location ${currentClicked === 1 && 'clickedMenu'}`} onClick={() => clickMenu(1)}>
+                                                    <p className={scrollTop ? null : 'displayNone'}>위치</p>
+                                                    <input type="text"
+                                                           {...getInputProps({
+                                                               placeholder: '도시를 검색하세요.',
+                                                               className: 'inputDiv',
+                                                           })}/>
+                                                </div>
+                                                <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`} onClick={() => clickMenu(2)}>
+                                                    <p className={scrollTop ? null : 'displayNone'}>유형</p>
+                                                    <span className="inputDiv">
                                             {
                                                 ((types && rooms) && (types.length + rooms.length === 9)) ?
                                                     '모든 유형' : [...types, ...rooms].map((type) => {
@@ -400,48 +394,55 @@ function Navbar({isSearchBar}) {
                                                             key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
                                                     })
                                             }
-                                    </span>
-                                            </div>
-                                            <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`} onClick={() => clickMenu(3)}>
-                                                <p className={scrollTop ? null : 'displayNone'}>가격</p>
-                                                <span className="inputDiv">{currencyFormatter.format(minPrice)}&nbsp;~&nbsp;{(MAX_PRICE === maxPrice) ? '무제한' : currencyFormatter.format(maxPrice)}</span>
-                                            </div>
-                                            <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`} onClick={() => clickMenu(4)}>
-                                                <p className={scrollTop ? null : 'displayNone'}>크기</p>
-                                                <span className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
-                                                <span className="material-symbols-outlined" onClick={(e) => searchClick(e)}>search</span>
+                                            </span>
+                                                </div>
+                                                <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`} onClick={() => clickMenu(3)}>
+                                                    <p className={scrollTop ? null : 'displayNone'}>가격</p>
+                                                    <span
+                                                        className="inputDiv">{currencyFormatter.format(minPrice)}&nbsp;~&nbsp;{(MAX_PRICE === maxPrice) ? '무제한' : currencyFormatter.format(maxPrice)}</span>
+                                                </div>
+                                                <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`} onClick={() => clickMenu(4)}>
+                                                    <p className={scrollTop ? null : 'displayNone'}>크기</p>
+                                                    <span className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
+                                                    <span className="material-symbols-outlined" onClick={(e) => searchClick(e)}>search</span>
+                                                </div>
                                             </div>
 
-                                        </div>
+                                            <Location
+                                                location={location}
+                                                suggestions={suggestions}
+                                                getSuggestionItemProps={getSuggestionItemProps}
+                                                loading={loading} status={status}
+                                                shown={(currentClicked === 1) && isDropdown}
+                                                close={closeDropdown} scrollTop={scrollTop}
+                                                searchByRegion={searchByRegion}/>
 
-                                        <Location
-                                            location={location}
-                                            suggestions={suggestions}
-                                            getSuggestionItemProps={getSuggestionItemProps}
-                                            loading={loading} status={status} shown={(currentClicked === 1) && isDropdown}
-                                            close={closeDropdown} scrollTop={scrollTop}
-                                            searchByRegion={searchByRegion}/>
+                                            <Category types={types} setTypes={setTypes} rooms={rooms}
+                                                      setRooms={setRooms}
+                                                      shown={(currentClicked === 2) && isDropdown} close={closeDropdown}
+                                                      scrollTop={scrollTop}/>
 
-                                        <Category types={types} setTypes={setTypes} rooms={rooms}
-                                                  setRooms={setRooms}
-                                                  shown={(currentClicked === 2) && isDropdown} close={closeDropdown}
+                                            <Price minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice}
+                                                   setMaxPrice={setMaxPrice}
+                                                   shown={(currentClicked === 3) && isDropdown}
+                                                   close={closeDropdown}
+                                                   scrollTop={scrollTop}/>
+
+                                            <Size minSize={minSize} setMinSize={setMinSize} maxSize={maxSize}
+                                                  setMaxSize={setMaxSize}
+                                                  shown={(currentClicked === 4) && isDropdown}
+                                                  close={closeDropdown}
                                                   scrollTop={scrollTop}/>
+                                        </>
+                                    )}
+                                </PlacesAutocomplete>
 
-                                        <Price minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice}
-                                               setMaxPrice={setMaxPrice}
-                                               shown={(currentClicked === 3) && isDropdown}
-                                               close={closeDropdown}
-                                               scrollTop={scrollTop}/>
+                                {/*MOBILE*/}
 
-                                        <Size minSize={minSize} setMinSize={setMinSize} maxSize={maxSize}
-                                              setMaxSize={setMaxSize}
-                                              shown={(currentClicked === 4) && isDropdown}
-                                              close={closeDropdown}
-                                              scrollTop={scrollTop}/>
-                                    </>
-                                )}
-                            </PlacesAutocomplete>
-                        </div>
+                            </div>
+                        </>
+
+
                     )
                 }
 
@@ -468,8 +469,7 @@ const Location = ({location, suggestions, getSuggestionItemProps, loading, statu
                                     {
                                         SEARCH_BY_REGION.map((data) => {
                                             return (
-                                                <div key={data.title}><img className="regionImg" src={data.img} alt='img'
-                                                                           onClick={() => searchByRegion(data.placeId)}/>
+                                                <div key={data.title}><img className="regionImg" src={data.img} alt='img' onClick={() => searchByRegion(data.placeId)}/>
                                                     <div className="regionContent">{data.title}</div>
                                                 </div>);
                                         })
@@ -479,8 +479,7 @@ const Location = ({location, suggestions, getSuggestionItemProps, loading, statu
                                 <div className="searchBox">
                                     {
                                         SEARCH_BY_KOREA.map((data) => {
-                                            return (<div key={data.title} className="labelDiv"
-                                                         onClick={() => searchByRegion(data.placeId)}>{data.title}</div>);
+                                            return (<div key={data.title} className="labelDiv" onClick={() => searchByRegion(data.placeId)}>{data.title}</div>);
                                         })
                                     }
                                 </div>
@@ -630,9 +629,7 @@ const Category = ({types, rooms, setTypes, setRooms, shown, close, scrollTop}) =
                     <div className="selectDiv">
                         {
                             typeOption.map((option) => {
-                                return <div key={option.value}
-                                            className={`labelDiv ${types?.includes(option.value) && 'clicked'}`}
-                                            onClick={() => clickTypeOption(option)}>{option.label}</div>
+                                return <div key={option.value} className={`labelDiv ${types?.includes(option.value) && 'clicked'}`} onClick={() => clickTypeOption(option)}>{option.label}</div>
                             })
                         }
                     </div>

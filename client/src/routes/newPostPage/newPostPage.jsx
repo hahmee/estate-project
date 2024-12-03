@@ -10,6 +10,7 @@ import Selection from "../../UI/Selection.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import axios from "axios";
 import {toast} from "react-toastify";
+import {fa} from "timeago.js/lib/lang/index.js";
 
 export const options = [
   {value: 'shoe', label: '신발장', img: '/bath.png' },
@@ -53,31 +54,102 @@ export const typeOption = [
 export const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${process.env.VITE_CLOUD_NAME}/upload`;
 
 function NewPostPage() {
-  const {progress, setProgress, location, clearLocation} = useContext(UserProgressContext);
+  const {progress, setProgress, location, clearLocation, changeDisabled} = useContext(UserProgressContext);
   const [files, setFiles] = useState([]);
-
-
   const navigate = useNavigate();
   const [safeOptionsValue, setSafeOptionsValue] = useState([]);
   const [optionsValue, setOptionsValue] = useState([]);
+  const [inputs, setInputs] = useState({
+    title: "",
+    property: "",
+    type: "",
+    description: "",
+    size: "",
+    price: "",
+    maintenance: "",
+    bedroom: "",
+    bathroom: "",
+    pet: "",
+    parking: "",
+    school: "",
+    bus: "",
+    direction: "",
+  });
 
+  // 모든 입력값 검증
+  useEffect(() => {
+    const allFieldsFilled = Object.values(inputs).every(
+        (value) => value && value.trim() !== ""
+    );
+    console.log(allFieldsFilled);
+    changeDisabled(!allFieldsFilled); // 모든 값이 채워지면 버튼 활성화
+  }, [inputs]);
+
+  // 입력값 변경 핸들러
+  const handleInputChange = (e) => {
+    console.log('e', e);
+    const { name, value } = e.target;
+    setInputs((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const checkInputs = (inputs) => {
+      //필드 검증
+    const requiredFields = [
+      "title",
+      "property",
+      "type",
+      "description",
+      "size",
+      "price",
+      "maintenance",
+      "bedroom",
+      "bathroom",
+      "pet",
+      "parking",
+      "school",
+      "bus",
+      "direction",
+    ];
+
+    for (const field of requiredFields) {
+      if (!inputs[field] || inputs[field].trim() === "") {
+        toast.error(`"${field}" 필드를 입력해주세요.`);
+        return false;
+      }
+    }
+
+    return true;
+
+  };
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    setProgress('',{...progress, loading: true});
+
     const formData = new FormData(e.target);
     const inputs = Object.fromEntries(formData);
+    console.log('inputs', inputs);
+
+    // 빈칸 있는지 실행
+    if (!checkInputs(inputs)) {
+      setProgress("", { ...progress, loading: false });
+      return;
+    }
+
+    if (files.length < 1) {
+      toast.error('이미지 한 개 이상을 첨부해야 합니다.');
+      return;
+      // throw new Error('이미지 한 개 이상을 첨부해야 합니다.');
+    }
+
+
     let imageUrl = [];
     const optionList = optionsValue.map(value => value.value);
     const safeOptionList = safeOptionsValue.map(value => value.value);
 
     try {
-
-      if (files.length < 1) {
-        toast.error('이미지 한 개 이상을 첨부해야 합니다.');
-        return;
-        // throw new Error('이미지 한 개 이상을 첨부해야 합니다.');
-      }
 
       //해결 2 Promise all 사용 (병렬적o)
       const response = files.map((file) => {
@@ -188,6 +260,7 @@ function NewPostPage() {
   useEffect(() => {
     console.log('location', location);
     setProgress('save');
+    changeDisabled(true); //제출 버튼 비활성화
   }, []);
 
   const div = <>
@@ -197,8 +270,9 @@ function NewPostPage() {
         <div className="wrapper">
           <form id="estate-post-form" onSubmit={handleSubmit}>
             <div className="item">
-              <Input label="제목" type="text" id="title" name="title"/>
-              <Selection id="property" name="property" label="방종류" options={roomOption} defaultValue={roomOption[0]}/>
+              <Input label="제목" type="text" id="title" name="title" value={inputs.title} onChange={handleInputChange}/>
+              <Selection id="property" name="property" label="방종류" options={roomOption} defaultValue={roomOption[0]} value={inputs.property} onChange={handleInputChange}
+              />
               <Selection id="type" name="type" label="타입" options={typeOption} defaultValue={typeOption[0]}/>
             </div>
 
