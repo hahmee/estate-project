@@ -5,25 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/public/america.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/public/germany.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/public/japan.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/public/korea_.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/mobile-menu/MobileMenu.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/mobile-menu/mobileMenu.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/mobile-menu/MobileMenu.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/mobile-menu/MobileMenu.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/mobile-menu/mobileMenu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/mobile-menu/mobileMenu.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/context/UserProgressContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/UserProgressContext.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/responsive.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/responsive.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/context/NavbarContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/NavbarContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/homePage/homePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/homePage/homePage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocation.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocation.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +150,7 @@
       <workItem from="1733125833456" duration="6000" />
       <workItem from="1733125930695" duration="337000" />
       <workItem from="1733127506592" duration="13840000" />
-      <workItem from="1733186227689" duration="9623000" />
+      <workItem from="1733186227689" duration="15350000" />
     </task>
     <servers />
   </component>

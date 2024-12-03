@@ -1,12 +1,40 @@
 
 @import "../../main.scss";
 
-.mobileMenu {
-  background-color: #3CB371;
-  position: fixed;
+.mobile-menu {
+  background-color: $white-color;
+  position: sticky;
   width: 100%;
-  height: 125px;
+  height: 65px;
   bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  display: none;
+  color: #888888;
+  transition: transform 0.3s ease-in-out; /* 애니메이션 추가 */
 
+  @include md {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
 
+  &--hidden {
+    transform: translateY(100%); /* 아래로 숨기기 */
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__icon {
+    font-size: 27px; /* 아이콘 크기 */
+  }
+
+  &__title {
+    font-size: 10px; /* 텍스트 크기 */
+  }
 }

@@ -16,7 +16,6 @@ function Login() {
 
   const navigate = useNavigate();
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);

@@ -1,6 +1,6 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import "./navbar.scss";
-import {useLocation, useNavigate, useSearchParams} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext";
 import {useNotificationStore} from "../../lib/notificationStore";
 import PlacesAutocomplete, {geocodeByPlaceId} from "react-places-autocomplete";
@@ -92,7 +92,6 @@ function Navbar({isSearchBar}) {
     const userFetch = useNotificationStore((state) => state.fetch);
     const number = useNotificationStore((state) => state.number);
     const navigate = useNavigate();
-
     const [notClicked, setNotClicked] = useState(false);
     const [currentClicked, setCurrentClicked] = useState(0);
     const [status, setStatus] = useState("");
@@ -112,34 +111,32 @@ function Navbar({isSearchBar}) {
     const [swLat, setSwLat] = useState(searchValue.sw_lat);
     const [swLng, setSwLng] = useState(searchValue.sw_lng);
     const [lastPoliticalValue, setLastPoliticalValue] = useState("");
-
     const setCurrentUrl = usePageUrlStore((state) => state.setCurrentUrl);
     const setPrvUrl = usePageUrlStore((state) => state.setPrvUrl);
     const currentLocation = useLocation();
     const [prevLocation, setPrevLocation] = useState(null);
     const lastSavedLocation = useRef(null); // temp buffer
     const setIsFetch = listPostStore((state) => state.setIsFetch);
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    const query = {
-        type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
-        location: searchParams.get("location") || "",
-        political: searchParams.get("political") || "",
-        latitude: searchParams.get("latitude") || "",
-        longitude: searchParams.get("longitude") || "",
-        property: searchParams.getAll("property") < 1 ? roomOption.map((type) => type.value) : searchParams.getAll("property"),
-        minPrice: searchParams.get("minPrice") || MIN_PRICE,
-        maxPrice: searchParams.get("maxPrice") || MAX_PRICE,
-        minSize: searchParams.get("minSize") || MIN_SIZE,
-        maxSize: searchParams.get("maxSize") || MAX_SIZE,
-        searchedLat: searchParams.get("searchedLat") || "",
-        searchedLng: searchParams.get("searchedLng") || "",
-        search_type: searchParams.get("search_type") || "",
-        ne_lat: searchParams.get("ne_lat") || "",
-        ne_lng: searchParams.get("ne_lng") || "",
-        sw_lat: searchParams.get("sw_lat") || "",
-        sw_lng: searchParams.get("sw_lng") || "",
-    };
+    // const [searchParams, setSearchParams] = useSearchParams();
+    // const query = {
+    //     type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
+    //     location: searchParams.get("location") || "",
+    //     political: searchParams.get("political") || "",
+    //     latitude: searchParams.get("latitude") || "",
+    //     longitude: searchParams.get("longitude") || "",
+    //     property: searchParams.getAll("property") < 1 ? roomOption.map((type) => type.value) : searchParams.getAll("property"),
+    //     minPrice: searchParams.get("minPrice") || MIN_PRICE,
+    //     maxPrice: searchParams.get("maxPrice") || MAX_PRICE,
+    //     minSize: searchParams.get("minSize") || MIN_SIZE,
+    //     maxSize: searchParams.get("maxSize") || MAX_SIZE,
+    //     searchedLat: searchParams.get("searchedLat") || "",
+    //     searchedLng: searchParams.get("searchedLng") || "",
+    //     search_type: searchParams.get("search_type") || "",
+    //     ne_lat: searchParams.get("ne_lat") || "",
+    //     ne_lng: searchParams.get("ne_lng") || "",
+    //     sw_lat: searchParams.get("sw_lat") || "",
+    //     sw_lng: searchParams.get("sw_lng") || "",
+    // };
 
     const handleLocationChange = (location) => {
         setStatus("");
@@ -303,6 +300,7 @@ function Navbar({isSearchBar}) {
     }, [prevLocation]);
 
     useEffect(() => {
+        console.log('??')
         return () => clearSearchValue(); //에러나서 우선 주석
     }, []);
 
@@ -538,7 +536,6 @@ const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close, scrollTop
                             text={{left: '10평 미만', right: '60평 이상', middle: '30평대', total: '60평 이상'}}
                             format={(data) => `${data}평`}
                             onChange={({min, max}) => {
-                                console.log('dd', min, max)
                                 setMinSize(min);
                                 setMaxSize(max);
                             }}

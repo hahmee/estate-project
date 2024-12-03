@@ -1,7 +1,7 @@
 import "./layout.scss";
 import Navbar from "../../components/navbar/Navbar";
 import {Navigate, Outlet, useNavigate} from "react-router-dom";
-import React, {useCallback, useContext, useEffect, useRef} from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
 import Button from "../../UI/Button.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
@@ -14,22 +14,29 @@ function CommonLayout({ children, isSearchBar, isLoginCheck }) {
     const layoutRef = useRef();
     const { changeScrollTop,  changeFixedNavbar,  changeIsDropDown} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
+    const [mobileMenuHidden, setMobileMenuHidden] = useState(false);
+    const lastScrollTop = useRef(0); // 이전 스크롤 위치를 저장
 
     const handleScroll = useCallback(() => {
         if (layoutRef.current) {
             const currentScrollTop = layoutRef.current.scrollTop;
             // 스크롤이 최상단인지 여부를 설정
             changeScrollTop(currentScrollTop === 0);
-
-            //스크롤이 움직이면 무조건
+            //스크롤이 움직이면 무조건 드롭다운 닫기
             changeIsDropDown(false);
 
-            // 스크롤이 내려가면 Navbar 고정 해제, 올라가면 고정
-            if (currentScrollTop > 10) {
-                changeFixedNavbar(false); // 스크롤 내려가면 해제
+            // 스크롤 방향에 따라 상태 변경
+            if (currentScrollTop > lastScrollTop.current && currentScrollTop > 800) {
+                // 스크롤 다운
+                setMobileMenuHidden(true);
             } else {
-                changeFixedNavbar(true); // 스크롤 올라가면 고정
+                // 스크롤 업
+                setMobileMenuHidden(false);
             }
+
+            // 현재 스크롤 위치 저장
+            lastScrollTop.current = currentScrollTop <= 0 ? 0 : currentScrollTop;
+
         }
     }, [changeScrollTop, changeFixedNavbar]);
 
@@ -54,7 +61,7 @@ function CommonLayout({ children, isSearchBar, isLoginCheck }) {
         <div className="common-layout" ref={layoutRef}>
             <Navbar isSearchBar={isSearchBar}/>
             {children}
-            {/*<MobileMenu/>*/}
+            <MobileMenu isHidden={mobileMenuHidden}/>
         </div>
     );
 }
