@@ -10,7 +10,6 @@
 }
 .layoutUpper {
   flex: 1; // 나머지 공간을 차지하도록 설정
-
 }
 .layout {
   max-width: 1366px;
@@ -23,17 +22,14 @@
   min-height: calc(-74px + -5rem + 100vh);
 
   @include lg {
-    //background-color: rgb(247, 210, 196);
     max-width: 1366px; //1280px
   }
 
   @include md {
-    // background-color: rgb(186, 203, 234);
     max-width: 768px;
   }
 
   @include sm {
-    // background-color: rgb(239, 200, 200);
     max-width: 640px;
   }
 

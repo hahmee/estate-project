@@ -8,12 +8,13 @@ import Login from "./routes/login/login";
 import Register from "./routes/register/register";
 import ProfileUpdatePage from "./routes/profileUpdatePage/profileUpdatePage";
 import NewPostPage from "./routes/newPostPage/newPostPage";
-import {chatPageLoader, profilePageLoader, singlePageLoader} from "./lib/loaders";
+import {chatPageLoader, profilePageLoader, singlePageLoader, wishPageLoader} from "./lib/loaders";
 import NewChatPage from "./routes/newChatPage/NewChatPage.jsx";
 import NewLocationPage from "./routes/newLocationPage/newLocationPage.jsx";
 import UpdatePage from "./routes/updatePage/updatePage.jsx";
 import MessagePage from "./routes/messagePage/messagePage.jsx";
 import RedirectNaverURI from "./routes/redirect/redirectNaverURI.jsx";
+import WishPage from "./routes/wish/wishPage.jsx";
 
 function App() {
 
@@ -93,6 +94,11 @@ function App() {
           path: "/messages/:userId",
           element: <MessagePage/>,
           // loader: messagePageLoader
+        },
+        {
+          path: "/wish",
+          element: <WishPage/>,
+          loader: wishPageLoader
         },
         // {
         //   path: "/messages/:userId",

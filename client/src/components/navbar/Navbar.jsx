@@ -16,6 +16,7 @@ import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 import {usePageUrlStore} from "../../lib/pageUrlStore.js";
 import apiRequest from "../../lib/apiRequest.js";
 import {googleLogout} from "@react-oauth/google";
+import MenuDropdown from "../menuDropdown/MenuDropdown.jsx";
 
 
 export const MAX_PRICE = 1000000000;// 1000000000;
@@ -242,26 +243,16 @@ function Navbar({isSearchBar}) {
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(prevState => !prevState);
+    const closeMenu = () => {
+        // setIsDropdownOpen(prevState => !prevState);
+        setIsDropdownOpen(false);
     };
 
-
-    const handleLogout = async () => {
-        try {
-            await apiRequest.post("/auth/logout");
-            updateUser(null);
-
-            if (currentUser.externalType == 'google') {
-                googleLogout();
-            }
-            toast.success('로그아웃 되었습니다.');
-
-        } catch (err) {
-            console.log(err);
-            toast.error((err).message);
-        }
+    const openMenu = () => {
+        // setIsDropdownOpen(prevState => !prevState);
+        setIsDropdownOpen(true);
     };
+
 
 
     useEffect(() => {
@@ -324,6 +315,20 @@ function Navbar({isSearchBar}) {
                 //밖에 클릭했을 때 기본 nav로 돌아가게
             }
 
+
+            {/*MOBILE*/}
+
+            <div className="mobile-nav">
+                <div className="mobile-nav__search">
+                    <div className="material-symbols-outlined mobile-nav__icon">search</div>
+                    <div className="mobile-nav__texts">
+                        <span className="mobile-nav__text">도시를 검색해주세요.</span>
+                        <span className="mobile-nav__text">모든 유형 무제한 60평이상</span>
+                    </div>
+                </div>
+            </div>
+
+
             <nav className={scrollTop ? "topNav" : null}>
                 <div className='upperNav'>
                     <div className="logo" onClick={() => navigate('/')}>
@@ -336,21 +341,20 @@ function Navbar({isSearchBar}) {
                             currentUser && (
                                 <div className="user">
                                     <Button onClick={() => navigate("/location")}>포스팅하기</Button>
-                                    <div className="profile" onClick={toggleDropdown}>
+                                    <div className="profile" onClick={openMenu}>
                                         {number > 0 && <div className="notification">{number}</div>}
                                         <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar"/>
                                         <span>{currentUser.username}</span>
+                                        {
+                                            isDropdownOpen ?
+                                                <span className="material-symbols-outlined icon">keyboard_arrow_up</span>
+                                                :
+                                                <span className="material-symbols-outlined icon">keyboard_arrow_down</span>
+                                        }
+
                                         {/* 드롭다운 메뉴 */}
-                                        {isDropdownOpen && (
-                                            <div className={`dropdown ${isDropdownOpen ? 'open' : ''}`}>
-                                                <ul>
-                                                    <li onClick={() => navigate("/profile")}>프로필</li>
-                                                    <li onClick={() => navigate("/profile/update")}>메시지</li>
-                                                    <li onClick={() => navigate("/profile/update")}>위시리스트</li>
-                                                    <li onClick={handleLogout}>로그아웃</li>
-                                                </ul>
-                                            </div>
-                                        )}
+                                         <MenuDropdown isDropdownOpen={isDropdownOpen} closeMenu={closeMenu}/>
+
                                     </div>
                                 </div>
                             )
@@ -373,8 +377,10 @@ function Navbar({isSearchBar}) {
                                 >
                                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                                         <>
-                                            <div className={`search ${notClicked ? 'notClicked' : null}`} onClick={openTopScrollNav}>
-                                                <div className={`location ${currentClicked === 1 && 'clickedMenu'}`} onClick={() => clickMenu(1)}>
+                                            <div className={`search ${notClicked ? 'notClicked' : null}`}
+                                                 onClick={openTopScrollNav}>
+                                                <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
+                                                     onClick={() => clickMenu(1)}>
                                                     <p className={scrollTop ? null : 'displayNone'}>위치</p>
                                                     <input type="text"
                                                            {...getInputProps({
@@ -382,7 +388,8 @@ function Navbar({isSearchBar}) {
                                                                className: 'inputDiv',
                                                            })}/>
                                                 </div>
-                                                <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`} onClick={() => clickMenu(2)}>
+                                                <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`}
+                                                     onClick={() => clickMenu(2)}>
                                                     <p className={scrollTop ? null : 'displayNone'}>유형</p>
                                                     <span className="inputDiv">
                                             {
@@ -394,15 +401,19 @@ function Navbar({isSearchBar}) {
                                             }
                                             </span>
                                                 </div>
-                                                <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`} onClick={() => clickMenu(3)}>
+                                                <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`}
+                                                     onClick={() => clickMenu(3)}>
                                                     <p className={scrollTop ? null : 'displayNone'}>가격</p>
                                                     <span
                                                         className="inputDiv">{currencyFormatter.format(minPrice)}&nbsp;~&nbsp;{(MAX_PRICE === maxPrice) ? '무제한' : currencyFormatter.format(maxPrice)}</span>
                                                 </div>
-                                                <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`} onClick={() => clickMenu(4)}>
+                                                <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
+                                                     onClick={() => clickMenu(4)}>
                                                     <p className={scrollTop ? null : 'displayNone'}>크기</p>
-                                                    <span className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
-                                                    <span className="material-symbols-outlined" onClick={(e) => searchClick(e)}>search</span>
+                                                    <span
+                                                        className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
+                                                    <span className="material-symbols-outlined"
+                                                          onClick={(e) => searchClick(e)}>search</span>
                                                 </div>
                                             </div>
 
@@ -434,16 +445,10 @@ function Navbar({isSearchBar}) {
                                         </>
                                     )}
                                 </PlacesAutocomplete>
-
-                                {/*MOBILE*/}
-
                             </div>
                         </>
-
-
                     )
                 }
-
             </nav>
         </>
 

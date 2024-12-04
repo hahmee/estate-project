@@ -1,7 +1,9 @@
+import Chat from "../../components/chat/Chat";
+import List from "../../components/list/List";
 import "./profilePage.scss";
 import apiRequest from "../../lib/apiRequest";
-import {useLoaderData, useNavigate, useSearchParams} from "react-router-dom";
-import {useContext, useEffect} from "react";
+import {Await, useLoaderData, useNavigate, useSearchParams} from "react-router-dom";
+import {Suspense, useContext, useEffect} from "react";
 import {AuthContext} from "../../context/AuthContext";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import Button from "../../UI/Button.jsx";
@@ -76,10 +78,45 @@ function ProfilePage() {
                 {currentUser.email}
               </div>
             </div>
-
+            <div className="title">
+              <h1>나의 리스트</h1>
+            </div>
+            <Suspense fallback={<p>Loading...</p>}>
+              <Await
+                  resolve={data.postResponse}
+                  errorElement={<p>Error loading posts!</p>}
+              >
+                {(postResponse) => <List posts={postResponse.data.userPosts}/>}
+              </Await>
+            </Suspense>
+            <div className="title">
+              <h1>저장 리스트</h1>
+            </div>
+            <Suspense fallback={<p>Loading...</p>}>
+              <Await
+                  resolve={data.postResponse}
+                  errorElement={<p>Error loading posts!</p>}
+              >
+                {(postResponse) => <List posts={postResponse.data.savedPosts} savedList={true}/>}
+              </Await>
+            </Suspense>
           </div>
         </div>
-
+        <div className="chatContainer">
+          <div className="wrapper">
+            <div className="title">
+              <h1>메시지</h1>
+            </div>
+            <Suspense fallback={<p>Loading...</p>}>
+              <Await
+                  resolve={data.chatResponse}
+                  errorElement={<p>Error loading chats!</p>}
+              >
+                {(chatResponse) => <Chat chats={chatResponse.data}/>}
+              </Await>
+            </Suspense>
+          </div>
+        </div>
       </div>
   );
 }

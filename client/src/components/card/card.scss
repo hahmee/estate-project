@@ -6,7 +6,9 @@
 
   .imageContainer {
     flex: 2;
+    background-color: #888888;
     height: 200px;
+    max-width: 300px;
 
     @include md {
       display: none;

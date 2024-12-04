@@ -1,8 +1,8 @@
-import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import "./newPostPage.scss";
 import "react-quill/dist/quill.snow.css";
 import apiRequest from "../../lib/apiRequest";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Input from "../../UI/Input.jsx";
 import Textarea from "../../UI/Textarea.jsx";
 import DropZone from "../../components/dropZone/DropZone.jsx";
@@ -10,7 +10,6 @@ import Selection from "../../UI/Selection.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import axios from "axios";
 import {toast} from "react-toastify";
-import {fa} from "timeago.js/lib/lang/index.js";
 
 export const options = [
   {value: 'shoe', label: '신발장', img: '/bath.png' },

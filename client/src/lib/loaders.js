@@ -15,12 +15,19 @@ export const singlePageLoader = async ({ request, params }) => {
 //   });
 // };
 
-export const profilePageLoader = async () => {
+export const wishPageLoader = async () => {
   const postPromise = apiRequest("/users/profilePosts");
-  const chatPromise = apiRequest("/chats");
   return defer({
     postResponse: postPromise,
-    chatResponse: chatPromise,
+  });
+};
+
+export const profilePageLoader = async () => {
+  const postPromise = apiRequest("/users/profilePosts");
+  // const chatPromise = apiRequest("/chats");
+  return defer({
+    postResponse: postPromise,
+    // chatResponse: chatPromise,
   });
 };
 
