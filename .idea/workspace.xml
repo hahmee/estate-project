@@ -6,15 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/chat.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/chat.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/api/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/routes/chat.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/chat.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/Conversation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/Conversation.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/conversation.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/conversation.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/lib/loaders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/loaders.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +150,7 @@
       <workItem from="1733283379977" duration="6510000" />
       <workItem from="1733291296678" duration="9012000" />
       <workItem from="1733301456976" duration="17909000" />
-      <workItem from="1733320395974" duration="2162000" />
+      <workItem from="1733320395974" duration="2896000" />
     </task>
     <servers />
   </component>

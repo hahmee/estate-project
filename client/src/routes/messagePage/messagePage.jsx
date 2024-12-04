@@ -16,12 +16,11 @@ function MessagePage() {
     const navigate = useNavigate();
     const [conversations, setConversations] = useState([]);
     const [currentConversation, setCurrentConversation] = useState(null); // 현재 누른
-    const [receiver, setReceiver] = useState(data.resWriterPromise?.data || null);
+    const [receiver, setReceiver] = useState(data.resWriterResponse?.data || null);
     const [messages, setMessages] = useState([]);
     const scrollRef = useRef();
     const {socket} = useContext(SocketContext);
     const {currentUser} = useContext(AuthContext);
-    console.log('currentConversation', currentConversation);
 
     // 원하는 채팅창을 클릭한다.
     const clickConversation = useCallback(async (currentConversation) => {
@@ -43,7 +42,6 @@ function MessagePage() {
         try {
 
             const res = await apiRequest.post("/messages/" + currentConversation.id, {text});
-            console.log('res', res);
             setMessages([...messages, res.data.message]);
             const updatedChat = res.data.chat;
 
@@ -52,7 +50,6 @@ function MessagePage() {
             //res의 chat의 Id가 가장 상단에 있어야 함
             const reorderedConversations = conversations.sort((a, b) => (a.id === targetId ? -1 : b.id === targetId ? 1 : 0));
             //
-            console.log('reorderedConversations', reorderedConversations);
             setConversations(reorderedConversations);
 
 
@@ -76,15 +73,22 @@ function MessagePage() {
     useEffect(() => {
         const initializeChat = () => {
             const {resChatListResponse, resChatResponse} = data;
-            console.log('resChatResponse', resChatResponse)
-            console.log('resChatListResponse', resChatListResponse)
 
             const existingConversations = [...resChatListResponse.data];
-
             setConversations(resChatListResponse.data);
-            console.log('existingConversations', existingConversations);
-            setCurrentConversation(existingConversations.find(chat => chat.receiver.id === userId)); //받는사람이 게시글쓴사람과 같은게 현재
-            setMessages(resChatResponse.data.messages || []);
+
+            if(!userId) {
+                setCurrentConversation(null);
+            }else {
+                setCurrentConversation(existingConversations.find(chat => chat.receiver.id === userId)); //받는사람이 게시글쓴사람과 같은게 현재
+            }
+
+
+            if(resChatResponse) {
+                setMessages(resChatResponse.data.messages || [])
+            }else{
+                setMessages([]);
+            }
 
         };
 
@@ -147,7 +151,6 @@ function MessagePage() {
                                             />
                                         </div>
                                     ))
-
                                     : "아직 진행중인 대화가 없습니다."}
                             </div>
 
@@ -159,16 +162,20 @@ function MessagePage() {
                     )}
                 </div>
 
-                <div className="chat__input">
-                    <form onSubmit={handleSubmit} className="chat__form">
+                {currentConversation &&
+                    <div className="chat__input">
+                        <form onSubmit={handleSubmit} className="chat__form">
                                     <textarea
                                         name="text"
                                         className="chat__textarea"
                                         placeholder="메시지를 입력해주세요."
                                     ></textarea>
-                        <Button>보내기</Button>
-                    </form>
-                </div>
+                            <Button>보내기</Button>
+                        </form>
+                    </div>
+
+                }
+
             </div>
         </div>
 
