@@ -4,6 +4,15 @@
   padding: 10px;
   cursor: pointer;
   margin-top: 20px;
+
+  border-bottom: 1px solid #eeeeee;
+
+  &.--current {
+    // current 상태일 때의 스타일
+    background-color: #eeeeee;
+
+  }
+
 }
 
 .conversation:hover {

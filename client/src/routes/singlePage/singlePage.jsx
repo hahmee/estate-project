@@ -10,8 +10,17 @@ import {currencyFormatter} from "../../util/formatting.js";
 import MapSingle from "../../components/map/MapSingle.jsx";
 import {usePageUrlStore} from "../../lib/pageUrlStore.js";
 
+
+
 function SinglePage() {
-  const post = useLoaderData();
+  const data = useLoaderData();
+
+  const post = data.postResponse.data;
+  //null혹은 undefined면 generateChatUUID생성
+  // const chatUUID = data.chatUUIDResponse.data.chatUUID || generateChatUUID();
+
+  console.log('post', post);
+  // console.log('chatId', chatUUID);
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -311,6 +320,7 @@ function SinglePage() {
                   {
                       currentUser.id !== post.userId
                       && (
+                          // <Button className="message" onClick={() => navigate(`/messages/${chatUUID}`)}>
                           <Button className="message" onClick={() => navigate(`/messages/${post.userId}`)}>
                             메시지
                           </Button>

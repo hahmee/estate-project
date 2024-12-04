@@ -1,4 +1,5 @@
 import prisma from "../lib/prisma.js";
+import { randomUUID } from 'crypto';
 
 
 export const getChats = async (req, res) => {
@@ -10,6 +11,9 @@ export const getChats = async (req, res) => {
         userIDs: {
           hasSome: [tokenUserId],
         },
+      },
+      orderBy: {
+        lastChatAt: 'desc',
       },
     });
 
@@ -27,8 +31,9 @@ export const getChats = async (req, res) => {
         },
       });
       chat.receiver = receiver;
-    }
 
+
+    }
     res.status(200).json(chats);
   } catch (err) {
     console.log(err);
@@ -143,6 +148,18 @@ export const getCheckByUser = async (req, res) => {
 
   try {
 
+    //url의 userId가 존재하는 회원인지 체크 (url에 아무거나 입력해서 들어올 수 있으므로)
+
+    const isValidUser = await prisma.user.findUnique({
+      where: {id: req.params.userId },
+    });
+
+    console.log('isValidUser', isValidUser);
+
+    if (!isValidUser) {
+      return res.status(400).json({ message: 'Invalid user' });  // 예외 던지지 않고 바로 응답 반환
+    }
+
     const chat = await prisma.chat.findFirst({
       where: {
         userIDs: {
@@ -158,7 +175,26 @@ export const getCheckByUser = async (req, res) => {
       },
     });
 
-    res.status(200).json(chat);
+
+    console.log('chat..', chat);
+    if(!chat) {
+      //채팅 내역 없으면 채팅방 만든다.
+      const newChat = await prisma.chat.create({
+        data: {
+          userIDs: userIDs,
+          chatUUID: generateChatUUID(),
+        },
+      });
+
+      res.status(200).json(newChat);
+
+    }else{
+      res.status(200).json(chat);
+
+    }
+
+
+    //chat 가 없을땐?
 
   } catch (err) {
     console.log(err);
@@ -260,3 +296,46 @@ export const readChat = async (req, res) => {
     res.status(500).json({ message: "Failed to read chat!" });
   }
 };
+
+
+// userid로 Chat 아이디 찾기
+export const getChatUUID = async (req, res) => {
+  const tokenUserId = req.userId; //현재 접속자 아이디
+  const userIDs = [tokenUserId, req.params.userId].sort();
+
+  try {
+
+    const chat = await prisma.chat.findFirst({
+      where: {
+        userIDs: {
+          hasEvery: userIDs, //Every value exists in the list.
+        },
+      },
+      include: {
+        messages: {
+          orderBy: {
+            createdAt: "asc",
+          },
+        },
+      },
+    });
+    console.log('chat', chat);
+
+    if(chat){
+      res.status(200).json({chatId: chat.chatUUID});
+
+    }else{ //채팅방이 없다면 null 반환
+      res.status(200).json({chatId: null});
+    }
+
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message: "Failed to get chat id!"});
+  }
+};
+
+
+function generateChatUUID() {
+  return randomUUID();
+}

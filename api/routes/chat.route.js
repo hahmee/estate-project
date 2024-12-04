@@ -2,7 +2,7 @@ import express from "express";
 import {
     addChat,
     getChat,
-    getChatByUserId,
+    getChatByUserId, getChatUUID,
     getChats,
     getCheckByUser,
     readChat,
@@ -14,6 +14,7 @@ const router = express.Router();
 router.get("/", verifyToken, getChats);
 router.get("/userId/:userId", verifyToken, getChatByUserId);
 router.get("/checkUserId/:userId", verifyToken, getCheckByUser);
+router.get("/chatUUID/:userId", verifyToken, getChatUUID);
 
 router.get("/:id", verifyToken, getChat);
 router.post("/", verifyToken, addChat);

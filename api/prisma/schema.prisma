@@ -114,6 +114,7 @@ model User {
   savedPosts    SavedPost[]
   chats         Chat[]      @relation(fields: [chatIDs], references: [id])
   chatIDs       String[]    @db.ObjectId
+
 }
 
 
@@ -128,6 +129,7 @@ enum ExternalType {
 
 model Chat {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  chatUUID  String
   users     User[]    @relation(fields: [userIDs], references: [id])
   userIDs   String[]  @db.ObjectId
   createdAt DateTime  @default(now())
@@ -135,6 +137,9 @@ model Chat {
   seenBy    String[]  @db.ObjectId
   messages  Message[]
   lastMessage String?
+
+  @@unique([chatUUID, createdAt])
+
 }
 
 model Message {

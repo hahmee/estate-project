@@ -16,35 +16,20 @@ function MessagePage() {
     const navigate = useNavigate();
     const [conversations, setConversations] = useState([]);
     const [currentConversation, setCurrentConversation] = useState(null); // 현재 누른
-    const [receiver, setReceiver] = useState(data.resUserResponse?.data || null);
+    const [receiver, setReceiver] = useState(data.resWriterPromise?.data || null);
     const [messages, setMessages] = useState([]);
     const scrollRef = useRef();
     const {socket} = useContext(SocketContext);
     const {currentUser} = useContext(AuthContext);
+    console.log('currentConversation', currentConversation);
 
-    console.log('conversations', conversations);
-    console.log('messages', messages);
-
+    // 원하는 채팅창을 클릭한다.
     const clickConversation = useCallback(async (currentConversation) => {
         setCurrentConversation(currentConversation);
         //path variable 변경
         navigate('/messages/' + currentConversation.receiver.id);
 
-    }, []);
-
-    // useEffect(() => {
-    //     console.log('??', currentConversation);
-    //     const getMessages = async () => {
-    //         try {
-    //             const res = await apiRequest.get("/chats/userId/" + userId);
-    //             console.log('res', res);
-    //             setMessages(res.data?.messages);
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-    //     };
-    //     currentConversation && getMessages();
-    // }, [currentConversation]);
+    }, [currentConversation]);
 
 
     const handleSubmit = async (e) => {
@@ -57,32 +42,19 @@ function MessagePage() {
 
         try {
 
-            if(!currentConversation.id) { //완전 처음
-                //chat 추가
-                const chatRes = await apiRequest.post("/chats", {
-                    receiverId: currentConversation.receiver.id
-                });
-                const res = await apiRequest.post("/messages/" + chatRes.data.id, {text});
-                setMessages([res.data.message]);
-                setCurrentConversation(chatRes.data);
+            const res = await apiRequest.post("/messages/" + currentConversation.id, {text});
+            console.log('res', res);
+            setMessages([...messages, res.data.message]);
+            const updatedChat = res.data.chat;
 
+            const targetId = updatedChat.id;
 
-            } else { //채팅 내역 있음
-                const res = await apiRequest.post("/messages/" + currentConversation.id, {text});
+            //res의 chat의 Id가 가장 상단에 있어야 함
+            const reorderedConversations = conversations.sort((a, b) => (a.id === targetId ? -1 : b.id === targetId ? 1 : 0));
+            //
+            console.log('reorderedConversations', reorderedConversations);
+            setConversations(reorderedConversations);
 
-                setMessages([...messages, res.data.message]);
-                const updatedChat = res.data.chat;
-
-                const targetId = updatedChat.chatId;
-                // console.log('targetId', targetId);
-                //res의 chatId가 가장 상단에 있어야 함
-
-                const reorderedConversations = conversations.sort((a, b) => (a.id === targetId ? -1 : b.id === targetId ? 1 : 0));
-                //
-                // console.log('reorderedConversations', reorderedConversations);
-                setConversations(reorderedConversations);
-
-            }
 
             e.target.reset();
             //이거 해야함 (왜?)
@@ -103,24 +75,17 @@ function MessagePage() {
 
     useEffect(() => {
         const initializeChat = () => {
-            const { resChatsResponse, resUserResponse, isChatExistResponse } = data;
+            const {resChatListResponse, resChatResponse} = data;
+            console.log('resChatResponse', resChatResponse)
+            console.log('resChatListResponse', resChatListResponse)
 
-            if (isChatExistResponse.data) { // 채팅 내역 존재
-                const existingConversations = [...resChatsResponse.data];
-                setConversations(resChatsResponse.data);
-                setCurrentConversation(existingConversations.find(chat => chat.receiver.id === userId));
-                setMessages(isChatExistResponse.data?.messages);
-            } else { //새로운 채팅
-                const newConversation = {
-                    receiver: {
-                        id: resUserResponse.data.id,
-                        username: resUserResponse.data.username,
-                        avatar: resUserResponse.data.avatar,
-                    },
-                };
-                setConversations([...resChatsResponse.data, newConversation]);
-                setCurrentConversation(newConversation);
-            }
+            const existingConversations = [...resChatListResponse.data];
+
+            setConversations(resChatListResponse.data);
+            console.log('existingConversations', existingConversations);
+            setCurrentConversation(existingConversations.find(chat => chat.receiver.id === userId)); //받는사람이 게시글쓴사람과 같은게 현재
+            setMessages(resChatResponse.data.messages || []);
+
         };
 
         initializeChat();
@@ -164,23 +129,26 @@ function MessagePage() {
                     {currentConversation ? (
                         <>
                             <div className="chat__messages">
-                                {messages?.map((m) => (
-                                    <div
-                                        ref={scrollRef}
-                                        key={m.id}
-                                        className="chat__message"
-                                    >
-                                        <Message
-                                            message={m}
-                                            own={m.userId === currentUser.id}
-                                            avatar={
-                                                m.userId === currentUser.id
-                                                    ? currentUser.avatar
-                                                    : currentConversation.receiver.avatar
-                                            }
-                                        />
-                                    </div>
-                                ))}
+                                {messages && messages.length > 0 ?
+                                    messages.map((m) => (
+                                        <div
+                                            ref={scrollRef}
+                                            key={m.id}
+                                            className="chat__message"
+                                        >
+                                            <Message
+                                                message={m}
+                                                own={m.userId === currentUser.id}
+                                                avatar={
+                                                    m.userId === currentUser.id
+                                                        ? currentUser.avatar
+                                                        : currentConversation.receiver.avatar
+                                                }
+                                            />
+                                        </div>
+                                    ))
+
+                                    : "아직 진행중인 대화가 없습니다."}
                             </div>
 
                         </>
