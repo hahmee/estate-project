@@ -32,13 +32,15 @@ function MenuDropdown(props) {
         return null;
     }
 
-    return <div className={`dropdown`} onClick={e => e.stopPropagation()}>
-        <ul>
-            <li onClick={() => navigate("/profile")}>프로필</li>
-            <li onClick={() => navigate("/messages")}>메시지</li>
-            <li onClick={() => navigate("/wish")}>위시리스트</li>
-            <li onClick={handleLogout}>로그아웃</li>
-        </ul>
+    return <div className="modal-wrapper" onClick={closeMenu}>
+        <div className={`modal-content`} onClick={e => e.stopPropagation()}>
+            <ul>
+                <li onClick={() => navigate("/profile")}>프로필</li>
+                <li onClick={() => navigate("/messages")}>메시지</li>
+                <li onClick={() => navigate("/wish")}>위시리스트</li>
+                <li onClick={handleLogout}>로그아웃</li>
+            </ul>
+        </div>
     </div>;
 }
 

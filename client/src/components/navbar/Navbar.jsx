@@ -88,7 +88,7 @@ export const SEARCH_BY_KOREA = [
 function Navbar({isSearchBar}) {
 
     const {scrollTop, changeScrollTop, changeFixedNavbar, changeIsDropDown, isDropdown} = useContext(NavbarContext);
-    const {currentUser, updateUser} = useContext(AuthContext);
+    const {currentUser} = useContext(AuthContext);
     const {searchValue, changeSearchValue, clearSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
     const number = useNotificationStore((state) => state.number);
@@ -244,13 +244,16 @@ function Navbar({isSearchBar}) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const closeMenu = () => {
+        console.log('closeMenu')
         // setIsDropdownOpen(prevState => !prevState);
         setIsDropdownOpen(false);
     };
 
-    const openMenu = () => {
-        // setIsDropdownOpen(prevState => !prevState);
-        setIsDropdownOpen(true);
+    const toggleMenu = () => {
+        console.log('openMenu')
+
+        setIsDropdownOpen(prevState => !prevState);
+        // setIsDropdownOpen(true);
     };
 
 
@@ -341,19 +344,21 @@ function Navbar({isSearchBar}) {
                             currentUser && (
                                 <div className="user">
                                     <Button onClick={() => navigate("/location")}>포스팅하기</Button>
-                                    <div className="profile" onClick={openMenu}>
-                                        {number > 0 && <div className="notification">{number}</div>}
-                                        <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar"/>
-                                        <span>{currentUser.username}</span>
+                                    <div className="profile">
+                                        {number > 0 && <div className="notification" onClick={toggleMenu}>{number}</div>}
+                                        <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar" onClick={toggleMenu}/>
+                                        <span onClick={toggleMenu}>{currentUser.username}</span>
                                         {
                                             isDropdownOpen ?
-                                                <span className="material-symbols-outlined icon">keyboard_arrow_up</span>
+                                                <span className="material-symbols-outlined icon"
+                                                      onClick={toggleMenu}>keyboard_arrow_up</span>
                                                 :
-                                                <span className="material-symbols-outlined icon">keyboard_arrow_down</span>
+                                                <span className="material-symbols-outlined icon"
+                                                      onClick={toggleMenu}>keyboard_arrow_down</span>
                                         }
 
                                         {/* 드롭다운 메뉴 */}
-                                         <MenuDropdown isDropdownOpen={isDropdownOpen} closeMenu={closeMenu}/>
+                                        <MenuDropdown isDropdownOpen={isDropdownOpen} closeMenu={closeMenu}/>
 
                                     </div>
                                 </div>
