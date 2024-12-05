@@ -6,48 +6,64 @@ const io = new Server({
   },
 });
 
-let onlineUser = [];
-console.log('onlineUser', onlineUser);
+let onlineUsers = [];
 
 const addUser = (userId, socketId) => {
   console.log('addUser', userId);
-  const userExits = onlineUser.find((user) => user.userId === userId);
+  const userExits = onlineUsers.find((user) => user.userId === userId);
   if (!userExits) {
-    onlineUser.push({ userId, socketId });
+    onlineUsers.push({ userId, socketId });
   }
-  console.log('onlineUser',onlineUser)
 };
 
 const removeUser = (socketId) => {
-  onlineUser = onlineUser.filter((user) => user.socketId !== socketId);
+  onlineUsers = onlineUsers.filter((user) => user.socketId !== socketId);
 };
 
 const getUser = (userId) => {
-  console.log('getUser', userId);
-  console.log('onlineUser', onlineUser);
-  return onlineUser.find((user) => user.userId === userId);
+  return onlineUsers.find((user) => user.userId === userId);
 };
 
 io.on("connection", (socket) => {
   socket.on("newUser", (userId) => {
-    console.log('newUser',userId)
     addUser(userId, socket.id);
   });
 
   socket.on("sendMessage", ({receiverId, data}) => {
-    console.log('receiverId', receiverId);
-    console.log('data', data);
     const receiver = getUser(receiverId);
-    console.log('receiver', receiver);
 
     if(receiver) {
       io.to(receiver.socketId).emit("getMessage", data);
     }
   });
 
+  // 특정 userId가 온라인인지 확인하는 요청 처리
+  socket.on("checkUserOnline", ({userId}, callback) => {
+    console.log('checkUserOnline')
+    if(!userId) {
+      callback(false); // 안전하게 `false` 반환
+      return;
+    }
+    console.log('userId', userId);
+
+    const onlineUserId = getUser(userId);
+
+    if(onlineUserId) {
+      callback(true);
+    }else{
+      callback(false);
+
+    }
+    //
+    // console.log('onlineUserId', onlineUserId);
+    // console.log(`Checking online status for user: ${userId} - ${onlineUserId}`);
+    // callback(onlineUserId); // 클라이언트로 결과 반환
+  });
+
   socket.on("disconnect", () => {
     removeUser(socket.id);
   });
+
 });
 
 io.listen("4000");

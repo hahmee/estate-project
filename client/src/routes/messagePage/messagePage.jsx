@@ -1,7 +1,7 @@
 import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import "./messagePage.scss";
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
-import ChatList from "../../components/message/ChatList.jsx";
+import ChatItem from "../../components/message/ChatItem.jsx";
 import Message from "../../components/message/Message.jsx";
 import apiRequest from "../../lib/apiRequest.js";
 import {SocketContext} from "../../context/SocketContext.jsx";
@@ -46,8 +46,6 @@ function MessagePage() {
             reorderConversations(updatedChat.id, text);
 
             e.target.reset();
-
-
 
             socket.emit("sendMessage", {
                 receiverId: currentConversation.receiver.id,
@@ -102,39 +100,6 @@ function MessagePage() {
 
     };
 
-    // useEffect(() => {
-    //     console.log('socket..')
-    //     if(socket) {
-    //         socket.on("getMessage", (data) => {
-    //             console.log('?', data); //message
-    //
-    //             console.log('converstations', conversations); //빈칸일 수 있음 .
-    //
-    //             if(conversations && conversations < 1) { //빈칸이라면
-    //                 //가져온다.
-    //                 const res = await apiRequest.get("/chats");
-    //                 console.log('res', res.data);
-    //                 setConversations(res.data);
-    //
-    //             }
-    //             // converstations 순서 첫번째로 변경 및 lastMessage 변경
-    //             reorderConversations(data.chatId, data.text);
-    //
-    //             if (currentConversation && currentConversation.id === data.chatId) {
-    //                 console.log('getMessage...', data)
-    //                 setMessages((prev) => [...prev, data]);
-    //                 // read();
-    //             }
-    //         });
-    //     }
-    //
-    //     return () => {
-    //         socket.off("getMessage");
-    //     };
-    //
-    //
-    // }, [socket, currentConversation]);
-
 
     useEffect(() => {
         console.log("socket..");
@@ -188,7 +153,7 @@ function MessagePage() {
                             <div>채팅 리스트가 없습니다.</div>
                             :
                             conversations.map((c, idx) => (
-                                <ChatList
+                                <ChatItem
                                     key={idx}
                                     conversation={c}
                                     clickConversation={clickConversation}
