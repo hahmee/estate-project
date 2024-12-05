@@ -31,6 +31,10 @@ function ProfilePage() {
       if(currentUser.externalType == 'google') {
         googleLogout();
       }
+
+
+
+
       toast.info('로그아웃 되었습니다.');
       // navigate("/login");
     } catch (err) {

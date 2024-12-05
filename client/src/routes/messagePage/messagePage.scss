@@ -46,22 +46,6 @@
 
   }
 
-  &__receiver {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    &-avatar {
-      width: 40px;
-      height: 40px;
-    }
-
-    &-username {
-      font-weight: 700;
-    }
-  }
-
-
   &__wrapper {
     display: flex;
     flex-direction: column;

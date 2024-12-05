@@ -1,0 +1,38 @@
+@import "../../main.scss";
+.profile {
+
+  &__header {
+    position: relative;
+    background-color: #FF385C;
+  }
+  &__avatar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+
+  }
+
+  &__status {
+    right: 0;
+    position: absolute;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+
+    &.--online {
+      background-color: $success-color;
+    }
+
+    &.--offline {
+      background-color: $offline-color;
+    }
+
+  }
+
+  &__username {
+    font-weight: 700;
+  }
+}

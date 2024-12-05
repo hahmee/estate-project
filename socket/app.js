@@ -39,25 +39,47 @@ io.on("connection", (socket) => {
 
   // 특정 userId가 온라인인지 확인하는 요청 처리
   socket.on("checkUserOnline", ({userId}, callback) => {
-    console.log('checkUserOnline')
     if(!userId) {
       callback(false); // 안전하게 `false` 반환
       return;
     }
-    console.log('userId', userId);
+    const isOnline = !!getUser(userId); // getUser(userId) 결과를 boolean으로 변환
+    callback(isOnline); // 결과를 callback으로 반환
 
-    const onlineUserId = getUser(userId);
+  });
 
-    if(onlineUserId) {
-      callback(true);
-    }else{
-      callback(false);
+  // 특정 userId가 온라인인지 확인하는 요청 처리
+  socket.on("checkUserListOnline", ({users}, callback) => {
+    console.log('checkUserListOnline', users);
 
-    }
+    // const updatedUsers = users.map((user) => {
+    //   console.log('user.receiver.id', user.receiver.id);
+    //   const onlineUserId = getUser(user.receiver.id); // 현재 온라인 여부 확인
     //
-    // console.log('onlineUserId', onlineUserId);
-    // console.log(`Checking online status for user: ${userId} - ${onlineUserId}`);
-    // callback(onlineUserId); // 클라이언트로 결과 반환
+    //   console.log('onlineUserId', onlineUserId);
+    //   return {...user, receiver: {...user.receiver, isOnline: !!onlineUserId}}; // onlineUserId가 존재하면 true, 없으면 false
+    // });
+    //
+    // // 결과를 클라이언트로 반환
+    // callback(updatedUsers);
+
+
+    // 새로운 유저 리스트 생성 (isOnline 상태 추가)
+    const updatedUsers = users.map((user) => {
+      const onlineUserId = getUser(user.id); // 현재 온라인 여부 확인
+      return { ...user, isOnline: !!onlineUserId }; // onlineUserId가 존재하면 true, 없으면 false
+    });
+
+    console.log("Updated Users List:", updatedUsers);
+
+    // 결과를 클라이언트로 반환
+    callback(updatedUsers);
+
+  });
+
+
+  socket.on("logout", () => {
+    removeUser(socket.id);
   });
 
   socket.on("disconnect", () => {

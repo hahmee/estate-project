@@ -5,12 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/profile/Profile.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/profile/profile.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/ChatList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/ChatList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/chatList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/chatList.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/context/AuthContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/AuthContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/menuDropdown/MenuDropdown.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/menuDropdown/MenuDropdown.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/message/ChatItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/ChatItem.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profilePage/profilePage2.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/socket/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/socket/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -155,7 +157,8 @@
       <workItem from="1733291296678" duration="9012000" />
       <workItem from="1733301456976" duration="17909000" />
       <workItem from="1733320395974" duration="8252000" />
-      <workItem from="1733361102484" duration="14718000" />
+      <workItem from="1733361102484" duration="25946000" />
+      <workItem from="1733389091432" duration="1624000" />
     </task>
     <servers />
   </component>

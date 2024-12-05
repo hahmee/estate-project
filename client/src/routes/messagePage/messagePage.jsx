@@ -8,6 +8,7 @@ import {SocketContext} from "../../context/SocketContext.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import Button from "../../UI/Button.jsx";
 import {toast} from "react-toastify";
+import Profile from "../../components/profile/Profile.jsx";
 
 function MessagePage() {
     const data = useLoaderData();
@@ -19,6 +20,7 @@ function MessagePage() {
     const scrollRef = useRef();
     const {socket} = useContext(SocketContext);
     const {currentUser} = useContext(AuthContext);
+    const [isUserOnline, setIsUserOnline] = useState(false);
 
     // 원하는 채팅창을 클릭한다.
     const clickConversation = useCallback(async (currentConversation) => {
@@ -61,24 +63,27 @@ function MessagePage() {
         scrollRef.current?.scrollIntoView({behavior: "smooth",block: "nearest",});
     }, [messages]);
 
+    useEffect(() => {
+        console.log('conversations..', conversations);
+    }, [conversations]);
 
     useEffect(() => {
+        console.log('initializeChat');
         const initializeChat = () => {
             const {resChatListResponse, resChatResponse} = data;
-            console.log('resChatListResponse',resChatListResponse)
             const existingConversations = [...resChatListResponse.data];
 
             setConversations(resChatListResponse.data);
 
-            if(!userId) {
+            if (!userId) {
                 setCurrentConversation(null);
-            }else {
+            } else {
                 setCurrentConversation(existingConversations.find(chat => chat.receiver.id === userId)); //받는사람이 게시글쓴사람과 같은게 현재
             }
 
-            if(resChatResponse) {
+            if (resChatResponse) {
                 setMessages(resChatResponse.data.messages || [])
-            }else{
+            } else {
                 setMessages([]);
             }
 
@@ -90,57 +95,100 @@ function MessagePage() {
 
     //targetId를 찾아서 해당하는 대화창을 1번째로 정렬 및 lastMessage 변경한다.
     const reorderConversations = (targetId, lastMessage) => {
-        console.log('lastMessage',lastMessage)
         //conversations를 복사하여 새로운 배열을 생성한 후 정렬하면 React가 상태 변화를 감지가능
         const reorderedConversations = [...conversations].sort((a, b) => a.id === targetId ? -1 : b.id === targetId ? 1 : 0
         );
-        console.log('reorderedConversations', reorderedConversations);
         reorderedConversations[0].lastMessage = lastMessage;
         setConversations(reorderedConversations);
 
     };
 
+    //비어있으면 서버에서 데이터 가져온다.
+    const checkConversationEmpty = async () => {
+        if (conversations && conversations.length < 1) {
+            // 빈칸이라면
+            try {
+                const res = await apiRequest.get("/chats");
+                setConversations(res.data);
+            } catch (error) {
+                console.error("Failed to fetch conversations:", error);
+                toast.error((error).message);
+            }
+        }
+    };
 
     useEffect(() => {
-        console.log("socket..");
 
         const handleSocketMessage = async (data) => {
-            console.log("?", data); // message
-            console.log("conversations", conversations); // 빈칸일 수 있음
-
-            if (conversations && conversations.length < 1) {
-                // 빈칸이라면
-                try {
-                    const res = await apiRequest.get("/chats");
-                    console.log("res", res.data);
-                    setConversations(res.data);
-                } catch (error) {
-                    console.error("Failed to fetch conversations:", error);
-                    toast.error((error).message);
-                }
-            }
-
+            console.log('handleSocketMessage', handleSocketMessage);
+            //conversation이 비어있으면 서버에서 데이터 가져온다.
+            await checkConversationEmpty();
             // conversations 순서 첫번째로 변경 및 lastMessage 변경
             reorderConversations(data.chatId, data.text);
-
             if (currentConversation && currentConversation.id === data.chatId) {
-                console.log("getMessage...", data);
                 setMessages((prev) => [...prev, data]);
                 // read();
             }
         };
 
+        const fetchData = async () => {
+            await checkConversationEmpty(); // 의존성배열에 conversation 넣지 않았더니 setState로 변경한 거 감지가 안됨
+            console.log('conversations2', conversations);
+            //conversations 빈칸 출력
+            userId && socket.emit("checkUserOnline", {userId}, (isOnline) => {
+                setIsUserOnline(isOnline);
+            });
+
+            //conversations리스트들의 online상태 가져온다.
+            if (conversations && conversations.length > 0) {
+                const users = conversations.map((data) => {
+                    return {
+                        ...data.receiver,
+                        chatId: data.id //추가했음
+                    };
+                });
+
+                socket.emit("checkUserListOnline", {users}, (updatedUsers) => {
+                    //이중포문 대신, updatedUsers를 Map으로 변환하여 검색을 빠르게
+                    const updatedUsersMap = new Map(updatedUsers.map(user => [user.chatId, user]));
+
+                    // conversations를 업데이트합
+                    const updatedConversations = conversations.map(conversation => {
+                        const updatedUser = updatedUsersMap.get(conversation.id); // chatId와 conversation.id 매칭
+                        if (updatedUser) {
+                            return {
+                                ...conversation,
+                                receiver: {
+                                    ...conversation.receiver,
+                                    ...updatedUser, // updatedUser로 receiver 업데이트
+                                },
+                            };
+                        }
+                        return conversation; // 매칭되는 updatedUser가 없으면 그대로 반환
+                    });
+
+                    // 하지만 의존성 배열에 conversations를 넣으면 무한루프돈다...
+                    setConversations(updatedConversations); //현재 online상태인지까지 포함해서 conversations에 저장
+                });
+            }
+        };
+
         if (socket) {
+
             socket.on("getMessage", handleSocketMessage);
+
+            fetchData();
+
         }
 
         return () => {
             if (socket) {
                 socket.off("getMessage", handleSocketMessage);
+                socket.off("checkUserOnline");
+                socket.off("checkUserListOnline"); // 왼쪽 chatList 의 유저들 온라인 상태인지 확인한다.
             }
         };
-    }, [socket, conversations, currentConversation]);
-
+    }, [socket, currentConversation, userId]);
 
 
     return (
@@ -168,16 +216,7 @@ function MessagePage() {
                 <div className="chat__header">
                     {currentConversation && (
                         <div className="chat__receiver">
-                            <img
-                                src={
-                                    currentConversation.receiver.avatar || "/noavatar.jpg"
-                                }
-                                alt="avatar"
-                                className="chat__receiver-avatar"
-                            />
-                            <div className="chat__receiver-username">
-                                {currentConversation.receiver.username}
-                            </div>
+                           <Profile receiver={currentConversation.receiver} isOnline={isUserOnline}/>
                         </div>
                     )}
                 </div>
