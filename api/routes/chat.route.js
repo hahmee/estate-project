@@ -4,7 +4,7 @@ import {
     getChat,
     getChatByUserId, getChatUUID,
     getChats,
-    getCheckByUser,
+    getChatOrMakeChat,
     readChat,
 } from "../controllers/chat.controller.js";
 import {verifyToken} from "../middleware/verifyToken.js";
@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get("/", verifyToken, getChats);
 router.get("/userId/:userId", verifyToken, getChatByUserId);
-router.get("/checkUserId/:userId", verifyToken, getCheckByUser);
+router.get("/getChatOrMakeChat/:userId", verifyToken, getChatOrMakeChat);
 router.get("/chatUUID/:userId", verifyToken, getChatUUID);
 
 router.get("/:id", verifyToken, getChat);

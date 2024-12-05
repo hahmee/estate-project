@@ -1,21 +1,16 @@
 import prisma from "../lib/prisma.js";
 
 export const addMessage = async (req, res) => {
-  console.log('add')
   const tokenUserId = req.userId;
   const chatId = req.params.chatId;
   const text = req.body.text;
+
+  console.log('add - tokenUserId', tokenUserId);
 
   try {
     const chat = await prisma.chat.findUnique({
       where: {
         id: chatId,
-        // userIDs: {
-        //   hasSome: [tokenUserId],
-        // },
-        // userIDs: {
-        //   hasSome: [tokenUserId],
-        // },
       },
     });
 
@@ -34,7 +29,9 @@ export const addMessage = async (req, res) => {
         id: chatId,
       },
       data: {
-        seenBy: [tokenUserId],
+        seenBy: {
+          push: [tokenUserId],
+        },
         lastMessage: text,
         lastChatAt: new Date(), // 현재 시간으로 업데이트
       },

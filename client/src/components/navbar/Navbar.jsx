@@ -244,13 +244,11 @@ function Navbar({isSearchBar}) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const closeMenu = () => {
-        console.log('closeMenu')
         // setIsDropdownOpen(prevState => !prevState);
         setIsDropdownOpen(false);
     };
 
     const toggleMenu = () => {
-        console.log('openMenu')
 
         setIsDropdownOpen(prevState => !prevState);
         // setIsDropdownOpen(true);
@@ -294,7 +292,6 @@ function Navbar({isSearchBar}) {
     }, [prevLocation]);
 
     useEffect(() => {
-        console.log('??')
         return () => clearSearchValue(); //에러나서 우선 주석
     }, []);
 

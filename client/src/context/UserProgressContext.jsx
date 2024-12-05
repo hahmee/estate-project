@@ -87,8 +87,6 @@ export const UserProgressContextProvider = ({ children }) => {
         });
     };
 
-    console.log('tex', text);
-    console.log('fianl', userProgress);
 
     const userProgressCtx = useMemo(() => ({
         progress: userProgress,

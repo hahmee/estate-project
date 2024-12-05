@@ -1,7 +1,7 @@
 import prisma from "../lib/prisma.js";
 import { randomUUID } from 'crypto';
 
-
+//채팅방 리스트 (왼쪽) 가져온다.
 export const getChats = async (req, res) => {
   const tokenUserId = req.userId;
 
@@ -101,21 +101,19 @@ export const getChats = async (req, res) => {
 
 export const getChatByUserId = async (req, res) => {
   const tokenUserId = req.userId; //현재 접속자 아이디
-  console.log('tokenUserId', tokenUserId);
-  console.log('req.params.id', req.params.userId); // 받는사람 ID
   const userIDs = [tokenUserId, req.params.userId].sort();
 
   try {
-    // await prisma.chat.update({
-    //   where: {
-    //     userIDs: userIDs,
-    //   },
-    //   data: {
-    //     seenBy: {
-    //       push: [tokenUserId],
-    //     },
-    //   },
-    // });
+    await prisma.chat.update({
+      where: {
+        userIDs: userIDs,
+      },
+      data: {
+        seenBy: {
+          push: [tokenUserId],
+        },
+      },
+    });
 
     const chat = await prisma.chat.findFirst({
       where: {
@@ -141,8 +139,8 @@ export const getChatByUserId = async (req, res) => {
 };
 
 
-//Chat 모델에 내역이 있는지 확인
-export const getCheckByUser = async (req, res) => {
+//이 사람이랑 대화했던 내역이 없으면 채팅방만 만든다. 있으면 가져온다.
+export const getChatOrMakeChat = async (req, res) => {
   const tokenUserId = req.userId; //현재 접속자 아이디
   const userIDs = [tokenUserId, req.params.userId].sort();
 
@@ -153,8 +151,6 @@ export const getCheckByUser = async (req, res) => {
     const isValidUser = await prisma.user.findUnique({
       where: {id: req.params.userId },
     });
-
-    console.log('isValidUser', isValidUser);
 
     if (!isValidUser) {
       return res.status(400).json({ message: 'Invalid user' });  // 예외 던지지 않고 바로 응답 반환
@@ -175,10 +171,8 @@ export const getCheckByUser = async (req, res) => {
       },
     });
 
-
-    console.log('chat..', chat);
     if(!chat) {
-      //채팅 내역 없으면 채팅방 만든다.
+      //채팅방 없으면 채팅방 만든다.
       const newChat = await prisma.chat.create({
         data: {
           userIDs: userIDs,
@@ -189,18 +183,44 @@ export const getCheckByUser = async (req, res) => {
       res.status(200).json(newChat);
 
     }else{
+      //chat의 seenBy에 현재 접속자 표시한다.
+      //Message에 해당하는 Chat이 있다면, Chat의 seenBy에 현재 접속자를 push 한다.
+      const isMessageExist = await prisma.message.findFirst({
+        where: {
+          chatId: chat.id,
+        },
+      });
+
+      console.log('isMessageExist', isMessageExist);
+
+      //message가 하나라도 있다면
+      if(isMessageExist){
+        //현재 접속자 Chat 봤다고 표시하기
+        await updateSeenBy(chat, tokenUserId)
+      }
       res.status(200).json(chat);
-
     }
-
-
-    //chat 가 없을땐?
 
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Failed to get chat!" });
   }
 };
+
+const updateSeenBy = async (chat, tokenUserId)  => {
+  //현재 접속자 Chat 봤다고 표시하기
+  await prisma.chat.update({
+    where: {
+      id: chat.id,
+    },
+    data: {
+      seenBy: {
+        push: [tokenUserId],
+      },
+    },
+  });
+
+}
 
 //chat ID로 조회한다.
 export const getChat = async (req, res) => {
@@ -278,7 +298,12 @@ export const getChat = async (req, res) => {
 };
 
 export const readChat = async (req, res) => {
-  const tokenUserId = req.userId;
+  console.log('??');
+  const tokenUserId = req.userId; //현재 접속자 아이디
+
+  console.log('tokenUserId', tokenUserId);
+  console.log('req.params.id', req.params.id);
+
   try {
     const chat = await prisma.chat.update({
       where: {
@@ -286,7 +311,7 @@ export const readChat = async (req, res) => {
       },
       data: {
         seenBy: {
-          set: [tokenUserId],
+          push: [tokenUserId],
         },
       },
     });
