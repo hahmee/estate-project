@@ -160,21 +160,22 @@ export const getUnreadChatNumber = async (req, res) => {
   const tokenUserId = req.userId;
 
   try {
-    const number = await prisma.chat.count({
-      where: {
-        userIDs: {
-          hasSome: [tokenUserId],
-        },
-        NOT: {
-          seenBy: {
-            hasSome: [tokenUserId],
-          },
-        },
-      },
-    });
-
-    console.log('number..임니다', number);
-    return res.status(200).json(number);
+    // const number = await prisma.chat.count({
+    //   where: {
+    //     chatId: "chatId", // 채팅방 ID
+    //     userIDs: {
+    //       hasSome: [tokenUserId],
+    //     },
+    //     NOT: {
+    //       seenBy: {
+    //         hasSome: [tokenUserId],
+    //       },
+    //     },
+    //   },
+    // });
+    //
+    // console.log('number..임니다', number);
+    return res.status(200).json(0);
   } catch (err) {
     res.status(500).json({ message: "프로필 정보를 가져오는데 실패했습니다." });
   }

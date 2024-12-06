@@ -19,7 +19,7 @@ function ChatItem({chat, clickChat}) {
                 <div className="conversation__username">{chat.receiver.username}</div>
                 <div className="conversation__message">{chat.lastMessage}</div>
             </div>
-            <span className="conversation__count"></span>
+            <span className="conversation__count">{chat.unreadMessagesCount}</span>
         </div>
     );
 }

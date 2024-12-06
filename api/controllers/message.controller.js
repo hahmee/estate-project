@@ -1,5 +1,7 @@
 import prisma from "../lib/prisma.js";
+import {updateRead} from "./chat.controller.js";
 
+//메지시를 추가한다.
 export const addMessage = async (req, res) => {
   const tokenUserId = req.userId;
   const chatId = req.params.chatId;
@@ -27,13 +29,14 @@ export const addMessage = async (req, res) => {
         id: chatId,
       },
       data: {
-        seenBy: {
-          push: [tokenUserId],
-        },
         lastMessage: text,
         lastChatAt: new Date(), // 현재 시간으로 업데이트
       },
     });
+
+
+    await updateRead(chatId, tokenUserId);
+     //읽었다고도 표시한다.
 
     res.status(200).json({message: message, chat: updatedChat});
   } catch (err) {

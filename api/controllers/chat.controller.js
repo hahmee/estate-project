@@ -17,132 +17,84 @@ export const getChats = async (req, res) => {
       },
     });
 
-    for (const chat of chats) {
-      const receiverId = chat.userIDs.find((id) => id !== tokenUserId);
+    const chatsWithUnreadMessagesAndReceiver = await Promise.all(
+        chats.map(async (chat) => {
+          const chatUser = await prisma.chatUser.findUnique({
+            where: {userId_chatId: {userId: tokenUserId, chatId: chat.id}},
+            select: {lastReadAt: true},
+          });
 
-      const receiver = await prisma.user.findUnique({
-        where: {
-          id: receiverId,
-        },
-        select: {
-          id: true,
-          username: true,
-          avatar: true,
-        },
-      });
-      chat.receiver = receiver;
+          // 기본값 설정: lastReadAt이 없으면 유효하지 않은 날짜 대신 Date(0)으로 처리
+          const lastReadAt = chatUser?.lastReadAt || new Date(0);
 
 
-    }
-    res.status(200).json(chats);
+          //안 읽은 메시지 카운트
+          const unreadMessagesCount = await prisma.message.count({
+            where: {
+              chatId: chat.id,
+              createdAt: {
+                gt: lastReadAt,
+              },
+              NOT: {
+                userId: tokenUserId, // 본인이 작성한 메시지는 제외
+              },
+            },
+          });
+
+          const receiverId = chat.userIDs.find((id) => id !== tokenUserId);
+
+          //수신자 정보
+          const receiver = await prisma.user.findUnique({
+            where: {
+              id: receiverId,
+            },
+            select: {
+              id: true,
+              username: true,
+              avatar: true,
+            },
+          });
+
+          return {
+            ...chat,
+            unreadMessagesCount,
+            receiver
+          };
+        })
+    );
+
+    //
+    // for (const chat of chats) {
+    //   const receiverId = chat.userIDs.find((id) => id !== tokenUserId);
+    //
+    //   const receiver = await prisma.user.findUnique({
+    //     where: {
+    //       id: receiverId,
+    //     },
+    //     select: {
+    //       id: true,
+    //       username: true,
+    //       avatar: true,
+    //     },
+    //   });
+    //
+    //   chat.receiver = receiver;
+    // }
+
+    // console.log('chats', chats);
+
+    res.status(200).json(chatsWithUnreadMessagesAndReceiver);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Failed to get chats!" });
   }
 };
-//
-// export const getChatByUserId = async (req, res) => {
-//   const tokenUserId = req.userId; //현재 접속자 아이디
-//
-//   try {
-//
-//     const chat = await prisma.chat.findUnique({
-//       where: {
-//         getByUserId:{
-//           user1Id: tokenUserId,
-//           user2Id: req.query.receiver
-//         }
-//       },
-//       include: {
-//         messages: {
-//           orderBy: {
-//             createdAt: "asc",
-//           },
-//         },
-//       },
-//     });
-//
-//     if(chat) {
-//       const receiver = await prisma.user.findUnique({
-//         where: {
-//           id: req.query.receiver,
-//         },
-//         select: {
-//           id: true,
-//           username: true,
-//           avatar: true,
-//         },
-//       });
-//       chat.receiver = receiver;
-//
-//
-//       await prisma.chat.update({
-//         where: {
-//           getByUserId: {
-//             user1Id: tokenUserId,
-//             user2Id: req.query.receiver
-//           }
-//         },
-//         data: {
-//           seenBy: {
-//             push: [tokenUserId],
-//           },
-//         },
-//       });
-//     }
-//
-//     res.status(200).json(chat);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ message: "Failed to get chat!" });
-//   }
-// };
 
-
-export const getChatByUserId = async (req, res) => {
-  const tokenUserId = req.userId; //현재 접속자 아이디
-  const userIDs = [tokenUserId, req.params.userId].sort();
-
-  try {
-    await prisma.chat.update({
-      where: {
-        userIDs: userIDs,
-      },
-      data: {
-        seenBy: {
-          push: [tokenUserId],
-        },
-      },
-    });
-
-    const chat = await prisma.chat.findFirst({
-      where: {
-        userIDs: {
-          hasEvery: userIDs, //Every value exists in the list.
-        },
-      },
-      include: {
-        messages: {
-          orderBy: {
-            createdAt: "asc",
-          },
-        },
-      },
-    });
-
-    res.status(200).json(chat);
-
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Failed to get chat!" });
-  }
-};
-
-
-//이 사람이랑 대화했던 내역이 없으면 채팅방만 만든다. 있으면 가져온다.
+//이 사람이랑 대화했던 내역이 없으면 채팅방만 만든다.
+// 대화내역이 있으면 가져온다.
 export const getChatOrMakeChat = async (req, res) => {
   const tokenUserId = req.userId; //현재 접속자 아이디
-  const userIDs = [tokenUserId, req.params.userId].sort();
+  const userIDs = [tokenUserId, req.params.userId].sort(); //나중에 여러명일 수 있음.
 
   try {
 
@@ -177,6 +129,12 @@ export const getChatOrMakeChat = async (req, res) => {
         data: {
           userIDs: userIDs,
           chatUUID: generateChatUUID(),
+          chatUsers: {
+            create: userIDs.map((userId) => ({
+              userId,
+              lastReadAt: new Date(),  // 각 사용자의 `lastReadAt`을 현재 시간으로 설정
+            })),
+          },
         },
       });
 
@@ -194,7 +152,7 @@ export const getChatOrMakeChat = async (req, res) => {
       //message가 하나라도 있다면
       if(isMessageExist){
         //현재 접속자 Chat 봤다고 표시하기
-        await updateSeenBy(chat, tokenUserId)
+        await updateRead(chat.id, tokenUserId)
       }
       res.status(200).json(chat);
     }
@@ -205,16 +163,17 @@ export const getChatOrMakeChat = async (req, res) => {
   }
 };
 
-const updateSeenBy = async (chat, tokenUserId)  => {
-  //현재 접속자 Chat 봤다고 표시하기
-  await prisma.chat.update({
+// 특정 사용자 Chat 봤다고 표시하기
+export const updateRead = async (chatId, userId)  => {
+  await prisma.chatUser.update({
     where: {
-      id: chat.id,
+      userId_chatId: {
+        chatId: chatId,  // 채팅방 ID
+        userId: userId,    // 사용자 ID
+      },
     },
     data: {
-      seenBy: {
-        push: [tokenUserId],
-      },
+      lastReadAt: new Date(), //현재 시간
     },
   });
 
@@ -257,62 +216,28 @@ export const getChat = async (req, res) => {
   }
 };
 
-
-  export const addChat = async (req, res) => {
-  const tokenUserId = req.userId;
-  const userIDs = [tokenUserId, req.body.receiverId].sort();
-
-
-  try {
-    const newChat = await prisma.chat.create({
-      data: {
-        userIDs: userIDs,
-      },
-    });
-
-    const receiverId = req.body.receiverId;
-
-    const receiver = await prisma.user.findUnique({
-      where: {
-        id: receiverId,
-      },
-      select: {
-        id: true,
-        username: true,
-        avatar: true,
-      },
-    });
-
-    newChat.receiver = receiver;
-
-    res.status(200).json(newChat);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Failed to add chat!" });
-  }
-};
-
-export const readChat = async (req, res) => {
-  const tokenUserId = req.userId; //현재 접속자 아이디
-
-
-  try {
-    const chat = await prisma.chat.update({
-      where: {
-        id: req.params.id,
-      },
-      data: {
-        seenBy: {
-          push: [tokenUserId],
-        },
-      },
-    });
-    res.status(200).json(chat);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Failed to read chat!" });
-  }
-};
+// export const readChat = async (req, res) => {
+//   const tokenUserId = req.userId; //현재 접속자 아이디
+//
+//   try {
+//     await updateRead(chat, tokenUserId);
+//
+//     // const chat = await prisma.chat.update({
+//     //   where: {
+//     //     id: req.params.id,
+//     //   },
+//     //   data: {
+//     //     seenBy: {
+//     //       push: [tokenUserId],
+//     //     },
+//     //   },
+//     // });
+//     res.status(200).json(chat);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ message: "Failed to read chat!" });
+//   }
+// };
 
 
 // userid로 Chat 아이디 찾기

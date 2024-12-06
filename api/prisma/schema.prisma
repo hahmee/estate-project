@@ -130,11 +130,11 @@ enum ExternalType {
 model Chat {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   chatUUID  String
+  chatUsers  ChatUser[]
   users     User[]    @relation(fields: [userIDs], references: [id])
   userIDs   String[]  @db.ObjectId
   createdAt DateTime  @default(now())
   lastChatAt DateTime  @default(now())
-  seenBy    String[]  @db.ObjectId
   messages  Message[]
   lastMessage String?
 
@@ -149,4 +149,15 @@ model Message {
   chat      Chat     @relation(fields: [chatId], references: [id])
   chatId    String   @db.ObjectId
   createdAt DateTime @default(now())
+}
+
+
+model ChatUser {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  chatId     String   @db.ObjectId
+  chat       Chat     @relation(fields: [chatId], references: [id])
+  userId     String   @db.ObjectId
+  lastReadAt  DateTime @default(now()) // 개별 사용자의 마지막 읽은 시간
+  @@unique([userId, chatId]) // 한 사용자는 한 채팅방에 한 번만 참여 가능
+
 }

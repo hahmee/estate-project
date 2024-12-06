@@ -10,9 +10,8 @@
       <change beforePath="$PROJECT_DIR$/api/controllers/message.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/message.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/user.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/api/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/routes/user.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/user.route.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/routes/chat.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/chat.route.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/message/ChatItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/ChatItem.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/notificationStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/notificationStore.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -160,7 +159,7 @@
       <workItem from="1733361102484" duration="25946000" />
       <workItem from="1733389091432" duration="1624000" />
       <workItem from="1733409445013" duration="4495000" />
-      <workItem from="1733451808113" duration="11847000" />
+      <workItem from="1733451808113" duration="19553000" />
     </task>
     <servers />
   </component>

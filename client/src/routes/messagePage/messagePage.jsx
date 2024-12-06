@@ -23,6 +23,7 @@ function MessagePage() {
     const {currentUser} = useContext(AuthContext);
     const [isUserOnline, setIsUserOnline] = useState(false);
 
+    console.log('chatList', chatList);
     // 원하는 채팅창을 클릭한다.
     const clickChat = useCallback(async (currentChat) => {
         setCurrentChat(currentChat);
