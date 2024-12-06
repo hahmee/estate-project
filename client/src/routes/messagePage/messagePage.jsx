@@ -14,9 +14,9 @@ function MessagePage() {
     const data = useLoaderData();
     const {userId} = useParams(); //작성자 아이디
     const navigate = useNavigate();
-    const conversationsRef = useRef([]);
-    const [conversations, setConversations] = useState([]);
-    const [currentConversation, setCurrentConversation] = useState(); // 현재 누른
+    const chatListRef = useRef([]);
+    const [chatList, setChatList] = useState([]);
+    const [currentChat, setCurrentChat] = useState(); // 현재 누른
     const [messages, setMessages] = useState([]);
     const scrollRef = useRef();
     const {socket} = useContext(SocketContext);
@@ -24,12 +24,12 @@ function MessagePage() {
     const [isUserOnline, setIsUserOnline] = useState(false);
 
     // 원하는 채팅창을 클릭한다.
-    const clickConversation = useCallback(async (currentConversation) => {
-        setCurrentConversation(currentConversation);
+    const clickChat = useCallback(async (currentChat) => {
+        setCurrentChat(currentChat);
         //path variable 변경
-        navigate('/messages/' + currentConversation.receiver.id);
+        navigate('/messages/' + currentChat.receiver.id);
 
-    }, [currentConversation]);
+    }, [currentChat]);
 
 
     const handleSubmit = async (e) => {
@@ -41,17 +41,17 @@ function MessagePage() {
         if (!text) return;
 
         try {
-            const res = await apiRequest.post("/messages/" + currentConversation.id, {text});
+            const res = await apiRequest.post("/messages/" + currentChat.id, {text});
             setMessages([...messages, res.data.message]);
             const updatedChat = res.data.chat;
 
             // //res의 chat의 Id가 가장 상단에 있어야 함
-            reorderConversations(updatedChat.id, text);
+            reorderChatList(updatedChat.id, text);
 
             e.target.reset();
 
             socket.emit("sendMessage", {
-                receiverId: currentConversation.receiver.id,
+                receiverId: currentChat.receiver.id,
                 data: res.data.message,
             });
         } catch (err) {
@@ -65,21 +65,20 @@ function MessagePage() {
     }, [messages]);
 
     useEffect(() => {
-        conversationsRef.current = conversations; // 상태가 변경될 때 ref 업데이트
-    }, [conversations]);
+        chatListRef.current = chatList; // 상태가 변경될 때 ref 업데이트
+    }, [chatList]);
 
     useEffect(() => {
         const initializeChat = () => {
             const {resChatListResponse, resChatResponse} = data;
-            const existingConversations = [...resChatListResponse.data];
-            console.log('initializeChat', resChatListResponse.data);
+            const existedChatList = [...resChatListResponse.data];
 
-            conversationsRef.current = resChatListResponse.data;
+            chatListRef.current = resChatListResponse.data;
 
             if (!userId) {
-                setCurrentConversation(null);
+                setCurrentChat(null);
             } else {
-                setCurrentConversation(existingConversations.find(chat => chat.receiver.id === userId)); //받는사람이 게시글쓴사람과 같은게 현재
+                setCurrentChat(existedChatList.find(chat => chat.receiver.id === userId)); //받는사람이 게시글쓴사람과 같은게 현재
             }
 
             if (resChatResponse) {
@@ -95,23 +94,23 @@ function MessagePage() {
     }, [data, userId]);
 
     //targetId를 찾아서 해당하는 대화창을 1번째로 정렬 및 lastMessage 변경한다.
-    const reorderConversations = (targetId, lastMessage) => {
-        //conversations를 복사하여 새로운 배열을 생성한 후 정렬하면 React가 상태 변화를 감지가능
-        const reorderedConversations = [...conversationsRef.current].sort((a, b) => a.id === targetId ? -1 : b.id === targetId ? 1 : 0
+    const reorderChatList = (targetId, lastMessage) => {
+        //chatList를 복사하여 새로운 배열을 생성한 후 정렬하면 React가 상태 변화를 감지가능
+        const reorderedChatList = [...chatListRef.current].sort((a, b) => a.id === targetId ? -1 : b.id === targetId ? 1 : 0
         );
-        reorderedConversations[0].lastMessage = lastMessage;
-        setConversations(reorderedConversations);
+        reorderedChatList[0].lastMessage = lastMessage;
+        setChatList(reorderedChatList);
     };
 
     //비어있으면 서버에서 데이터 가져온다.
-    const checkConversationEmpty = async () => {
-        if (conversations && conversations.length < 1) {
+    const checkIfChatEmpty = async () => {
+        if (chatList && chatList.length < 1) {
             // 빈칸이라면
             try {
                 const res = await apiRequest.get("/chats");
-                setConversations(res.data);
+                setChatList(res.data);
             } catch (error) {
-                console.error("Failed to fetch conversations:", error);
+                console.error("Failed to fetch chats:", error);
                 toast.error((error).message);
             }
         }
@@ -120,24 +119,24 @@ function MessagePage() {
     useEffect(() => {
 
         const handleSocketMessage = async (data) => {
-            //conversation이 비어있으면 서버에서 데이터 가져온다.
-            await checkConversationEmpty(); // 잘 안된다...
-            // conversations 순서 첫번째로 변경 및 lastMessage 변경
-            reorderConversations(data.chatId, data.text);
-            if (currentConversation && currentConversation.id === data.chatId) {
+            //chat이 비어있으면 서버에서 데이터 가져온다.
+            await checkIfChatEmpty(); // 잘 안된다...
+            // chatlist 순서 첫번째로 변경 및 lastMessage 변경
+            reorderChatList(data.chatId, data.text);
+            if (currentChat && currentChat.id === data.chatId) {
                 setMessages((prev) => [...prev, data]);
                 // read();
             }
         };
 
-        const checkConversationsOnline = async () => {
-            //문제 발생 --> 이 함수 실행 전에 setState로 conversations 값을 넣어줬는데, 바로 반영이 안되는 문제
+        const checkIfChatListOnline = async () => {
+            //문제 발생 --> 이 함수 실행 전에 setState로 chats 값을 넣어줬는데, 바로 반영이 안되는 문제
             // 해결 --> useRef 사용
-            const conversationRefCurrent = conversationsRef.current;
+            const chatListRefCurrent = chatListRef.current;
 
-            //conversations리스트들의 online상태 가져온다.
-            if (conversationRefCurrent && conversationRefCurrent.length > 0) {
-                const users = conversationRefCurrent.map((data) => {
+            //chat리스트들의 online상태 가져온다.
+            if (chatListRefCurrent && chatListRefCurrent.length > 0) {
+                const users = chatListRefCurrent.map((data) => {
                     return {
                         ...data.receiver,
                         chatId: data.id //추가했음
@@ -148,23 +147,23 @@ function MessagePage() {
                     //이중포문 대신, updatedUsers를 Map으로 변환하여 검색을 빠르게
                     const updatedUsersMap = new Map(updatedUsers.map(user => [user.chatId, user]));
 
-                    // conversations를 업데이트합
-                    const updatedConversations = conversationRefCurrent.map(conversation => {
-                        const updatedUser = updatedUsersMap.get(conversation.id); // chatId와 conversation.id 매칭
+                    // chatList를 업데이트합
+                    const updatedChatList = chatListRefCurrent.map(chat => {
+                        const updatedUser = updatedUsersMap.get(chat.id); // chatId와 chat.id 매칭
                         if (updatedUser) {
                             return {
-                                ...conversation,
+                                ...chat,
                                 receiver: {
-                                    ...conversation.receiver,
+                                    ...chat.receiver,
                                     ...updatedUser, // updatedUser로 receiver 업데이트
                                 },
                             };
                         }
-                        return conversation; // 매칭되는 updatedUser가 없으면 그대로 반환
+                        return chat; // 매칭되는 updatedUser가 없으면 그대로 반환
                     });
 
-                    // 하지만 의존성 배열에 conversations를 넣으면 무한루프돈다...
-                    setConversations(updatedConversations); //현재 online상태인지까지 포함해서 conversations에 저장
+                    // 하지만 의존성 배열에 chatList를 넣으면 무한루프돈다...
+                    setChatList(updatedChatList); //현재 online상태인지까지 포함해서 chatList에 저장
                 });
             }
         };
@@ -179,7 +178,7 @@ function MessagePage() {
             });
 
             //왼쪽 대화 리스트들의 유저들이 온라인 상태인지 표시한다.
-            checkConversationsOnline();
+            checkIfChatListOnline();
         }
 
         return () => {
@@ -190,7 +189,7 @@ function MessagePage() {
             }
         };
 
-    }, [socket, currentConversation, userId, data]);
+    }, [socket, currentChat, userId, data]);
 
     return (
         <div className="chat">
@@ -198,15 +197,14 @@ function MessagePage() {
                 <div className="chat__sidebar-user">{currentUser.username}</div>
                 <div className="chat__menu">
                     {
-                        conversations && conversations.length < 1 ?
+                        chatList && chatList.length < 1 ?
                             <div>채팅 리스트가 없습니다.</div>
                             :
-                            conversations.map((c, idx) => (
+                            chatList.map((c, idx) => (
                                 <ChatItem
                                     key={idx}
-                                    conversation={c}
-                                    clickConversation={clickConversation}
-
+                                    chat={c}
+                                    clickChat={clickChat}
                                 />
                             ))
                     }
@@ -215,14 +213,14 @@ function MessagePage() {
 
             <div className="chat__main">
                 <div className="chat__header">
-                    {currentConversation && (
+                    {currentChat && (
                         <div className="chat__receiver">
-                            <Profile receiver={currentConversation.receiver} isOnline={isUserOnline}/>
+                            <Profile receiver={currentChat.receiver} isOnline={isUserOnline}/>
                         </div>
                     )}
                 </div>
                 <div className="chat__wrapper">
-                    {currentConversation ? (
+                    {currentChat ? (
                         <>
                             <div className="chat__messages">
                                 {messages && messages.length > 0 ?
@@ -238,7 +236,7 @@ function MessagePage() {
                                                 avatar={
                                                     m.userId === currentUser.id
                                                         ? currentUser.avatar
-                                                        : currentConversation.receiver.avatar
+                                                        : currentChat.receiver.avatar
                                                 }
                                             />
                                         </div>
@@ -254,7 +252,7 @@ function MessagePage() {
                     )}
                 </div>
 
-                {currentConversation &&
+                {currentChat &&
                     <div className="chat__input">
                         <form onSubmit={handleSubmit} className="chat__form">
                                     <textarea

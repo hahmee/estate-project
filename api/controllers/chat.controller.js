@@ -191,8 +191,6 @@ export const getChatOrMakeChat = async (req, res) => {
         },
       });
 
-      console.log('isMessageExist', isMessageExist);
-
       //message가 하나라도 있다면
       if(isMessageExist){
         //현재 접속자 Chat 봤다고 표시하기
@@ -263,8 +261,7 @@ export const getChat = async (req, res) => {
   export const addChat = async (req, res) => {
   const tokenUserId = req.userId;
   const userIDs = [tokenUserId, req.body.receiverId].sort();
-    console.log('tokenUserId', tokenUserId);
-    console.log('userIDs', userIDs);
+
 
   try {
     const newChat = await prisma.chat.create({
@@ -288,8 +285,6 @@ export const getChat = async (req, res) => {
 
     newChat.receiver = receiver;
 
-    console.log('newChat', newChat);
-
     res.status(200).json(newChat);
   } catch (err) {
     console.log(err);
@@ -298,11 +293,8 @@ export const getChat = async (req, res) => {
 };
 
 export const readChat = async (req, res) => {
-  console.log('??');
   const tokenUserId = req.userId; //현재 접속자 아이디
 
-  console.log('tokenUserId', tokenUserId);
-  console.log('req.params.id', req.params.id);
 
   try {
     const chat = await prisma.chat.update({
@@ -344,7 +336,6 @@ export const getChatUUID = async (req, res) => {
         },
       },
     });
-    console.log('chat', chat);
 
     if(chat){
       res.status(200).json({chatId: chat.chatUUID});

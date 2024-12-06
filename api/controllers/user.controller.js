@@ -155,7 +155,8 @@ export const profilePosts = async (req, res) => {
   }
 };
 
-export const getNotificationNumber = async (req, res) => {
+//아직 읽히지 않은 채팅방의 개수
+export const getUnreadChatNumber = async (req, res) => {
   const tokenUserId = req.userId;
 
   try {
@@ -171,6 +172,8 @@ export const getNotificationNumber = async (req, res) => {
         },
       },
     });
+
+    console.log('number..임니다', number);
     return res.status(200).json(number);
   } catch (err) {
     res.status(500).json({ message: "프로필 정보를 가져오는데 실패했습니다." });

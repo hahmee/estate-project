@@ -6,7 +6,7 @@ import {
   updateUser,
   savePost,
   profilePosts,
-  getNotificationNumber, getSavedPosts
+  getUnreadChatNumber, getSavedPosts
 } from "../controllers/user.controller.js";
 import {verifyToken} from "../middleware/verifyToken.js";
 
@@ -18,7 +18,7 @@ router.put("/:id", verifyToken, updateUser);
 router.delete("/:id", verifyToken, deleteUser);
 router.post("/save", verifyToken, savePost);
 router.get("/profilePosts", verifyToken, profilePosts);
-router.get("/notification", verifyToken, getNotificationNumber);
+router.get("/unreadChatNumber", verifyToken, getUnreadChatNumber);
 router.get("/savedPosts", verifyToken, getSavedPosts);
 
 export default router;

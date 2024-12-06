@@ -4,7 +4,8 @@ import apiRequest from "./apiRequest";
 export const useNotificationStore = create((set) => ({
   number: 0,
   fetch: async () => {
-    const res = await apiRequest("/users/notification");
+    //읽지않은 채팅방 개수
+    const res = await apiRequest("/users/unreadChatNumber");
     set({ number: res.data });
   },
   decrease: () => {
