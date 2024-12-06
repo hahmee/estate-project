@@ -9,7 +9,6 @@ const io = new Server({
 let onlineUsers = [];
 
 const addUser = (userId, socketId) => {
-  console.log('addUser', userId);
   const userExits = onlineUsers.find((user) => user.userId === userId);
   if (!userExits) {
     onlineUsers.push({ userId, socketId });
@@ -24,18 +23,39 @@ const getUser = (userId) => {
   return onlineUsers.find((user) => user.userId === userId);
 };
 
+//userIds 중에 로그인 안 되어있으면 삭제 ( = 중복되는애들만 고른다)
+const getOnlineUsers = (userIds) => {
+  // 중복되는 항목만 필터링
+  return onlineUsers
+      .filter(user => userIds.includes(user.userId))
+      .map(user => user.userId);
+};
+
 io.on("connection", (socket) => {
-  socket.on("newUser", (userId) => {
+
+  socket.on("newUser", (userId, receiverList) => { // (,chatFriends)
     addUser(userId, socket.id);
+
+    //그 중에서, 로그인 되어있는 친구들만 추린다.
+    const onlineReceivers = getOnlineUsers(receiverList);
+    console.log('onlineReceivers', onlineReceivers);
+    //나와 채팅방이 만들어진 사람들에게 나의 온라인 정보를 송출한다.
+    if (onlineReceivers && onlineReceivers.length > 0) {
+      // 포문 돌면서 emit하기
+      onlineReceivers.forEach((receiver) => {
+        io.to(receiver.socketId).emit("getOnlineUser", {userId: userId, online: true});
+      })
+    }
+
   });
 
   socket.on("sendMessage", ({receiverId, data}) => {
-    console.log('send', data);
     const receiver = getUser(receiverId);
 
     if(receiver) {
       io.to(receiver.socketId).emit("getMessage", data);
     }
+
   });
 
   // 특정 userId가 온라인인지 확인하는 요청 처리
@@ -51,19 +71,6 @@ io.on("connection", (socket) => {
 
   // 특정 userId가 온라인인지 확인하는 요청 처리
   socket.on("checkUserListOnline", ({users}, callback) => {
-    console.log('checkUserListOnline', users);
-
-    // const updatedUsers = users.map((user) => {
-    //   console.log('user.receiver.id', user.receiver.id);
-    //   const onlineUserId = getUser(user.receiver.id); // 현재 온라인 여부 확인
-    //
-    //   console.log('onlineUserId', onlineUserId);
-    //   return {...user, receiver: {...user.receiver, isOnline: !!onlineUserId}}; // onlineUserId가 존재하면 true, 없으면 false
-    // });
-    //
-    // // 결과를 클라이언트로 반환
-    // callback(updatedUsers);
-
 
     // 새로운 유저 리스트 생성 (isOnline 상태 추가)
     const updatedUsers = users.map((user) => {
@@ -71,7 +78,6 @@ io.on("connection", (socket) => {
       return { ...user, isOnline: !!onlineUserId }; // onlineUserId가 존재하면 true, 없으면 false
     });
 
-    console.log("Updated Users List:", updatedUsers);
 
     // 결과를 클라이언트로 반환
     callback(updatedUsers);

@@ -32,7 +32,6 @@ export const messagePageLoader = async ({request, params}) => {
     //순서 resChatPromise -> resChatListPromise
     const resChatListPromise = await apiRequest.get("/chats");
 
-    console.log('resChatPromise', resChatPromise.data);
 
     return defer({
       resWriterResponse: resWriterPromise,

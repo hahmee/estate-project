@@ -199,3 +199,32 @@ export const getSavedPosts = async (req, res) => {
   }
 
 }
+
+//현재 사용자의 채팅방에 있는 유저들 가져온다.
+export const getReceivers = async (req, res) => {
+  const tokenUserId = req.userId;
+
+  try {
+    // 유저가 속한 모든 채팅방의 상대방들을 조회
+    const chats = await prisma.chat.findMany({
+      where: {
+        userIDs: {
+          has: tokenUserId, // userIDs 배열에 특정 userId가 포함된 채팅방 조회
+        },
+      },
+    });
+
+    // new Set 중복 제거, flatMap 배열 평탄화 (배열 하나로)
+    const receiverList = Array.from(
+        new Set(
+            chats.flatMap(chat => chat.userIDs.filter(userId => userId !== tokenUserId))
+        )
+    );
+
+    return res.status(200).json(receiverList);
+
+  } catch (err) {
+    res.status(500).json({ message: "저장된 포스트를 가져오는데 실패했습니다." });
+  }
+
+}

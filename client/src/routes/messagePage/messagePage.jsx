@@ -31,8 +31,11 @@ function MessagePage() {
     }, [currentChat]);
 
 
-    //메시지를 상태변경해준다. (오늘 처음보낸거라면 날짜도 추가)
+    //messages를 상태변경해준다. (오늘 처음보낸거라면 날짜도 추가)
     const pushDataToMessages = useCallback((newMessage) => {
+        console.log('pushDataToMessages', messages);
+        // setMessages((prev) => [...prev, data]);
+
         // createdAt을 Date 객체로 변환 (이미 Date 객체라면 문제 X )
         const messageDate = new Date(newMessage.createdAt);
 
@@ -40,9 +43,9 @@ function MessagePage() {
         const dateKey = messageDate.toISOString().split("T")[0];
 
         // 메시지가 저장될 상태 객체 (messages)
-        setMessages(prevMessages => {
+        setMessages(prev => {
             // 이전 상태를 복사해서 새로운 객체로 반환
-            const updatedMessages = { ...prevMessages };
+            const updatedMessages = {...prev};
 
             // 해당 날짜에 키가 존재하는지 확인
             if (updatedMessages[dateKey]) {
@@ -76,7 +79,7 @@ function MessagePage() {
 
             const emitData = res.data.message;
 
-            // //res의 chat의 Id가 가장 상단에 있어야 함
+            //res의 chat의 Id가 가장 상단에 있어야 함
             reorderChatList(updatedChat.id, text);
 
             e.target.reset();
@@ -155,16 +158,21 @@ function MessagePage() {
     useEffect(() => {
 
         const handleSocketGetMessage = async (data) => {
+            console.log('data', data);
             //chat이 비어있으면 서버에서 데이터 가져온다.
             await checkIfChatEmpty(); //반영이 바로 안된다 -> useRef 로 변경했더니 성공.
+
 
             // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
 
-            if (currentChat && currentChat.id === data.chatId) {
+            if (currentChat && currentChat?.id === data.chatId) {
                 pushDataToMessages(data);
                 // setMessages((prev) => [...prev, data]);
             }
+
+            //채팅 리스트가 온라인인지 확인한다
+            // await checkIfChatListOnline();
 
         };
 
@@ -173,8 +181,11 @@ function MessagePage() {
             // 해결 --> useRef 사용
             const chatListRefCurrent = chatListRef.current;
 
+            console.log('chatListRefCurrent', chatListRefCurrent);
+
             //chat리스트들의 online상태 가져온다.
             if (chatListRefCurrent && chatListRefCurrent.length > 0) {
+                console.log('?')
                 const users = chatListRefCurrent.map((data) => {
                     return {
                         ...data.receiver,
@@ -183,6 +194,7 @@ function MessagePage() {
                 });
 
                 socket.emit("checkUserListOnline", {users}, (updatedUsers) => {
+                    console.log('updatedUsers', updatedUsers);
                     //이중포문 대신, updatedUsers를 Map으로 변환하여 검색을 빠르게
                     const updatedUsersMap = new Map(updatedUsers.map(user => [user.chatId, user]));
 
@@ -209,15 +221,18 @@ function MessagePage() {
 
         //실행 시작 부분
         if (socket) {
+            console.log('socket - start')
+
             socket.on("getMessage", handleSocketGetMessage);
 
             //현재 대화창의 유저가 온라인인지 표시한다.
             userId && socket.emit("checkUserOnline", {userId}, (isOnline) => {
                 setIsUserOnline(isOnline);
             });
+            console.log('socket - end')
 
             //왼쪽 대화 리스트들의 유저들이 온라인 상태인지 표시한다.
-            checkIfChatListOnline();
+           checkIfChatListOnline();
         }
 
         return () => {

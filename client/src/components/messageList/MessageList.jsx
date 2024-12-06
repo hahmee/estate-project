@@ -6,7 +6,6 @@ const MessageList = (props) => {
     const scrollRef = useRef();
 
     useEffect(() => {
-        console.log('messages', scrollRef.current)
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
         }
@@ -16,7 +15,6 @@ const MessageList = (props) => {
 
         return <div>아직 진행중인 대화가 없습니다.</div>
     }
-
 
     return (
         <div className="messages">
