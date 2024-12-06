@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from 'react';
 import "./messagePage.scss";
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import ChatItem from "../../components/message/ChatItem.jsx";
@@ -14,8 +14,9 @@ function MessagePage() {
     const data = useLoaderData();
     const {userId} = useParams(); //작성자 아이디
     const navigate = useNavigate();
+    const conversationsRef = useRef([]);
     const [conversations, setConversations] = useState([]);
-    const [currentConversation, setCurrentConversation] = useState(null); // 현재 누른
+    const [currentConversation, setCurrentConversation] = useState(); // 현재 누른
     const [messages, setMessages] = useState([]);
     const scrollRef = useRef();
     const {socket} = useContext(SocketContext);
@@ -64,16 +65,16 @@ function MessagePage() {
     }, [messages]);
 
     useEffect(() => {
-        console.log('conversations..', conversations);
+        conversationsRef.current = conversations; // 상태가 변경될 때 ref 업데이트
     }, [conversations]);
 
     useEffect(() => {
-        console.log('initializeChat');
         const initializeChat = () => {
             const {resChatListResponse, resChatResponse} = data;
             const existingConversations = [...resChatListResponse.data];
+            console.log('initializeChat', resChatListResponse.data);
 
-            setConversations(resChatListResponse.data);
+            conversationsRef.current = resChatListResponse.data;
 
             if (!userId) {
                 setCurrentConversation(null);
@@ -96,11 +97,10 @@ function MessagePage() {
     //targetId를 찾아서 해당하는 대화창을 1번째로 정렬 및 lastMessage 변경한다.
     const reorderConversations = (targetId, lastMessage) => {
         //conversations를 복사하여 새로운 배열을 생성한 후 정렬하면 React가 상태 변화를 감지가능
-        const reorderedConversations = [...conversations].sort((a, b) => a.id === targetId ? -1 : b.id === targetId ? 1 : 0
+        const reorderedConversations = [...conversationsRef.current].sort((a, b) => a.id === targetId ? -1 : b.id === targetId ? 1 : 0
         );
         reorderedConversations[0].lastMessage = lastMessage;
         setConversations(reorderedConversations);
-
     };
 
     //비어있으면 서버에서 데이터 가져온다.
@@ -120,9 +120,8 @@ function MessagePage() {
     useEffect(() => {
 
         const handleSocketMessage = async (data) => {
-            console.log('handleSocketMessage', handleSocketMessage);
             //conversation이 비어있으면 서버에서 데이터 가져온다.
-            await checkConversationEmpty();
+            await checkConversationEmpty(); // 잘 안된다...
             // conversations 순서 첫번째로 변경 및 lastMessage 변경
             reorderConversations(data.chatId, data.text);
             if (currentConversation && currentConversation.id === data.chatId) {
@@ -131,17 +130,14 @@ function MessagePage() {
             }
         };
 
-        const fetchData = async () => {
-            await checkConversationEmpty(); // 의존성배열에 conversation 넣지 않았더니 setState로 변경한 거 감지가 안됨
-            console.log('conversations2', conversations);
-            //conversations 빈칸 출력
-            userId && socket.emit("checkUserOnline", {userId}, (isOnline) => {
-                setIsUserOnline(isOnline);
-            });
+        const checkConversationsOnline = async () => {
+            //문제 발생 --> 이 함수 실행 전에 setState로 conversations 값을 넣어줬는데, 바로 반영이 안되는 문제
+            // 해결 --> useRef 사용
+            const conversationRefCurrent = conversationsRef.current;
 
             //conversations리스트들의 online상태 가져온다.
-            if (conversations && conversations.length > 0) {
-                const users = conversations.map((data) => {
+            if (conversationRefCurrent && conversationRefCurrent.length > 0) {
+                const users = conversationRefCurrent.map((data) => {
                     return {
                         ...data.receiver,
                         chatId: data.id //추가했음
@@ -153,7 +149,7 @@ function MessagePage() {
                     const updatedUsersMap = new Map(updatedUsers.map(user => [user.chatId, user]));
 
                     // conversations를 업데이트합
-                    const updatedConversations = conversations.map(conversation => {
+                    const updatedConversations = conversationRefCurrent.map(conversation => {
                         const updatedUser = updatedUsersMap.get(conversation.id); // chatId와 conversation.id 매칭
                         if (updatedUser) {
                             return {
@@ -173,12 +169,17 @@ function MessagePage() {
             }
         };
 
+        //실행 시작 부분
         if (socket) {
-
             socket.on("getMessage", handleSocketMessage);
 
-            fetchData();
+            //현재 대화창의 유저가 온라인인지 표시한다.
+            userId && socket.emit("checkUserOnline", {userId}, (isOnline) => {
+                setIsUserOnline(isOnline);
+            });
 
+            //왼쪽 대화 리스트들의 유저들이 온라인 상태인지 표시한다.
+            checkConversationsOnline();
         }
 
         return () => {
@@ -188,8 +189,8 @@ function MessagePage() {
                 socket.off("checkUserListOnline"); // 왼쪽 chatList 의 유저들 온라인 상태인지 확인한다.
             }
         };
-    }, [socket, currentConversation, userId]);
 
+    }, [socket, currentConversation, userId, data]);
 
     return (
         <div className="chat">
@@ -205,10 +206,10 @@ function MessagePage() {
                                     key={idx}
                                     conversation={c}
                                     clickConversation={clickConversation}
+
                                 />
                             ))
                     }
-
                 </div>
             </div>
 
@@ -216,7 +217,7 @@ function MessagePage() {
                 <div className="chat__header">
                     {currentConversation && (
                         <div className="chat__receiver">
-                           <Profile receiver={currentConversation.receiver} isOnline={isUserOnline}/>
+                            <Profile receiver={currentConversation.receiver} isOnline={isUserOnline}/>
                         </div>
                     )}
                 </div>
