@@ -19,6 +19,7 @@ export const getChats = async (req, res) => {
 
     const chatsWithUnreadMessagesAndReceiver = await Promise.all(
         chats.map(async (chat) => {
+          //사용자가 해당하는 채팅 마지막 읽은 시간을 가져온다.
           const chatUser = await prisma.chatUser.findUnique({
             where: {userId_chatId: {userId: tokenUserId, chatId: chat.id}},
             select: {lastReadAt: true},
@@ -26,7 +27,6 @@ export const getChats = async (req, res) => {
 
           // 기본값 설정: lastReadAt이 없으면 유효하지 않은 날짜 대신 Date(0)으로 처리
           const lastReadAt = chatUser?.lastReadAt || new Date(0);
-
 
           //안 읽은 메시지 카운트
           const unreadMessagesCount = await prisma.message.count({
@@ -62,27 +62,6 @@ export const getChats = async (req, res) => {
           };
         })
     );
-
-    //
-    // for (const chat of chats) {
-    //   const receiverId = chat.userIDs.find((id) => id !== tokenUserId);
-    //
-    //   const receiver = await prisma.user.findUnique({
-    //     where: {
-    //       id: receiverId,
-    //     },
-    //     select: {
-    //       id: true,
-    //       username: true,
-    //       avatar: true,
-    //     },
-    //   });
-    //
-    //   chat.receiver = receiver;
-    // }
-
-    // console.log('chats', chats);
-
     res.status(200).json(chatsWithUnreadMessagesAndReceiver);
   } catch (err) {
     console.log(err);
@@ -141,20 +120,32 @@ export const getChatOrMakeChat = async (req, res) => {
       res.status(200).json(newChat);
 
     }else{
-      //chat의 seenBy에 현재 접속자 표시한다.
-      //Message에 해당하는 Chat이 있다면, Chat의 seenBy에 현재 접속자를 push 한다.
+
+      // 메시지를 날짜별로 그룹화해서 보낸다.
+      const groupedMessages = chat.messages.reduce((acc, message) => {
+        const dateKey = message.createdAt.toISOString().split("T")[0]; // 날짜만 추출 (YYYY-MM-DD)
+        if (!acc[dateKey]) {
+          acc[dateKey] = []; // 날짜 그룹 초기화
+        }
+        acc[dateKey].push(message); // 해당 날짜 그룹에 메시지 추가
+        return acc;
+      }, {});
+
+      console.log('groupedMessages', groupedMessages);
+
+      //message가 하나라도 있다면
+      //현재 접속자 Chat 봤다고 표시한다.
       const isMessageExist = await prisma.message.findFirst({
         where: {
           chatId: chat.id,
         },
       });
-
       //message가 하나라도 있다면
       if(isMessageExist){
         //현재 접속자 Chat 봤다고 표시하기
         await updateRead(chat.id, tokenUserId)
       }
-      res.status(200).json(chat);
+      res.status(200).json(groupedMessages);
     }
 
   } catch (err) {

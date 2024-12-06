@@ -1,14 +1,14 @@
-import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react';
 import "./messagePage.scss";
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
 import ChatItem from "../../components/message/ChatItem.jsx";
-import Message from "../../components/message/Message.jsx";
 import apiRequest from "../../lib/apiRequest.js";
 import {SocketContext} from "../../context/SocketContext.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import Button from "../../UI/Button.jsx";
 import {toast} from "react-toastify";
 import Profile from "../../components/profile/Profile.jsx";
+import MessageList from "../../components/messageList/MessageList.jsx";
 
 function MessagePage() {
     const data = useLoaderData();
@@ -17,13 +17,11 @@ function MessagePage() {
     const chatListRef = useRef([]);
     const [chatList, setChatList] = useState([]);
     const [currentChat, setCurrentChat] = useState(); // 현재 누른
-    const [messages, setMessages] = useState([]);
-    const scrollRef = useRef();
+    const [messages, setMessages] = useState();
     const {socket} = useContext(SocketContext);
     const {currentUser} = useContext(AuthContext);
     const [isUserOnline, setIsUserOnline] = useState(false);
 
-    console.log('chatList', chatList);
     // 원하는 채팅창을 클릭한다.
     const clickChat = useCallback(async (currentChat) => {
         setCurrentChat(currentChat);
@@ -31,6 +29,33 @@ function MessagePage() {
         navigate('/messages/' + currentChat.receiver.id);
 
     }, [currentChat]);
+
+
+    //메시지를 상태변경해준다. (오늘 처음보낸거라면 날짜도 추가)
+    const pushDataToMessages = useCallback((newMessage) => {
+        // createdAt을 Date 객체로 변환 (이미 Date 객체라면 문제 X )
+        const messageDate = new Date(newMessage.createdAt);
+
+        // 새로운 메시지의 날짜 키 (YYYY-MM-DD)
+        const dateKey = messageDate.toISOString().split("T")[0];
+
+        // 메시지가 저장될 상태 객체 (messages)
+        setMessages(prevMessages => {
+            // 이전 상태를 복사해서 새로운 객체로 반환
+            const updatedMessages = { ...prevMessages };
+
+            // 해당 날짜에 키가 존재하는지 확인
+            if (updatedMessages[dateKey]) {
+                // 날짜별로 이미 메시지가 있으면 배열에 새로운 메시지를 추가
+                updatedMessages[dateKey] = [...updatedMessages[dateKey], newMessage];
+            } else {
+                // 날짜별로 메시지가 없으면 새 배열을 생성해서 추가
+                updatedMessages[dateKey] = [newMessage];
+            }
+            // 업데이트된 상태 반환
+            return updatedMessages;
+        });
+    },[messages]);
 
 
     const handleSubmit = async (e) => {
@@ -43,27 +68,29 @@ function MessagePage() {
 
         try {
             const res = await apiRequest.post("/messages/" + currentChat.id, {text});
-            setMessages([...messages, res.data.message]);
+
+            //오늘 처음 보낸 메시지라면 날짜도 추가 필요
+            pushDataToMessages(res.data.message);
+
             const updatedChat = res.data.chat;
+
+            const emitData = res.data.message;
 
             // //res의 chat의 Id가 가장 상단에 있어야 함
             reorderChatList(updatedChat.id, text);
 
             e.target.reset();
 
+            //방출한다.
             socket.emit("sendMessage", {
                 receiverId: currentChat.receiver.id,
-                data: res.data.message,
+                data: emitData,
             });
         } catch (err) {
             console.log(err);
             toast.error((err).message);
         }
     };
-
-    useEffect(() => {
-        scrollRef.current?.scrollIntoView({behavior: "smooth",block: "nearest",});
-    }, [messages]);
 
     useEffect(() => {
         chatListRef.current = chatList; // 상태가 변경될 때 ref 업데이트
@@ -83,9 +110,12 @@ function MessagePage() {
             }
 
             if (resChatResponse) {
-                setMessages(resChatResponse.data.messages || [])
+                // setMessages(resChatResponse.data.messages || [])
+                setMessages(resChatResponse.data || undefined);
             } else {
-                setMessages([]);
+                // setMessages([]);
+                setMessages(undefined);
+
             }
 
         };
@@ -97,9 +127,12 @@ function MessagePage() {
     //targetId를 찾아서 해당하는 대화창을 1번째로 정렬 및 lastMessage 변경한다.
     const reorderChatList = (targetId, lastMessage) => {
         //chatList를 복사하여 새로운 배열을 생성한 후 정렬하면 React가 상태 변화를 감지가능
+
         const reorderedChatList = [...chatListRef.current].sort((a, b) => a.id === targetId ? -1 : b.id === targetId ? 1 : 0
         );
         reorderedChatList[0].lastMessage = lastMessage;
+
+
         setChatList(reorderedChatList);
     };
 
@@ -110,6 +143,8 @@ function MessagePage() {
             try {
                 const res = await apiRequest.get("/chats");
                 setChatList(res.data);
+                chatListRef.current = res.data;
+
             } catch (error) {
                 console.error("Failed to fetch chats:", error);
                 toast.error((error).message);
@@ -119,15 +154,18 @@ function MessagePage() {
 
     useEffect(() => {
 
-        const handleSocketMessage = async (data) => {
+        const handleSocketGetMessage = async (data) => {
             //chat이 비어있으면 서버에서 데이터 가져온다.
-            await checkIfChatEmpty(); // 잘 안된다...
-            // chatlist 순서 첫번째로 변경 및 lastMessage 변경
+            await checkIfChatEmpty(); //반영이 바로 안된다 -> useRef 로 변경했더니 성공.
+
+            // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
+
             if (currentChat && currentChat.id === data.chatId) {
-                setMessages((prev) => [...prev, data]);
-                // read();
+                pushDataToMessages(data);
+                // setMessages((prev) => [...prev, data]);
             }
+
         };
 
         const checkIfChatListOnline = async () => {
@@ -171,7 +209,7 @@ function MessagePage() {
 
         //실행 시작 부분
         if (socket) {
-            socket.on("getMessage", handleSocketMessage);
+            socket.on("getMessage", handleSocketGetMessage);
 
             //현재 대화창의 유저가 온라인인지 표시한다.
             userId && socket.emit("checkUserOnline", {userId}, (isOnline) => {
@@ -184,7 +222,7 @@ function MessagePage() {
 
         return () => {
             if (socket) {
-                socket.off("getMessage", handleSocketMessage);
+                socket.off("getMessage", handleSocketGetMessage);
                 socket.off("checkUserOnline");
                 socket.off("checkUserListOnline"); // 왼쪽 chatList 의 유저들 온라인 상태인지 확인한다.
             }
@@ -221,36 +259,13 @@ function MessagePage() {
                     )}
                 </div>
                 <div className="chat__wrapper">
-                    {currentChat ? (
-                        <>
-                            <div className="chat__messages">
-                                {messages && messages.length > 0 ?
-                                    messages.map((m) => (
-                                        <div
-                                            ref={scrollRef}
-                                            key={m.id}
-                                            className="chat__message"
-                                        >
-                                            <Message
-                                                message={m}
-                                                own={m.userId === currentUser.id}
-                                                avatar={
-                                                    m.userId === currentUser.id
-                                                        ? currentUser.avatar
-                                                        : currentChat.receiver.avatar
-                                                }
-                                            />
-                                        </div>
-                                    ))
-                                    : "아직 진행중인 대화가 없습니다."}
-                            </div>
-
-                        </>
-                    ) : (
-                        <span className="chat__no-conversation">
-                                채팅을 시작하기 위해서 대화상자를 열어주세요.
-                        </span>
-                    )}
+                    {/*날짜별로 리스트*/}
+                    {
+                        currentChat ?
+                            <MessageList messages={messages} currentUser={currentUser} currentChat={ currentChat}/>
+                            :
+                            <span className="chat__no-conversation">채팅을 시작하기 위해서 대화상자를 열어주세요.</span>
+                    }
                 </div>
 
                 {currentChat &&

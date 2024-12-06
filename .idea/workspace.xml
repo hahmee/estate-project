@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/messageList/MessageList.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/messageList/messageList.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controllers/chat.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/chat.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/message.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/message.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/user.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/api/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/routes/chat.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/chat.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/ChatItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/ChatItem.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/loaders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/loaders.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/socket/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/socket/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -159,7 +158,8 @@
       <workItem from="1733361102484" duration="25946000" />
       <workItem from="1733389091432" duration="1624000" />
       <workItem from="1733409445013" duration="4495000" />
-      <workItem from="1733451808113" duration="19553000" />
+      <workItem from="1733451808113" duration="20892000" />
+      <workItem from="1733475942202" duration="6464000" />
     </task>
     <servers />
   </component>
