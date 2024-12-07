@@ -6,12 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/user.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/prisma/schema.prisma" beforeDir="false" afterPath="$PROJECT_DIR$/api/prisma/schema.prisma" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/routes/user.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/user.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/messageList/MessageList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messageList/MessageList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/message/ChatItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/ChatItem.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/context/SocketContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/SocketContext.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/loaders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/loaders.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/socket/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/socket/app.js" afterDir="false" />
     </list>
@@ -162,7 +158,9 @@
       <workItem from="1733409445013" duration="4495000" />
       <workItem from="1733451808113" duration="20892000" />
       <workItem from="1733475942202" duration="6464000" />
-      <workItem from="1733495467255" duration="9448000" />
+      <workItem from="1733495467255" duration="10480000" />
+      <workItem from="1733531073174" duration="2188000" />
+      <workItem from="1733568049714" duration="6847000" />
     </task>
     <servers />
   </component>

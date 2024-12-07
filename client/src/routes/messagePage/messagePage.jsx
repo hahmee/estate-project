@@ -33,7 +33,6 @@ function MessagePage() {
 
     //messages를 상태변경해준다. (오늘 처음보낸거라면 날짜도 추가)
     const pushDataToMessages = useCallback((newMessage) => {
-        console.log('pushDataToMessages', messages);
         // setMessages((prev) => [...prev, data]);
 
         // createdAt을 Date 객체로 변환 (이미 Date 객체라면 문제 X )
@@ -135,7 +134,6 @@ function MessagePage() {
         );
         reorderedChatList[0].lastMessage = lastMessage;
 
-
         setChatList(reorderedChatList);
     };
 
@@ -157,11 +155,34 @@ function MessagePage() {
 
     useEffect(() => {
 
-        const handleSocketGetMessage = async (data) => {
-            console.log('data', data);
-            //chat이 비어있으면 서버에서 데이터 가져온다.
+        // 채팅목록에 있는 친구들 중에 한명이라도 로그인/로그아웃 행동 감지된다.
+        const handleSocketGetReceiverStatus = async (data) => {
             await checkIfChatEmpty(); //반영이 바로 안된다 -> useRef 로 변경했더니 성공.
 
+            console.log('handleSocketGetOnlinUsers', data); // 로그인하거나 로그아웃한 친구 정보가 온다.
+
+            const chatListRefCurrent = [...chatListRef.current];
+            // chatListRefCurrent 돌면서 receiver에서 찾고
+            const newa = chatListRefCurrent.map((chat) => {
+                if (chat.receiver.id === data.userId) {
+                    return {...chat, receiver: {...chat.receiver, isOnline: data.online}};
+                }else{
+                    return {...chat, receiver: {...chat.receiver, isOnline: false}};
+                }
+
+            });
+
+
+            console.log('newa', newa);
+
+            setChatList(newa);
+
+
+        }
+
+        const handleSocketGetMessage = async (data) => {
+            //chat이 비어있으면 서버에서 데이터 가져온다.
+            await checkIfChatEmpty(); //반영이 바로 안된다 -> useRef 로 변경했더니 성공.
 
             // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
@@ -181,11 +202,8 @@ function MessagePage() {
             // 해결 --> useRef 사용
             const chatListRefCurrent = chatListRef.current;
 
-            console.log('chatListRefCurrent', chatListRefCurrent);
-
             //chat리스트들의 online상태 가져온다.
             if (chatListRefCurrent && chatListRefCurrent.length > 0) {
-                console.log('?')
                 const users = chatListRefCurrent.map((data) => {
                     return {
                         ...data.receiver,
@@ -194,7 +212,6 @@ function MessagePage() {
                 });
 
                 socket.emit("checkUserListOnline", {users}, (updatedUsers) => {
-                    console.log('updatedUsers', updatedUsers);
                     //이중포문 대신, updatedUsers를 Map으로 변환하여 검색을 빠르게
                     const updatedUsersMap = new Map(updatedUsers.map(user => [user.chatId, user]));
 
@@ -213,6 +230,7 @@ function MessagePage() {
                         return chat; // 매칭되는 updatedUser가 없으면 그대로 반환
                     });
 
+                    console.log('updatedChatList', updatedChatList);
                     // 하지만 의존성 배열에 chatList를 넣으면 무한루프돈다...
                     setChatList(updatedChatList); //현재 online상태인지까지 포함해서 chatList에 저장
                 });
@@ -221,18 +239,18 @@ function MessagePage() {
 
         //실행 시작 부분
         if (socket) {
-            console.log('socket - start')
 
             socket.on("getMessage", handleSocketGetMessage);
+            socket.on("getReceiverStatus", handleSocketGetReceiverStatus);
 
             //현재 대화창의 유저가 온라인인지 표시한다.
             userId && socket.emit("checkUserOnline", {userId}, (isOnline) => {
                 setIsUserOnline(isOnline);
             });
-            console.log('socket - end')
 
             //왼쪽 대화 리스트들의 유저들이 온라인 상태인지 표시한다.
            checkIfChatListOnline();
+
         }
 
         return () => {
@@ -240,6 +258,8 @@ function MessagePage() {
                 socket.off("getMessage", handleSocketGetMessage);
                 socket.off("checkUserOnline");
                 socket.off("checkUserListOnline"); // 왼쪽 chatList 의 유저들 온라인 상태인지 확인한다.
+                socket.off("getReceiverStatus", handleSocketGetReceiverStatus); // 왼쪽 chatList 의 유저들 온라인 상태인지 확인한다.
+
             }
         };
 

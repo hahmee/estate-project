@@ -26,9 +26,8 @@ const getUser = (userId) => {
 //userIds 중에 로그인 안 되어있으면 삭제 ( = 중복되는애들만 고른다)
 const getOnlineUsers = (userIds) => {
   // 중복되는 항목만 필터링
-  return onlineUsers
-      .filter(user => userIds.includes(user.userId))
-      .map(user => user.userId);
+  return onlineUsers.filter(user => userIds.includes(user.userId));
+
 };
 
 io.on("connection", (socket) => {
@@ -38,12 +37,12 @@ io.on("connection", (socket) => {
 
     //그 중에서, 로그인 되어있는 친구들만 추린다.
     const onlineReceivers = getOnlineUsers(receiverList);
-    console.log('onlineReceivers', onlineReceivers);
     //나와 채팅방이 만들어진 사람들에게 나의 온라인 정보를 송출한다.
     if (onlineReceivers && onlineReceivers.length > 0) {
       // 포문 돌면서 emit하기
       onlineReceivers.forEach((receiver) => {
-        io.to(receiver.socketId).emit("getOnlineUser", {userId: userId, online: true});
+        console.log('receiver.socketId', receiver);
+        io.to(receiver.socketId).emit("getReceiverStatus", {userId: userId, online: true}); //나의 온라인 정보를 친구들에게 송출한다.
       })
     }
 
