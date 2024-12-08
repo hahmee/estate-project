@@ -1,15 +1,9 @@
 import React, {useEffect} from 'react';
 import "./chatItem.scss";
-// import {useParams} from "react-router-dom";
+
 
 function ChatItem({chat, clickChat}) {
-    // const {userId} = useParams(); //작성자 아이디
 
-
-    useEffect(() => {
-
-        console.log('chat', chat.receiver);
-    }, [chat]);
     return (
         // <div className={`conversation${userId === chat.receiver.id ? ' --current' : ''}`} onClick={() => clickChat(chat)}>
         <div className={`conversation`} onClick={() => clickChat(chat)}>

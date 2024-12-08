@@ -1,5 +1,5 @@
 import prisma from "../lib/prisma.js";
-import { randomUUID } from 'crypto';
+import {randomUUID} from 'crypto';
 
 //채팅방 리스트 (왼쪽) 가져온다.
 export const getChats = async (req, res) => {
@@ -78,7 +78,6 @@ export const getChatOrMakeChat = async (req, res) => {
   try {
 
     //url의 userId가 존재하는 회원인지 체크 (url에 아무거나 입력해서 들어올 수 있으므로)
-
     const isValidUser = await prisma.user.findUnique({
       where: {id: req.params.userId },
     });
@@ -169,67 +168,58 @@ export const updateRead = async (chatId, userId)  => {
   });
 
 }
-
-//chat ID로 조회한다.
-export const getChat = async (req, res) => {
-  const tokenUserId = req.userId;
-  try {
-
-    await prisma.chat.update({
-      where: {
-        id: req.params.id,
-      },
-      data: {
-        seenBy: {
-          push: [tokenUserId],
-        },
-      },
-    });
-
-    //여기 이상  Cannot set headers after they are sent to the client 에러 ->
-    const chat = await prisma.chat.findUnique({
-      where: {
-        id: req.params.id,
-      },
-      include: {
-        messages: {
-          orderBy: {
-            createdAt: "asc",
-          },
-        },
-      },
-    });
-
-    res.status(200).json(chat);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Failed to get chat!" });
-  }
-};
-
-// export const readChat = async (req, res) => {
-//   const tokenUserId = req.userId; //현재 접속자 아이디
 //
+// //chat ID로 조회한다.
+// export const getChat = async (req, res) => {
+//   const tokenUserId = req.userId;
 //   try {
-//     await updateRead(chat, tokenUserId);
 //
-//     // const chat = await prisma.chat.update({
-//     //   where: {
-//     //     id: req.params.id,
-//     //   },
-//     //   data: {
-//     //     seenBy: {
-//     //       push: [tokenUserId],
-//     //     },
-//     //   },
-//     // });
+//     await prisma.chat.update({
+//       where: {
+//         id: req.params.id,
+//       },
+//       data: {
+//         seenBy: {
+//           push: [tokenUserId],
+//         },
+//       },
+//     });
+//
+//     //여기 이상  Cannot set headers after they are sent to the client 에러 ->
+//     const chat = await prisma.chat.findUnique({
+//       where: {
+//         id: req.params.id,
+//       },
+//       include: {
+//         messages: {
+//           orderBy: {
+//             createdAt: "asc",
+//           },
+//         },
+//       },
+//     });
+//
 //     res.status(200).json(chat);
 //   } catch (err) {
 //     console.log(err);
-//     res.status(500).json({ message: "Failed to read chat!" });
+//     res.status(500).json({ message: "Failed to get chat!" });
 //   }
 // };
 
+// 읽었다고 표시한다.
+export const readChatUser = async (req, res) => {
+  const tokenUserId = req.userId;
+  const chatId = req.params.chatId;
+  console.log('????', tokenUserId);
+  console.log('ccc', chatId);
+  try {
+    await updateRead(chatId, tokenUserId);
+    res.status(200).json({ message: "Success to update chatUser!" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to update chatUser!" });
+  }
+};
 
 // userid로 Chat 아이디 찾기
 export const getChatUUID = async (req, res) => {

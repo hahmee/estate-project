@@ -45,7 +45,6 @@ io.on("connection", (socket) => {
         io.to(receiver.socketId).emit("getReceiverStatus", {userId: userId, online: true}); //나의 온라인 정보를 친구들에게 송출한다.
       })
     }
-
   });
 
   socket.on("sendMessage", ({receiverId, data}) => {

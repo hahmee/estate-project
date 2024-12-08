@@ -81,6 +81,7 @@ function MessagePage() {
             //res의 chat의 Id가 가장 상단에 있어야 함
             reorderChatList(updatedChat.id, text);
 
+
             e.target.reset();
 
             //방출한다.
@@ -132,8 +133,13 @@ function MessagePage() {
 
         const reorderedChatList = [...chatListRef.current].sort((a, b) => a.id === targetId ? -1 : b.id === targetId ? 1 : 0
         );
+
         reorderedChatList[0].lastMessage = lastMessage;
 
+        //현재 사용자가 채팅방에 없다면 안읽음 +1
+        if(!currentChat || (currentChat && currentChat?.id !== targetId)) {
+            reorderedChatList[0].unreadMessagesCount += 1;
+        }
         setChatList(reorderedChatList);
     };
 
@@ -143,6 +149,7 @@ function MessagePage() {
             // 빈칸이라면
             try {
                 const res = await apiRequest.get("/chats");
+                //receiver온라인 정보넣기
                 setChatList(res.data);
                 chatListRef.current = res.data;
 
@@ -162,8 +169,10 @@ function MessagePage() {
             console.log('handleSocketGetOnlinUsers', data); // 로그인하거나 로그아웃한 친구 정보가 온다.
 
             const chatListRefCurrent = [...chatListRef.current];
+
             // chatListRefCurrent 돌면서 receiver에서 찾고
-            const newa = chatListRefCurrent.map((chat) => {
+
+            const newChatList = chatListRefCurrent.map((chat) => {
                 if (chat.receiver.id === data.userId) {
                     return {...chat, receiver: {...chat.receiver, isOnline: data.online}};
                 }else{
@@ -173,27 +182,35 @@ function MessagePage() {
             });
 
 
-            console.log('newa', newa);
 
-            setChatList(newa);
+            setChatList(newChatList);
 
 
         }
 
         const handleSocketGetMessage = async (data) => {
-            //chat이 비어있으면 서버에서 데이터 가져온다.
-            await checkIfChatEmpty(); //반영이 바로 안된다 -> useRef 로 변경했더니 성공.
 
             // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
 
             if (currentChat && currentChat?.id === data.chatId) {
                 pushDataToMessages(data);
-                // setMessages((prev) => [...prev, data]);
             }
 
-            //채팅 리스트가 온라인인지 확인한다
-            // await checkIfChatListOnline();
+            //받은 애가 현재 채팅방에 있다면 읽었다고 표시한다.
+            if(currentChat && data.chatId === currentChat?.id ) {
+                console.log('현재 방에 있습니다');
+
+                //읽었다고 db의 chatUser에 표시한다.
+                try{
+                    await apiRequest.put("/chats/readChatUser/" + currentChat?.id);
+                } catch (err) {
+                    console.log(err);
+                    toast.error((err).message);
+                }
+
+            }
+
 
         };
 
@@ -211,6 +228,7 @@ function MessagePage() {
                     };
                 });
 
+                //왼쪽 유저리스트 온라인인지 확인한다.
                 socket.emit("checkUserListOnline", {users}, (updatedUsers) => {
                     //이중포문 대신, updatedUsers를 Map으로 변환하여 검색을 빠르게
                     const updatedUsersMap = new Map(updatedUsers.map(user => [user.chatId, user]));
@@ -230,7 +248,6 @@ function MessagePage() {
                         return chat; // 매칭되는 updatedUser가 없으면 그대로 반환
                     });
 
-                    console.log('updatedChatList', updatedChatList);
                     // 하지만 의존성 배열에 chatList를 넣으면 무한루프돈다...
                     setChatList(updatedChatList); //현재 online상태인지까지 포함해서 chatList에 저장
                 });
