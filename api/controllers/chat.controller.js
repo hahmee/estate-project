@@ -69,6 +69,43 @@ export const getChats = async (req, res) => {
   }
 };
 
+//대화 상대방이 안 읽은 개수를 가져온다.
+export const getReceiverUnreadCount = async (req, res) => {
+  const { receiverId, chatId } = req.query;
+  console.log(receiverId);
+  try {
+
+    //사용자가 해당하는 채팅 마지막 읽은 시간을 가져온다.
+    const chatUser = await prisma.chatUser.findUnique({
+      where: {userId_chatId: {userId: receiverId, chatId}},
+      select: {lastReadAt: true},
+    });
+
+    // 기본값 설정: lastReadAt이 없으면 유효하지 않은 날짜 대신 Date(0)으로 처리
+    const lastReadAt = chatUser?.lastReadAt || new Date(0);
+
+    //안 읽은 메시지 카운트
+    const unreadMessagesCount = await prisma.message.count({
+      where: {
+        chatId: chatId,
+        createdAt: {
+          gt: lastReadAt,
+        },
+        NOT: {
+          userId: receiverId, // 상대방이 작성한 메시지는 제외
+        },
+      },
+    });
+
+    return res.status(200).json(unreadMessagesCount);
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({message: "Failed to get chat!"});
+  }
+
+
+}
 //이 사람이랑 대화했던 내역이 없으면 채팅방만 만든다.
 // 대화내역이 있으면 가져온다.
 export const getChatOrMakeChat = async (req, res) => {
@@ -100,7 +137,7 @@ export const getChatOrMakeChat = async (req, res) => {
         },
       },
     });
-
+    console.log('chat', chat);
     if(!chat) {
       //채팅방 없으면 채팅방 만든다.
       const newChat = await prisma.chat.create({
@@ -116,7 +153,20 @@ export const getChatOrMakeChat = async (req, res) => {
         },
       });
 
-      res.status(200).json(newChat);
+      console.log('newChat', newChat);
+      // 메시지를 날짜별로 그룹화해서 보낸다.
+      const groupedMessages = newChat.messages?.reduce((acc, message) => {
+        const dateKey = message.createdAt.toISOString().split("T")[0]; // 날짜만 추출 (YYYY-MM-DD)
+        if (!acc[dateKey]) {
+          acc[dateKey] = []; // 날짜 그룹 초기화
+        }
+        acc[dateKey].push(message); // 해당 날짜 그룹에 메시지 추가
+        return acc;
+      }, {});
+
+      console.log('groupedMessages', groupedMessages);
+
+      res.status(200).json(groupedMessages);
 
     }else{
 
@@ -130,7 +180,6 @@ export const getChatOrMakeChat = async (req, res) => {
         return acc;
       }, {});
 
-      console.log('groupedMessages', groupedMessages);
 
       //message가 하나라도 있다면
       //현재 접속자 Chat 봤다고 표시한다.
@@ -210,8 +259,6 @@ export const updateRead = async (chatId, userId)  => {
 export const readChatUser = async (req, res) => {
   const tokenUserId = req.userId;
   const chatId = req.params.chatId;
-  console.log('????', tokenUserId);
-  console.log('ccc', chatId);
   try {
     await updateRead(chatId, tokenUserId);
     res.status(200).json({ message: "Success to update chatUser!" });

@@ -1,8 +1,9 @@
 import Message from "../message/Message.jsx";
 import {useEffect, useRef} from "react";
+import "./messageList.scss";
 
 const MessageList = (props) => {
-    const { messages, currentUser, currentChat } = props;
+    const {messages, currentUser, currentChat} = props;
     const scrollRef = useRef();
 
     useEffect(() => {
@@ -20,7 +21,9 @@ const MessageList = (props) => {
         <div className="messages">
             {Object.entries(messages).map(([date, messagesForDate]) => (
                 <div key={date} ref={scrollRef}>
-                    <h3>날짜: {date}</h3>
+                    <div className="messages__date">
+                        <span>{date}</span>
+                    </div>
                     <div>
                         {
                             messagesForDate?.map((m) => (

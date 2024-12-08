@@ -14,18 +14,29 @@
     width: var(--sidebar-width); // 사이드바 너비
     height: 100%;
     position: fixed;
-    //top: 0;
-    //left: 0;
     overflow-y: auto;
     border-right: 1px solid #eeeeee;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+
+    @include md {
+      display: none;
+    }
 
     &-user {
       font-weight: bold;
-      margin-bottom: 20px;
-      color: #fff;
+      height: 60px;
+      color: #222222;
+      padding: 10px;
+      width: 100%;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    &-menu {
+
     }
   }
 
@@ -33,62 +44,29 @@
     flex: 1;
     margin-left: var(--sidebar-width); // 사이드바 너비만큼 여백 추가
     position: relative;
+
+    @include md {
+      flex-grow: 1;     /* 남은 공간을 차지할 비율 */
+      margin-left:0; // 사이드바 너비만큼 여백 추가
+
+    }
+
   }
 
 
   &__header {
-
     width: 100%;
     position: sticky;
     top: 80px;
     border-bottom: 1px solid #eeeeee;
     background-color: $white-color;
-
+    z-index: 1;
   }
 
   &__wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    width: 100%;
-    //background-color: green;
-    //height: 100%; // 부모 높이 설정
+
     min-height: 100vh;
-
-    //overflow-y: auto; // 스크롤 가능하도록 설정
-    //padding: 20px; // 콘텐츠와 경계 간 여백 추가
-  }
-
-  &__messages {
-    padding: 20px;
-    z-index: -1;
-  }
-
-  &__message {
-    margin-bottom: 10px;
-    //background-color: #FF385C;
-  }
-
-  &__input {
-    position: sticky;
-    bottom: 0;
-    padding: 15px;
-    background-color: #ff6e7e;
-    //width: calc(100% - 320px);
-    //left: var(--sidebar-width);
-
-    .chat__form {
-      display: flex;
-      gap: 10px;
-
-      .chat__textarea {
-        flex-grow: 1;
-        height: 90px;
-        padding: 10px;
-        border-radius: 4px;
-      }
-    }
+    padding: 20px; // 콘텐츠와 경계 간 여백 추가
   }
 
   &__no-conversation {

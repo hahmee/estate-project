@@ -22,6 +22,7 @@ export const messagePageLoader = async ({request, params}) => {
       resWriterResponse: null,
       resChatListResponse: resChatListPromise,
       resChatResponse: null,
+      // resReceiverUnreadCountResponse: null,
     });
 
   }else {
@@ -33,10 +34,20 @@ export const messagePageLoader = async ({request, params}) => {
     const resChatListPromise = await apiRequest.get("/chats");
 
 
+
+    // 첫 번째 키를 동적으로 가져와서 chatId 추출
+    // const firstKey = Object.keys(resChatPromise.data)[0];
+    // const chatId = resChatPromise.data[firstKey][0].chatId.toString();
+    //상대방이 안 읽은 메시지 개수
+    // const resReceiverUnreadCountPromise = await apiRequest.get(`/chats/getReceiverUnreadCount?receiverId=${userId}&chatId=${chatId}`);
+
+    // console.log('resReceiverUnreadCountPromise', resReceiverUnreadCountPromise);
+
     return defer({
       resWriterResponse: resWriterPromise,
       resChatListResponse: resChatListPromise,
       resChatResponse: resChatPromise,
+      // resReceiverUnreadCountResponse: resReceiverUnreadCountPromise,
     });
 
   }

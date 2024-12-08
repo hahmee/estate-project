@@ -9,6 +9,7 @@ import Button from "../../UI/Button.jsx";
 import {toast} from "react-toastify";
 import Profile from "../../components/profile/Profile.jsx";
 import MessageList from "../../components/messageList/MessageList.jsx";
+import MessageInput from "../../components/message/MessageInput.jsx";
 
 function MessagePage() {
     const data = useLoaderData();
@@ -81,7 +82,6 @@ function MessagePage() {
             //res의 chat의 Id가 가장 상단에 있어야 함
             reorderChatList(updatedChat.id, text);
 
-
             e.target.reset();
 
             //방출한다.
@@ -89,6 +89,7 @@ function MessagePage() {
                 receiverId: currentChat.receiver.id,
                 data: emitData,
             });
+
         } catch (err) {
             console.log(err);
             toast.error((err).message);
@@ -104,21 +105,14 @@ function MessagePage() {
             const {resChatListResponse, resChatResponse} = data;
             const existedChatList = [...resChatListResponse.data];
 
+            setMessages(resChatResponse?.data || undefined);
+
             chatListRef.current = resChatListResponse.data;
 
             if (!userId) {
                 setCurrentChat(null);
             } else {
                 setCurrentChat(existedChatList.find(chat => chat.receiver.id === userId)); //받는사람이 게시글쓴사람과 같은게 현재
-            }
-
-            if (resChatResponse) {
-                // setMessages(resChatResponse.data.messages || [])
-                setMessages(resChatResponse.data || undefined);
-            } else {
-                // setMessages([]);
-                setMessages(undefined);
-
             }
 
         };
@@ -189,7 +183,7 @@ function MessagePage() {
         }
 
         const handleSocketGetMessage = async (data) => {
-
+            console.log('GetMessage',data)
             // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
 
@@ -199,7 +193,7 @@ function MessagePage() {
 
             //받은 애가 현재 채팅방에 있다면 읽었다고 표시한다.
             if(currentChat && data.chatId === currentChat?.id ) {
-                console.log('현재 방에 있습니다');
+                console.log('전 지금 현재 방에 있습니다');
 
                 //읽었다고 db의 chatUser에 표시한다.
                 try{
@@ -286,7 +280,7 @@ function MessagePage() {
         <div className="chat">
             <div className="chat__sidebar">
                 <div className="chat__sidebar-user">{currentUser.username}</div>
-                <div className="chat__menu">
+                <div className="chat__sidebar-menu">
                     {
                         chatList && chatList.length < 1 ?
                             <div>채팅 리스트가 없습니다.</div>
@@ -303,37 +297,37 @@ function MessagePage() {
             </div>
 
             <div className="chat__main">
-                <div className="chat__header">
-                    {currentChat && (
-                        <div className="chat__receiver">
+                {
+                    userId && <div className="chat__header">
+                        {currentChat && (
                             <Profile receiver={currentChat.receiver} isOnline={isUserOnline}/>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
+                }
+
                 <div className="chat__wrapper">
                     {/*날짜별로 리스트*/}
                     {
                         currentChat ?
-                            <MessageList messages={messages} currentUser={currentUser} currentChat={ currentChat}/>
+                            <MessageList messages={messages} currentUser={currentUser} currentChat={currentChat}/>
                             :
                             <span className="chat__no-conversation">채팅을 시작하기 위해서 대화상자를 열어주세요.</span>
                     }
                 </div>
 
                 {currentChat &&
-                    <div className="chat__input">
-                        <form onSubmit={handleSubmit} className="chat__form">
-                                    <textarea
-                                        name="text"
-                                        className="chat__textarea"
-                                        placeholder="메시지를 입력해주세요."
-                                    ></textarea>
-                            <Button>보내기</Button>
-                        </form>
-                    </div>
-
+                    <MessageInput handleSubmit={handleSubmit}/>
+                    // <div className="chat__input">
+                    //     <form onSubmit={handleSubmit} className="chat__form">
+                    //                 <textarea
+                    //                     name="text"
+                    //                     className="chat__textarea"
+                    //                     placeholder="메시지를 입력해주세요."
+                    //                 ></textarea>
+                    //         <Button>보내기</Button>
+                    //     </form>
+                    // </div>
                 }
-
             </div>
         </div>
 

@@ -73,7 +73,6 @@ nav {
       }
 
       .profile {
-
         cursor: pointer;
         border: none;
         display: flex;
@@ -477,6 +476,7 @@ nav.topNav {
   padding: 0 10px;
   display: none;
   border-bottom: 1px solid #eeeeee;
+  z-index: 1000;
 
   @include md {
     display: flex;

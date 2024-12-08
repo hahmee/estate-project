@@ -1,11 +1,15 @@
 import React from 'react';
+import "./messageInput.scss";
+import Button from "../../UI/Button.jsx";
 
 function MessageInput({handleSubmit}) {
     return (
-        <form onSubmit={handleSubmit} className="bottom">
-            <textarea name="text"></textarea>
-            <button>보내기</button>
-        </form>
+        <div className="chatForm">
+            <form onSubmit={handleSubmit} className="chatForm__form">
+                <textarea name="text" placeholder="메시지를 입력해주세요." className="chatForm__textarea"></textarea>
+                <Button className="chatForm__button">전송</Button>
+            </form>
+        </div>
     );
 }
 

@@ -1,35 +1,41 @@
 @import "../../main.scss";
-.profile {
+
+.chatProfile {
+  display: flex;
+  align-items: center; // 세로 중앙 정렬
+  gap: 10px;
+  margin-left: 10px;
+  height: 60px; // padding: 10px 0;
 
   &__header {
-    position: relative;
-    background-color: #FF385C;
+    display: flex; // 이미지와 상태 표시를 가로로 정렬
+    align-items: center; // 세로 중앙 정렬
+    position: relative; // 상태 표시의 절대 위치를 위한 기준
   }
+
   &__avatar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
     width: 40px;
     height: 40px;
-
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   &__status {
-    right: 0;
     position: absolute;
+    top: 0; // 아바타 하단에 위치
+    right: 0; // 아바타 우측 하단에 위치
     border-radius: 50%;
     width: 15px;
     height: 15px;
+    border: 2px solid white; // 경계선 추가로 더 잘 보이게
 
-    &.--online {
+    &--online {
       background-color: $success-color;
     }
 
-    &.--offline {
+    &--offline {
       background-color: $offline-color;
     }
-
   }
 
   &__username {

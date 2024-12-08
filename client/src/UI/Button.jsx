@@ -2,8 +2,6 @@ import React from 'react';
 import { BeatLoader } from "react-spinners";
 
 const Button = ({children, textOnly, icon, round, className, outlined, loading, ...props}) => {
-
-
     let sCss = '';
 
     if (outlined) {

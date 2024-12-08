@@ -1,22 +1,22 @@
 import React from 'react';
 import "./message2.scss";
-import {format} from "timeago.js";
+import { format } from "timeago.js";
 
-function Message({message, own, avatar}) {
-    // console.log('message', message);
+function Message({ message, own, avatar }) {
     return (
-        <div className={own ? "messageDiv own" : "messageDiv"}>
-            <div className="messageTop">
-                <img
-                    className="messageImg"
-                    src={avatar || "/noavatar.jpg"}
-                    alt="프로필 이미지"
-                />
-                <p className="messageText">{message.text}</p>
-                <p className="messageRead">1</p>
-
+        <div className="message">
+            <div className={`message__container ${own ? "message__container--own" : ""}`}>
+                <div className="message__top">
+                    <img
+                        className="message__avatar"
+                        src={avatar || "/noavatar.jpg"}
+                        alt="프로필 이미지"
+                    />
+                    <p className="message__text">{message.text}</p>
+                    {/*<p className="message__read-status">1</p>*/}
+                </div>
+                <div className="message__timestamp">{format(message.createdAt)}</div>
             </div>
-            <div className="messageBottom">{format(message.createdAt)}</div>
         </div>
     );
 }

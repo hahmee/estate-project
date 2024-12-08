@@ -317,7 +317,6 @@ function Navbar({isSearchBar}) {
 
 
             {/*MOBILE*/}
-
             <div className="mobile-nav">
                 <div className="mobile-nav__search">
                     <div className="material-symbols-outlined mobile-nav__icon">search</div>

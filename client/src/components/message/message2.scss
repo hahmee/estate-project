@@ -1,46 +1,47 @@
-.messageDiv {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-}
+@import "../../main.scss";
+.message {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
 
-.messageTop{
-    display: flex;
-}
+        &--own {
+            align-items: flex-end;
+        }
+    }
 
-.messageImg {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-}
+    &__top {
+        display: flex;
+    }
 
-.messageText{
-    padding: 10px;
-    border-radius: 20px;
-    background-color: #1877f2;
-    color: white;
-    max-width: 300px;
-}
+    &__avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    }
 
-.messageRead {
-    color: #222222;
-    align-self: center;
+    &__text {
+        padding: 10px;
+        border-radius: 20px;
+        background-color:$primary-color;
+        color: white;
+        max-width: 300px;
 
+        .message__container--own & {
+            background-color: rgb(245, 241, 241);
+            color: black;
+        }
+    }
 
-}
+    &__read-status {
+        color: #222222;
+        align-self: center;
+    }
 
-.messageBottom{
-    font-size: 12px;
-    margin-top: 10px;
-}
-
-.messageDiv.own{
-    align-items: flex-end;
-}
-
-.messageDiv.own .messageText{
-    background-color: rgb(245, 241, 241);
-    color: black;
+    &__timestamp {
+        font-size: 12px;
+        margin-top: 10px;
+    }
 }
