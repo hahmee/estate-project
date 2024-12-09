@@ -160,24 +160,42 @@ export const getUnreadChatNumber = async (req, res) => {
   const tokenUserId = req.userId;
 
   try {
-    // const number = await prisma.chat.count({
-    //   where: {
-    //     chatId: "chatId", // 채팅방 ID
-    //     userIDs: {
-    //       hasSome: [tokenUserId],
-    //     },
-    //     NOT: {
-    //       seenBy: {
-    //         hasSome: [tokenUserId],
-    //       },
-    //     },
-    //   },
-    // });
-    //
-    // console.log('number..임니다', number);
-    return res.status(200).json(0);
-  } catch (err) {
-    res.status(500).json({ message: "프로필 정보를 가져오는데 실패했습니다." });
+    // 각 채팅방의 마지막 메시지를 찾고, 해당 메시지가 사용자가 마지막으로 읽은 시간 이후인지 확인
+    const unreadChats = await prisma.chatUser.findMany({
+      where: {
+        userId: tokenUserId,
+      },
+      select: {
+        chatId: true,
+        lastReadAt: true,
+        chat: {
+          select: {
+            messages: {
+              orderBy: {
+                createdAt: 'desc',
+              },
+              take: 1, // 최신 메시지 하나만 가져옴
+            },
+          },
+        },
+      },
+    });
+
+    console.log('unreadChats', unreadChats);
+
+    // 아직 읽지 않은 채팅방 개수 계산
+    const unreadChatId = unreadChats.filter(chatUser => {
+      const lastMessage = chatUser.chat.messages[0];
+      return lastMessage && lastMessage.createdAt > chatUser.lastReadAt;
+    }).map(chatUser => chatUser.chatId);
+
+
+
+    console.log('unreadChatId', unreadChatId);
+    return res.json(unreadChatId);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: '서버 오류' });
   }
 };
 

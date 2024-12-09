@@ -9,6 +9,12 @@
   border: 1px solid #eeeeee;
   position: relative;
 
+  &.borderNone {
+    @include md {
+      border: none;
+    }
+  }
+
   &__sidebar {
     flex: none;
     width: var(--sidebar-width); // 사이드바 너비
@@ -23,6 +29,16 @@
       display: none;
     }
 
+    &--full {
+      @include md {
+        display: flex;
+        width: 100%;
+        position: static;
+        border-right: none;
+
+      }
+    }
+
     &-user {
       font-weight: bold;
       height: 60px;
@@ -33,11 +49,19 @@
       display: flex;
       align-items: center;
       border-bottom: 1px solid #eeeeee;
+      cursor: pointer;
+
+      @include md {
+        //display: none;
+      }
+
+      &--none {
+        @include md {
+          display: none;
+        }
+      }
     }
 
-    &-menu {
-
-    }
   }
 
   &__main {
@@ -48,7 +72,12 @@
     @include md {
       flex-grow: 1;     /* 남은 공간을 차지할 비율 */
       margin-left:0; // 사이드바 너비만큼 여백 추가
+    }
 
+    &--none {
+      @include md {
+        display: none;
+      }
     }
 
   }
@@ -74,5 +103,12 @@
     color: rgb(224, 220, 220);
     text-align: center;
     margin-top: 20px;
+
+    &--none {
+      @include md {
+        display: none;
+      }
+    }
+
   }
 }

@@ -5,11 +5,11 @@ import ChatItem from "../../components/message/ChatItem.jsx";
 import apiRequest from "../../lib/apiRequest.js";
 import {SocketContext} from "../../context/SocketContext.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
-import Button from "../../UI/Button.jsx";
 import {toast} from "react-toastify";
 import Profile from "../../components/profile/Profile.jsx";
 import MessageList from "../../components/messageList/MessageList.jsx";
 import MessageInput from "../../components/message/MessageInput.jsx";
+import {useNotificationStore} from "../../lib/notificationStore.js";
 
 function MessagePage() {
     const data = useLoaderData();
@@ -22,6 +22,8 @@ function MessagePage() {
     const {socket} = useContext(SocketContext);
     const {currentUser} = useContext(AuthContext);
     const [isUserOnline, setIsUserOnline] = useState(false);
+    const decrease = useNotificationStore((state) => state.decrease);
+    const increase = useNotificationStore((state) => state.increase);
 
     // 원하는 채팅창을 클릭한다.
     const clickChat = useCallback(async (currentChat) => {
@@ -61,11 +63,8 @@ function MessagePage() {
     },[messages]);
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.target);
-        const text = formData.get("text");
+    const handleSubmit = async (message) => {
+        const text = message;
 
         if (!text) return;
 
@@ -81,8 +80,6 @@ function MessagePage() {
 
             //res의 chat의 Id가 가장 상단에 있어야 함
             reorderChatList(updatedChat.id, text);
-
-            e.target.reset();
 
             //방출한다.
             socket.emit("sendMessage", {
@@ -104,9 +101,7 @@ function MessagePage() {
         const initializeChat = () => {
             const {resChatListResponse, resChatResponse} = data;
             const existedChatList = [...resChatListResponse.data];
-
             setMessages(resChatResponse?.data || undefined);
-
             chatListRef.current = resChatListResponse.data;
 
             if (!userId) {
@@ -116,6 +111,8 @@ function MessagePage() {
             }
 
         };
+
+        currentChat && decrease(currentChat?.id);
 
         initializeChat();
 
@@ -183,7 +180,7 @@ function MessagePage() {
         }
 
         const handleSocketGetMessage = async (data) => {
-            console.log('GetMessage',data)
+            console.log('GetMessage', data);
             // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
 
@@ -202,7 +199,6 @@ function MessagePage() {
                     console.log(err);
                     toast.error((err).message);
                 }
-
             }
 
 
@@ -277,9 +273,10 @@ function MessagePage() {
     }, [socket, currentChat, userId, data]);
 
     return (
-        <div className="chat">
-            <div className="chat__sidebar">
-                <div className="chat__sidebar-user">{currentUser.username}</div>
+        <div className={`chat ${!userId ? "borderNone" : ""}`}>
+            <div className={`chat__sidebar ${!userId ? "chat__sidebar--full" : ""}`}>
+
+                <div className={`chat__sidebar-user ${!userId ? "chat__sidebar-user--none" : ""}`} onClick={()=>navigate("/messages")}>{currentUser.username}</div>
                 <div className="chat__sidebar-menu">
                     {
                         chatList && chatList.length < 1 ?
@@ -296,7 +293,7 @@ function MessagePage() {
                 </div>
             </div>
 
-            <div className="chat__main">
+            <div className={`chat__main ${!userId ? "chat__main--none" : ""}`} >
                 {
                     userId && <div className="chat__header">
                         {currentChat && (
@@ -311,7 +308,7 @@ function MessagePage() {
                         currentChat ?
                             <MessageList messages={messages} currentUser={currentUser} currentChat={currentChat}/>
                             :
-                            <span className="chat__no-conversation">채팅을 시작하기 위해서 대화상자를 열어주세요.</span>
+                            <span className={`chat__no-conversation ${!userId ? "chat__no-conversation--none" : ""}`}>채팅을 시작하기 위해서 대화상자를 열어주세요.</span>
                     }
                 </div>
 

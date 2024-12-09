@@ -7,7 +7,8 @@ function ChatItem({chat, clickChat}) {
     const {userId} = useParams(); //작성자 아이디
 
     return (
-        <div className={`conversation${userId && (userId === chat.receiver.id) ? ' --current' : ''}`} onClick={() => clickChat(chat)}>
+        <div className={`conversation${userId && (userId === chat.receiver.id) ? ' --current' : ''}`}
+             onClick={() => clickChat(chat)}>
             <div className="conversation__writer">
                 <img
                     className="conversation__image"
@@ -19,10 +20,12 @@ function ChatItem({chat, clickChat}) {
                 <div className="conversation__username">{chat.receiver?.username}</div>
                 <div className="conversation__message">{chat.lastMessage}</div>
             </div>
-            <span className="conversation__count">{chat.unreadMessagesCount}</span>
+            {chat.unreadMessagesCount > 0 &&
+                <span className="conversation__count">{chat.unreadMessagesCount}</span>
+            }
         </div>
     )
-        ;
+
 }
 
 export default ChatItem;

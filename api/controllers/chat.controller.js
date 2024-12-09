@@ -137,7 +137,6 @@ export const getChatOrMakeChat = async (req, res) => {
         },
       },
     });
-    console.log('chat', chat);
     if(!chat) {
       //채팅방 없으면 채팅방 만든다.
       const newChat = await prisma.chat.create({

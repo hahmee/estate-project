@@ -14,9 +14,8 @@ import {NavbarContext} from "../../context/NavbarContext.jsx";
 import {toast} from "react-toastify";
 import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 import {usePageUrlStore} from "../../lib/pageUrlStore.js";
-import apiRequest from "../../lib/apiRequest.js";
-import {googleLogout} from "@react-oauth/google";
 import MenuDropdown from "../menuDropdown/MenuDropdown.jsx";
+import {SocketContext} from "../../context/SocketContext.jsx";
 
 
 export const MAX_PRICE = 1000000000;// 1000000000;
@@ -86,7 +85,7 @@ export const SEARCH_BY_KOREA = [
 ];
 
 function Navbar({isSearchBar}) {
-
+    const {socket} = useContext(SocketContext);
     const {scrollTop, changeScrollTop, changeFixedNavbar, changeIsDropDown, isDropdown} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
     const {searchValue, changeSearchValue, clearSearchValue} = useContext(SearchbarContext);
@@ -118,6 +117,8 @@ function Navbar({isSearchBar}) {
     const [prevLocation, setPrevLocation] = useState(null);
     const lastSavedLocation = useRef(null); // temp buffer
     const setIsFetch = listPostStore((state) => state.setIsFetch);
+    const increase = useNotificationStore((state) => state.increase);
+
     // const [searchParams, setSearchParams] = useSearchParams();
     // const query = {
     //     type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
@@ -292,6 +293,23 @@ function Navbar({isSearchBar}) {
     }, [prevLocation]);
 
     useEffect(() => {
+        const handleSocketGetMessage = async (data) => {
+            //채팅방이 만들어지면, 알림 +1
+            increase(data.chatId);
+        };
+
+        if(socket) {
+            socket.on("getMessage", handleSocketGetMessage);
+        }
+        return () => {
+            if (socket) {
+                socket.off("getMessage", handleSocketGetMessage);
+            }
+        };
+
+    }, [socket]);
+
+    useEffect(() => {
         return () => clearSearchValue(); //에러나서 우선 주석
     }, []);
 
@@ -341,18 +359,15 @@ function Navbar({isSearchBar}) {
                                 <div className="user">
                                     <Button onClick={() => navigate("/location")}>포스팅하기</Button>
                                     <div className="profile">
-                                        {number > 0 && <div className="notification" onClick={toggleMenu}>{number}</div>}
+                                        { <div className="notification" onClick={toggleMenu}>{number}</div>}
                                         <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar" onClick={toggleMenu}/>
                                         <span onClick={toggleMenu}>{currentUser.username}</span>
                                         {
                                             isDropdownOpen ?
-                                                <span className="material-symbols-outlined icon"
-                                                      onClick={toggleMenu}>keyboard_arrow_up</span>
+                                                <span className="material-symbols-outlined icon" onClick={toggleMenu}>keyboard_arrow_up</span>
                                                 :
-                                                <span className="material-symbols-outlined icon"
-                                                      onClick={toggleMenu}>keyboard_arrow_down</span>
+                                                <span className="material-symbols-outlined icon" onClick={toggleMenu}>keyboard_arrow_down</span>
                                         }
-
                                         {/* 드롭다운 메뉴 */}
                                         <MenuDropdown isDropdownOpen={isDropdownOpen} closeMenu={closeMenu}/>
 

@@ -5,26 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/message/messageInput.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/controllers/chat.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/chat.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/routes/chat.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/routes/chat.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/UI/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Button.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/user.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/message/ChatItem.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/ChatItem.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/Message.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/Message.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/message/MessageInput.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/MessageInput.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/message/chatItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/chatItem.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/message2.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/message2.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/messageList/MessageList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messageList/MessageList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/message/messageInput.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/messageInput.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/messageList/messageList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messageList/messageList.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/profile/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/Profile.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/profile/profile.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/profile/profile.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/loaders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/loaders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/notificationStore.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/notificationStore.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/variables.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -176,7 +168,8 @@
       <workItem from="1733495467255" duration="10480000" />
       <workItem from="1733531073174" duration="2188000" />
       <workItem from="1733568049714" duration="8826000" />
-      <workItem from="1733628931995" duration="24187000" />
+      <workItem from="1733628931995" duration="28091000" />
+      <workItem from="1733710180726" duration="4880000" />
     </task>
     <servers />
   </component>
