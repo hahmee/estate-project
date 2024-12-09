@@ -9,7 +9,7 @@ function MessageInput({handleSubmit}) {
 
     // 입력값 변경 핸들러
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const { value } = e.target;
         setMessage(value);
         setDisabled(value.trim() === '');
     };
@@ -33,7 +33,7 @@ function MessageInput({handleSubmit}) {
                           value={message}
                           onChange={handleInputChange}
                 ></textarea>
-                <Button className="chatForm__button" disabled={disabled}>전송</Button>
+                <Button chatButton className="chatForm__button" disabled={disabled}>전송</Button>
             </form>
         </div>
     );

@@ -94,8 +94,9 @@
 
   &__wrapper {
 
-    min-height: 100vh;
+    min-height: 100vh; //100vh
     padding: 20px; // 콘텐츠와 경계 간 여백 추가
+    //background-color: #3CB371;
   }
 
   &__no-conversation {
@@ -108,6 +109,13 @@
       @include md {
         display: none;
       }
+    }
+
+    &--lottieChat {
+      width: 20rem;
+      //background-color: #3CB371;
+      //color: white;
+      opacity: 0.4;
     }
 
   }

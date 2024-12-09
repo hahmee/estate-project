@@ -4,7 +4,7 @@
   position: sticky;
   bottom: 0;
   padding: 15px;
-  background-color: $white-color;
+
   //width: calc(100% - 320px);
   //left: var(--sidebar-width);
   &__form {
@@ -29,11 +29,6 @@
     position: absolute;
     bottom: 20px;
     right: 20px;
-    color: $white-color;
-    background-color: #3CB371;
-    background: #3CB371;
-    border: none;
-    //padding:10px 20px;
   }
 }
 

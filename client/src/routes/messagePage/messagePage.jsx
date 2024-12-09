@@ -10,6 +10,8 @@ import Profile from "../../components/profile/Profile.jsx";
 import MessageList from "../../components/messageList/MessageList.jsx";
 import MessageInput from "../../components/message/MessageInput.jsx";
 import {useNotificationStore} from "../../lib/notificationStore.js";
+import Lottie from "lottie-react";
+import lottieChat from "../../../public/lottie/lottie_chat.json";
 
 function MessagePage() {
     const data = useLoaderData();
@@ -156,8 +158,6 @@ function MessagePage() {
         // 채팅목록에 있는 친구들 중에 한명이라도 로그인/로그아웃 행동 감지된다.
         const handleSocketGetReceiverStatus = async (data) => {
             await checkIfChatEmpty(); //반영이 바로 안된다 -> useRef 로 변경했더니 성공.
-
-            console.log('handleSocketGetOnlinUsers', data); // 로그인하거나 로그아웃한 친구 정보가 온다.
 
             const chatListRefCurrent = [...chatListRef.current];
 
@@ -308,22 +308,16 @@ function MessagePage() {
                         currentChat ?
                             <MessageList messages={messages} currentUser={currentUser} currentChat={currentChat}/>
                             :
-                            <span className={`chat__no-conversation ${!userId ? "chat__no-conversation--none" : ""}`}>채팅을 시작하기 위해서 대화상자를 열어주세요.</span>
+                            <div>
+                                <span className={`chat__no-conversation ${!userId ? "chat__no-conversation--none" : ""}`}>채팅을 시작하기 위해서 대화상자를 열어주세요.</span>
+                                <Lottie animationData={lottieChat} className="chat__no-conversation--lottieChat" />
+                            </div>
                     }
+
                 </div>
 
                 {currentChat &&
                     <MessageInput handleSubmit={handleSubmit}/>
-                    // <div className="chat__input">
-                    //     <form onSubmit={handleSubmit} className="chat__form">
-                    //                 <textarea
-                    //                     name="text"
-                    //                     className="chat__textarea"
-                    //                     placeholder="메시지를 입력해주세요."
-                    //                 ></textarea>
-                    //         <Button>보내기</Button>
-                    //     </form>
-                    // </div>
                 }
             </div>
         </div>
