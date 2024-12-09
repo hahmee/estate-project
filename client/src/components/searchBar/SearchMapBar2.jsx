@@ -29,6 +29,10 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     });
 
     const handleLocationChange = (location) => {
+        console.log('location', location);
+        if(location.trim() === "") {
+            changeDisabled(true);
+        }
         setStatus("");
         setLocation(location);
         setSuggestionsVisible(true);
@@ -48,9 +52,7 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
             .then((latLng) => {
                 searchOptions && saveLocation({...latLng, address: location, politicalList});
                 setQuery((prev) => ({...prev, latitude: latLng.lat, longitude: latLng.lng}));
-                console.log('?');
                 changeDisabled(false);
-
                 getMapResult([{latitude: latLng.lat, longitude: latLng.lng, images: [], location}]);
                 return setLatLng({latitude: latLng.lat, longitude: latLng.lng});
             })
@@ -60,6 +62,11 @@ function SearchMapBar2({getMapResult, searchOptions=[]}) {
     const onError = (status, clearSuggestions) => {
         setStatus( status === "ZERO_RESULTS" ? '해당 장소를 찾을 수 없습니다.' : status);
         clearSuggestions();
+    }
+
+    const onChange = () => {
+
+
     }
 
     useEffect(() => {

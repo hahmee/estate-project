@@ -4,7 +4,15 @@
   .post_title {
     font-size: 1.5em;
     font-weight: bold;
-    margin-top: 1em;
+    margin-top: 100px;
+  }
+  .post_location {
+    font-size: 1.2rem;
+    display: flex;
+    gap: 10px;
+    color: #222222;
+    align-items: center;
+    margin-top: 1rem;
   }
   .formContainer {
     padding: 1.25rem;

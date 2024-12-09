@@ -56,12 +56,15 @@ function NewPostPage() {
   const {progress, setProgress, location, clearLocation, changeDisabled} = useContext(UserProgressContext);
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
-  const [safeOptionsValue, setSafeOptionsValue] = useState([]);
-  const [optionsValue, setOptionsValue] = useState([]);
+  // const [roomType, setRoomType] = useState();
+  // const [payType, setPaytpye] = useState();
+  // const [safeOptionsValue, setSafeOptionsValue] = useState([]);
+  // const [optionsValue, setOptionsValue] = useState([]);
+  // console.log('optionsValue', optionsValue);
   const [inputs, setInputs] = useState({
     title: "",
-    property: "",
-    type: "",
+    property: roomOption[0].value,
+    type: typeOption[0].value,
     description: "",
     size: "",
     price: "",
@@ -69,6 +72,8 @@ function NewPostPage() {
     bedroom: "",
     bathroom: "",
     pet: "",
+    option: [],
+    safeOption: [],
     parking: "",
     school: "",
     bus: "",
@@ -77,16 +82,37 @@ function NewPostPage() {
 
   // 모든 입력값 검증
   useEffect(() => {
-    const allFieldsFilled = Object.values(inputs).every(
-        (value) => value && value.trim() !== ""
-    );
-    console.log(allFieldsFilled);
-    changeDisabled(!allFieldsFilled); // 모든 값이 채워지면 버튼 활성화
-  }, [inputs]);
+    const allFieldsFilled = Object.entries(inputs).every(([key, value]) => {
+      if (Array.isArray(value)) {
+        // 배열의 경우: 하나 이상의 요소가 있어야 함
+        return value.length > 0;
+      } else {
+        // 그 외 (문자열, 숫자 등): 비어있지 않아야 함
+        return value !== "" && value !== null && value !== undefined;
+      }
+    });
+
+    //사진 첨부 했는지
+    const isFileAttached = files.length > 0;
+
+    //위치 가져왔는지
+    const isLocation = location.lat && location.lng;
+
+    console.log('allFieldsFilled', allFieldsFilled);
+    console.log('isFileAttached', isFileAttached);
+    console.log('isLocation', isLocation);
+
+    // 모든 값이 채워지면 버튼 활성화
+    if (allFieldsFilled && isLocation && isFileAttached) {
+      changeDisabled(false);
+    } else {
+      changeDisabled(true);
+    }
+
+  }, [inputs, files, location]);
 
   // 입력값 변경 핸들러
   const handleInputChange = (e) => {
-    console.log('e', e);
     const { name, value } = e.target;
     setInputs((prev) => ({
       ...prev,
@@ -94,59 +120,9 @@ function NewPostPage() {
     }));
   };
 
-  const checkInputs = (inputs) => {
-      //필드 검증
-    const requiredFields = [
-      "title",
-      "property",
-      "type",
-      "description",
-      "size",
-      "price",
-      "maintenance",
-      "bedroom",
-      "bathroom",
-      "pet",
-      "parking",
-      "school",
-      "bus",
-      "direction",
-    ];
-
-    for (const field of requiredFields) {
-      if (!inputs[field] || inputs[field].trim() === "") {
-        toast.error(`"${field}" 필드를 입력해주세요.`);
-        return false;
-      }
-    }
-
-    return true;
-
-  };
-
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const inputs = Object.fromEntries(formData);
-    console.log('inputs', inputs);
-
-    // 빈칸 있는지 실행
-    if (!checkInputs(inputs)) {
-      setProgress("", { ...progress, loading: false });
-      return;
-    }
-
-    if (files.length < 1) {
-      toast.error('이미지 한 개 이상을 첨부해야 합니다.');
-      return;
-      // throw new Error('이미지 한 개 이상을 첨부해야 합니다.');
-    }
-
-
     let imageUrl = [];
-    const optionList = optionsValue.map(value => value.value);
-    const safeOptionList = safeOptionsValue.map(value => value.value);
 
     try {
 
@@ -227,7 +203,6 @@ function NewPostPage() {
           bathroom: Number(inputs.bathroom),
           latitude: location.lat.toString(),
           longitude: location.lng.toString(),
-          // coordinates: [location.lat, location.lng],
           images: imageUrl,
           size: Number(inputs.size),
           maintenance: Number(inputs.maintenance),
@@ -235,13 +210,14 @@ function NewPostPage() {
         postDetail: {
           desc: inputs.description,
           pet: inputs.pet,
-          option: optionList,
-          safeOption: safeOptionList,
+          option: inputs.option.map((data) => data.value),
+          safeOption: inputs.safeOption.map((data) => data.value),
           school: Number(inputs.school),
           bus: Number(inputs.bus),
           direction: inputs.direction,
           parking: Number(inputs.parking),
         },
+
       });
       toast.success('성공적으로 저장되었습니다.');
       navigate("/read/" + res.data.id);
@@ -253,10 +229,15 @@ function NewPostPage() {
     } finally {
       setProgress('', {...progress, loading: false});
     }
-  }, [files, optionsValue, safeOptionsValue]);
+  }, [files]);
 
 
   useEffect(() => {
+
+    if(!location.address ||!location.lat || !location.lng) {
+      //이 전 페이지로 이동
+      // navigate("/location");
+    }
     console.log('location', location);
     setProgress('save');
     changeDisabled(true); //제출 버튼 비활성화
@@ -265,30 +246,52 @@ function NewPostPage() {
   const div = <>
     <div className="newPostPage">
       <div className="post_title">정보를 상세하게 입력해주세요.</div>
+      <div className="post_location">
+        <span className="material-symbols-outlined">pin_drop</span>
+        <span>{location.address}</span>
+      </div>
+
       <div className="formContainer">
         <div className="wrapper">
           <form id="estate-post-form" onSubmit={handleSubmit}>
             <div className="item">
-              <Input label="제목" type="text" id="title" name="title" value={inputs.title} onChange={handleInputChange}/>
-              <Selection id="property" name="property" label="방종류" options={roomOption} defaultValue={roomOption[0]} value={inputs.property} onChange={handleInputChange}
+              <Input label="제목" type="text" id="title" name="title" onChange={handleInputChange}/>
+              <Selection id="property" name="property" label="방종류" options={roomOption} defaultValue={roomOption[0]}
+                         onChange={(e) =>
+                             setInputs((prev) => ({
+                               ...prev,
+                               property: e.value,
+                             }))}
               />
-              <Selection id="type" name="type" label="타입" options={typeOption} defaultValue={typeOption[0]}/>
+              <Selection id="type" name="type" label="타입" options={typeOption} defaultValue={typeOption[0]}
+                         onChange={(e) =>
+                             setInputs((prev) => ({
+                               ...prev,
+                               type: e.value,
+                             }))}
+              />
             </div>
 
             <div className="item description">
-              <Textarea label="설명" id="description" name="description"></Textarea>
+              <Textarea label="설명" id="description" name="description" onChange={handleInputChange}></Textarea>
             </div>
 
             <div className="item">
-              <Input label="면적(평)" min={0} id="size" name="size" type="number"/>
-              <Input label="가격" id="price" name="price" type="number"/>
-              <Input label="관리비" id="maintenance" name="maintenance" type="number"/>
+              <Input label="면적(평)" min={0} id="size" name="size" type="number" onChange={handleInputChange}/>
+              <Input label="가격" id="price" name="price" type="number" onChange={handleInputChange}/>
+              <Input label="관리비" id="maintenance" name="maintenance" type="number" onChange={handleInputChange}/>
             </div>
 
             <div className="item">
-              <Input label="방 수" min={1} id="bedroom" name="bedroom" type="number"/>
-              <Input label="화장실 수" min={1} id="bathroom" name="bathroom" type="number"/>
-              <Selection name="pet" id="pet" label="애완동물 입주 가능" options={petOption}/>
+              <Input label="방 수" min={1} id="bedroom" name="bedroom" type="number" onChange={handleInputChange}/>
+              <Input label="화장실 수" min={1} id="bathroom" name="bathroom" type="number" onChange={handleInputChange}/>
+              <Selection name="pet" id="pet" label="애완동물 입주 가능" options={petOption}
+                         onChange={(e) =>
+                             setInputs((prev) => ({
+                               ...prev,
+                               pet: e.value,
+                             }))}
+              />
             </div>
 
             <div className="item">
@@ -298,7 +301,13 @@ function NewPostPage() {
                   name="option"
                   label="옵션"
                   options={options}
-                  onChange={(e) => setOptionsValue(e)}
+                  onChange={(e) => {
+                    console.log('e', e);
+                    setInputs((prev) => ({
+                      ...prev,
+                      option: e,
+                    }));
+                  }}
               />
               <Selection
                   isMulti
@@ -306,15 +315,19 @@ function NewPostPage() {
                   name="safeOption"
                   label="보안/안전시설"
                   options={safeOptions}
-                  onChange={(e) => setSafeOptionsValue(e)}
+                  onChange={(e) =>
+                      setInputs((prev) => ({
+                        ...prev,
+                        safeOption: e,
+                      }))}
               />
-              <Input label="주차" id="parking" min={0} name="parking" type="number"/>
+              <Input label="주차" id="parking" min={0} name="parking" type="number" onChange={handleInputChange}/>
             </div>
 
             <div className="item">
-              <Input label="학교" min={0} id="school" name="school" type="number"/>
-              <Input label="대중교통(버스, 지하철)" min={0} id="bus" name="bus" type="number"/>
-              <Input label="방향" id="direction" name="direction" type="text"/>
+              <Input label="학교" min={0} id="school" name="school" type="number" onChange={handleInputChange}/>
+              <Input label="대중교통(버스, 지하철)" min={0} id="bus" name="bus" type="number" onChange={handleInputChange}/>
+              <Input label="방향" id="direction" name="direction" type="text" onChange={handleInputChange}/>
             </div>
 
             <div className="item imageUpload">

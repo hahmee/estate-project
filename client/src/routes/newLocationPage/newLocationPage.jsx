@@ -10,14 +10,11 @@ function NewLocationPage() {
     const {setProgress} = useContext(UserProgressContext);
 
     const getMapResult = useCallback((itemList) => {
-        console.log('333');
-        console.log('itemsList', itemList);
         setItemList(itemList);
         setProgress('add');
     }, [itemList]);
 
     useEffect(() => {
-        console.log('e3')
         setProgress('add');
     }, []);
 

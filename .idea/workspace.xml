@@ -5,18 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage2.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/messageInput.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/messageInput.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/messageList/MessageList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messageList/MessageList.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/messageList/messageList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messageList/messageList.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocation.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocation.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +165,8 @@
       <workItem from="1733628931995" duration="28091000" />
       <workItem from="1733710180726" duration="11164000" />
       <workItem from="1733724896904" duration="8000" />
-      <workItem from="1733725134855" duration="6533000" />
+      <workItem from="1733725134855" duration="8722000" />
+      <workItem from="1733734651875" duration="4187000" />
     </task>
     <servers />
   </component>
