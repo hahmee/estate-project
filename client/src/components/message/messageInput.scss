@@ -4,16 +4,10 @@
   position: sticky;
   bottom: 0;
   padding: 15px;
-
-  //width: calc(100% - 320px);
-  //left: var(--sidebar-width);
+  background-color: $white-color;
   &__form {
-
     display: flex;
     gap: 10px;
-    //
-
-
   }
 
   &__textarea {
@@ -31,4 +25,3 @@
     right: 20px;
   }
 }
-

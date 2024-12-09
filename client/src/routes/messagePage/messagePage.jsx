@@ -12,6 +12,296 @@ import MessageInput from "../../components/message/MessageInput.jsx";
 import {useNotificationStore} from "../../lib/notificationStore.js";
 import Lottie from "lottie-react";
 import lottieChat from "../../../public/lottie/lottie_chat.json";
+import {ca} from "timeago.js/lib/lang/index.js";
+
+export const dummyData =
+    [
+        {
+            id: '67566daba965f958a07ee06d',
+            chatUUID: 'b7f248c3-bce3-4aef-b3da-417b3281e89e',
+            userIDs: [
+                '669e17e229b1c61ecfb4bb98',
+                '66a1b27bbdaeaf83286d5004'
+            ],
+            createdAt: '2024-12-09T04:10:19.349Z',
+            lastChatAt: '2024-12-09T04:10:19.349Z',
+            lastMessage: null,
+            unreadMessagesCount: 0,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5004',
+                username: 'ccc',
+                avatar: null,
+                chatId: '67566daba965f958a07ee06d',
+                isOnline: false
+            }
+        },
+        {
+            id: '67566dab12345f958a07ee06e',
+            chatUUID: 'a8f348d2-cdf3-5bef-c4db-418c4292e90f',
+            userIDs: [
+                '669e17e229b1c61ecfb4bb99',
+                '66a1b27bbdaeaf83286d5005'
+            ],
+            createdAt: '2024-12-09T05:12:19.349Z',
+            lastChatAt: '2024-12-09T05:12:19.349Z',
+            lastMessage: 'Hello!',
+            unreadMessagesCount: 2,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5005',
+                username: 'ddd',
+                avatar: null,
+                chatId: '67566dab12345f958a07ee06e',
+                isOnline: true
+            }
+        },
+        {
+            id: '67566dab67895f958a07ee06f',
+            chatUUID: 'c9g359d3-def4-6cfc-d5ec-519d5393f91g',
+            userIDs: [
+                '669e17e229b1c61ecfb4bba0',
+                '66a1b27bbdaeaf83286d5006'
+            ],
+            createdAt: '2024-12-09T06:15:19.349Z',
+            lastChatAt: '2024-12-09T06:15:19.349Z',
+            lastMessage: 'How are you?',
+            unreadMessagesCount: 1,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5006',
+                username: 'eee',
+                avatar: null,
+                chatId: '67566dab67895f958a07ee06f',
+                isOnline: false
+            }
+        },
+        {
+            id: '67566dab23456f958a07ee070',
+            chatUUID: 'd1h460e4-efg5-7dgd-e6fd-620e6494g92h',
+            userIDs: [
+                '669e17e229b1c61ecfb4bba1',
+                '66a1b27bbdaeaf83286d5007'
+            ],
+            createdAt: '2024-12-09T07:18:19.349Z',
+            lastChatAt: '2024-12-09T07:18:19.349Z',
+            lastMessage: null,
+            unreadMessagesCount: 0,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5007',
+                username: 'fff',
+                avatar: null,
+                chatId: '67566dab23456f958a07ee070',
+                isOnline: true
+            }
+        },
+        {
+            id: '67566dab78965f958a07ee071',
+            chatUUID: 'e2i571f5-fgh6-8ehe-f7ge-721f7595h93i',
+            userIDs: [
+                '669e17e229b1c61ecfb4bba2',
+                '66a1b27bbdaeaf83286d5008'
+            ],
+            createdAt: '2024-12-09T08:20:19.349Z',
+            lastChatAt: '2024-12-09T08:20:19.349Z',
+            lastMessage: 'Good morning',
+            unreadMessagesCount: 3,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5008',
+                username: 'ggg',
+                avatar: null,
+                chatId: '67566dab78965f958a07ee071',
+                isOnline: false
+            }
+        },
+        {
+            id: '67566dab89012f958a07ee072',
+            chatUUID: 'f3j682g6-ghi7-9fif-g8hf-832g8696i04j',
+            userIDs: [
+                '669e17e229b1c61ecfb4bba3',
+                '66a1b27bbdaeaf83286d5009'
+            ],
+            createdAt: '2024-12-09T09:25:19.349Z',
+            lastChatAt: '2024-12-09T09:25:19.349Z',
+            lastMessage: 'See you soon',
+            unreadMessagesCount: 0,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5009',
+                username: 'hhh',
+                avatar: null,
+                chatId: '67566dab89012f958a07ee072',
+                isOnline: true
+            }
+        },
+        {
+            id: '67566dab90123f958a07ee073',
+            chatUUID: 'g4k793h7-hij8-1gjg-h9ih-943h9707j15k',
+            userIDs: [
+                '669e17e229b1c61ecfb4bba4',
+                '66a1b27bbdaeaf83286d5010'
+            ],
+            createdAt: '2024-12-09T10:30:19.349Z',
+            lastChatAt: '2024-12-09T10:30:19.349Z',
+            lastMessage: 'Let’s catch up later',
+            unreadMessagesCount: 1,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5010',
+                username: 'iii',
+                avatar: null,
+                chatId: '67566dab90123f958a07ee073',
+                isOnline: false
+            }
+        },
+        {
+            id: '67566dab01234f958a07ee074',
+            chatUUID: 'h5l804i8-ijk9-2hkh-i1ji-054i0818k26l',
+            userIDs: [
+                '669e17e229b1c61ecfb4bba5',
+                '66a1b27bbdaeaf83286d5011'
+            ],
+            createdAt: '2024-12-09T11:35:19.349Z',
+            lastChatAt: '2024-12-09T11:35:19.349Z',
+            lastMessage: null,
+            unreadMessagesCount: 0,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5011',
+                username: 'jjj',
+                avatar: null,
+                chatId: '67566dab01234f958a07ee074',
+                isOnline: true
+            }
+        },
+        {
+            id: '67566dab23456f958a07ee075',
+            chatUUID: 'i6m915j9-jkl0-3ili-j2kj-165j1929l37m',
+            userIDs: [
+                '669e17e229b1c61ecfb4bba6',
+                '66a1b27bbdaeaf83286d5012'
+            ],
+            createdAt: '2024-12-09T12:40:19.349Z',
+            lastChatAt: '2024-12-09T12:40:19.349Z',
+            lastMessage: 'I’ll be there soon',
+            unreadMessagesCount: 2,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5012',
+                username: 'kkk',
+                avatar: null,
+                chatId: '67566dab23456f958a07ee075',
+                isOnline: false
+            }
+        },
+        {
+            id: '67566dab34567f958a07ee076',
+            chatUUID: 'j7n026k0-klm1-4jmj-k3kl-276k2030m48n',
+            userIDs: [
+                '669e17e229b1c61ecfb4bba7',
+                '66a1b27bbdaeaf83286d5013'
+            ],
+            createdAt: '2024-12-09T13:45:19.349Z',
+            lastChatAt: '2024-12-09T13:45:19.349Z',
+            lastMessage: 'What’s up?',
+            unreadMessagesCount: 0,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5013',
+                username: 'lll',
+                avatar: null,
+                chatId: '67566dab34567f958a07ee076',
+                isOnline: true
+            }
+        },
+        {
+            id: '67566dab45678f958a07ee077',
+            chatUUID: 'k8o137l1-lmn2-5knk-l4lm-387l3141n59o',
+            userIDs: [
+                '669e17e229b1c61ecfb4bba8',
+                '66a1b27bbdaeaf83286d5014'
+            ],
+            createdAt: '2024-12-09T14:50:19.349Z',
+            lastChatAt: '2024-12-09T14:50:19.349Z',
+            lastMessage: 'Call me when you can',
+            unreadMessagesCount: 4,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5014',
+                username: 'mmm',
+                avatar: null,
+                chatId: '67566dab45678f958a07ee077',
+                isOnline: false
+            }
+        },
+        {
+            id: '67566dab56789f958a07ee078',
+            chatUUID: 'l9p248m2-mno3-6lol-m5mn-498m4252o60p',
+            userIDs: [
+                '669e17e229b1c61ecfb4bba9',
+                '66a1b27bbdaeaf83286d5015'
+            ],
+            createdAt: '2024-12-09T15:55:19.349Z',
+            lastChatAt: '2024-12-09T15:55:19.349Z',
+            lastMessage: null,
+            unreadMessagesCount: 0,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5015',
+                username: 'nnn',
+                avatar: null,
+                chatId: '67566dab56789f958a07ee078',
+                isOnline: true
+            }
+        },
+        {
+            id: '67566dab67890f958a07ee079',
+            chatUUID: 'm0q359n3-opq4-7mpm-n6no-509n5363p71q',
+            userIDs: [
+                '669e17e229b1c61ecfb4bbaa',
+                '66a1b27bbdaeaf83286d5016'
+            ],
+            createdAt: '2024-12-09T16:00:19.349Z',
+            lastChatAt: '2024-12-09T16:00:19.349Z',
+            lastMessage: 'Let’s meet tomorrow',
+            unreadMessagesCount: 1,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5016',
+                username: 'ooo',
+                avatar: null,
+                chatId: '67566dab67890f958a07ee079',
+                isOnline: false
+            }
+        },
+        {
+            id: '67566dab78901f958a07ee080',
+            chatUUID: 'n1r460o4-pqr5-8nqn-o7op-610o6474q82r',
+            userIDs: [
+                '669e17e229b1c61ecfb4bbab',
+                '66a1b27bbdaeaf83286d5017'
+            ],
+            createdAt: '2024-12-09T17:05:19.349Z',
+            lastChatAt: '2024-12-09T17:05:19.349Z',
+            lastMessage: 'Great job!',
+            unreadMessagesCount: 2,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5017',
+                username: 'ppp',
+                avatar: null,
+                chatId: '67566dab78901f958a07ee080',
+                isOnline: true
+            }
+        },
+        {
+            id: '67566dab78901f958a07ee080',
+            chatUUID: 'n1r460o4-pqr5-8nqn-o7op-610o6474q82r',
+            userIDs: [
+                '669e17e229b1c61ecfb4bbab',
+                '66a1b27bbdaeaf83286d5017'
+            ],
+            createdAt: '2024-12-09T17:05:19.349Z',
+            lastChatAt: '2024-12-09T17:05:19.349Z',
+            lastMessage: 'Great job!',
+            unreadMessagesCount: 2,
+            receiver: {
+                id: '66a1b27bbdaeaf83286d5017',
+                username: 'ppssssp',
+                avatar: null,
+                chatId: '67566dab78901f958a07ee080',
+                isOnline: true
+            }
+        }
+    ]
 
 function MessagePage() {
     const data = useLoaderData();
@@ -256,7 +546,7 @@ function MessagePage() {
             });
 
             //왼쪽 대화 리스트들의 유저들이 온라인 상태인지 표시한다.
-           checkIfChatListOnline();
+            checkIfChatListOnline();
 
         }
 
@@ -276,7 +566,8 @@ function MessagePage() {
         <div className={`chat ${!userId ? "borderNone" : ""}`}>
             <div className={`chat__sidebar ${!userId ? "chat__sidebar--full" : ""}`}>
 
-                <div className={`chat__sidebar-user ${!userId ? "chat__sidebar-user--none" : ""}`} onClick={()=>navigate("/messages")}>{currentUser.username}</div>
+                <div className={`chat__sidebar-user ${!userId ? "chat__sidebar-user--none" : ""}`}
+                     onClick={() => navigate("/messages")}>{currentUser.username}</div>
                 <div className="chat__sidebar-menu">
                     {
                         chatList && chatList.length < 1 ?
@@ -293,7 +584,7 @@ function MessagePage() {
                 </div>
             </div>
 
-            <div className={`chat__main ${!userId ? "chat__main--none" : ""}`} >
+            <div className={`chat__main ${!userId ? "chat__main--none" : ""}`}>
                 {
                     userId && <div className="chat__header">
                         {currentChat && (
@@ -302,19 +593,19 @@ function MessagePage() {
                     </div>
                 }
 
-                <div className="chat__wrapper">
-                    {/*날짜별로 리스트*/}
-                    {
-                        currentChat ?
+                {
+                    currentChat ?
+                        <div className="chat__wrapper">
                             <MessageList messages={messages} currentUser={currentUser} currentChat={currentChat}/>
-                            :
-                            <div>
-                                <span className={`chat__no-conversation ${!userId ? "chat__no-conversation--none" : ""}`}>채팅을 시작하기 위해서 대화상자를 열어주세요.</span>
-                                <Lottie animationData={lottieChat} className="chat__no-conversation--lottieChat" />
-                            </div>
-                    }
+                        </div>
+                        :
+                        <div>
+                            <span className={`chat__no-conversation ${!userId ? "chat__no-conversation--none" : ""}`}>채팅을 시작하기 위해서 대화상자를 열어주세요.</span>
+                            <Lottie animationData={lottieChat} className="chat__no-conversation--lottieChat"/>
+                        </div>
 
-                </div>
+                }
+
 
                 {currentChat &&
                     <MessageInput handleSubmit={handleSubmit}/>

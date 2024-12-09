@@ -253,8 +253,6 @@ function Navbar({isSearchBar}) {
         // setIsDropdownOpen(true);
     };
 
-
-
     useEffect(() => {
         setLocation(searchValue.location);
         setLatitude(searchValue.latitude);
@@ -330,7 +328,6 @@ function Navbar({isSearchBar}) {
                 (scrollTop && currentClicked !== 0) && <div className="searchClickBackground"></div>
                 //밖에 클릭했을 때 기본 nav로 돌아가게
             }
-
 
             {/*MOBILE*/}
             <div className="mobile-nav">

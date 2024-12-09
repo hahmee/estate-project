@@ -1,12 +1,13 @@
 @import "../../main.scss";
 
 .common-layout {
-  overflow-y: auto; /* 스크롤 활성화 */
-  height: 100vh; /* 뷰포트 전체 높이 */
+  //background-color: #ff6e7e;
+  //overflow-y: auto; /* 스크롤 활성화 */
+  //height: 100vh; /* 뷰포트 전체 높이 */
 }
 
 .app {
-  overflow-anchor: none; //nav sticky때문에
+  //overflow-anchor: none; //nav sticky때문에
 }
 .layoutUpper {
   flex: 1; // 나머지 공간을 차지하도록 설정
@@ -43,7 +44,7 @@
 .processDiv {
   height: 80px;
   width: 100%;
-  position: sticky;
+  position: fixed;
   bottom: 0;
   display: flex;
   justify-content: space-around;

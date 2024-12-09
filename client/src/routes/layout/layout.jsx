@@ -11,15 +11,20 @@ import MobileMenu from "../../components/mobile-menu/MobileMenu.jsx";
 
 function CommonLayout({ children, isSearchBar, isLoginCheck }) {
 
-    const layoutRef = useRef();
     const { changeScrollTop,  changeFixedNavbar,  changeIsDropDown} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
     const [mobileMenuHidden, setMobileMenuHidden] = useState(false);
     const lastScrollTop = useRef(0); // 이전 스크롤 위치를 저장
 
-    const handleScroll = useCallback(() => {
-        if (layoutRef.current) {
-            const currentScrollTop = layoutRef.current.scrollTop;
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const handleScroll = () => {
+        if (window !== undefined) {
+            let currentScrollTop = window.scrollY;
+
             // 스크롤이 최상단인지 여부를 설정
             changeScrollTop(currentScrollTop === 0);
             //스크롤이 움직이면 무조건 드롭다운 닫기
@@ -38,29 +43,15 @@ function CommonLayout({ children, isSearchBar, isLoginCheck }) {
             lastScrollTop.current = currentScrollTop <= 0 ? 0 : currentScrollTop;
 
         }
-    }, [changeScrollTop, changeFixedNavbar]);
+    };
 
-    useEffect(() => {
-
-        const currentRef = layoutRef.current;
-
-        if (currentRef) {
-            currentRef.addEventListener("scroll", handleScroll, true);
-        }
-
-        return () => {
-            if (currentRef) {
-                currentRef.removeEventListener("scroll", handleScroll, true);
-            }
-        };
-    }, [handleScroll]);
 
     if (!currentUser && isLoginCheck) return <Navigate to="/login"/>;
 
     return (
-        <div className="common-layout" ref={layoutRef}>
+        <div className="common-layout">
             <Navbar isSearchBar={isSearchBar}/>
-            {children}
+                {children}
             <MobileMenu isHidden={mobileMenuHidden}/>
         </div>
     );
@@ -68,7 +59,7 @@ function CommonLayout({ children, isSearchBar, isLoginCheck }) {
 //isSearchBar 가 true
 function Layout() {
     return (
-        <div className="app" >
+        <div className="app">
             <div className="layoutUpper">
                 <div className="layout">
                     <div className="content">

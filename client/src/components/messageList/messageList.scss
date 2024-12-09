@@ -1,9 +1,12 @@
 @import "../../main.scss";
 
 .messages {
+  padding: 80px 20px 20px;
+
   &__date {
     text-align: center;
-    margin-top: 3rem;
+    padding-top: 1rem;
+    //background-color: #3CB371;
     span {
       background-color: $white-color;
       color: #222222;

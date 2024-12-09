@@ -7,8 +7,9 @@ const MessageList = (props) => {
     const scrollRef = useRef();
 
     useEffect(() => {
+        console.log('messages', scrollRef.current);
         if (scrollRef.current) {
-            scrollRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            scrollRef.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [messages]);
 
@@ -20,7 +21,7 @@ const MessageList = (props) => {
     return (
         <div className="messages">
             {Object.entries(messages).map(([date, messagesForDate]) => (
-                <div key={date} ref={scrollRef}>
+                <div key={date}>
                     <div className="messages__date">
                         <span>{date}</span>
                     </div>
@@ -40,6 +41,7 @@ const MessageList = (props) => {
                                 </div>
                             ))}
                     </div>
+                    <div ref={scrollRef} className="scrollRef"></div>
                 </div>
             ))}
         </div>

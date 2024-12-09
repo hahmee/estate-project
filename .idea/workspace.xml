@@ -5,15 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/public/lottie/lottie_chat.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage2.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/UI/Button.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Button.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/MessageInput.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/MessageInput.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/message/messageInput.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/messageInput.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/messageList/MessageList.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messageList/MessageList.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/messageList/messageList.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/messageList/messageList.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/navbar.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/index.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" afterDir="false" />
     </list>
@@ -40,30 +41,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.MapLoading.jsx.executor": "Run",
-    "Node.js.auth.controller.js.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/dev/youtube/estate-project/client/public/lottie",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.HTTP Request",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.MapLoading.jsx.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.auth.controller.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/dev/youtube/estate-project/client/src/routes/messagePage&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.HTTP Request&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\youtube\estate-project\client\src\routes\messagePage" />
       <recent name="C:\dev\youtube\estate-project\client\public\lottie" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\menuDropdown" />
       <recent name="C:\dev\youtube\estate-project\client\src\routes\wish" />
       <recent name="C:\dev\youtube\estate-project\client\src\routes\profilePage" />
-      <recent name="C:\dev\youtube\estate-project\client\src\components\mobile-menu" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -168,7 +169,9 @@
       <workItem from="1733531073174" duration="2188000" />
       <workItem from="1733568049714" duration="8826000" />
       <workItem from="1733628931995" duration="28091000" />
-      <workItem from="1733710180726" duration="7615000" />
+      <workItem from="1733710180726" duration="11164000" />
+      <workItem from="1733724896904" duration="8000" />
+      <workItem from="1733725134855" duration="6533000" />
     </task>
     <servers />
   </component>

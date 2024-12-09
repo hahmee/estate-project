@@ -18,12 +18,14 @@
   &__sidebar {
     flex: none;
     width: var(--sidebar-width); // 사이드바 너비
-    height: 100%;
+    height: calc(100vh - 80px);
+    top:80px;
     position: fixed;
     overflow-y: auto;
     border-right: 1px solid #eeeeee;
     display: flex;
     flex-direction: column;
+    z-index: 1;
 
     @include md {
       display: none;
@@ -35,15 +37,13 @@
         width: 100%;
         position: static;
         border-right: none;
-
       }
     }
 
     &-user {
       font-weight: bold;
-      height: 60px;
       color: #222222;
-      padding: 10px;
+      padding: 18.5px;
       width: 100%;
       z-index: 1;
       display: flex;
@@ -93,17 +93,14 @@
   }
 
   &__wrapper {
-
     min-height: 100vh; //100vh
-    padding: 20px; // 콘텐츠와 경계 간 여백 추가
-    //background-color: #3CB371;
   }
 
   &__no-conversation {
     font-size: 28px;
     color: rgb(224, 220, 220);
     text-align: center;
-    margin-top: 20px;
+    padding-top: 100px;
 
     &--none {
       @include md {
