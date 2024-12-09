@@ -21,7 +21,6 @@ function UpdatePage() {
     const {progress, setProgress, saveLocation} = useContext(UserProgressContext);
     const { id } = useParams();
 
-
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
         setProgress('',{...progress, loading: true});
@@ -182,8 +181,6 @@ function UpdatePage() {
                             <DropZone files={files} setFiles={setFiles} multiple={true} defaultImage={defaultImage}
                                       setDefaultImage={setDefaultImage}/>
                         </div>
-
-
                     </form>
                 </div>
             </div>

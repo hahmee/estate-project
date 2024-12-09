@@ -98,10 +98,6 @@ function NewPostPage() {
     //위치 가져왔는지
     const isLocation = location.lat && location.lng;
 
-    console.log('allFieldsFilled', allFieldsFilled);
-    console.log('isFileAttached', isFileAttached);
-    console.log('isLocation', isLocation);
-
     // 모든 값이 채워지면 버튼 활성화
     if (allFieldsFilled && isLocation && isFileAttached) {
       changeDisabled(false);
@@ -143,7 +139,6 @@ function NewPostPage() {
 
       //promise.all로 콜백 함수에서 반환하는 값들을 배열에 넣어놓고, 비동기 처리가 끝나는 타이밍 감지
       const responseArray = await Promise.all(response);
-      console.log('responseArray', responseArray);
 
       responseArray.map((res) => {
         imageUrl = [...imageUrl, res.data.secure_url];
@@ -186,11 +181,8 @@ function NewPostPage() {
       // });
 
 
-      console.log('imageUrl', imageUrl);
-
       // setPost(inputs); // await imageUpload();
 
-      console.log('location', location);
       const res = await apiRequest.post("/posts", {
         postData: {
           title: inputs.title,
