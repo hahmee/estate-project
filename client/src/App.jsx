@@ -30,7 +30,6 @@ function App() {
         {
           path: "/list",
           element: <ListPage/>,
-          // loader: listPageLoader,
         },
         {
           path: "read/:id",
@@ -100,23 +99,6 @@ function App() {
           element: <WishPage/>,
           loader: wishPageLoader
         },
-        // {
-        //   path: "/messages/:userId",
-        //   element: <MessagePage />,
-        //   loader: messagePageLoader
-        // },
-        // {
-        //   path: "/profile/update",
-        //   element: <ProfileUpdatePage />,
-        // },
-        // {
-        //   path: "/location",
-        //   element: <NewLocationPage />,
-        // },
-        // {
-        //   path: "/add",
-        //   element: <NewPostPage />,
-        // },
         {
           path: "/chat",
           element: <NewChatPage/>,

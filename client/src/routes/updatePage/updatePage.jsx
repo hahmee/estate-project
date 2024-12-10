@@ -12,23 +12,73 @@ import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import {toast} from "react-toastify";
 
 function UpdatePage() {
-    const post = useLoaderData();
+    const post = useLoaderData().postResponse.data;
     const [files, setFiles] = useState([]);
-    const [optionsValue, setOptionsValue] = useState(options.filter(option => post.postDetail.option.includes(option.value)));
-    const [safeOptionsValue, setSafeOptionsValue] = useState(safeOptions.filter(option => post.postDetail.safeOption.includes(option.value)));
     const [defaultImage, setDefaultImage] = useState(post.images);
     const navigate = useNavigate();
-    const {progress, setProgress, saveLocation} = useContext(UserProgressContext);
+    const {progress, setProgress, saveLocation, changeDisabled} = useContext(UserProgressContext);
     const { id } = useParams();
+    const [inputs, setInputs] = useState({
+        title: post.title,
+        property: post.property,
+        type: post.type,
+        desc: post.postDetail.desc,
+        size: post.size,
+        price: post.price,
+        maintenance: post.maintenance,
+        bedroom: post.bedroom,
+        bathroom: post.bathroom,
+        pet: post.postDetail.pet,
+        option: options.filter(option => post.postDetail.option.includes(option.value)),
+        safeOption: safeOptions.filter(option => post.postDetail.safeOption.includes(option.value)),
+        parking: post.postDetail.parking,
+        school: post.postDetail.school,
+        bus: post.postDetail.bus,
+        direction: post.postDetail.direction,
+    });
+
+    // 모든 입력값 검증
+    useEffect(() => {
+        console.log('inputs', inputs);
+        const allFieldsFilled = Object.entries(inputs).every(([key, value]) => {
+            if (Array.isArray(value)) {
+                // 배열의 경우: 하나 이상의 요소가 있어야 함
+                return value.length > 0;
+            } else {
+                // 그 외 (문자열, 숫자 등): 비어있지 않아야 함
+                return value !== "" && value !== null && value !== undefined;
+            }
+        });
+
+
+        //사진 첨부 했는지
+        const isFileAttached = defaultImage.length + files.length > 0;
+        console.log('allFieldsFilled', allFieldsFilled);
+        console.log('files', files);
+        console.log('defaultImage', defaultImage);
+
+        // 모든 값이 채워지면 버튼 활성화
+        if (allFieldsFilled && isFileAttached) {
+            changeDisabled(false);
+        } else {
+            changeDisabled(true);
+        }
+
+    }, [inputs, files]);
+
+    // 입력값 변경 핸들러
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setInputs((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
 
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
-        setProgress('',{...progress, loading: true});
+        setProgress('', {...progress, loading: true});
 
-        const formData = new FormData(e.target);
-        const inputs = Object.fromEntries(formData);
-        const optionList = optionsValue.map(value => value.value);
-        const safeOptionList = safeOptionsValue.map(value => value.value);
         let imageUrl = [...defaultImage];
 
         try {
@@ -36,7 +86,6 @@ function UpdatePage() {
             // cloudinary.v2.uploader.destroy(public_id, options).then(callback);
 
             if (imageUrl.length + files.length < 1) {
-                //throw new Error('이미지 한 개 이상을 첨부해야 합니다.');
                 toast.error('이미지 한 개 이상을 첨부해야 합니다.');
                 return;
             }
@@ -69,8 +118,12 @@ function UpdatePage() {
                     property: inputs.property,
                     type: inputs.type,
                     price: Number(inputs.price),
+                    // address: location.address, 수정필요x
+                    // politicalList: location.politicalList,수정필요x
                     bedroom: Number(inputs.bedroom),
                     bathroom: Number(inputs.bathroom),
+                    // latitude: location.lat.toString(),
+                    // longitude: location.lng.toString(),
                     images: imageUrl,
                     size: Number(inputs.size),
                     maintenance: Number(inputs.maintenance),
@@ -78,8 +131,8 @@ function UpdatePage() {
                 postDetail: {
                     desc: inputs.description,
                     pet: inputs.pet,
-                    option: optionList,
-                    safeOption: safeOptionList,
+                    option: inputs.option.map((data) => data.value),
+                    safeOption: inputs.safeOption.map((data) => data.value),
                     school: Number(inputs.school),
                     bus: Number(inputs.bus),
                     direction: inputs.direction,
@@ -90,14 +143,19 @@ function UpdatePage() {
             navigate("/read/" + res.data);
 
         } catch (err) {
+            console.log(err);
             toast.error(err.response.data.message);
         } finally {
             setProgress('', {...progress, loading: false});
+            changeDisabled(true);//제출버튼 비활성화
         }
-    }, [files, optionsValue, safeOptionsValue, defaultImage]);
+    }, [files, defaultImage]);
 
     useEffect(() => {
         setProgress('save');
+
+        //버튼 활성화
+        changeDisabled(false);
 
         saveLocation({
             latitude: post.latitude,
@@ -110,38 +168,61 @@ function UpdatePage() {
 
     const div = <>
         <div className="newPostPage">
-            <h2>수정해주세요</h2>
+            <div className="post_title">수정해주세요.</div>
+            <div className="post_location">
+                <span className="material-symbols-outlined">pin_drop</span>
+                <span>{post.address}</span>
+            </div>
             <div className="formContainer">
                 <div className="wrapper">
                     <form id="estate-post-form" onSubmit={handleSubmit}>
                         <div className="item">
-                            <Input label="제목" type="text" id="title" name="title" defaultValue={post.title}/>
+                            <Input label="제목" type="text" id="title" name="title" defaultValue={inputs.title} onChange={handleInputChange}/>
                             <Selection id="property" name="property" label="방종류" options={roomOption}
-                                       defaultValue={roomOption.find((option) => option.value === post.property)}/>
+                                       onChange={(e) =>
+                                           setInputs((prev) => ({
+                                               ...prev,
+                                               property: e.value,
+                                           }))}
+                                       defaultValue={roomOption.find((option) => option.value === inputs.property)}/>
                             <Selection id="type" name="type" label="타입" options={typeOption}
-                                       defaultValue={typeOption.find(option => option.value === post.type)}/>
+                                       defaultValue={typeOption.find(option => option.value === inputs.type)}
+                                       onChange={(e) =>
+                                           setInputs((prev) => ({
+                                               ...prev,
+                                               type: e.value,
+                                           }))}
+                            />
                         </div>
 
                         <div className="item description">
                             <Textarea label="설명" id="description" name="description"
-                                      defaultValue={post.postDetail.desc}></Textarea>
+                                      defaultValue={inputs.desc}
+                                      onChange={handleInputChange}
+                            ></Textarea>
                         </div>
 
                         <div className="item">
-                            <Input label="면적(평)" min={0} id="size" name="size" type="number"
-                                   defaultValue={post.size}/>
-                            <Input label="가격" id="price" name="price" type="number" defaultValue={post.price}/>
+                            <Input label="면적(평)" min={0} id="size" name="size" type="number" defaultValue={inputs.size}
+                                   onChange={handleInputChange}/>
+                            <Input label="가격" id="price" name="price" type="number" defaultValue={inputs.price}
+                                   onChange={handleInputChange}/>
                             <Input label="관리비" id="maintenance" name="maintenance" type="number"
-                                   defaultValue={post.maintenance}/>
+                                   defaultValue={inputs.maintenance} onChange={handleInputChange}/>
                         </div>
 
                         <div className="item">
                             <Input label="방 수" min={1} id="bedroom" name="bedroom" type="number"
-                                   defaultValue={post.bedroom}/>
+                                   defaultValue={inputs.bedroom} onChange={handleInputChange}/>
                             <Input label="화장실 수" min={1} id="bathroom" name="bathroom" type="number"
-                                   defaultValue={post.bathroom}/>
+                                   defaultValue={inputs.bathroom} onChange={handleInputChange}/>
                             <Selection name="pet" id="pet" label="애완동물 입주 가능" options={petOption}
-                                       defaultValue={petOption.find(option => option.value === post.postDetail.pet)}/>
+                                       onChange={(e) =>
+                                           setInputs((prev) => ({
+                                               ...prev,
+                                               pet: e.value,
+                                           }))}
+                                       defaultValue={petOption.find(option => option.value === inputs.pet)}/>
                         </div>
 
                         <div className="item">
@@ -151,8 +232,13 @@ function UpdatePage() {
                                 name="option"
                                 label="옵션"
                                 options={options}
-                                value={optionsValue}
-                                onChange={(e) => setOptionsValue(e)}
+                                value={inputs.option}
+                                onChange={(e) => {
+                                    setInputs((prev) => ({
+                                        ...prev,
+                                        option: e,
+                                    }));
+                                }}
                             />
                             <Selection
                                 isMulti
@@ -160,26 +246,31 @@ function UpdatePage() {
                                 name="safeOption"
                                 label="보안/안전시설"
                                 options={safeOptions}
-                                value={safeOptionsValue}
-                                onChange={(e) => setSafeOptionsValue(e)}
+                                value={inputs.safeOption}
+                                // value={safeOptionsValue}
+                                // onChange={(e) => setSafeOptionsValue(e)}
+                                onChange={(e) =>
+                                    setInputs((prev) => ({
+                                        ...prev,
+                                        safeOption: e,
+                                    }))}
                             />
                             <Input label="주차" id="parking" min={0} name="parking" type="number"
-                                   defaultValue={post.postDetail.parking}/>
+                                   defaultValue={inputs.parking} onChange={handleInputChange}/>
                         </div>
 
                         <div className="item">
                             <Input label="학교" min={0} id="school" name="school" type="number"
-                                   defaultValue={post.postDetail.school}/>
+                                   defaultValue={inputs.school} onChange={handleInputChange}/>
                             <Input label="대중교통(버스, 지하철)" min={0} id="bus" name="bus" type="number"
-                                   defaultValue={post.postDetail.bus}/>
+                                   defaultValue={inputs.bus} onChange={handleInputChange}/>
                             <Input label="방향" id="direction" name="direction" type="text"
-                                   defaultValue={post.postDetail.direction}/>
+                                   defaultValue={inputs.direction} onChange={handleInputChange}/>
                         </div>
 
                         <div className="item imageUpload">
                             <span className="label">이미지 업로드</span>
-                            <DropZone files={files} setFiles={setFiles} multiple={true} defaultImage={defaultImage}
-                                      setDefaultImage={setDefaultImage}/>
+                            <DropZone files={files} setFiles={setFiles} multiple={true} defaultImage={defaultImage} setDefaultImage={setDefaultImage}/>
                         </div>
                     </form>
                 </div>

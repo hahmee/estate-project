@@ -1,7 +1,7 @@
 import "./layout.scss";
 import Navbar from "../../components/navbar/Navbar";
 import {Navigate, Outlet, useNavigate} from "react-router-dom";
-import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
 import Button from "../../UI/Button.jsx";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
@@ -11,10 +11,11 @@ import MobileMenu from "../../components/mobile-menu/MobileMenu.jsx";
 
 function CommonLayout({ children, isSearchBar, isLoginCheck }) {
 
-    const { changeScrollTop,  changeFixedNavbar,  changeIsDropDown} = useContext(NavbarContext);
+    const { changeScrollTop,  changeFixedNavbar, fixedNavbar, changeIsDropDown} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
     const [mobileMenuHidden, setMobileMenuHidden] = useState(false);
     const lastScrollTop = useRef(0); // 이전 스크롤 위치를 저장
+
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
@@ -29,6 +30,7 @@ function CommonLayout({ children, isSearchBar, isLoginCheck }) {
             changeScrollTop(currentScrollTop === 0);
             //스크롤이 움직이면 무조건 드롭다운 닫기
             changeIsDropDown(false);
+            // changeFixedNavbar(true);
 
             // 스크롤 방향에 따라 상태 변경
             if (currentScrollTop > lastScrollTop.current && currentScrollTop > 800) {
@@ -49,7 +51,7 @@ function CommonLayout({ children, isSearchBar, isLoginCheck }) {
     if (!currentUser && isLoginCheck) return <Navigate to="/login"/>;
 
     return (
-        <div className="common-layout">
+        <div>
             <Navbar isSearchBar={isSearchBar}/>
                 {children}
             <MobileMenu isHidden={mobileMenuHidden}/>
@@ -60,14 +62,12 @@ function CommonLayout({ children, isSearchBar, isLoginCheck }) {
 function Layout() {
     return (
         <div className="app">
-            <div className="layoutUpper">
-                <div className="layout">
-                    <div className="content">
-                        <Outlet/>
-                    </div>
+            <div className="layout">
+                <div className="content">
+                    <Outlet/>
                 </div>
-                <Footer/>
             </div>
+            <Footer/>
         </div>
     );
 }
@@ -75,11 +75,9 @@ function Layout() {
 function RequireAuth() {
     return (
         <div className="app">
-            <div className="layoutUpper">
-                <div className="layout">
-                    <div className="content">
-                        <Outlet/>
-                    </div>
+            <div className="layout">
+                <div className="content">
+                    <Outlet/>
                 </div>
             </div>
         </div>
@@ -93,11 +91,9 @@ function CreateProcess() {
 
     return (
         <div className="app">
-            <div className="layoutUpper">
-                <div className="layout">
-                    <div className="content">
-                        <Outlet/>
-                    </div>
+            <div className="layout">
+                <div className="content">
+                    <Outlet/>
                 </div>
             </div>
             <div className="processDiv">

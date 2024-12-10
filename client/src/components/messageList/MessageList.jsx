@@ -15,7 +15,7 @@ const MessageList = (props) => {
 
     if(!messages || Object.keys(messages).length === 0) {
 
-        return <div>아직 진행중인 대화가 없습니다.</div>
+        return <div className="noMessages">아직 진행중인 대화가 없습니다.</div>
     }
 
     return (

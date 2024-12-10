@@ -65,7 +65,7 @@ function NewPostPage() {
     title: "",
     property: roomOption[0].value,
     type: typeOption[0].value,
-    description: "",
+    desc: "",
     size: "",
     price: "",
     maintenance: "",
@@ -220,6 +220,7 @@ function NewPostPage() {
 
     } finally {
       setProgress('', {...progress, loading: false});
+      changeDisabled(true);//제출버튼 비활성화
     }
   }, [files]);
 
@@ -228,9 +229,8 @@ function NewPostPage() {
 
     if(!location.address ||!location.lat || !location.lng) {
       //이 전 페이지로 이동
-      // navigate("/location");
+      navigate("/location");
     }
-    console.log('location', location);
     setProgress('save');
     changeDisabled(true); //제출 버튼 비활성화
   }, []);

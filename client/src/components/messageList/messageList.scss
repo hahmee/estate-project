@@ -1,7 +1,7 @@
 @import "../../main.scss";
 
 .messages {
-  padding: 80px 20px 20px;
+  padding: 20px 20px 20px;
 
   &__date {
     text-align: center;
@@ -17,4 +17,15 @@
       border: 1px solid #eeeeee;
     }
   }
+}
+
+
+.noMessages {
+  color: #888888;
+  //background-color: #ff6e7e;
+  margin-top: 10rem;
+
+  justify-content: center;
+  display: flex;
+  align-items: center;
 }

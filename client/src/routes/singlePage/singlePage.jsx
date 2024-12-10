@@ -1,6 +1,6 @@
 import "./singlePage.scss";
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
 import Slider from "../../components/slider/Slider.jsx";
@@ -9,6 +9,7 @@ import Button from "../../UI/Button.jsx";
 import {currencyFormatter} from "../../util/formatting.js";
 import MapSingle from "../../components/map/MapSingle.jsx";
 import {usePageUrlStore} from "../../lib/pageUrlStore.js";
+import {NavbarContext} from "../../context/NavbarContext.jsx";
 
 
 
@@ -27,6 +28,8 @@ function SinglePage() {
   const previousUrl = usePageUrlStore((state) => state.previousUrl);
   const [heartCnt, setHeartCnt] = useState(post.savedCount);
   const { id } = useParams();
+  const {scrollTop, changeScrollTop, changeFixedNavbar, changeIsDropDown, fixedNavbar, isDropdown} = useContext(NavbarContext);
+
   const handleSave = async (e) => {
     e.preventDefault();
 
@@ -72,6 +75,17 @@ function SinglePage() {
   const typeRoomLabel = roomOption.filter((option) => option.value === post.property)[0].label;
 
   const typeOptionLabel = typeOption.filter((option) => option.value === post.type)[0].label;
+
+
+  useEffect(() => {
+    changeScrollTop(false);
+    changeFixedNavbar(true);
+
+    return () => {
+      changeFixedNavbar(false);
+      //정리
+    };
+  }, []);
 
   return (
       <div className="singlePage">

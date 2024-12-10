@@ -1,7 +1,7 @@
 import "./listPage.scss";
 import Card from "../../components/card/Card";
 import Map from "../../components/map/Map";
-import {Navigate, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import {useContext, useEffect} from "react";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
@@ -41,7 +41,7 @@ function ListPage() {
     const posts = listPostStore((state) => state.posts);
     const savedPosts = savedPostStore((state) => state.savedPosts);
     const currentSavedPost = savedPostStore((state) => state.currentSavedPost);
-    const {changeScrollTop, changeFixedNavbar} = useContext(NavbarContext);
+    const {changeScrollTop, changeFixedNavbar, fixedNavbar} = useContext(NavbarContext);
 
     useEffect(() => {//좋아요 눌렀을 때 실행
 

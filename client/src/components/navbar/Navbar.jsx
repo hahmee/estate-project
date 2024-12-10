@@ -86,7 +86,7 @@ export const SEARCH_BY_KOREA = [
 
 function Navbar({isSearchBar}) {
     const {socket} = useContext(SocketContext);
-    const {scrollTop, changeScrollTop, changeFixedNavbar, changeIsDropDown, isDropdown} = useContext(NavbarContext);
+    const {scrollTop, changeScrollTop, changeFixedNavbar, changeIsDropDown, fixedNavbar, isDropdown} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
     const {searchValue, changeSearchValue, clearSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
@@ -305,6 +305,11 @@ function Navbar({isSearchBar}) {
 
     }, [socket]);
 
+
+    useEffect(() => {
+        console.log('fixedNavbar', fixedNavbar);
+    }, [fixedNavbar]);
+
     useEffect(() => {
         return () => clearSearchValue(); //에러나서 우선 주석
     }, []);
@@ -341,7 +346,7 @@ function Navbar({isSearchBar}) {
             </div>
 
 
-            <nav className={scrollTop ? "topNav" : null}>
+            <nav className={(scrollTop && !fixedNavbar) ? "topNav" : null}>
                 <div className='upperNav'>
                     <div className="logo" onClick={() => navigate('/')}>
                         <span className="material-symbols-outlined logoImg">house</span>
@@ -354,14 +359,16 @@ function Navbar({isSearchBar}) {
                                 <div className="user">
                                     <Button onClick={() => navigate("/location")}>포스팅하기</Button>
                                     <div className="profile">
-                                        { <div className="notification" onClick={toggleMenu}>{number}</div>}
+                                        {<div className="notification" onClick={toggleMenu}>{number}</div>}
                                         <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar" onClick={toggleMenu}/>
                                         <span onClick={toggleMenu}>{currentUser.username}</span>
                                         {
                                             isDropdownOpen ?
-                                                <span className="material-symbols-outlined icon" onClick={toggleMenu}>keyboard_arrow_up</span>
+                                                <span className="material-symbols-outlined icon"
+                                                      onClick={toggleMenu}>keyboard_arrow_up</span>
                                                 :
-                                                <span className="material-symbols-outlined icon" onClick={toggleMenu}>keyboard_arrow_down</span>
+                                                <span className="material-symbols-outlined icon"
+                                                      onClick={toggleMenu}>keyboard_arrow_down</span>
                                         }
                                         {/* 드롭다운 메뉴 */}
                                         <MenuDropdown isDropdownOpen={isDropdownOpen} closeMenu={closeMenu}/>
@@ -376,7 +383,7 @@ function Navbar({isSearchBar}) {
                     isSearchBar &&
                     (
                         <>
-                            <div className={scrollTop ? "bottomNav topNav" : "bottomNav"}>
+                            <div className={(scrollTop && !fixedNavbar) ? "bottomNav topNav" : "bottomNav"}>
                                 <PlacesAutocomplete
                                     value={location}
                                     onChange={handleLocationChange}
@@ -392,7 +399,7 @@ function Navbar({isSearchBar}) {
                                                  onClick={openTopScrollNav}>
                                                 <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(1)}>
-                                                    <p className={scrollTop ? null : 'displayNone'}>위치</p>
+                                                    <p className={(scrollTop&& !fixedNavbar) ? null : 'displayNone'}>위치</p>
                                                     <input type="text"
                                                            {...getInputProps({
                                                                placeholder: '도시를 검색하세요.',
@@ -401,26 +408,26 @@ function Navbar({isSearchBar}) {
                                                 </div>
                                                 <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(2)}>
-                                                    <p className={scrollTop ? null : 'displayNone'}>유형</p>
+                                                    <p className={(scrollTop&& !fixedNavbar) ? null : 'displayNone'}>유형</p>
                                                     <span className="inputDiv">
-                                            {
-                                                ((types && rooms) && (types.length + rooms.length === 9)) ?
-                                                    '모든 유형' : [...types, ...rooms].map((type) => {
-                                                        return <p
-                                                            key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
-                                                    })
-                                            }
-                                            </span>
+                                                    {
+                                                        ((types && rooms) && (types.length + rooms.length === 9)) ?
+                                                            '모든 유형' : [...types, ...rooms].map((type) => {
+                                                                return <p
+                                                                    key={type}>{[...typeOption, ...roomOption].find(option => option.value === type).label}, &nbsp;</p>
+                                                            })
+                                                    }
+                                                    </span>
                                                 </div>
                                                 <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(3)}>
-                                                    <p className={scrollTop ? null : 'displayNone'}>가격</p>
+                                                    <p className={(scrollTop&& !fixedNavbar) ? null : 'displayNone'}>가격</p>
                                                     <span
                                                         className="inputDiv">{currencyFormatter.format(minPrice)}&nbsp;~&nbsp;{(MAX_PRICE === maxPrice) ? '무제한' : currencyFormatter.format(maxPrice)}</span>
                                                 </div>
                                                 <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(4)}>
-                                                    <p className={scrollTop ? null : 'displayNone'}>크기</p>
+                                                    <p className={(scrollTop&& !fixedNavbar) ? null : 'displayNone'}>크기</p>
                                                     <span
                                                         className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
                                                     <span className="material-symbols-outlined"
