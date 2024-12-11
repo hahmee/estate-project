@@ -9,7 +9,7 @@
   width: auto;
 }
 
-  .saved-pin {
+.saved-pin {
   position: relative;
   border: 1px solid #fa6172;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
@@ -18,9 +18,10 @@
   height: 28px;
   border-radius: 28px;
   text-align: center;
+  line-height: 28px; /* height와 동일하게 설정 */
+  display: inline-block; /* flex 대신 inline-block으로 설정 */
   font-weight: 700;
   font-size: 14px;
-  display: flex;
   align-items: center;
 }
 
@@ -35,9 +36,8 @@
   text-align: center;
   font-weight: 700;
   font-size: 14px;
-  display: flex;
-  align-items: center;
-
+  line-height: 28px; /* height와 동일하게 설정 */
+  display: inline-block; /* flex 대신 inline-block으로 설정 */
   div {
     position: relative;
   }

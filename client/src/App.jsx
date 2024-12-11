@@ -40,7 +40,7 @@ function App() {
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false} isLoginCheck = {false}><Layout/></CommonLayout>,
+      element: <CommonLayout isSearchBar={false} isLoginCheck={false}><Layout/></CommonLayout>,
       children: [
         {
           path: "/login",
@@ -54,7 +54,7 @@ function App() {
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false} isLoginCheck = {true}><CreateProcess/></CommonLayout>,
+      element: <CommonLayout isSearchBar={false} isLoginCheck={true}><CreateProcess/></CommonLayout>,
       children: [
         {
           path: "/location",
@@ -77,7 +77,7 @@ function App() {
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false}><RequireAuth/></CommonLayout>,
+      element: <CommonLayout isSearchBar={false} isLoginCheck={true}><RequireAuth/></CommonLayout>,
       children: [
         {
           path: "/profile",

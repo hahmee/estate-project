@@ -39,7 +39,6 @@ function UpdatePage() {
 
     // 모든 입력값 검증
     useEffect(() => {
-        console.log('inputs', inputs);
         const allFieldsFilled = Object.entries(inputs).every(([key, value]) => {
             if (Array.isArray(value)) {
                 // 배열의 경우: 하나 이상의 요소가 있어야 함
@@ -53,9 +52,6 @@ function UpdatePage() {
 
         //사진 첨부 했는지
         const isFileAttached = defaultImage.length + files.length > 0;
-        console.log('allFieldsFilled', allFieldsFilled);
-        console.log('files', files);
-        console.log('defaultImage', defaultImage);
 
         // 모든 값이 채워지면 버튼 활성화
         if (allFieldsFilled && isFileAttached) {
@@ -129,7 +125,7 @@ function UpdatePage() {
                     maintenance: Number(inputs.maintenance),
                 },
                 postDetail: {
-                    desc: inputs.description,
+                    desc: inputs.desc,
                     pet: inputs.pet,
                     option: inputs.option.map((data) => data.value),
                     safeOption: inputs.safeOption.map((data) => data.value),
@@ -149,7 +145,7 @@ function UpdatePage() {
             setProgress('', {...progress, loading: false});
             changeDisabled(true);//제출버튼 비활성화
         }
-    }, [files, defaultImage]);
+    }, [files, defaultImage, inputs]);
 
     useEffect(() => {
         setProgress('save');
@@ -196,7 +192,7 @@ function UpdatePage() {
                         </div>
 
                         <div className="item description">
-                            <Textarea label="설명" id="description" name="description"
+                            <Textarea label="설명" id="desc" name="desc"
                                       defaultValue={inputs.desc}
                                       onChange={handleInputChange}
                             ></Textarea>

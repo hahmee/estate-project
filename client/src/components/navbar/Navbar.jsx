@@ -319,6 +319,7 @@ function Navbar({isSearchBar}) {
     // 이유 - Navbar가 Layout 안에 공통으로 있더라도, React Router에서 페이지를 이동하면 Layout이 다시 렌더링되면서 Navbar도 다시 마운트됨
     // 고침 - CommonLayout 에 Navbar 공통
     useEffect(() => {
+        console.log('currentUser', currentUser);
         if (currentUser) {
             userFetch();
         }else{

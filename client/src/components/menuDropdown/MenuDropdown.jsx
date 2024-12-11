@@ -19,7 +19,7 @@ function MenuDropdown(props) {
             await apiRequest.post("/auth/logout");
             updateUser(null);
 
-            if (currentUser.externalType == 'google') {
+            if (currentUser.externalType === 'google') {
                 googleLogout();
             }
 

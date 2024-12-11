@@ -1,6 +1,6 @@
 import {Marker, Popup} from "react-leaflet";
 import "./pin.scss";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {divIcon} from "leaflet/src/layer/index.js";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -10,6 +10,7 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import {currencyFormatter} from "../../util/formatting.js";
 import Button from "../../UI/Button.jsx";
+import {typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 
 const settings = {
     dots: true,
@@ -29,6 +30,7 @@ function Pin({item}) {
     const savedPostFetch = savedPostStore((state) => state.fetch);
     const popup = useRef();
 
+    console.log('ote',item)
 
     const customMarkerIcon = divIcon({
         html: `<div class=${saved ? "saved-pin" : "marker"}><div>${currencyFormatter.format(item.price)}</div></div>`
@@ -103,6 +105,7 @@ function Pin({item}) {
                             </div>
                             <div>
                                 <span>{currencyFormatter.format(item.price)}</span>
+                                <span>&nbsp;/{typeOption.find((option) => option.value ===item.type).label}</span>
                             </div>
                         </div>
                     </div>

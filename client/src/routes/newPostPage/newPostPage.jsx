@@ -56,11 +56,7 @@ function NewPostPage() {
   const {progress, setProgress, location, clearLocation, changeDisabled} = useContext(UserProgressContext);
   const [files, setFiles] = useState([]);
   const navigate = useNavigate();
-  // const [roomType, setRoomType] = useState();
-  // const [payType, setPaytpye] = useState();
-  // const [safeOptionsValue, setSafeOptionsValue] = useState([]);
-  // const [optionsValue, setOptionsValue] = useState([]);
-  // console.log('optionsValue', optionsValue);
+
   const [inputs, setInputs] = useState({
     title: "",
     property: roomOption[0].value,
@@ -90,6 +86,7 @@ function NewPostPage() {
         // 그 외 (문자열, 숫자 등): 비어있지 않아야 함
         return value !== "" && value !== null && value !== undefined;
       }
+
     });
 
     //사진 첨부 했는지
@@ -200,7 +197,7 @@ function NewPostPage() {
           maintenance: Number(inputs.maintenance),
         },
         postDetail: {
-          desc: inputs.description,
+          desc: inputs.desc,
           pet: inputs.pet,
           option: inputs.option.map((data) => data.value),
           safeOption: inputs.safeOption.map((data) => data.value),
@@ -265,7 +262,7 @@ function NewPostPage() {
             </div>
 
             <div className="item description">
-              <Textarea label="설명" id="description" name="description" onChange={handleInputChange}></Textarea>
+              <Textarea label="설명" id="desc" name="desc" onChange={handleInputChange}></Textarea>
             </div>
 
             <div className="item">
@@ -294,7 +291,6 @@ function NewPostPage() {
                   label="옵션"
                   options={options}
                   onChange={(e) => {
-                    console.log('e', e);
                     setInputs((prev) => ({
                       ...prev,
                       option: e,

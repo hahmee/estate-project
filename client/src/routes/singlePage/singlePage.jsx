@@ -20,8 +20,6 @@ function SinglePage() {
   //null혹은 undefined면 generateChatUUID생성
   // const chatUUID = data.chatUUIDResponse.data.chatUUID || generateChatUUID();
 
-  console.log('post', post);
-  // console.log('chatId', chatUUID);
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -323,14 +321,6 @@ function SinglePage() {
                 </div>
 
                 <div className="buttonDiv">
-                  {
-                      currentUser.id !== post.userId
-                      && (
-                          <Button className="message" onClick={() => navigate(`/chat?receiver=${post.userId}`)}>
-                            메시지
-                          </Button>
-                      )
-                  }
                   {
                       currentUser.id !== post.userId
                       && (
