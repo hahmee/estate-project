@@ -280,7 +280,7 @@ function MessagePage() {
                 <div className="chat__sidebar-menu">
                     {
                         chatList && chatList.length < 1 ?
-                            <div>채팅 리스트가 없습니다.</div>
+                            <div className="chat__sidebar-menu--noChatting"> 채팅 리스트가 없습니다.</div>
                             :
                             chatList.map((c, idx) => (
                                 <ChatItem

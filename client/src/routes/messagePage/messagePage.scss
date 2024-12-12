@@ -5,9 +5,12 @@
 
 .chat {
   display: flex;
-  height: 100%;
-  border: 1px solid #eeeeee;
+  min-height: calc(-80px + 100vh);
+  border-left: 2px solid #eeeeee;
+  border-right: 2px solid #eeeeee;
   position: relative;
+  align-items: center;
+
 
   &.borderNone {
     @include md {
@@ -18,11 +21,11 @@
   &__sidebar {
     flex: none;
     width: var(--sidebar-width); // 사이드바 너비
-    height: calc(100vh - 80px);
-    top:80px;
+    min-height: calc(100vh - 80px);
+    top: 80px;
     position: fixed;
     overflow-y: auto;
-    border-right: 1px solid #eeeeee;
+    border-right: 2px solid #eeeeee;
     display: flex;
     flex-direction: column;
     z-index: 1;
@@ -37,6 +40,19 @@
         width: 100%;
         position: static;
         border-right: none;
+      }
+    }
+
+    &-menu {
+
+      &--noChatting {
+        color: #bbbbbb;
+        font-size: 14px;
+        text-align: center;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px dashed #ddd;
+        border-radius: 4px;
       }
     }
 
@@ -69,10 +85,9 @@
     flex: 1;
     margin-left: var(--sidebar-width); // 사이드바 너비만큼 여백 추가
     position: relative;
-
     @include md {
-      flex-grow: 1;     /* 남은 공간을 차지할 비율 */
-      margin-left:0; // 사이드바 너비만큼 여백 추가
+      flex-grow: 1; /* 남은 공간을 차지할 비율 */
+      margin-left: 0; // 사이드바 너비만큼 여백 추가
     }
 
     &--none {
@@ -80,15 +95,13 @@
         display: none;
       }
     }
-
   }
-
 
   &__header {
     width: 100%;
     position: sticky;
     top: 80px;
-    border-bottom: 1px solid #eeeeee;
+    border-bottom: 2px solid #eeeeee;
     background-color: $white-color;
     z-index: 1;
   }
@@ -101,7 +114,6 @@
     font-size: 28px;
     color: rgb(224, 220, 220);
     text-align: center;
-    padding-top: 100px;
 
     &--none {
       @include md {

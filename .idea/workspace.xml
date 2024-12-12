@@ -6,9 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/lib/prisma.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/lib/prisma.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/context/SocketContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/SocketContext.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socket/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/socket/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +171,9 @@
       <workItem from="1733819913581" duration="11005000" />
       <workItem from="1733889358050" duration="5000" />
       <workItem from="1733895200115" duration="15536000" />
-      <workItem from="1733968283119" duration="1283000" />
+      <workItem from="1733968283119" duration="5652000" />
+      <workItem from="1733986819479" duration="594000" />
+      <workItem from="1733988588659" duration="5537000" />
     </task>
     <servers />
   </component>
