@@ -1,5 +1,5 @@
-import { PrismaClient } from "@prisma/client";
-import { MongoClient } from "mongodb";
+import {PrismaClient} from "@prisma/client";
+import {MongoClient} from "mongodb";
 
 const prisma = new PrismaClient();
 

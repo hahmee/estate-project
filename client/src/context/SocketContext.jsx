@@ -10,7 +10,9 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [receiverList, setReceiverList] = useState([]);
   useEffect(() => {
-    setSocket(io("http://localhost:4000"));
+    // setSocket(io("http://localhost:4000"));
+    setSocket(io("http://3.38.208.101:4000"));
+
   }, []);
 
   useEffect(() => {
