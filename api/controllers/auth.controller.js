@@ -34,7 +34,7 @@ const registerUser = async (userInfo) => {
 
 export const register = async (req, res) => {
   try {
-    registerUser(req.body);
+    await registerUser(req.body);
     res.status(201).json({ message: "정상적으로 회원가입되었습니다." });
   } catch (err) {
     console.log(err);

@@ -3,7 +3,9 @@ import { Server } from "socket.io";
 const io = new Server({
   cors: {
     // origin: "http://localhost:5173",
-    origin: "*", //전체 접속 가능
+    // origin: "*", //전체 접속 가능
+    origin: "http://3.38.208.101:5713", // 프론트엔드 주소
+    credentials: true, // 인증 정보 포함
   },
 });
 
