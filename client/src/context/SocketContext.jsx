@@ -11,7 +11,7 @@ export const SocketContextProvider = ({ children }) => {
   const [receiverList, setReceiverList] = useState([]);
   useEffect(() => {
     // setSocket(io("http://localhost:4000"));
-    setSocket(io("http://3.38.208.101:4000"));
+    setSocket(io("http://ec2-3-38-208-101.ap-northeast-2.compute.amazonaws.com:4000"));
   }, []);
 
   useEffect(() => {
