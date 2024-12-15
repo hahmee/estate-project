@@ -21,10 +21,7 @@ app.use("/api/test", testRoute);
 app.use("/api/chats", chatRoute);
 app.use("/api/messages", messageRoute);
 
-app.get('/api/ping', (req, res) => {
-  res.send('pong');
-});
 
-app.listen(8800, () => {
+app.listen(5173, () => {
   console.log("Server is running!");
-});
+});//8800
