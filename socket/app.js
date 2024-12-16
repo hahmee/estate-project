@@ -4,7 +4,7 @@ const io = new Server({
   cors: {
     // origin: "http://localhost:5173",
     // origin: "*", //전체 접속 가능
-    origin: ["http://3.38.208.101:5173", "http://ec2-13-124-226-52.ap-northeast-2.compute.amazonaws.com:5173"], // 프론트엔드 주소
+    origin: ["http://3.38.208.101:5173","http://ec2-13-124-226-52.ap-northeast-2.compute.amazonaws.com"], // 프론트엔드 주소
     credentials: true, // 인증 정보 포함
   },
 });
@@ -96,4 +96,4 @@ io.on("connection", (socket) => {
 
 });
 
-io.listen("5173");//4000
+io.listen("4000");//4000
