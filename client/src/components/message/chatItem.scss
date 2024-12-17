@@ -54,11 +54,13 @@
     position: relative;
   }
   &__status {
-    right:0;
     position: absolute;
+    top: 0; // 아바타 하단에 위치
+    right: 0; // 아바타 우측 하단에 위치
     border-radius: 50%;
     width: 15px;
     height: 15px;
+    border: 2px solid white; // 경계선 추가로 더 잘 보이게
 
     &.--online {
       background-color: $success-color;

@@ -51,8 +51,6 @@ function Chat({ chats }) {
     try {
       const res = await apiRequest.post("/messages/" + chat.id, { text });
       setChat((prev) => ({ ...prev, messages: [...prev.messages, res.data] }));
-      console.log('res', res.data);
-      console.log('chat', chat.receiver);
       e.target.reset();
       socket.emit("sendMessage", {
         receiverId: chat.receiver.id,

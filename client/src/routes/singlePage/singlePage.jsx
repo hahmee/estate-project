@@ -1,6 +1,6 @@
 import "./singlePage.scss";
 import {useLoaderData, useNavigate, useParams} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
 import Slider from "../../components/slider/Slider.jsx";
@@ -10,6 +10,7 @@ import {currencyFormatter} from "../../util/formatting.js";
 import MapSingle from "../../components/map/MapSingle.jsx";
 import {usePageUrlStore} from "../../lib/pageUrlStore.js";
 import {NavbarContext} from "../../context/NavbarContext.jsx";
+import Profile from "../../components/profile/Profile.jsx";
 
 
 
@@ -312,12 +313,13 @@ function SinglePage() {
                 </div>
 
                 <div className="itemBottom">
-                  <span className="itemBottomSpan">
-                    <img src={post.user.avatar || "/noavatar.jpg"} alt="유저 이미지"/>
-                  </span>
-                  <span className="itemBottomSpan">
-                    {post.user.username}
-                  </span>
+                  <Profile receiver={post.user} isOnline={false}/>
+                  {/*<span className="itemBottomSpan">*/}
+                  {/*  <img src={post.user.avatar || "/noavatar.jpg"} alt="유저 이미지"/>*/}
+                  {/*</span>*/}
+                  {/*<span className="itemBottomSpan">*/}
+                  {/*  {post.user.username}*/}
+                  {/*</span>*/}
                 </div>
 
                 <div className="buttonDiv">

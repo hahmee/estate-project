@@ -110,10 +110,18 @@
     min-height: 100vh; //100vh
   }
 
+  &__noWrapper {
+    display: flex;
+    flex-direction: column;
+    height: calc(-80px + 100vh);
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
   &__no-conversation {
     font-size: 28px;
     color: rgb(224, 220, 220);
-    text-align: center;
 
     &--none {
       @include md {
