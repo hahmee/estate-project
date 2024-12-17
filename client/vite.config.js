@@ -25,7 +25,6 @@ export default defineConfig(({ mode }) => {
       'process.env.VITE_GOOGLE_CLIENT_ID': JSON.stringify(env.VITE_GOOGLE_CLIENT_ID),
       'process.env.VITE_NAVER_CLIENT_ID': JSON.stringify(env.VITE_NAVER_CLIENT_ID),
       'process.env.VITE_NAVER_REDIRECT_URI': JSON.stringify(env.VITE_NAVER_REDIRECT_URI),
-
     }
   }
 

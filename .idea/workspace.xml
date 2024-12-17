@@ -6,12 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/chat/Chat.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/chat/Chat.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/chatItem.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/chatItem.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socket/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/socket/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/context/SocketContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/SocketContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/apiRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/apiRequest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/socket/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/socket/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/socket/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/socket/package.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -180,7 +184,8 @@
       <workItem from="1734057730612" duration="17210000" />
       <workItem from="1734256463534" duration="11300000" />
       <workItem from="1734337140745" duration="8119000" />
-      <workItem from="1734401547858" duration="7495000" />
+      <workItem from="1734401547858" duration="14031000" />
+      <workItem from="1734421603945" duration="2974000" />
     </task>
     <servers />
   </component>
