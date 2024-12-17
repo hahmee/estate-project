@@ -1,0 +1,59 @@
+@import "../../main.scss";
+
+.newPostPage {
+  .formContainer {
+    padding: 1.25rem;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    gap: 1.75rem;
+    display: grid;
+    margin-top: 1.5rem;
+    height: auto;
+    margin-bottom: 10rem;
+
+    .wrapper {
+
+      .item {
+        display: grid;
+        gap: 2.5rem;
+        margin-bottom: 30px;
+
+        &.description {
+          grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+        &.imageUpload {
+          gap: 0;
+          grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+        .label {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+          color: rgb(107 114 128);
+        }
+
+        @include lg {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        @include md {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @include sm {
+          grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+
+
+
+      }
+    }
+  }
+
+  .sideContainer {
+
+  }
+}
+
+

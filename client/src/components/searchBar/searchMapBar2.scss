@@ -1,0 +1,144 @@
+@import "../../main.scss";
+.main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  .map-search {
+    z-index: 900;
+
+    .map-item {
+
+    }
+    .map-content {
+
+    }
+    .material-symbols-outlined {
+      left: 280px;
+      top: 17px;
+      position: absolute;
+      z-index: 1000;
+    }
+
+    input {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 25px;
+      width: calc( -30px + 100%);
+      margin-top: 20px;
+      cursor: text;
+      left:50%;
+      transform:translateX(-50%);
+      border: none;
+      position: absolute;
+      padding: 20px 20px 20px 20px;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+      font-size: 18px;
+
+      //@include md {
+      //  width: 100%;
+      //
+      //}
+
+    }
+  }
+
+}
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  background-color: #fff;
+  width: calc( -30px + 100%);
+  left: 50%;
+  transform: translateX(-50%);
+  top: 85px;
+  align-items: center;
+  cursor: default;
+  border-color: rgb(204, 204, 204);
+  border-radius: 4px;
+  outline: 0px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+
+
+  @include md {
+    width: 100%;
+  }
+
+  .suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  .suggestion-item--active {
+    padding: 10px;
+    background-color: #eee;
+    cursor: pointer;
+  }
+
+}
+
+
+
+#map {
+  width: 50vw;
+  margin: auto;
+  height: 80vh;
+
+  @include md {
+    width: 100%;
+
+  }
+}
+
+.map-control{
+  div {
+    position: relative !important;
+  }
+}
+
+.aaa {
+
+
+}
+.autocomplete-control {
+  //all: unset;
+  box-sizing: border-box;
+  margin-top: 24px;
+  //position: relative !important;
+  //width: 100%;
+  //width: calc(100% - 20px);
+}
+
+.autocomplete-container {
+  display: flex;
+  background-color: red;
+  position: relative;
+  width: 100%;
+
+  span {
+    position: absolute;
+    z-index: 1;
+    left:20px;
+    top:17px;
+  }
+  input {
+    padding-left: 55px;
+  }
+}
+//
+//.autocomplete-container .custom-list {
+//  width: 100%;
+//  list-style: none;
+//  padding: 0;
+//  margin: 0;
+//}
+//
+//.autocomplete-container .custom-list-item {
+//  padding: 8px;
+//}
+//
+//.autocomplete-container .custom-list-item:hover {
+//  background: lightgrey;
+//  cursor: pointer;
+//}

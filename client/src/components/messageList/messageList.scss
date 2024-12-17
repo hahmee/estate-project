@@ -1,0 +1,31 @@
+@import "../../main.scss";
+
+.messages {
+  padding: 20px 20px 20px;
+
+  &__date {
+    text-align: center;
+    padding-top: 1rem;
+    //background-color: #3CB371;
+    span {
+      background-color: $white-color;
+      color: #222222;
+      font-weight: bold;
+      font-size: 1rem;
+      border-radius: 40px;
+      padding: 3px 10px;
+      border: 1px solid #eeeeee;
+    }
+  }
+}
+
+
+.noMessages {
+  color: #888888;
+  //background-color: #ff6e7e;
+  margin-top: 10rem;
+
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}

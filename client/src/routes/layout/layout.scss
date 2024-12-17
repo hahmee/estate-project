@@ -1,0 +1,67 @@
+@import "../../main.scss";
+
+.common-layout {
+  //background-color: #ff6e7e;
+  //overflow-y: auto; /* 스크롤 활성화 */
+  //height: 100vh; /* 뷰포트 전체 높이 */
+}
+
+.app {
+  //overflow-anchor: none; //nav sticky때문에
+  //background-color: darkcyan;
+  //background-color: #ff6e7e;
+}
+.layout {
+  max-width: 1366px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px;
+//align-items: center;
+  //justify-items: center;
+  //background-color: #3CB371;
+  min-height: calc(100vh - 80px - 70px);
+
+
+  @include lg {
+    max-width: 1366px; //1280px
+  }
+
+  @include md {
+    max-width: 768px;
+  }
+
+  @include sm {
+    max-width: 640px;
+  }
+
+  .content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.processDiv {
+  height: 80px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 200000;
+  border-top: 1px solid #dddd;
+  max-width: 100%;
+  //max-width: 1366px;
+  background-color: $white-color;
+
+  .nextButton {
+    padding: 14px 32px;
+    background-color: black;
+    color:$white-color;
+    border-radius: 10px;
+    font-size: 16px;
+    border: none;
+  }
+}

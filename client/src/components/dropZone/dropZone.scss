@@ -1,0 +1,81 @@
+@import "../../main.scss";
+
+.containerProfile {
+  position: absolute;
+  top:0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 5px;
+  background-color: rgba(0,0,0,0.6);
+  cursor: pointer;
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    color: white;
+  }
+
+}
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+  border-width: 2px;
+  border-style: dashed;
+  background-color: #fafafa;
+  border-color: #bdbdbd;
+  color: rgb(107 114 128);
+  outline: none;
+  transition: border .24s ease-in-out;
+  border-radius: 0.5rem;
+
+  .material-symbols-outlined {
+    font-size: 32px;
+    margin-bottom: 13px;
+  }
+
+}
+
+.thumbnail {
+  display: grid;
+  margin-top: .75rem;
+  width: 100%;
+  gap: .75rem;
+
+  @include lg {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+
+  @include md {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  @include sm {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+
+}
+
+.profileImg {
+  background-color: gold;
+
+  .container {
+    background-color: #bed9d8;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 5px;
+    border: 1px solid #DDDDDD;
+    margin-bottom: 20px;
+  }
+}

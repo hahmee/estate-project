@@ -1,0 +1,176 @@
+@import "../../main.scss";
+
+
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  background-color: #fff;
+  align-items: center;
+  cursor: default;
+  border-color: rgb(204, 204, 204);
+  border-radius: 20px;
+  outline: 0px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+
+
+  @include md {
+    width: 100%;
+  }
+
+  .suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  .suggestion-item--active {
+    padding: 10px;
+    background-color: #eee;
+    cursor: pointer;
+  }
+
+}
+
+
+
+.autocomplete-container input {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 78px;
+  width: 100%;
+  cursor: text;
+  border: none;
+  position: relative;
+  padding: 20px 20px 20px 20px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+  margin: auto;
+  font-size: 18px;
+}
+
+.map-control{
+  div {
+    position: relative !important;
+  }
+}
+
+.autocomplete-control {
+  box-sizing: border-box;
+  margin-top: 24px;
+}
+
+.autocomplete-container {
+  display: flex;
+  background-color: red;
+  position: relative;
+  width: 100%;
+
+  span {
+    position: absolute;
+    z-index: 1;
+    left:20px;
+    top:17px;
+  }
+  input {
+    padding-left: 55px;
+  }
+}
+
+
+.mainBar {
+  display: flex;
+  justify-content: center;
+  background-color: green;
+  position: relative;
+
+
+  //new
+  .bar {
+    //width: 650px;
+    background: white;
+    box-shadow: 0 0 5px hsl(0 0% 78%);
+    //height: 55px;
+    border-radius: 100vw;
+    display: flex;
+    justify-content: center;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+
+  .bar div {
+    border-radius: inherit;
+    padding: 1rem 1.8rem;
+    transition: background 250ms ease;
+  }
+
+  .bar div:hover {
+    background: hsl(0 0% 94%);
+  }
+
+  .location {
+    width: 34%;
+  }
+
+  .check-in, .check-out{
+    width: 16%;
+  }
+
+  .guests {
+    width: 34%;
+  }
+
+  input[type="text"] {
+    background: none;
+    border: none;
+    padding: 0.2rem 0 0 0;
+  }
+
+  input[type="text"]:focus {
+    outline: none;
+  }
+
+  ::placeholder {
+    font-size: 0.8rem;
+  }
+
+  .guests {
+    position: relative;
+  }
+
+  .guests span {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: #FF385C;
+    color: white;
+    font-size: 1.4rem;
+    padding: 0.7rem;
+    border-radius: 50%;
+  }
+
+  .bar > div {
+    position: relative;
+  }
+
+
+  .bar > div::before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 55%;
+    background: hsl(0 0% 90%);
+  }
+
+  .bar > div:nth-of-type(1)::before {
+    background: transparent;
+  }
+
+
+  .bar > div:hover::before {
+    background: transparent;
+  }
+
+}

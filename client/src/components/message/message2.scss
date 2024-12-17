@@ -1,0 +1,47 @@
+@import "../../main.scss";
+.message {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+
+        &--own {
+            align-items: flex-end;
+        }
+    }
+
+    &__top {
+        display: flex;
+    }
+
+    &__avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+
+    &__text {
+        padding: 10px;
+        border-radius: 20px;
+        background-color:$primary-color;
+        color: white;
+        max-width: 300px;
+
+        .message__container--own & {
+            background-color: rgb(245, 241, 241);
+            color: black;
+        }
+    }
+
+    &__read-status {
+        color: #222222;
+        align-self: center;
+    }
+
+    &__timestamp {
+        font-size: 12px;
+        margin-top: 10px;
+    }
+}
