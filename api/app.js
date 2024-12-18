@@ -1,5 +1,6 @@
 import express from "express";
-import {Server} from "socket.io";
+import { createServer } from "http"; // HTTP 서버 생성
+import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRoute from "./routes/auth.route.js";
@@ -8,12 +9,14 @@ import testRoute from "./routes/test.route.js";
 import userRoute from "./routes/user.route.js";
 import chatRoute from "./routes/chat.route.js";
 import messageRoute from "./routes/message.route.js";
-import {dirname, join} from "path";
-import {fileURLToPath} from "url";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
+import 'dotenv/config'; // 환경 변수를 불러옴
 
+console.log("DB_HOST:", process.env.DATABASE_URL);
 const app = express();
-
-const io = new Server( {
+const server = createServer(app); // Express 서버를 기반으로 HTTP 서버 생성
+const io = new Server(server, {
   cors: {
     origin: [process.env.CLIENT_URL],
     credentials: true,
@@ -130,6 +133,6 @@ io.on("connection", (socket) => {
 
 // 서버 실행
 const PORT = 8800;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

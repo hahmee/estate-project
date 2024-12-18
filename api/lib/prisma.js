@@ -1,5 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 import {MongoClient} from "mongodb";
+import 'dotenv/config'; // 환경 변수를 불러옴
 
 const prisma = new PrismaClient();
 
