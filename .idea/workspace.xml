@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/lib/prisma.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/lib/prisma.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/lib/apiRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/apiRequest.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,7 +177,7 @@
       <workItem from="1734401547858" duration="14031000" />
       <workItem from="1734421603945" duration="6064000" />
       <workItem from="1734438807977" duration="5335000" />
-      <workItem from="1734486228704" duration="14613000" />
+      <workItem from="1734486228704" duration="18009000" />
     </task>
     <servers />
   </component>

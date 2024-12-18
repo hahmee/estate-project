@@ -1,6 +1,5 @@
 import express from "express";
-import { createServer } from "http"; // HTTP 서버 생성
-import { Server } from "socket.io";
+import {Server} from "socket.io";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRoute from "./routes/auth.route.js";
@@ -9,12 +8,12 @@ import testRoute from "./routes/test.route.js";
 import userRoute from "./routes/user.route.js";
 import chatRoute from "./routes/chat.route.js";
 import messageRoute from "./routes/message.route.js";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import {dirname, join} from "path";
+import {fileURLToPath} from "url";
 
 const app = express();
-const server = createServer(app); // Express 서버를 기반으로 HTTP 서버 생성
-const io = new Server(server, {
+
+const io = new Server( {
   cors: {
     origin: [process.env.CLIENT_URL],
     credentials: true,
@@ -131,6 +130,6 @@ io.on("connection", (socket) => {
 
 // 서버 실행
 const PORT = 8800;
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
