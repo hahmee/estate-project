@@ -16,7 +16,7 @@ const app = express();
 const server = createServer(app); // Express 서버를 기반으로 HTTP 서버 생성
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: [process.env.CLIENT_URL],
     credentials: true,
   },
 });

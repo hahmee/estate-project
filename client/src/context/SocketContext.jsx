@@ -10,9 +10,7 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [receiverList, setReceiverList] = useState([]);
   useEffect(() => {
-    setSocket(io("http://localhost:8800"));
-    // setSocket(io("http://ec2-13-124-226-52.ap-northeast-2.compute.amazonaws.com:4000")); //4000
-    // setSocket(io("/socket.io"));
+    setSocket(io(process.env.VITE_BACKEND_URI));
   }, []);
 
   useEffect(() => {
