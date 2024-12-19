@@ -88,7 +88,7 @@ export const SEARCH_BY_KOREA = [
 
 function Navbar({isSearchBar}) {
     const {socket} = useContext(SocketContext);
-    const {scrollTop, changeScrollTop, changeFixedNavbar, changeIsDropDown, fixedNavbar, isDropdown} = useContext(NavbarContext);
+    const {isExpanded, changeExpanded, idDropdownOpen, changeIsDropdownOpen} = useContext(NavbarContext);
     const {currentUser} = useContext(AuthContext);
     const {searchValue, changeSearchValue, clearSearchValue} = useContext(SearchbarContext);
     const userFetch = useNotificationStore((state) => state.fetch);
@@ -120,6 +120,7 @@ function Navbar({isSearchBar}) {
     const lastSavedLocation = useRef(null); // temp buffer
     const setIsFetch = listPostStore((state) => state.setIsFetch);
     const increase = useNotificationStore((state) => state.increase);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleLocationChange = (location) => {
         setStatus("");
@@ -201,7 +202,7 @@ function Navbar({isSearchBar}) {
     };
 
     const clickMenu = (number) => {
-        changeIsDropDown(true);
+        changeIsDropdownOpen(true);
         setCurrentClicked(number);
         setNotClicked(true);
     };
@@ -213,25 +214,22 @@ function Navbar({isSearchBar}) {
     const closeDropdown = useCallback(() => {
         setCurrentClicked(0);
         setNotClicked(false);
-        changeFixedNavbar(true); //위로 고정
+        changeExpanded(false); // 위로 고정
     }, []);
 
-    const openTopScrollNav = useCallback(() => {
-        changeScrollTop(true);
-        changeFixedNavbar(false);// 위로 고정 안 함
-    }, [scrollTop]);
 
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const onClickSearchBar = useCallback((e) => {
+        e.stopPropagation();
+        changeExpanded(true);
+    }, []);
+
 
     const closeMenu = () => {
-        // setIsDropdownOpen(prevState => !prevState);
-        setIsDropdownOpen(false);
+        setIsMenuOpen(false);
     };
 
     const toggleMenu = () => {
-
-        setIsDropdownOpen(prevState => !prevState);
-        // setIsDropdownOpen(true);
+        setIsMenuOpen(prevState => !prevState);
     };
 
     useEffect(() => {
@@ -253,16 +251,45 @@ function Navbar({isSearchBar}) {
         lastSavedLocation.current = currentLocation; // 현재 값 lastSavedLocation에 넣기
         setCurrentUrl(currentLocation);
 
+        // 서치바가 있는 navbar
+        if (isSearchBar) {
 
-        const excludedPaths = ['/', '/list']; // 제외할 경로들
-        const currentPath = currentLocation.pathname; // 현재 경로
+            //리스트와 single 페이지
+            const paths = [/^\/list$/, /^\/read(\/[^/]+)?$/];
 
-        if (!excludedPaths.includes(currentPath)) {
-            changeScrollTop(false); // 특정 URL을 제외한 경로에서만 changeScrollTop(false) 호출
+            const currentPath = currentLocation.pathname;
+
+            //paths에 해당하지 않는 경로이다. ( ex 메인페이지 )
+            const isNotPaths = !paths.some((path) => path.test(currentPath))
+
+            changeExpanded(isNotPaths);
+
+            const handleScroll = () => {
+                // 스크롤할 때는 무조건 dropdown을 닫아준다.
+                changeIsDropdownOpen(false);
+
+                if(isNotPaths) {
+                    if (window.scrollY > 30) {
+                        changeExpanded(false);
+                    } else {
+                        changeExpanded(true);
+                    }
+                }else{
+                    changeExpanded(false);
+                }
+
+            };
+
+            window.addEventListener("scroll", handleScroll);
+
+            return () => {
+                window.removeEventListener("scroll", handleScroll);
+            };
+        }else{
+            changeExpanded(false);
         }
 
-
-    }, [currentLocation, changeScrollTop]);
+    }, [currentLocation.pathname]);
 
     //pageUrlStorage에 url 변경될때마다 이전 url 담는다.
     useEffect(() => {
@@ -288,6 +315,7 @@ function Navbar({isSearchBar}) {
 
 
     useEffect(() => {
+
         return () => clearSearchValue(); //에러나서 우선 주석
     }, []);
 
@@ -304,10 +332,11 @@ function Navbar({isSearchBar}) {
         }
     }, [currentUser]);
 
+
     return (
         <>
             {
-                (scrollTop && currentClicked !== 0) && <div className="searchClickBackground"></div>
+                (currentClicked !== 0) && <div className="searchClickBackground"></div>
                 //밖에 클릭했을 때 기본 nav로 돌아가게
             }
 
@@ -323,7 +352,7 @@ function Navbar({isSearchBar}) {
             </div>
 
 
-            <nav className={(scrollTop && !fixedNavbar) ? "topNav" : null}>
+            <nav className={isExpanded ? "topNav" : null}>
                 <div className='upperNav'>
                     <div className="logo" onClick={() => navigate('/')}>
                         <span className="material-symbols-outlined logoImg">house</span>
@@ -340,7 +369,7 @@ function Navbar({isSearchBar}) {
                                         <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar" onClick={toggleMenu}/>
                                         <span onClick={toggleMenu}>{currentUser.username}</span>
                                         {
-                                            isDropdownOpen ?
+                                            isMenuOpen ?
                                                 <span className="material-symbols-outlined icon"
                                                       onClick={toggleMenu}>keyboard_arrow_up</span>
                                                 :
@@ -348,7 +377,7 @@ function Navbar({isSearchBar}) {
                                                       onClick={toggleMenu}>keyboard_arrow_down</span>
                                         }
                                         {/* 드롭다운 메뉴 */}
-                                        <MenuDropdown isDropdownOpen={isDropdownOpen} closeMenu={closeMenu}/>
+                                        <MenuDropdown isDropdownOpen={isMenuOpen} closeMenu={closeMenu}/>
                                     </div>
                                 </div>
                             )
@@ -359,7 +388,7 @@ function Navbar({isSearchBar}) {
                     isSearchBar &&
                     (
                         <>
-                            <div className={(scrollTop && !fixedNavbar) ? "bottomNav topNav" : "bottomNav"}>
+                            <div className={"bottomNav"}>
                                 <PlacesAutocomplete
                                     value={location}
                                     onChange={handleLocationChange}
@@ -372,10 +401,10 @@ function Navbar({isSearchBar}) {
                                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                                         <>
                                             <div className={`search ${notClicked ? 'notClicked' : null}`}
-                                                 onClick={openTopScrollNav}>
+                                                 onClick={(e) => onClickSearchBar(e)}>
                                                 <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(1)}>
-                                                    <p className={(scrollTop&& !fixedNavbar) ? null : 'displayNone'}>위치</p>
+                                                    <p className={isExpanded ? "" : 'displayNone'}>위치</p>
                                                     <input type="text"
                                                            {...getInputProps({
                                                                placeholder: '도시를 검색하세요.',
@@ -384,7 +413,7 @@ function Navbar({isSearchBar}) {
                                                 </div>
                                                 <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(2)}>
-                                                    <p className={(scrollTop&& !fixedNavbar) ? null : 'displayNone'}>유형</p>
+                                                    <p className={isExpanded ? "" : 'displayNone'}>유형</p>
                                                     <span className="inputDiv">
                                                     {
                                                         ((types && rooms) && (types.length + rooms.length === 9)) ?
@@ -397,13 +426,13 @@ function Navbar({isSearchBar}) {
                                                 </div>
                                                 <div className={`check-out ${currentClicked === 3 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(3)}>
-                                                    <p className={(scrollTop&& !fixedNavbar) ? null : 'displayNone'}>가격</p>
+                                                    <p className={isExpanded ? "" : 'displayNone'}>가격</p>
                                                     <span
                                                         className="inputDiv">{currencyFormatter.format(minPrice)}&nbsp;~&nbsp;{(MAX_PRICE === maxPrice) ? '무제한' : currencyFormatter.format(maxPrice)}</span>
                                                 </div>
                                                 <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(4)}>
-                                                    <p className={(scrollTop&& !fixedNavbar) ? null : 'displayNone'}>크기</p>
+                                                    <p className={isExpanded ? "" : 'displayNone'}>크기</p>
                                                     <span
                                                         className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
                                                     <span className="material-symbols-outlined"
@@ -416,26 +445,28 @@ function Navbar({isSearchBar}) {
                                                 suggestions={suggestions}
                                                 getSuggestionItemProps={getSuggestionItemProps}
                                                 loading={loading} status={status}
-                                                shown={(currentClicked === 1) && isDropdown}
-                                                close={closeDropdown} scrollTop={scrollTop}
+                                                shown={(currentClicked === 1) && idDropdownOpen}
+                                                close={closeDropdown}
+                                                scrollTop={true}
                                                 searchByRegion={searchByRegion}/>
 
                                             <Category types={types} setTypes={setTypes} rooms={rooms}
                                                       setRooms={setRooms}
-                                                      shown={(currentClicked === 2) && isDropdown} close={closeDropdown}
-                                                      scrollTop={scrollTop}/>
+                                                      shown={(currentClicked === 2) && idDropdownOpen}
+                                                      close={closeDropdown}
+                                                      scrollTop={true}/>
 
                                             <Price minPrice={minPrice} setMinPrice={setMinPrice} maxPrice={maxPrice}
                                                    setMaxPrice={setMaxPrice}
-                                                   shown={(currentClicked === 3) && isDropdown}
+                                                   shown={(currentClicked === 3) && idDropdownOpen}
                                                    close={closeDropdown}
-                                                   scrollTop={scrollTop}/>
+                                                   scrollTop={true}/>
 
                                             <Size minSize={minSize} setMinSize={setMinSize} maxSize={maxSize}
                                                   setMaxSize={setMaxSize}
-                                                  shown={(currentClicked === 4) && isDropdown}
+                                                  shown={(currentClicked === 4) && idDropdownOpen}
                                                   close={closeDropdown}
-                                                  scrollTop={scrollTop}/>
+                                                  scrollTop={true}/>
                                         </>
                                     )}
                                 </PlacesAutocomplete>
@@ -617,7 +648,7 @@ const Category = ({types, rooms, setTypes, setRooms, shown, close, scrollTop}) =
         <Dropdown
             shown={shown}
             close={close}
-            scrollTop={scrollTop}
+            // scrollTop={scrollTop}
         >
             <div className='otherSuggestion'>
                 <div className="selectBig">

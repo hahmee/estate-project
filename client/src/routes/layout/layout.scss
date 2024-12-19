@@ -7,9 +7,7 @@
 }
 
 .app {
-  //overflow-anchor: none; //nav sticky때문에
-  //background-color: darkcyan;
-  //background-color: #ff6e7e;
+
 }
 .layout {
   max-width: 1366px;
@@ -17,12 +15,8 @@
   margin-right: auto;
   display: flex;
   flex-direction: column;
-  margin-top: 80px;
-//align-items: center;
-  //justify-items: center;
-  //background-color: #3CB371;
-  min-height: calc(100vh - 80px - 70px);
-
+  padding-top: 80px;
+  //min-height: calc(100vh - 80px - 70px);
 
   @include lg {
     max-width: 1366px; //1280px

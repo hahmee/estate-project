@@ -30,8 +30,6 @@ function Pin({item}) {
     const savedPostFetch = savedPostStore((state) => state.fetch);
     const popup = useRef();
 
-    console.log('ote',item)
-
     const customMarkerIcon = divIcon({
         html: `<div class=${saved ? "saved-pin" : "marker"}><div>${currencyFormatter.format(item.price)}</div></div>`
     });

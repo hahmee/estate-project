@@ -1,11 +1,13 @@
 @import "../../main.scss";
 
 .newPostPage {
+  padding-top: 1rem;
+
   .post_title {
     font-size: 1.5em;
     font-weight: bold;
-    margin-top: 100px;
   }
+
   .post_location {
     font-size: 1.2rem;
     display: flex;
@@ -14,6 +16,7 @@
     align-items: center;
     margin-top: 1rem;
   }
+
   .formContainer {
     padding: 1.25rem;
     border: 1px solid #DDDDDD;
@@ -23,7 +26,7 @@
     display: grid;
     margin-top: 1.5rem;
     height: auto;
-    margin-bottom: 10rem;
+    margin-bottom: calc(80px + 1rem);
 
     .wrapper {
 
@@ -35,10 +38,12 @@
         &.description {
           grid-template-columns: repeat(1, minmax(0, 1fr));
         }
+
         &.imageUpload {
           gap: 0;
           grid-template-columns: repeat(1, minmax(0, 1fr));
         }
+
         .label {
           font-weight: bold;
           margin-bottom: 0.5rem;
@@ -58,8 +63,6 @@
         }
 
 
-
-
       }
     }
   }
@@ -71,22 +74,4 @@
 
 
 
-
-//
-//@media (min-width: 1024px) {
-//  .lg\:grid-cols-3 {
-//    grid-template-columns: repeat(3, minmax(0, 1fr));
-//  }
-//}
-//@media (min-width: 768px) {
-//  .md\:grid-cols-2 {
-//    grid-template-columns: repeat(2, minmax(0, 1fr));
-//  }
-//}
-//.gap-10 {
-//  gap: 2.5rem;
-//}
-//.grid-cols-1 {
-//  grid-template-columns: repeat(1, minmax(0, 1fr));
-//}
 

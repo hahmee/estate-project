@@ -6,7 +6,6 @@ import {useContext, useEffect} from "react";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {listPostStore} from "../../lib/listPostStore.js";
-import {NavbarContext} from "../../context/NavbarContext.jsx";
 import {SearchbarContext} from "../../context/SearchbarContext.jsx";
 import {roomOption, typeOption} from "../newPostPage/newPostPage.jsx";
 import {MAX_PRICE, MAX_SIZE, MIN_PRICE, MIN_SIZE} from "../../components/navbar/Navbar.jsx";
@@ -41,7 +40,6 @@ function ListPage() {
     const posts = listPostStore((state) => state.posts);
     const savedPosts = savedPostStore((state) => state.savedPosts);
     const currentSavedPost = savedPostStore((state) => state.currentSavedPost);
-    const {changeScrollTop, changeFixedNavbar, fixedNavbar} = useContext(NavbarContext);
 
     useEffect(() => {//좋아요 눌렀을 때 실행
 
@@ -66,8 +64,8 @@ function ListPage() {
 
 
     useEffect(() => {
-        changeScrollTop(false);
-        changeFixedNavbar(true);
+        // changeScrollTop(false);
+        // changeFixedNavbar(true);
         setIsFetch(true);
         //searchbar context에 url 값 넣기 -> 외부 url 을 통해서 들어온 사람들을 위해
         changeSearchValue({
@@ -84,7 +82,7 @@ function ListPage() {
         });
 
         return () => {
-            changeFixedNavbar(false);
+            // changeFixedNavbar(false);
             //정리
             clearSearchValue();
         };

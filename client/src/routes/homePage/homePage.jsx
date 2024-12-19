@@ -1,14 +1,7 @@
 import "./homePage.scss";
 import "leaflet/dist/leaflet.css";
-import {useContext, useEffect} from "react";
-import {NavbarContext} from "../../context/NavbarContext.jsx";
 
 function HomePage() {
-  const {changeScrollTop} = useContext(NavbarContext);
-
-  useEffect(() => {
-    changeScrollTop(true);
-  }, []);
 
   return (
       <div className="homePage">

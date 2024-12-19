@@ -1,39 +1,25 @@
-import { createContext, useState } from "react";
+import {createContext, useState} from "react";
 
 export const NavbarContext = createContext();
 
 export const NavbarContextProvider = ({ children }) => {
 
-    const [scrollTop, setScrollTop] = useState(true);
-    const [fixedNavbar, setFixedNavbar] = useState(false); //listPage에서 상단에 고정 용도
-    const [outsideClick, setOutsideClick] = useState(false);
-    const [isDropdown, setIsDropdown] = useState(false); // 드롭다운 보이기 여부
+    const [isExpanded, setIsExpanded] = useState(false); // 메뉴바 확장 여부
+    const [idDropdownOpen, setIsDropdownOpen] = useState(false); // 드롭다운 오픈 여부
 
-    const changeScrollTop = (scrolltop) => {
-        setScrollTop(scrolltop);
-    };
+    const changeExpanded = (isExpanded) => {
+        setIsExpanded(isExpanded);
+    }
 
-    const changeFixedNavbar = (value) => {
-        setFixedNavbar(value);
-    };
-
-    const changeOutsideClick = (value) => {
-        setOutsideClick(value);
-    };
-
-    const changeIsDropDown = (value) => {
-        setIsDropdown(value);
-    };
+    const changeIsDropdownOpen = (isOpen) => {
+        setIsDropdownOpen(isOpen);
+    }
 
     const navbarCtx = {
-        scrollTop,
-        changeScrollTop,
-        fixedNavbar,
-        changeFixedNavbar,
-        outsideClick,
-        changeOutsideClick,
-        isDropdown,
-        changeIsDropDown,
+        isExpanded: isExpanded,
+        changeExpanded: changeExpanded,
+        idDropdownOpen: idDropdownOpen,
+        changeIsDropdownOpen: changeIsDropdownOpen,
     }
 
     return (
