@@ -1,4 +1,83 @@
 @import "../../main.scss";
+.main{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  .map-search {
+    z-index: 900;
+
+    .map-item {
+
+    }
+    .map-content {
+
+    }
+    .material-symbols-outlined {
+      left: 280px;
+      top: 17px;
+      position: absolute;
+      z-index: 1000;
+    }
+
+    input {
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 25px;
+      width: calc( -30px + 100%);
+      margin-top: 20px;
+      cursor: text;
+      left:50%;
+      transform:translateX(-50%);
+      border: none;
+      position: absolute;
+      padding: 20px 20px 20px 20px;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+      font-size: 18px;
+
+      //@include md {
+      //  width: 100%;
+      //
+      //}
+
+    }
+  }
+
+}
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  background-color: #fff;
+  width: calc( -30px + 100%);
+  left: 50%;
+  transform: translateX(-50%);
+  top: 85px;
+  align-items: center;
+  cursor: default;
+  border-color: rgb(204, 204, 204);
+  border-radius: 4px;
+  outline: 0px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+
+
+  @include md {
+    width: 100%;
+  }
+
+  .suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  .suggestion-item--active {
+    padding: 10px;
+    background-color: #eee;
+    cursor: pointer;
+  }
+
+}
+
 
 
 #map {
@@ -12,26 +91,9 @@
   }
 }
 
-.autocomplete-container input {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 78px;
-  width: 100%;
-  cursor: text;
-  border: none;
-  position: relative;
-  padding: 20px 20px 20px 20px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-  margin: auto;
-  font-size: 18px;
-}
-
 .map-control{
   div {
     position: relative !important;
-    background-color: gold;
   }
 }
 
@@ -43,7 +105,6 @@
   //all: unset;
   box-sizing: border-box;
   margin-top: 24px;
-  background-color: gold;
   //position: relative !important;
   //width: 100%;
   //width: calc(100% - 20px);

@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import SearchMapBar2 from "../../components/searchBar/SearchMapBar2.jsx";
+import SearchMapBar from "../../components/searchBar/SearchMapBar.jsx";
 import "./newLocation.scss";
 import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import MapSingle from "../../components/map/MapSingle.jsx";
@@ -23,7 +23,7 @@ function NewLocationPage() {
             <div className="locationText">위치는 어디인가요?</div>
             <div className="locationSmallText">정확한 위치를 입력해주세요.</div>
             <div>
-                <SearchMapBar2 getMapResult={getMapResult}/>
+                <SearchMapBar getMapResult={getMapResult}/>
                 <div className="mapContainer">
                     <MapSingle items={itemList}/>
                 </div>

@@ -1,7 +1,7 @@
 import React, {useCallback, useContext, useState} from "react";
 import "./filter.scss";
 import {useSearchParams} from "react-router-dom";
-import SearchMapBar2 from "../searchBar/SearchMapBar2.jsx";
+import SearchMapBar from "../searchBar/SearchMapBar.jsx";
 import Selection from "../../UI/Selection.jsx";
 import {roomOption, typeOption} from "../../routes/newPostPage/newPostPage.jsx";
 import Input from "../../UI/Input.jsx";

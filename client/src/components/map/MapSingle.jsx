@@ -11,13 +11,6 @@ function MapSingle({items}) {
     const [position, setPosition] = useState([37,127]);
     const isLoading = listPostStore((state) => state.isLoading);
 
-    // //items(변경했을때만 position 변경함) // 굳이 안해도 실행됨
-    // useEffect(() => {
-    //     if(items && items.length >0 ) {
-    //         setPosition([items[0]?.latitude, items[0]?.longitude]);
-    //     }
-    // }, [items]);
-
     useEffect(() => {
         if (items && items.length < 1) {
             setPosition([37, 127]);

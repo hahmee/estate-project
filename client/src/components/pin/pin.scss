@@ -1,3 +1,5 @@
+@import "../../main.scss";
+
 .leaflet-marker-icon {
   width: auto !important;
 }
@@ -11,9 +13,12 @@
 
 .saved-pin {
   position: relative;
-  border: 1px solid #fa6172;
+  //border: 1px solid #fa6172;
+  border: 1px solid $primary-color;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-  background-color: #ff6e7e;
+  //background-color: #ff6e7e;
+  background-color: $primary-color;
+
   padding: 0px 20px;
   height: 28px;
   border-radius: 28px;
@@ -135,7 +140,7 @@
         right:53px;
         .clickedHeart {
           font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-          color:#DB4455;
+          color:$heart-color;
         }
         span{
           font-size: 20px;
