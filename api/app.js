@@ -31,7 +31,11 @@ const __dirname = dirname(__filename);
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(join(__dirname, "../client/dist")));
+
+// 배포 시 정적 파일 제공
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(join(__dirname, "../client/dist")));
+}
 
 // 라우터 설정
 app.use("/api/auth", authRoute);
@@ -41,10 +45,14 @@ app.use("/api/test", testRoute);
 app.use("/api/chats", chatRoute);
 app.use("/api/messages", messageRoute);
 
-// SPA 라우팅 처리
-app.get("*", (req, res) => {
-  res.sendFile(join(__dirname, "../client/dist/index.html"));
-});
+// SPA 라우팅 처리 (배포 환경에서만 활성화)
+if (process.env.NODE_ENV === "production") {
+  app.get("*", (req, res) => {
+    res.sendFile(join(__dirname, "../client/dist/index.html"));
+  });
+}
+
+
 
 // Socket.IO 설정
 let onlineUsers = [];

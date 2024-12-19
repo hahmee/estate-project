@@ -119,27 +119,6 @@ function Navbar({isSearchBar}) {
     const setIsFetch = listPostStore((state) => state.setIsFetch);
     const increase = useNotificationStore((state) => state.increase);
 
-    // const [searchParams, setSearchParams] = useSearchParams();
-    // const query = {
-    //     type: searchParams.getAll("type").length < 1 ? typeOption.map((type) => type.value) : searchParams.getAll("type"),
-    //     location: searchParams.get("location") || "",
-    //     political: searchParams.get("political") || "",
-    //     latitude: searchParams.get("latitude") || "",
-    //     longitude: searchParams.get("longitude") || "",
-    //     property: searchParams.getAll("property") < 1 ? roomOption.map((type) => type.value) : searchParams.getAll("property"),
-    //     minPrice: searchParams.get("minPrice") || MIN_PRICE,
-    //     maxPrice: searchParams.get("maxPrice") || MAX_PRICE,
-    //     minSize: searchParams.get("minSize") || MIN_SIZE,
-    //     maxSize: searchParams.get("maxSize") || MAX_SIZE,
-    //     searchedLat: searchParams.get("searchedLat") || "",
-    //     searchedLng: searchParams.get("searchedLng") || "",
-    //     search_type: searchParams.get("search_type") || "",
-    //     ne_lat: searchParams.get("ne_lat") || "",
-    //     ne_lng: searchParams.get("ne_lng") || "",
-    //     sw_lat: searchParams.get("sw_lat") || "",
-    //     sw_lng: searchParams.get("sw_lng") || "",
-    // };
-
     const handleLocationChange = (location) => {
         setStatus("");
         setLocation(location);
@@ -373,7 +352,6 @@ function Navbar({isSearchBar}) {
                                         }
                                         {/* 드롭다운 메뉴 */}
                                         <MenuDropdown isDropdownOpen={isDropdownOpen} closeMenu={closeMenu}/>
-
                                     </div>
                                 </div>
                             )

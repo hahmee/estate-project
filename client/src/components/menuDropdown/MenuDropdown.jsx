@@ -5,13 +5,11 @@ import {toast} from "react-toastify";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
 import "./menuDropdown.scss";
-import {SocketContext} from "../../context/SocketContext.jsx";
 
 function MenuDropdown(props) {
     const {isDropdownOpen, closeMenu} = props;
     const {currentUser, updateUser} = useContext(AuthContext);
     const navigate = useNavigate();
-    const { socket } = useContext(SocketContext);
 
     const handleLogout = async () => {
         try {
