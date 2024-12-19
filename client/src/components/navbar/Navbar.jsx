@@ -26,24 +26,27 @@ export const MIN_SIZE = 0;
 
 export const SEARCH_BY_REGION =[
     {
-        // img: 'https://a0.muscache.com/im/pictures/d77de9f5-5318-4571-88c7-e97d2355d20a.jpg?im_w=320',
-        img: '/korea.jpg',
+        // img: '/korea.jpg',
+        img: "https://media.istockphoto.com/id/1845303802/ko/%EC%82%AC%EC%A7%84/n-%EC%84%9C%EC%9A%B8%ED%83%80%EC%9B%8C-%EC%84%9C%EC%9A%B8-%ED%95%9C%EA%B5%AD.jpg?s=2048x2048&w=is&k=20&c=WQJFGZZ-PigL_FfBO--cF8hlVFWWoFtKRt1pkXFk1Rc=",
         title: '한국',
         placeId: "ChIJm7oRy-tVZDURS9uIugCbJJE",
 
     },
     {
-        img: '/america.jpg',
+        // img: '/america.jpg',
+        img: "https://cdn.pixabay.com/photo/2015/11/05/11/19/new-york-1024069_1280.jpg",
         title: '미국',
         placeId: "ChIJCzYy5IS16lQRQrfeQ5K5Oxw",
     },
     {
-        img: '/japan.jpg',
+        img: "https://cdn.pixabay.com/photo/2022/03/20/15/40/nature-7081138_1280.jpg",
+        // img: '/japan.jpg',
         title: '일본',
         placeId: "ChIJLxl_1w9OZzQRRFJmfNR1QvU",
     },
     {
-        img: '/germany.jpg',
+        img: "https://cdn.pixabay.com/photo/2022/02/05/13/12/building-6994803_1280.jpg",
+        // img: '/germany.jpg',
         title: '독일',
         placeId:"ChIJa76xwh5ymkcRW-WRjmtd6HU",
     },
@@ -464,7 +467,8 @@ const Location = ({location, suggestions, getSuggestionItemProps, loading, statu
                                     {
                                         SEARCH_BY_REGION.map((data) => {
                                             return (
-                                                <div key={data.title}><img className="regionImg" src={data.img} alt='img' onClick={() => searchByRegion(data.placeId)}/>
+                                                <div key={data.title}>
+                                                    <img className="regionImg" src={data.img} alt='img' onClick={() => searchByRegion(data.placeId)} loading="lazy"/>
                                                     <div className="regionContent">{data.title}</div>
                                                 </div>);
                                         })

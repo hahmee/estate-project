@@ -204,7 +204,7 @@ nav {
 
 nav.topNav {
   height: 168px;
-  background-color: green;
+  //background-color: green;
 
   @include md {
     height: 80px;
@@ -218,7 +218,7 @@ nav.topNav {
   height: 64px !important;
   width: 100% !important;
   left: 50% !important;
-  background-color: #3CB371 !important;
+  //background-color: #3CB371 !important;
 }
 
 .guests span:nth-of-type(2) {
