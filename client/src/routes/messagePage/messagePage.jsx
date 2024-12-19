@@ -16,6 +16,7 @@ import lottieChat from "../../../public/lottie/lottie_chat.json";
 function MessagePage() {
     const data = useLoaderData();
     const {userId} = useParams(); //작성자 아이디
+
     const navigate = useNavigate();
     const chatListRef = useRef([]);
     const [chatList, setChatList] = useState([]);
@@ -100,7 +101,11 @@ function MessagePage() {
     }, [chatList]);
 
     useEffect(() => {
+        console.log('userId', userId);
+        console.log('data', data);
+
         const initializeChat = () => {
+            console.log('initializeChat');
             const {resChatListResponse, resChatResponse} = data;
             const existedChatList = [...resChatListResponse.data];
             setMessages(resChatResponse?.data || undefined);
@@ -155,7 +160,7 @@ function MessagePage() {
 
     useEffect(() => {
 
-        // 채팅목록에 있는 친구들 중에 한명이라도 로그인/로그아웃 행동 감지된다.
+        // 채팅목록에 있는 친구들 중에 한명이라도 로그인/로그아웃하면 행동 감지된다.
         const handleSocketGetReceiverStatus = async (data) => {
             await checkIfChatEmpty(); //반영이 바로 안된다 -> useRef 로 변경했더니 성공.
 
@@ -198,10 +203,10 @@ function MessagePage() {
                 }
             }
 
-
         };
 
         const checkIfChatListOnline = async () => {
+            console.log('currentChat', currentChat);
             //문제 발생 --> 이 함수 실행 전에 setState로 chats 값을 넣어줬는데, 바로 반영이 안되는 문제
             // 해결 --> useRef 사용
             const chatListRefCurrent = chatListRef.current;
@@ -260,14 +265,13 @@ function MessagePage() {
         return () => {
             if (socket) {
                 socket.off("getMessage", handleSocketGetMessage);
-                socket.off("checkUserOnline");
+                socket.off("checkUserOnline"); //내가 온라인 상태인지 확인한다.
                 socket.off("checkUserListOnline"); // 왼쪽 chatList 의 유저들 온라인 상태인지 확인한다.
                 socket.off("getReceiverStatus", handleSocketGetReceiverStatus); // 왼쪽 chatList 의 유저들 온라인 상태인지 확인한다.
-
             }
         };
 
-    }, [socket, currentChat, userId, data]);
+    }, [socket, userId]);//[socket, currentChat, userId, data]
 
     return (
         <div className={`chat ${!userId ? "borderNone" : ""}`}>
