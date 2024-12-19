@@ -3,19 +3,24 @@ import {useEffect, useRef} from "react";
 import "./messageList.scss";
 
 const MessageList = (props) => {
-    const {messages, currentUser, currentChat} = props;
+    const { messages, currentUser, currentChat } = props;
     const scrollRef = useRef();
 
+
     useEffect(() => {
-        console.log('messages', scrollRef.current);
-        if (scrollRef.current) {
-            scrollRef.current.scrollIntoView({ behavior: "smooth" });
+        if (messages && Object.keys(messages).length > 0) {
+            if (scrollRef.current) {
+                scrollRef.current.scrollIntoView({ behavior: "smooth" });
+            }
         }
-    }, [messages]);
+    }, [messages, currentChat]);
 
-    if(!messages || Object.keys(messages).length === 0) {
-
-        return <div className="noMessages">아직 진행중인 대화가 없습니다.</div>
+    if (!messages || Object.keys(messages).length === 0) {
+        return (
+            <div className="noMessages">
+                아직 진행중인 대화가 없습니다.
+            </div>
+        );
     }
 
     return (
@@ -26,22 +31,24 @@ const MessageList = (props) => {
                         <span>{date}</span>
                     </div>
                     <div>
-                        {
-                            messagesForDate?.map((m) => (
-                                <div key={m.id}>
-                                    <Message
-                                        message={m}
-                                        own={m.userId === currentUser.id}
-                                        avatar={
-                                            m.userId === currentUser.id
-                                                ? currentUser.avatar
-                                                : currentChat.receiver.avatar
-                                        }
-                                    />
-                                </div>
-                            ))}
+                        {messagesForDate?.map((m, index) => (
+                            <div
+                                key={m.id}
+                            >
+                                <Message
+                                    message={m}
+                                    own={m.userId === currentUser.id}
+                                    avatar={
+                                        m.userId === currentUser.id
+                                            ? currentUser.avatar
+                                            : currentChat.receiver.avatar
+                                    }
+                                />
+                                {/* 스크롤이 이동할 위치를 위한 ref */}
+                                {index === messagesForDate.length - 1 && <div ref={scrollRef} />}
+                            </div>
+                        ))}
                     </div>
-                    <div ref={scrollRef} className="scrollRef"></div>
                 </div>
             ))}
         </div>

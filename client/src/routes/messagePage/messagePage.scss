@@ -11,7 +11,6 @@
   position: relative;
   align-items: center;
 
-
   &.borderNone {
     @include md {
       border: none;
@@ -107,7 +106,7 @@
   }
 
   &__wrapper {
-    min-height: 100vh; //100vh
+    min-height: calc(100vh - 80px - 140px - 60px);
   }
 
   &__noWrapper {

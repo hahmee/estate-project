@@ -23,9 +23,12 @@
 .noMessages {
   color: #888888;
   //background-color: #ff6e7e;
-  margin-top: 10rem;
-
-  justify-content: center;
+  min-height: calc(100vh - 80px - 60px - 140px);
   display: flex;
+  justify-content: center;
   align-items: center;
+}
+
+.scrollRef {
+  background-color: blue;
 }

@@ -52,8 +52,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-
-
 // Socket.IO 설정
 let onlineUsers = [];
 
