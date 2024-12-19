@@ -14,6 +14,7 @@ export const SocketContextProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+
     if (currentUser) {
       const getReceivers = async () => {
         try {
@@ -27,17 +28,16 @@ export const SocketContextProvider = ({ children }) => {
 
       getReceivers();
     }else{
-      console.log('로그아웃')
+
+      console.log('로그아웃');
+
     }
   }, [currentUser]);
 
   useEffect(() => {
-    // console.log('currentUser', currentUser) // 로그아웃하면 null
-
     if(socket && currentUser && receiverList.length > 0) { //로그인하면
       socket?.emit("newUser", currentUser.id, receiverList); //접속자 아이디, 접속자가 들어있는 채팅방 친구들 모두 가져온다.
     }
-
 
   }, [currentUser, socket, receiverList]);
 

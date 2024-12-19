@@ -43,7 +43,6 @@ function GoogleLoginButton(props) {
             apiRequest.post("/auth/googleLoginAccessToken", {
                 accessToken: tokenResponse.access_token,
             }).then((response) => {
-                console.log('resss', response);
                 const data = response.data;
                 handleLoginGoogle(data.email, data.name, data.picture, data.id);
 

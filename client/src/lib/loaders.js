@@ -70,15 +70,5 @@ export const profilePageLoader = async () => {
   });
 };
 
-//안 씀
-export const chatPageLoader = async ({ request, params }) => {
-  const query = request.url.split("=")[1];
-  const chatByUserIdPromise = apiRequest("/chats/userId?receiver="+ query);
-  const userPromise = apiRequest("/users/search/"+ query);
-  return defer({
-    chatByUserIdResponse: chatByUserIdPromise,
-    userDataResponse: userPromise
-  });
-};
 
 

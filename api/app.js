@@ -84,20 +84,22 @@ io.on("connection", (socket) => {
     addUser(userId, socket.id);
 
     socket.on("sendMessage", ({receiverId, data}) => {
+      console.log('sendMessage', data);
       const receiver = getUser(receiverId);
 
       if(receiver) {
         io.to(receiver.socketId).emit("getMessage", data);
       }
-    });    //그 중에서, 로그인 되어있는 친구들만 추린다.
+    });
 
+    //그 중에서, 로그인 되어있는 친구들만 추린다.
     const onlineReceivers = getOnlineUsers(receiverList);
     //나와 채팅방이 만들어진 사람들에게 나의 온라인 정보를 송출한다.
     if (onlineReceivers && onlineReceivers.length > 0) {
       // 포문 돌면서 emit하기
       onlineReceivers.forEach((receiver) => {
-        console.log('receiver.socketId', receiver);
-        io.to(receiver.socketId).emit("getReceiverStatus", {userId: userId, online: true}); //나의 온라인 정보를 친구들에게 송출한다.
+        // console.log('receiver.socketId', receiver);
+        io.to(receiver.socketId).emit("getReceiverStatus", {userId: userId, online: true}); //나의 온라인 정보를 현재 로그인된 친구들에게 송출한다.
       })
     }
   });
@@ -127,7 +129,20 @@ io.on("connection", (socket) => {
 
   });
 
-  socket.on("logout", () => {
+  socket.on("logout", (userId, receiverList) => {
+    console.log('receiverList', receiverList);
+    //그 중에서, 로그인 되어있는 친구들만 추린다.
+    const onlineReceivers = getOnlineUsers(receiverList);
+    console.log('onelineReceivers', onlineReceivers);
+
+    if (onlineReceivers && onlineReceivers.length > 0) {
+      // 포문 돌면서 emit하기
+      onlineReceivers.forEach((receiver) => {
+        // console.log('receiver.socketId', receiver);
+        io.to(receiver.socketId).emit("getReceiverStatus", {userId: userId, online: false}); //나의 온라인 정보를 현재 로그인된 친구들에게 송출한다.
+      })
+    }
+
     removeUser(socket.id);
   });
 

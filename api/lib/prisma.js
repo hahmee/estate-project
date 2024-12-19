@@ -7,7 +7,6 @@ const prisma = new PrismaClient();
 //Post 모델에 자동으로 location: 2dsphere 인덱스 설정함
 async function init() {
     const uri = process.env.DATABASE_URL;
-    console.log('uri..', uri);
     const client = new MongoClient(uri);
 
     try {

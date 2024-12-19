@@ -5,7 +5,7 @@ export const getUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany();
     res.status(200).json(users);
-  } catch (err) {``
+  } catch (err) {
     console.log(err);
     res.status(500).json({ message: "사용자 정보를 가져오는데 실패했습니다." });
   }
@@ -181,8 +181,6 @@ export const getUnreadChatNumber = async (req, res) => {
       },
     });
 
-    console.log('unreadChats', unreadChats);
-
     // 아직 읽지 않은 채팅방 개수 계산
     const unreadChatId = unreadChats.filter(chatUser => {
       const lastMessage = chatUser.chat.messages[0];
@@ -190,8 +188,6 @@ export const getUnreadChatNumber = async (req, res) => {
     }).map(chatUser => chatUser.chatId);
 
 
-
-    console.log('unreadChatId', unreadChatId);
     return res.json(unreadChatId);
   } catch (error) {
     console.error(error);

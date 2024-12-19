@@ -142,7 +142,6 @@ export const getPosts = async (req, res) => {
         }
       ],
     });
-    console.log('posts', posts);
 
     const savedPosts = await prisma.user.findUnique({
       where: {
@@ -166,7 +165,6 @@ export const getPosts = async (req, res) => {
       })
     });
 
-    // console.log('완성', posts);
     // setTimeout(() => {
       res.status(200).json(posts);
     // }, 1500);
@@ -229,7 +227,6 @@ export const addPost = async (req, res) => {
   const body = req.body;
   const tokenUserId = req.userId;
 
-  console.log('body', body);
 
   try {
     const newPost = await prisma.post.create({

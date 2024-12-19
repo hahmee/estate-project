@@ -172,15 +172,12 @@ function MessagePage() {
 
             });
 
-
-
             setChatList(newChatList);
-
 
         }
 
         const handleSocketGetMessage = async (data) => {
-            console.log('GetMessage', data);
+            console.log('getMessage.. ', data);
             // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
 
