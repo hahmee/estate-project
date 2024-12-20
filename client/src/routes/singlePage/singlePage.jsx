@@ -10,6 +10,7 @@ import {currencyFormatter} from "../../util/formatting.js";
 import MapSingle from "../../components/map/MapSingle.jsx";
 import {usePageUrlStore} from "../../lib/pageUrlStore.js";
 import Profile from "../../components/profile/Profile.jsx";
+import AlertModal from "../../components/modal/AlertModal.jsx";
 
 
 function SinglePage() {
@@ -22,6 +23,10 @@ function SinglePage() {
   const previousUrl = usePageUrlStore((state) => state.previousUrl);
   const [heartCnt, setHeartCnt] = useState(post.savedCount);
   const { id } = useParams();
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -47,23 +52,30 @@ function SinglePage() {
     }
   };
 
-  const deletePost = async () => {
+
+  const handleDelete = async () => {
+    //모달 닫고
+    handleCloseModal();
+
     try {
-
-      //알림 뜨기 - 삭제하시겠습니까?
-
 
       //이미지 cloud 삭제
 
-      // await apiRequest.delete(`/posts/${id}`);
+      await apiRequest.delete(`/posts/${id}`);
 
-      //이전페이지로 되돌아간다
-      navigate(`${previousUrl.pathname}${previousUrl.search}`);
+      if(previousUrl && previousUrl.pathname) {
+        navigate(`${previousUrl.pathname}${previousUrl.search}`);
+      }else {
+        navigate(`/`);
+      }
 
     }catch (err) {
       console.log(err);
     }
-  };
+
+
+
+  }
 
   const typeRoomLabel = roomOption.filter((option) => option.value === post.property)[0].label;
 
@@ -71,6 +83,18 @@ function SinglePage() {
 
   return (
       <div className="singlePage">
+
+        {showModal && (
+            <AlertModal
+                title="경고"
+                message="정말 삭제하시겠습니까?"
+                onClose={handleCloseModal}
+                onClickYes={handleDelete}
+            >
+            </AlertModal>
+        )}
+
+
         <Slider images={post.images}/>
         <div className="contents">
           <div className="leftContents">
@@ -325,7 +349,7 @@ function SinglePage() {
                           <Button outlined className="actionBtn" onClick={() => navigate(`/update/${id}`)}>
                             수정
                           </Button>
-                          <Button outlined className="actionBtn" onClick={deletePost}>
+                          <Button outlined className="actionBtn" onClick={handleOpenModal}>
                             삭제
                           </Button>
                         </div>

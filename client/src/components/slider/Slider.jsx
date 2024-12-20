@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import "./slider.scss";
 
 function Slider({ images }) {
@@ -42,6 +42,18 @@ function Slider({ images }) {
       }
     }
   };
+
+  useEffect(() => {
+    if(imageIndex !== null){
+      // 모달이 열리면 body 스크롤 방지
+      document.body.style.overflow = "hidden";
+
+      return () => {
+        document.body.style.overflow = "auto";
+      };
+    }
+
+  }, [imageIndex]);
 
   return (
       <>

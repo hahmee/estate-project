@@ -38,6 +38,11 @@ function MenuDropdown(props) {
         }
     };
 
+    const handleClick = (router) => {
+        closeMenu();
+        navigate(router);
+    };
+
     if(!isDropdownOpen) {
         return null;
     }
@@ -45,9 +50,9 @@ function MenuDropdown(props) {
     return <div className="modal-wrapper" onClick={closeMenu}>
         <div className={`modal-content`} onClick={e => e.stopPropagation()}>
             <ul>
-                <li onClick={() => navigate("/profile")}>프로필</li>
-                <li onClick={() => navigate("/messages")}>메시지</li>
-                <li onClick={() => navigate("/wish")}>위시리스트</li>
+                <li onClick={() => handleClick("/profile")}>프로필</li>
+                <li onClick={() =>  handleClick("/messages")}>메시지</li>
+                <li onClick={() => handleClick("/wish")}>위시리스트</li>
                 <li onClick={handleLogout}>로그아웃</li>
             </ul>
         </div>
