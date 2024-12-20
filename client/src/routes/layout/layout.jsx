@@ -8,7 +8,7 @@ import {UserProgressContext} from "../../context/UserProgressContext.jsx";
 import Footer from "../../components/footer/Footer.jsx";
 import MobileMenu from "../../components/mobile-menu/MobileMenu.jsx";
 
-function CommonLayout({ children, isSearchBar, isLoginCheck, isLginLayout=false }) {
+function CommonLayout({ children, isSearchBar, isLoginCheck, isLoginLayout=false }) {
 
     const {currentUser} = useContext(AuthContext);
     const [mobileMenuHidden, setMobileMenuHidden] = useState(false);
@@ -17,7 +17,7 @@ function CommonLayout({ children, isSearchBar, isLoginCheck, isLginLayout=false 
     if (!currentUser && isLoginCheck) return <Navigate to="/login"/>;
 
     //로그인이 되어있으면 register, login 페이지에 접근하지 못한다.
-    if (currentUser && isLginLayout) return <Navigate to="/"/>;
+    if (currentUser && isLoginLayout) return <Navigate to="/"/>;
 
     return (
         <div>
@@ -28,27 +28,9 @@ function CommonLayout({ children, isSearchBar, isLoginCheck, isLginLayout=false 
     );
 }
 
-// function LoginLayout() {
-//
-//     //로그인 되어있으면 redirect
-//     if(currentUser){
-//         console.log('currentUser', currentUser);
-//     }
-//
-//
-//     return (
-//         <div className="app">
-//             <div className="layout">
-//                 <div className="content">
-//                     <Outlet/>
-//                 </div>
-//             </div>
-//             <Footer/>
-//         </div>
-//     );
-// }
 
-function Layout() {
+function Layout({isFooter = false}) {
+
     return (
         <div className="app">
             <div className="layout">
@@ -56,7 +38,7 @@ function Layout() {
                     <Outlet/>
                 </div>
             </div>
-            <Footer/>
+            {isFooter && <Footer/>}
         </div>
     );
 }

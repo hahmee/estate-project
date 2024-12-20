@@ -16,13 +16,14 @@ import RedirectNaverURI from "./routes/redirect/redirectNaverURI.jsx";
 import WishPage from "./routes/wish/wishPage.jsx";
 import NotFoundPage from "./routes/notFound/notFoundPage.jsx";
 import ErrorPage from "./routes/error/errorPage.jsx";
+import {fa} from "timeago.js/lib/lang/index.js";
 
 function App() {
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <CommonLayout isSearchBar={true} isLoginCheck={true}><Layout/></CommonLayout>,
+      element: <CommonLayout isSearchBar={true} isLoginCheck={true}><Layout isFooter={true}/></CommonLayout>,
       errorElement: <ErrorPage />,
       children: [
         {
@@ -46,7 +47,7 @@ function App() {
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false} isLoginCheck={false} isLginLayout><Layout/></CommonLayout>,
+      element: <CommonLayout isSearchBar={false} isLoginCheck={false} isLoginLayout ><Layout/></CommonLayout>,
       errorElement: <ErrorPage />,
       children: [
         {
@@ -91,7 +92,7 @@ function App() {
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false} isLoginCheck={true}><Layout/></CommonLayout>,
+      element: <CommonLayout isSearchBar={false} isLoginCheck={true}><Layout isFooter={false}/></CommonLayout>,
       errorElement: <ErrorPage />,
       children: [
         {

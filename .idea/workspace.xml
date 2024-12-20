@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/homePage/homePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/homePage/homePage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +182,7 @@
       <workItem from="1734486228704" duration="20023000" />
       <workItem from="1734520181091" duration="4663000" />
       <workItem from="1734572024173" duration="19634000" />
-      <workItem from="1734660613430" duration="12684000" />
+      <workItem from="1734660613430" duration="13151000" />
     </task>
     <servers />
   </component>
