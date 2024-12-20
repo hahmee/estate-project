@@ -1,6 +1,14 @@
 import { defer } from "react-router-dom";
 import apiRequest from "./apiRequest";
 
+export const homePageLoader = async ({request, params}) => {
+  const featuredPromise = await apiRequest("/posts/featuredItems");
+
+  return defer({
+    featuredResponse: featuredPromise,
+  });
+};
+
 export const singlePageLoader = async ({ request, params }) => {
   const postPromise = await apiRequest("/posts/" + params.id);
 

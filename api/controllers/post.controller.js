@@ -13,6 +13,41 @@ function getRadians(degree) {
   return radians;
 }
 
+//좋아요 많이 받은 8개 가져오기
+export const getFeaturedPosts = async (req, res) => {
+  try {
+    const posts = await prisma.savedPost.groupBy({
+      by: ['postId'], // 게시물 별로 그룹화
+      _count: {
+        postId: true, // postId별로 카운트
+      },
+      orderBy: {
+        _count: {
+          postId: 'desc', // 좋아요 수를 내림차순으로 정렬
+        },
+      },
+      take: 8, // 상위 8개 게시물만 가져오기
+    });
+
+    // 가져온 게시물에 대한 상세 정보를 가져오기 (포스트 정보)
+    const featuredPosts = await prisma.post.findMany({
+      where: {
+        id: {
+          in: posts.map(post => post.postId), // 좋아요 수가 많은 상위 6개 게시물
+        },
+      },
+    });
+
+    console.log('featuredPosts', featuredPosts);
+
+    return res.status(200).json(featuredPosts); // 결과 반환
+
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "포스트를 가져오는데 실패했습니다." });
+  }
+};
+
 export const getPosts = async (req, res) => {
   const query = req.query;
 

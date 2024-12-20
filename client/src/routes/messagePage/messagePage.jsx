@@ -10,8 +10,6 @@ import Profile from "../../components/profile/Profile.jsx";
 import MessageList from "../../components/messageList/MessageList.jsx";
 import MessageInput from "../../components/message/MessageInput.jsx";
 import {useNotificationStore} from "../../lib/notificationStore.js";
-import Lottie from "lottie-react";
-import lottieChat from "../../../public/lottie/lottie_chat.json";
 
 function MessagePage() {
     const data = useLoaderData();
@@ -317,7 +315,6 @@ function MessagePage() {
                         :
                         <div className="chat__noWrapper">
                             <span className={`chat__no-conversation ${!userId ? "chat__no-conversation--none" : ""}`}>채팅을 시작하기 위해서 대화상자를 열어주세요.</span>
-                            <Lottie animationData={lottieChat} className="chat__no-conversation--lottieChat"/>
                         </div>
 
                 }

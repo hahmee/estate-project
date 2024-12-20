@@ -1,64 +1,152 @@
 @import "../../main.scss";
 
-.homePage {
-  display: flex;
-  height: 100%;
+// Main Page Styling
+.main-page {
+  font-family: Arial, sans-serif;
+  padding-top: calc(80px + 1rem);
 
-  .textContainer {
-    flex: 3;
+  /* Hero Section */
+  .hero {
+    //background: url('https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
+    //background: url('https://images.unsplash.com/photo-1519899602147-8d3b53e450b9?q=80&w=1837&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center bottom/cover no-repeat;
+    background: url('https://images.unsplash.com/photo-1520608421741-68228b76b6df?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat;
+    background-size: cover;
+    background-position: center; /* 상단 중앙에 배경 이미지를 배치 */
+    //padding: 100px 20px;
+    //text-align: center;
 
-    .wrapper {
-      padding-right: 100px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 50px;
-      height: 100%;
+    //background: url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
+    color: white;
 
-      @include lg{
-        padding-right: 50px;
+
+    padding: 100px 20px;
+    text-align: center;
+
+    &__content {
+      max-width: 800px;
+      margin: 0 auto;
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
       }
 
-      @include md{
-        padding: 0;
+      p {
+        font-size: 1.2rem;
+        margin-bottom: 40px;
       }
 
-      @include sm{
-        justify-content: flex-start;
-      }
+      .btn-primary {
+        margin: 0 auto;
 
-      .title {
-        font-size: 64px;
+        background-color: $primary-color;
+        color: white;
+        //padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        //transition: background-color 0.3s;
 
-        @include lg {
-          font-size: 48px;
-        }
-      }
-
-      .boxes {
-        display: flex;
-        justify-content: space-between;
-
-        @include sm {
-          display: none;
-        }
-
-        h1 {
-          font-size: 36px;
-
-          @include lg {
-            font-size: 32px;
-          }
-        }
-
-        h2 {
-          font-size: 20px;
-          font-weight: 300;
+        &:hover {
+          background-color: $primary-color;
         }
       }
     }
   }
 
+  /* Categories Section */
+  .categories {
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+    text-align: center;
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+
+    &__list {
+      display: flex;
+      justify-content: space-around;
+
+      .category {
+        width: 30%;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        h3 {
+          font-size: 1.5rem;
+          margin-bottom: 10px;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  /* Featured Listings Section */
+  .featured-listings {
+    padding: 60px 20px;
+
+    .section-title {
+      font-size: 2rem;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .listings {
+      display: flex;
+      justify-content: space-around;
+      gap: 20px;
+      flex-wrap: wrap;  /* 여러 줄로 감싸기 */
+
+      .listing {
+        cursor: pointer;
+        width: 22%;
+        //background-color: #ffffff;
+        //padding: 20px;
+        border-radius: 8px;
+        //box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        @include lg {
+          width: 25%;
+
+        }
+
+        @include md {
+          width: 45%;
+        }
+
+        @include sm {
+          width: 100%;
+        }
+
+
+        img {
+          width: 100%;
+          border-radius: 8px;
+          background-color: #bbbbbb;
+          margin-bottom: 5px;
+          object-fit: cover;
+          height: 280px;
+
+        }
+
+        h3 {
+          font-size: 1rem;
+          //margin-bottom: 10px;
+        }
+
+        p {
+          //font-size: 1.1rem;
+          margin-bottom: 20px;
+        }
+
+      }
+    }
+  }
+
 }
-
-

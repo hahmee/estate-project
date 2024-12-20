@@ -37,6 +37,7 @@ function Register() {
     }
   };
 
+
   return (
       <div className="registerPage">
         <div className="formContainer">

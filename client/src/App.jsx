@@ -1,14 +1,14 @@
 import HomePage from "./routes/homePage/homePage";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import ListPage from "./routes/listPage/listPage";
-import {CommonLayout, CreateProcess, Layout, RequireAuth,} from "./routes/layout/layout";
+import {CommonLayout, CreateProcess, Layout,} from "./routes/layout/layout";
 import SinglePage from "./routes/singlePage/singlePage";
 import ProfilePage from "./routes/profilePage/profilePage";
 import Login from "./routes/login/login";
 import Register from "./routes/register/register";
 import ProfileUpdatePage from "./routes/profileUpdatePage/profileUpdatePage";
 import NewPostPage from "./routes/newPostPage/newPostPage";
-import {messagePageLoader, profilePageLoader, singlePageLoader, wishPageLoader} from "./lib/loaders";
+import {homePageLoader, messagePageLoader, profilePageLoader, singlePageLoader, wishPageLoader} from "./lib/loaders";
 import NewLocationPage from "./routes/newLocationPage/newLocationPage.jsx";
 import UpdatePage from "./routes/updatePage/updatePage.jsx";
 import MessagePage from "./routes/messagePage/messagePage.jsx";
@@ -28,6 +28,7 @@ function App() {
         {
           path: "/",
           element: <HomePage/>,
+          loader: homePageLoader,
           errorElement: <ErrorPage />,
         },
         {
@@ -45,7 +46,7 @@ function App() {
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false} isLoginCheck={false}><Layout/></CommonLayout>,
+      element: <CommonLayout isSearchBar={false} isLoginCheck={false} isLginLayout><Layout/></CommonLayout>,
       errorElement: <ErrorPage />,
       children: [
         {
@@ -90,7 +91,7 @@ function App() {
     },
     {
       path: "/",
-      element: <CommonLayout isSearchBar={false} isLoginCheck={true}><RequireAuth/></CommonLayout>,
+      element: <CommonLayout isSearchBar={false} isLoginCheck={true}><Layout/></CommonLayout>,
       errorElement: <ErrorPage />,
       children: [
         {
