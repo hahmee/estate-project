@@ -247,6 +247,8 @@ function Navbar({isSearchBar}) {
 
     //pageUrlStorage에 url 변경될때마다 현재 url 담는다.
     useEffect(() => {
+        window.scrollTo(0, 0); // 페이지 이동시 스크롤 맨 위
+
         setPrevLocation(lastSavedLocation.current); //lastSavedLocation담겨있는 값 넣기
         lastSavedLocation.current = currentLocation; // 현재 값 lastSavedLocation에 넣기
         setCurrentUrl(currentLocation);

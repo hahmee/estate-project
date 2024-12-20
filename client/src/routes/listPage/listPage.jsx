@@ -64,8 +64,8 @@ function ListPage() {
 
 
     useEffect(() => {
-        // changeScrollTop(false);
-        // changeFixedNavbar(true);
+
+
         setIsFetch(true);
         //searchbar context에 url 값 넣기 -> 외부 url 을 통해서 들어온 사람들을 위해
         changeSearchValue({
@@ -82,7 +82,6 @@ function ListPage() {
         });
 
         return () => {
-            // changeFixedNavbar(false);
             //정리
             clearSearchValue();
         };

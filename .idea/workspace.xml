@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/modal/AlertModal.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/modal/alertModal.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/menuDropdown/MenuDropdown.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/menuDropdown/MenuDropdown.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/error/errorPage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/error/errorPage.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/footer/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/Footer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/footer/footer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/footer/footer.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/Map.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,7 +186,7 @@
       <workItem from="1734486228704" duration="20023000" />
       <workItem from="1734520181091" duration="4663000" />
       <workItem from="1734572024173" duration="19634000" />
-      <workItem from="1734660613430" duration="5082000" />
+      <workItem from="1734660613430" duration="6168000" />
     </task>
     <servers />
   </component>
