@@ -6,20 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/card/card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/card/card.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/filter/Filter.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/filter/Filter.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/map/MapSingle.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/MapSingle.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/pin/pin.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pin/pin.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchBar.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar2.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/searchBar.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/searchMapBar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/searchMapBar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/searchMapBar2.scss" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/context/NavbarContext2.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newLocationPage/newLocationPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/singlePage/singlePage.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/variables.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/message/MessageInput.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/MessageInput.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,23 +32,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.MapLoading.jsx.executor": "Run",
-    "Node.js.auth.controller.js.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/dev/youtube/estate-project/client/src/context",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.MapLoading.jsx.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.auth.controller.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/dev/youtube/estate-project/client/src/context&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\dev\youtube\estate-project\client\src\context" />
@@ -194,6 +182,7 @@
       <workItem from="1734486228704" duration="20023000" />
       <workItem from="1734520181091" duration="4663000" />
       <workItem from="1734572024173" duration="19634000" />
+      <workItem from="1734660613430" duration="319000" />
     </task>
     <servers />
   </component>

@@ -183,6 +183,7 @@ function MessagePage() {
 
         const handleSocketGetMessage = async (data) => {
             console.log('getMessage.. ', data);
+            console.log('socket', socket);
             // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
 
@@ -248,6 +249,11 @@ function MessagePage() {
 
         //실행 시작 부분
         if (socket) {
+
+            // 기존 리스너 제거
+            socket.off("getMessage", handleSocketGetMessage);
+            socket.off("getReceiverStatus", handleSocketGetReceiverStatus);
+
 
             socket.on("getMessage", handleSocketGetMessage);
             socket.on("getReceiverStatus", handleSocketGetReceiverStatus);
