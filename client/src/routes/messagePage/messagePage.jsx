@@ -159,6 +159,7 @@ function MessagePage() {
     };
 
     useEffect(() => {
+        console.log('socket', socket);
 
         // 채팅목록에 있는 친구들 중에 한명이라도 로그인/로그아웃하면 행동 감지된다.
         const handleSocketGetReceiverStatus = async (data) => {
@@ -182,8 +183,8 @@ function MessagePage() {
         }
 
         const handleSocketGetMessage = async (data) => {
+
             console.log('getMessage.. ', data);
-            console.log('socket', socket);
             // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
 
@@ -253,7 +254,6 @@ function MessagePage() {
             // 기존 리스너 제거
             socket.off("getMessage", handleSocketGetMessage);
             socket.off("getReceiverStatus", handleSocketGetReceiverStatus);
-
 
             socket.on("getMessage", handleSocketGetMessage);
             socket.on("getReceiverStatus", handleSocketGetReceiverStatus);

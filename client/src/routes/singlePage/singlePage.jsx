@@ -9,16 +9,12 @@ import Button from "../../UI/Button.jsx";
 import {currencyFormatter} from "../../util/formatting.js";
 import MapSingle from "../../components/map/MapSingle.jsx";
 import {usePageUrlStore} from "../../lib/pageUrlStore.js";
-// import {NavbarContext} from "../../context/NavbarContext.jsx";
 import Profile from "../../components/profile/Profile.jsx";
 
 
 function SinglePage() {
   const data = useLoaderData();
-
   const post = data.postResponse.data;
-  //null혹은 undefined면 generateChatUUID생성
-  // const chatUUID = data.chatUUIDResponse.data.chatUUID || generateChatUUID();
 
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
@@ -26,7 +22,6 @@ function SinglePage() {
   const previousUrl = usePageUrlStore((state) => state.previousUrl);
   const [heartCnt, setHeartCnt] = useState(post.savedCount);
   const { id } = useParams();
-  // const {scrollTop, changeScrollTop, changeFixedNavbar, changeIsDropDown, fixedNavbar, isDropdown} = useContext(NavbarContext);
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -55,12 +50,12 @@ function SinglePage() {
   const deletePost = async () => {
     try {
 
-      //알림 삭제
+      //알림 뜨기 - 삭제하시겠습니까?
+
 
       //이미지 cloud 삭제
 
-
-      await apiRequest.delete(`/posts/${id}`);
+      // await apiRequest.delete(`/posts/${id}`);
 
       //이전페이지로 되돌아간다
       navigate(`${previousUrl.pathname}${previousUrl.search}`);
@@ -73,7 +68,6 @@ function SinglePage() {
   const typeRoomLabel = roomOption.filter((option) => option.value === post.property)[0].label;
 
   const typeOptionLabel = typeOption.filter((option) => option.value === post.type)[0].label;
-
 
   return (
       <div className="singlePage">
@@ -233,11 +227,9 @@ function SinglePage() {
                           <div className="labelDiv">{data.label}</div>
                         </div>
                       </li>
-                          ;
                     })
                   }
                 </ul>
-
 
                 <p className="title">위치</p>
                 <div className="address">
@@ -303,12 +295,6 @@ function SinglePage() {
 
                 <div className="itemBottom">
                   <Profile receiver={post.user} isOnline={false}/>
-                  {/*<span className="itemBottomSpan">*/}
-                  {/*  <img src={post.user.avatar || "/noavatar.jpg"} alt="유저 이미지"/>*/}
-                  {/*</span>*/}
-                  {/*<span className="itemBottomSpan">*/}
-                  {/*  {post.user.username}*/}
-                  {/*</span>*/}
                 </div>
 
                 <div className="buttonDiv">
@@ -345,7 +331,6 @@ function SinglePage() {
                         </div>
                     )
                 }
-
 
               </div>
             </div>

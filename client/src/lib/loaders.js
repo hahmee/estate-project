@@ -7,6 +7,22 @@ export const singlePageLoader = async ({ request, params }) => {
   return defer({
     postResponse: postPromise,
   });
+
+  // try {
+  //   const postPromise = await apiRequest("/posts/" + params.id);
+  //   return defer({
+  //     postResponse: postPromise,
+  //   });
+  // } catch (error) {
+  //   // 에러를 처리하여 메시지나 에러 객체를 반환합니다.
+  //   console.error("Error fetching post:", error);
+  //
+  //   // 에러 페이지로 리다이렉트하거나 에러 데이터를 반환합니다.
+  //   throw new Response("포스트를 불러오는데 실패했습니다.", {
+  //     status: 500,
+  //     statusText: "Internal Server Error",
+  //   });
+  // }
 };
 
 

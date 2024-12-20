@@ -14,89 +14,108 @@ import UpdatePage from "./routes/updatePage/updatePage.jsx";
 import MessagePage from "./routes/messagePage/messagePage.jsx";
 import RedirectNaverURI from "./routes/redirect/redirectNaverURI.jsx";
 import WishPage from "./routes/wish/wishPage.jsx";
+import NotFoundPage from "./routes/notFound/notFoundPage.jsx";
+import ErrorPage from "./routes/error/errorPage.jsx";
 
 function App() {
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <CommonLayout isSearchBar={true} isLoginCheck = {true}><Layout/></CommonLayout>,
+      element: <CommonLayout isSearchBar={true} isLoginCheck={true}><Layout/></CommonLayout>,
+      errorElement: <ErrorPage />,
       children: [
         {
           path: "/",
           element: <HomePage/>,
+          errorElement: <ErrorPage />,
         },
         {
           path: "/list",
           element: <ListPage/>,
+          errorElement: <ErrorPage />,
         },
         {
           path: "read/:id",
           element: <SinglePage/>,
           loader: singlePageLoader,
+          errorElement: <ErrorPage />,
         },
       ],
     },
     {
       path: "/",
       element: <CommonLayout isSearchBar={false} isLoginCheck={false}><Layout/></CommonLayout>,
+      errorElement: <ErrorPage />,
       children: [
         {
           path: "/login",
-          element: <Login />,
+          element: <Login/>,
+          errorElement: <ErrorPage />,
         },
         {
           path: "/register",
-          element: <Register />,
+          element: <Register/>,
+          errorElement: <ErrorPage />,
         },
       ]
     },
     {
       path: "/",
       element: <CommonLayout isSearchBar={false} isLoginCheck={true}><CreateProcess/></CommonLayout>,
+      errorElement: <ErrorPage />,
       children: [
         {
           path: "/location",
           element: <NewLocationPage/>,
+          errorElement: <ErrorPage />,
         },
         {
           path: "/add",
           element: <NewPostPage/>,
+          errorElement: <ErrorPage />,
         },
         {
           path: "update/:id",
           element: <UpdatePage/>,
           loader: singlePageLoader,
+          errorElement: <ErrorPage />,
         },
         {
           path: "/profile/update",
           element: <ProfileUpdatePage/>,
+          errorElement: <ErrorPage />,
         },
       ]
     },
     {
       path: "/",
       element: <CommonLayout isSearchBar={false} isLoginCheck={true}><RequireAuth/></CommonLayout>,
+      errorElement: <ErrorPage />,
       children: [
         {
           path: "/profile",
           element: <ProfilePage/>,
-          loader: profilePageLoader
+          loader: profilePageLoader,
+          errorElement: <ErrorPage />,
         },
         {
           path: "/messages",
           element: <MessagePage/>,
-          loader: messagePageLoader
+          loader: messagePageLoader,
+          errorElement: <ErrorPage />,
         },
         {
           path: "/messages/:userId",
           element: <MessagePage/>,
-          loader: messagePageLoader
+          loader: messagePageLoader,
+          errorElement: <ErrorPage />,
         },
         {
           path: "/wish",
           element: <WishPage/>,
-          loader: wishPageLoader
+          loader: wishPageLoader,
+          errorElement: <ErrorPage />,
         },
       ],
     },
@@ -106,11 +125,16 @@ function App() {
         {
           path: "/redirectURI",
           element: <RedirectNaverURI/>,
+          errorElement: <ErrorPage />,
         },
       ]
-    }
+    },
+    // 404 페이지 라우트 추가
+    {
+      path: "*",
+      element: <NotFoundPage/>,
+    },
   ]);
-
   return <RouterProvider router={router}/>;
 }
 
