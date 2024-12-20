@@ -7,10 +7,10 @@ function MobileMenu({isHidden})  {
 
     const menuItem = [
         {title: '검색', icon: `search`, url: '/'},
-        {title: '위시리스트', icon: 'favorite',url:'/wish'},
-        {title: '포스팅', icon: 'add',url:'/location'},
-        {title: '메시지', icon: 'chat_bubble',url:'/messages'},
-        {title: '프로필', icon: 'account_circle',url:'profile'},
+        {title: '위시리스트', icon: 'favorite', url: '/wish'},
+        {title: '포스팅', icon: 'add', url: '/location'},
+        {title: '메시지', icon: 'chat_bubble', url: '/messages'},
+        {title: '프로필', icon: 'account_circle', url: '/profile'},
     ];
 
     return (

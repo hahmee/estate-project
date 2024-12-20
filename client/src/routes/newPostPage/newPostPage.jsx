@@ -114,9 +114,17 @@ function NewPostPage() {
   };
 
   const handleSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    let imageUrl = [];
 
+    console.log('pre', process);
+    //계속 누르면 계속 올라감
+    e.preventDefault();
+
+    // 이미 제출 중이면 함수 종료
+    if(progress.disabled) return;
+
+    changeDisabled(true);
+
+    let imageUrl = [];
     try {
 
       //해결 2 Promise all 사용 (병렬적o)
@@ -218,8 +226,9 @@ function NewPostPage() {
     } finally {
       setProgress('', {...progress, loading: false});
       changeDisabled(true);//제출버튼 비활성화
+
     }
-  }, [files]);
+  }, [files, progress.disabled]);
 
 
   useEffect(() => {

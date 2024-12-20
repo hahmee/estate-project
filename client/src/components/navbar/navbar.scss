@@ -30,9 +30,7 @@ nav {
       display: flex;
       align-items: center;
       cursor: pointer;
-      @include ms {
-        display: none;
-      }
+
       .logoImg {
         font-size: 30px;
         color: $primary-color;

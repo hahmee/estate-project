@@ -166,7 +166,6 @@ function MessagePage() {
             const chatListRefCurrent = [...chatListRef.current];
 
             // chatListRefCurrent 돌면서 receiver에서 찾고
-
             const newChatList = chatListRefCurrent.map((chat) => {
                 if (chat.receiver.id === data.userId) {
                     return {...chat, receiver: {...chat.receiver, isOnline: data.online}};

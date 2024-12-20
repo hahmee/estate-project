@@ -367,7 +367,7 @@ function Navbar({isSearchBar}) {
                                 <div className="user">
                                     <Button onClick={() => navigate("/location")}>포스팅하기</Button>
                                     <div className="profile">
-                                        {<div className="notification" onClick={toggleMenu}>{number}</div>}
+                                        { number > 0 && <div className="notification" onClick={toggleMenu}>{number}</div>}
                                         <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar" onClick={toggleMenu}/>
                                         <span onClick={toggleMenu}>{currentUser.username}</span>
                                         {

@@ -16,7 +16,6 @@ import RedirectNaverURI from "./routes/redirect/redirectNaverURI.jsx";
 import WishPage from "./routes/wish/wishPage.jsx";
 import NotFoundPage from "./routes/notFound/notFoundPage.jsx";
 import ErrorPage from "./routes/error/errorPage.jsx";
-import {fa} from "timeago.js/lib/lang/index.js";
 
 function App() {
 

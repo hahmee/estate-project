@@ -32,7 +32,6 @@ export const UserProgressContextProvider = ({ children }) => {
                 form: '',
                 loading: false,
             }));
-            // setUserProgress({text: '다음', url: '/add', form: '', loading: false, disabled: true});
         } else if (action === 'save') {
             setUserProgress((prev) => ({
                 ...prev, // 기존 상태 복사
@@ -40,16 +39,12 @@ export const UserProgressContextProvider = ({ children }) => {
                 url: '',
                 form: 'estate-post-form',
                 loading: false,
-                // disabled: true
             }));
-            // setUserProgress({text: '저장', url: '', form: 'estate-post-form', loading: false, disabled: false});
         } else if (action === 'profile') {
             setUserProgress((prev)=>({
                 ...prev,
                 text: '프로필 저장', url: '', form: 'estate-profile-form', loading: false, disabled: false,
             }) );
-
-            // setUserProgress({text: '프로필 저장', url: '', form: 'estate-profile-form', loading: false, disabled: false});
         } else {
             setUserProgress(data);
         }
