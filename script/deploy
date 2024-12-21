@@ -1,0 +1,12 @@
+#!/bin/sh
+ssh ubuntu@ec2-15-164-211-58.ap-northeast-2.compute.amazonaws.com <<EOF
+    cd ~/estate-project
+    git pull origin master
+    curl -o-   https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh    | bash
+    . ~/.nvm/nvm.sh
+    nvm install 18.17.0
+    npm install
+    npm install -g pm2
+    pm2 restart app.js
+    exit
+EOF
