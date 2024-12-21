@@ -1,8 +1,9 @@
 import "./homePage.scss";
 import "leaflet/dist/leaflet.css";
-import {Link, useLoaderData} from "react-router-dom";
+import {Link, useLoaderData, useNavigate} from "react-router-dom";
 import Button from "../../UI/Button.jsx";
 import {currencyFormatter} from "../../util/formatting.js";
+import {roomOption, typeOption} from "../newPostPage/newPostPage.jsx";
 
 const categories = [
     {
@@ -23,9 +24,12 @@ const categories = [
 ];
 
 function HomePage() {
-  const {featuredResponse} = useLoaderData();
-  const featuredPosts = featuredResponse.data;
-  console.log('featuredPosts', featuredPosts);
+    const {featuredResponse} = useLoaderData();
+    const featuredPosts = featuredResponse.data;
+    const navigate = useNavigate();
+
+
+    console.log('featuredPosts', featuredPosts);
 
 
     return (
@@ -60,12 +64,27 @@ function HomePage() {
                 <h2 className="section-title">추천 매물</h2>
                 <div className="listings">
                     {
-                        featuredPosts.map((post, index) => {
-                            return <div className="listing" key={post.id}>
+                        featuredPosts.map((post) => {
+                            return <div className="listing" key={post.id} onClick={() => navigate("/read/" + post.id)}>
                                 <img src={post.images[0]} alt="Property"/>
-                                <h3>{post.title}</h3>
-                                <p>가격{currencyFormatter.format(post.price)}</p>
-                            </div>
+                                <span className="titleAndCounts">
+                                     <h3>{post.title}</h3>
+                                    <span>
+                                        <span className={`material-symbols-outlined`}>favorite</span>
+                                        <span>{post.savedPosts.length}</span>
+                                    </span>
+                                </span>
+                                <p>{(post.address)}</p>
+                                <p>
+                                    {
+                                        roomOption.filter((option) => option.value === post.property)[0].label
+                                    }/
+                                    {
+                                        typeOption.filter((option) => option.value === post.type)[0].label
+                                    }
+                                </p>
+                                <h3>{currencyFormatter.format(post.price)}</h3>
+                            </div>;
                         })
                     }
                 </div>

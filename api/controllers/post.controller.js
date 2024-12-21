@@ -36,6 +36,9 @@ export const getFeaturedPosts = async (req, res) => {
           in: posts.map(post => post.postId), // 좋아요 수가 많은 상위 6개 게시물
         },
       },
+      include: {
+        savedPosts:true,
+      },
     });
 
     console.log('featuredPosts', featuredPosts);
