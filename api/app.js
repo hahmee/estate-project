@@ -13,7 +13,6 @@ import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import 'dotenv/config'; // 환경 변수를 불러옴
 
-console.log("DB_HOST:", process.env.DATABASE_URL);
 const app = express();
 const server = createServer(app); // Express 서버를 기반으로 HTTP 서버 생성
 const io = new Server(server, {
@@ -157,3 +156,6 @@ const PORT = 8800;
 server.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+export default app; // 여기서 default export를 추가

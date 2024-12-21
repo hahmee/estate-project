@@ -41,8 +41,6 @@ export const getFeaturedPosts = async (req, res) => {
       },
     });
 
-    console.log('featuredPosts', featuredPosts);
-
     return res.status(200).json(featuredPosts); // 결과 반환
 
   } catch (err) {
@@ -203,9 +201,8 @@ export const getPosts = async (req, res) => {
       })
     });
 
-    // setTimeout(() => {
+    console.log('posts..', posts);
       res.status(200).json(posts);
-    // }, 1500);
 
 
   } catch (err) {
@@ -249,6 +246,7 @@ export const getPost = async (req, res) => {
               },
             },
           });
+
           return res.status(200).json({ ...post, isSaved: saved ? true : false, savedCount });
         }
       });
