@@ -301,7 +301,7 @@ function MessagePage() {
                 {
                     userId && <div className="chat__header">
                         {currentChat && (
-                            <Profile receiver={currentChat.receiver} isOnline={isUserOnline}/>
+                            <Profile receiver={currentChat.receiver} isOnline={isUserOnline} onlineStatus={true}/>
                         )}
                     </div>
                 }

@@ -9,16 +9,19 @@ const categories = [
     {
         title: '아파트',
         description: '모든 가격대의 아파트를 찾아보세요.',
+        img: "apartment",
         url: `list?type=month_pay&type=year_pay&type=sell&location=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&political=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&latitude=35.907757&longitude=127.766922&property=apartment&minPrice=0&maxPrice=1000000000&minSize=0&maxSize=60&searchedLat=35.907757&searchedLng=127.766922&search_type=autocomplete_click&ne_lat=33.0041&ne_lng=124.5863&sw_lat=38.63400000000001&sw_lng=131.1603`
     },
     {
         title: '주택',
         description: '편안한 주택을 찾으세요.',
+        img:'house',
         url: `list?type=month_pay&type=year_pay&type=sell&location=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&political=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&latitude=35.907757&longitude=127.766922&property=condo&minPrice=0&maxPrice=1000000000&minSize=0&maxSize=60&searchedLat=35.907757&searchedLng=127.766922&search_type=autocomplete_click&ne_lat=33.0041&ne_lng=124.5863&sw_lat=38.63400000000001&sw_lng=131.1603`
     },
     {
         title: '오피스텔',
         description: '비즈니스를 위한 상업용 오피스텔을 찾으세요.',
+        img: "home_work",
         url: `list?type=month_pay&type=year_pay&type=sell&location=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&political=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&latitude=35.907757&longitude=127.766922&property=apartment&property=condo&property=officetel&minPrice=0&maxPrice=1000000000&minSize=0&maxSize=60&searchedLat=35.907757&searchedLng=127.766922&search_type=autocomplete_click&ne_lat=33.0041&ne_lng=124.5863&sw_lat=38.63400000000001&sw_lng=131.1603`
     }
 ];
@@ -39,7 +42,7 @@ function HomePage() {
                 <div className="hero__content">
                     <h1>당신의 꿈의 집을 찾으세요</h1>
                     <p>다양한 매물을 확인하고 원하는 집을 찾아보세요.</p>
-                    <Button className="btn-primary">매물 보기</Button>
+                    <Button className="btn-primary" onClick={() => navigate("/list?type=month_pay&type=year_pay&type=sell&location=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&political=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&latitude=35.907757&longitude=127.766922&property=apartment&property=condo&property=officetel&property=one_room&property=two_room&property=land&minPrice=0&maxPrice=1000000000&minSize=0&maxSize=60&searchedLat=35.907757&searchedLng=127.766922&search_type=autocomplete_click&ne_lat=33.0041&ne_lng=124.5863&sw_lat=38.63400000000001&sw_lng=131.1603")}>매물 보기</Button>
                 </div>
             </section>
 
@@ -50,6 +53,9 @@ function HomePage() {
                     {
                         categories.map((category, key) => {
                             return <Link key={key} className="category" to={category.url}>
+                                <span className="material-symbols-outlined icon-main">
+                                    {category.img}
+                                </span>
                                 <h3>{category.title}</h3>
                                 <p>{category.description}</p>
                             </Link>;

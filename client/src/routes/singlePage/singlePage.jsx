@@ -318,14 +318,13 @@ function SinglePage() {
                 </div>
 
                 <div className="itemBottom">
-                  <Profile receiver={post.user} isOnline={false}/>
+                  <Profile receiver={post.user} onlineStatus={false}/>
                 </div>
 
                 <div className="buttonDiv">
                   {
                       currentUser.id !== post.userId
                       && (
-                          // <Button className="message" onClick={() => navigate(`/messages/${chatUUID}`)}>
                           <Button className="message" onClick={() => navigate(`/messages/${post.userId}`)}>
                             메시지
                           </Button>

@@ -7,17 +7,18 @@
 
   /* Hero Section */
   .hero {
-    //background: url('https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
-    //background: url('https://images.unsplash.com/photo-1519899602147-8d3b53e450b9?q=80&w=1837&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center bottom/cover no-repeat;
+
+    //background: url('https://images.unsplash.com/photo-1504826268637-c113c1a29e1d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat;
+    //background-position: center 70%; /* 가로 중앙, 세로 20%로 조정 */
+    position: relative; /* 오버레이 위치를 잡기 위해 relative 설정 */
     background: url('https://images.unsplash.com/photo-1520608421741-68228b76b6df?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat;
-    background-size: cover;
-    background-position: center; /* 상단 중앙에 배경 이미지를 배치 */
-    //padding: 100px 20px;
-    //text-align: center;
-    //background: url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat;
+    background-position: center 40%; /* 가로 중앙, 세로 20%로 조정 */
     color: $white-color;
+    background-size: cover;
     padding: 100px 20px;
     text-align: center;
+    z-index: 1; /* 텍스트가 오버레이 위에 보이도록 */
+
 
     &__content {
       max-width: 800px;
@@ -35,20 +36,27 @@
 
       .btn-primary {
         margin: 0 auto;
-
         background-color: $primary-color;
         color: white;
-        //padding: 10px 20px;
         font-size: 1rem;
         border: none;
         cursor: pointer;
-        //transition: background-color 0.3s;
 
         &:hover {
           background-color: $primary-color;
         }
       }
     }
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1); /* 반투명 검은색 오버레이 */
+    z-index: -1; /* 오버레이를 텍스트 아래로 */
   }
 
   /* Categories Section */
@@ -60,6 +68,11 @@
     .section-title {
       font-size: 2rem;
       margin-bottom: 40px;
+    }
+
+    .icon-main {
+      font-size: 3rem;
+      margin-bottom: 0.4rem;
     }
 
     &__list {
