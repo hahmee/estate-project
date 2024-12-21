@@ -1,13 +1,29 @@
 #!/bin/sh
 ssh ubuntu@ec2-15-164-211-58.ap-northeast-2.compute.amazonaws.com <<EOF
+    # 프로젝트 디렉토리로 이동
     cd ~/estate-project
     sudo -s
+
+    # 최신 코드 가져오기
     git pull origin master
-    curl -o-   https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh    | bash
+
+    # Node.js 설정
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
     . ~/.nvm/nvm.sh
     nvm install 18.17.0
+
+    # client 폴더에서 빌드
+    cd client
+    npm install
+    npm run build
+
+    cd ..
+
+    # api 폴더에서 의존성 설치 및 서버 재시작
+    cd api
     npm install
     npm install -g pm2
     pm2 restart app.js
+
     exit
 EOF
