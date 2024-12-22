@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Marker, TileLayer, useMap} from "react-leaflet";
-
+import markerIconPng from "leaflet/dist/images/marker-icon.png"
+import {Icon} from 'leaflet'
 
 function FlyMapToSingle({items}) {
     const map = useMap();
@@ -30,7 +31,7 @@ function FlyMapToSingle({items}) {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
-            <Marker position={position}></Marker>
+            <Marker position={position} icon={new Icon({iconUrl: markerIconPng, iconSize: [38, 38], iconAnchor: [12, 41]})}></Marker>
         </div>
     );
 
