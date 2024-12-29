@@ -358,7 +358,7 @@ function Navbar({isSearchBar}) {
                 <div className='upperNav'>
                     <div className="logo" onClick={() => navigate('/')}>
                         <span className="material-symbols-outlined logoImg">house</span>
-                        <span className="estate_logo">Estate</span>
+                        <span className="estate_logo">Estate App</span>
                     </div>
                     <div className="spand"></div>
                     <div>

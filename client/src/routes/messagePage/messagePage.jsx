@@ -24,7 +24,7 @@ function MessagePage() {
     const {currentUser} = useContext(AuthContext);
     const [isUserOnline, setIsUserOnline] = useState(false);
     const decrease = useNotificationStore((state) => state.decrease);
-    const increase = useNotificationStore((state) => state.increase);
+    const [message, setMessage] = useState('');
 
     // 원하는 채팅창을 클릭한다.
     const clickChat = useCallback(async (currentChat) => {
@@ -34,16 +34,14 @@ function MessagePage() {
 
     }, [currentChat]);
 
-
     //messages를 상태변경해준다. (오늘 처음보낸거라면 날짜도 추가)
     const pushDataToMessages = useCallback((newMessage) => {
-        // setMessages((prev) => [...prev, data]);
 
         // createdAt을 Date 객체로 변환 (이미 Date 객체라면 문제 X )
         const messageDate = new Date(newMessage.createdAt);
 
         // 새로운 메시지의 날짜 키 (YYYY-MM-DD)
-        const dateKey = messageDate.toISOString().split("T")[0];
+        const dateKey = messageDate.toLocaleDateString('en-CA');
 
         // 메시지가 저장될 상태 객체 (messages)
         setMessages(prev => {
@@ -94,30 +92,25 @@ function MessagePage() {
         }
     };
 
-    useEffect(() => {
-        chatListRef.current = chatList; // 상태가 변경될 때 ref 업데이트
-    }, [chatList]);
 
     useEffect(() => {
-        console.log('userId', userId);
-        console.log('data', data);
-
         const initializeChat = () => {
-            console.log('initializeChat');
             const {resChatListResponse, resChatResponse} = data;
             const existedChatList = [...resChatListResponse.data];
             setMessages(resChatResponse?.data || undefined);
-            chatListRef.current = resChatListResponse.data;
+
+            setChatList(existedChatList);
+            chatListRef.current = existedChatList;
 
             if (!userId) {
                 setCurrentChat(null);
             } else {
                 setCurrentChat(existedChatList.find(chat => chat.receiver.id === userId)); //받는사람이 게시글쓴사람과 같은게 현재
             }
-
         };
 
         currentChat && decrease(currentChat?.id);
+        setMessage("");
 
         initializeChat();
 
@@ -125,10 +118,9 @@ function MessagePage() {
 
     //targetId를 찾아서 해당하는 대화창을 1번째로 정렬 및 lastMessage 변경한다.
     const reorderChatList = (targetId, lastMessage) => {
-        //chatList를 복사하여 새로운 배열을 생성한 후 정렬하면 React가 상태 변화를 감지가능
 
-        const reorderedChatList = [...chatListRef.current].sort((a, b) => a.id === targetId ? -1 : b.id === targetId ? 1 : 0
-        );
+        //chatList를 복사하여 새로운 배열을 생성한 후 정렬하면 React가 상태 변화를 감지가능
+        const reorderedChatList = [...chatListRef.current].sort((a, b) => a.id === targetId ? -1 : b.id === targetId ? 1 : 0);
 
         reorderedChatList[0].lastMessage = lastMessage;
 
@@ -136,17 +128,19 @@ function MessagePage() {
         if(!currentChat || (currentChat && currentChat?.id !== targetId)) {
             reorderedChatList[0].unreadMessagesCount += 1;
         }
+
         setChatList(reorderedChatList);
+        chatListRef.current = reorderedChatList;
     };
 
-    //비어있으면 서버에서 데이터 가져온다.
+    //채팅리스트가 비어있으면 서버에서 데이터 가져온다.
     const checkIfChatEmpty = async () => {
         if (chatList && chatList.length < 1) {
             // 빈칸이라면
             try {
                 const res = await apiRequest.get("/chats");
                 //receiver온라인 정보넣기
-                setChatList(res.data);
+                setChatList(res.data); // 바로 반영이 안된다.
                 chatListRef.current = res.data;
 
             } catch (error) {
@@ -157,10 +151,10 @@ function MessagePage() {
     };
 
     useEffect(() => {
-        console.log('socket', socket);
 
-        // 채팅목록에 있는 친구들 중에 한명이라도 로그인/로그아웃하면 행동 감지된다.
+        // 채팅목록에 있는 친구들이 로그인/로그아웃하면 감지된다.
         const handleSocketGetReceiverStatus = async (data) => {
+            // console.log('data', data); //{userId: '669e17e229b1c61ecfb4bb98', online: true}
             await checkIfChatEmpty(); //반영이 바로 안된다 -> useRef 로 변경했더니 성공.
 
             const chatListRefCurrent = [...chatListRef.current];
@@ -168,19 +162,19 @@ function MessagePage() {
             // chatListRefCurrent 돌면서 receiver에서 찾고
             const newChatList = chatListRefCurrent.map((chat) => {
                 if (chat.receiver.id === data.userId) {
-                    return {...chat, receiver: {...chat.receiver, isOnline: data.online}};
+                        return {...chat, receiver: {...chat.receiver, isOnline: data.online}};
                 }else{
                     return {...chat, receiver: {...chat.receiver, isOnline: false}};
                 }
 
             });
-
             setChatList(newChatList);
+            chatListRef.current = newChatList;
 
         }
 
+        /* 메시지를 받는다. */
         const handleSocketGetMessage = async (data) => {
-
             console.log('getMessage.. ', data);
             // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
@@ -190,7 +184,7 @@ function MessagePage() {
             }
 
             //받은 애가 현재 채팅방에 있다면 읽었다고 표시한다.
-            if(currentChat && data.chatId === currentChat?.id ) {
+            if(currentChat && data.chatId === currentChat?.id) {
                 console.log('전 지금 현재 방에 있습니다');
 
                 //읽었다고 db의 chatUser에 표시한다.
@@ -205,7 +199,6 @@ function MessagePage() {
         };
 
         const checkIfChatListOnline = async () => {
-            console.log('currentChat', currentChat);
             //문제 발생 --> 이 함수 실행 전에 setState로 chats 값을 넣어줬는데, 바로 반영이 안되는 문제
             // 해결 --> useRef 사용
             const chatListRefCurrent = chatListRef.current;
@@ -241,6 +234,8 @@ function MessagePage() {
 
                     // 하지만 의존성 배열에 chatList를 넣으면 무한루프돈다...
                     setChatList(updatedChatList); //현재 online상태인지까지 포함해서 chatList에 저장
+                    chatListRef.current = updatedChatList;
+
                 });
             }
         };
@@ -318,9 +313,8 @@ function MessagePage() {
 
                 }
 
-
                 {currentChat &&
-                    <MessageInput handleSubmit={handleSubmit}/>
+                    <MessageInput handleSubmit={handleSubmit} message={message} setMessage={setMessage} />
                 }
             </div>
         </div>

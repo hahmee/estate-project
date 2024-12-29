@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import "./messageInput.scss";
 import Button from "../../UI/Button.jsx";
 
-function MessageInput({ handleSubmit }) {
+function MessageInput({ handleSubmit, message, setMessage }) {
     const [disabled, setDisabled] = useState(true);
-    const [message, setMessage] = useState('');
 
     // 입력값 변경 핸들러
     const handleInputChange = (e) => {
@@ -34,14 +33,14 @@ function MessageInput({ handleSubmit }) {
     return (
         <div className="chatForm">
             <form onSubmit={handleFormSubmit} className="chatForm__form">
-        <textarea
-            name="text"
-            placeholder="메시지를 입력해주세요."
-            className="chatForm__textarea"
-            value={message}
-            onChange={handleInputChange}
-            onKeyDown={handleKeyDown} // Enter 키 이벤트 추가
-        ></textarea>
+                <textarea
+                    name="text"
+                    placeholder="메시지를 입력해주세요."
+                    className="chatForm__textarea"
+                    value={message}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown} // Enter 키 이벤트 추가
+                ></textarea>
                 <Button chatButton className="chatForm__button" disabled={disabled}>
                     전송
                 </Button>

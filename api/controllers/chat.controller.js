@@ -154,7 +154,7 @@ export const getChatOrMakeChat = async (req, res) => {
 
       // 메시지를 날짜별로 그룹화해서 보낸다.
       const groupedMessages = newChat.messages?.reduce((acc, message) => {
-        const dateKey = message.createdAt.toISOString().split("T")[0]; // 날짜만 추출 (YYYY-MM-DD)
+        const dateKey = message.createdAt.toLocaleDateString('en-CA'); // 날짜만 추출 (YYYY-MM-DD)
         if (!acc[dateKey]) {
           acc[dateKey] = []; // 날짜 그룹 초기화
         }
@@ -169,7 +169,7 @@ export const getChatOrMakeChat = async (req, res) => {
 
       // 메시지를 날짜별로 그룹화해서 보낸다.
       const groupedMessages = chat.messages.reduce((acc, message) => {
-        const dateKey = message.createdAt.toISOString().split("T")[0]; // 날짜만 추출 (YYYY-MM-DD)
+        const dateKey = message.createdAt.toLocaleDateString('en-CA'); // 날짜만 추출 (YYYY-MM-DD)
         if (!acc[dateKey]) {
           acc[dateKey] = []; // 날짜 그룹 초기화
         }
