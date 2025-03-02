@@ -17,6 +17,8 @@ nav {
     display: none;
   }
 
+
+
   .upperNav {
     display: flex;
     align-items: center;
@@ -41,7 +43,12 @@ nav {
         font-weight: bold;
         color: $primary-color;
       }
+      @include ms {
+        display: none;
+      }
+
     }
+
 
     .user {
       height: 100%;
@@ -119,8 +126,10 @@ nav {
       transform: translate(-50%, 0);
       transition: all 0.3s;
       cursor: pointer;
-      //z-index: 5-;
 
+      @include xm {
+        left: 40%;
+      }
       @include ms {
         left: 20%;
       }
@@ -151,7 +160,6 @@ nav {
         ::placeholder {
           color: #6a6a6a;
         }
-
 
       }
 
@@ -198,15 +206,20 @@ nav {
 }
 
 
+
 // expand일때
 nav.topNav {
   height: 168px;
-  //background-color: green;
 
   @include md {
     height: 80px;
   }
+  .logo {
+    display: flex;
+  }
+
 }
+
 
 .topNav .search {
   top:0 !important;

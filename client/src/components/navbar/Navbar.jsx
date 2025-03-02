@@ -365,7 +365,7 @@ function Navbar({isSearchBar}) {
                         {
                             currentUser && (
                                 <div className="user">
-                                    <Button onClick={() => navigate("/location")}>포스팅하기</Button>
+                                    <Button onClick={() => navigate("/location")} className="postingBtn">포스팅하기</Button>
                                     <div className="profile">
                                         { number > 0 && <div className="notification" onClick={toggleMenu}>{number}</div>}
                                         <img src={currentUser.avatar || "/noavatar.jpg"} alt="avatar" onClick={toggleMenu}/>
@@ -435,8 +435,7 @@ function Navbar({isSearchBar}) {
                                                 <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(4)}>
                                                     <p className={isExpanded ? "" : 'displayNone'}>크기</p>
-                                                    <span
-                                                        className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
+                                                    <span className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
                                                     <span className="material-symbols-outlined"
                                                           onClick={(e) => searchClick(e)}>search</span>
                                                 </div>
