@@ -77,6 +77,10 @@ function UpdatePage() {
 
         let imageUrl = [...defaultImage];
 
+        console.log("defaultImage", defaultImage);
+        console.log("files", files);
+
+
         try {
             //defaultImage에서 삭제된 것들 cloud에서 지우기
             // cloudinary.v2.uploader.destroy(public_id, options).then(callback);
@@ -86,27 +90,40 @@ function UpdatePage() {
                 return;
             }
 
-            //해결 2 Promise all 사용 (병렬적o)
-            const response = files?.map((file) => {
-                const formData = new FormData();
-                const config = {
-                    header: {
-                        'content-Type': 'multipart/form-data',
-                    }
+            // 최대 파일 크기: 10MB
+            const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes (10485760 bytes)
+
+            for(const file of files) {
+                if(file.size > MAX_FILE_SIZE) {
+                    toast.error('이미지 크기가 너무 큽니다.');
+                    return;
                 }
-                formData.append('file', file);
-                formData.append('upload_preset', 'estate');
+            }
 
-                return axios.post(CLOUDINARY_URL, formData, config);
+            // Promise.all을 사용하되 개별 요청을 try...catch로 감싸기
+            const response = await Promise.all(
+                files.map(async (file) => {
+                    try {
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        formData.append('upload_preset', 'estate');
 
-            });
+                        const config = {
+                            header: { 'content-Type': 'multipart/form-data' },
+                        };
 
-            //promise.all로 콜백 함수에서 반환하는 값들을 배열에 넣어놓고, 비동기 처리가 끝나는 타이밍 감지
-            const responseArray = await Promise.all(response);
+                        const res = await axios.post(CLOUDINARY_URL, formData, config);
+                        return res.data.secure_url; // 성공한 경우 secure_url 반환
+                    } catch (error) {
+                        console.error('이미지 업로드 실패:', error);
+                        toast.error('일부 이미지 업로드에 실패했습니다.');
+                        return null; // 실패한 경우 null 반환
+                    }
+                })
+            );
 
-            responseArray.map((res) => {
-                imageUrl = [...imageUrl, res.data.secure_url];
-            });
+            // 성공한 이미지 URL만 필터링
+            imageUrl = [...imageUrl, ...response.filter(url => url !== null)];
 
             const res = await apiRequest.put("/posts/" + id, {
                 postData: {

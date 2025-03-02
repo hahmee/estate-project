@@ -30,7 +30,6 @@ function CommonLayout({ children, isSearchBar, isLoginCheck, isLoginLayout=false
 
 
 function Layout({isFooter = false}) {
-
     return (
         <div className="app">
             <div className="layout">

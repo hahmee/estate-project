@@ -140,9 +140,8 @@ function MessagePage() {
             try {
                 const res = await apiRequest.get("/chats");
                 //receiver온라인 정보넣기
-                setChatList(res.data); // 바로 반영이 안된다.
-                chatListRef.current = res.data;
-
+                // setChatList(res.data); // 바로 반영이 안된다.
+                chatListRef.current = res.data; // 따라서 useRef 사용한다.
             } catch (error) {
                 console.error("Failed to fetch chats:", error);
                 toast.error((error).message);
@@ -166,8 +165,8 @@ function MessagePage() {
                 }else{
                     return {...chat, receiver: {...chat.receiver, isOnline: false}};
                 }
-
             });
+
             setChatList(newChatList);
             chatListRef.current = newChatList;
 

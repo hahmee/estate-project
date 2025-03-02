@@ -5,19 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/public/main/main-icon_100.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/chat.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/chat.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/public/lottie/lottie_chat.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/message/MessageInput.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/message/MessageInput.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dropZone/dropZone.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dropZone/dropZone.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/layout/layout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -226,7 +233,52 @@
       <workItem from="1734843062782" duration="64000" />
       <workItem from="1735446366203" duration="465000" />
       <workItem from="1735453172895" duration="5923000" />
-      <workItem from="1735465765879" duration="645000" />
+      <workItem from="1735465765879" duration="4205000" />
+      <workItem from="1735549396582" duration="1318000" />
+      <workItem from="1735553486721" duration="1000" />
+      <workItem from="1735607601138" duration="2000" />
+      <workItem from="1735607687394" duration="208000" />
+      <workItem from="1735612503476" duration="83000" />
+      <workItem from="1736474225719" duration="3799000" />
+      <workItem from="1736486187820" duration="734000" />
+      <workItem from="1736493763338" duration="1205000" />
+      <workItem from="1736660812426" duration="5000" />
+      <workItem from="1736748236581" duration="3429000" />
+      <workItem from="1736776762168" duration="1182000" />
+      <workItem from="1736828449210" duration="572000" />
+      <workItem from="1736842804371" duration="594000" />
+      <workItem from="1736903264703" duration="589000" />
+      <workItem from="1736917610055" duration="14000" />
+      <workItem from="1736992165387" duration="10000" />
+      <workItem from="1737260997883" duration="723000" />
+      <workItem from="1737262206701" duration="55000" />
+      <workItem from="1737278227981" duration="604000" />
+      <workItem from="1737343249500" duration="611000" />
+      <workItem from="1737350166767" duration="1181000" />
+      <workItem from="1737352454201" duration="11000" />
+      <workItem from="1737388490328" duration="585000" />
+      <workItem from="1737423321804" duration="187000" />
+      <workItem from="1737427427874" duration="599000" />
+      <workItem from="1737430143058" duration="118000" />
+      <workItem from="1737441904922" duration="592000" />
+      <workItem from="1737532809681" duration="1000" />
+      <workItem from="1737615720387" duration="600000" />
+      <workItem from="1737699971229" duration="100000" />
+      <workItem from="1737906642075" duration="160000" />
+      <workItem from="1738562864120" duration="279000" />
+      <workItem from="1738677681184" duration="12000" />
+      <workItem from="1738679752521" duration="2292000" />
+      <workItem from="1738726902069" duration="1000" />
+      <workItem from="1738735226342" duration="5006000" />
+      <workItem from="1738765283717" duration="645000" />
+      <workItem from="1738849884714" duration="1773000" />
+      <workItem from="1739162204028" duration="401000" />
+      <workItem from="1739167762527" duration="5410000" />
+      <workItem from="1739244568586" duration="82000" />
+      <workItem from="1739244663278" duration="7000" />
+      <workItem from="1739267199256" duration="146000" />
+      <workItem from="1740842588286" duration="1254000" />
+      <workItem from="1740880313038" duration="5215000" />
     </task>
     <servers />
   </component>
