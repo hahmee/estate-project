@@ -1,5 +1,5 @@
 #!/bin/sh
-ssh ubuntu@ec2-15-164-211-58.ap-northeast-2.compute.amazonaws.com <<EOF
+ssh ubuntu@$EC2_HOST <<EOF
     # 프로젝트 디렉토리로 이동
     cd ~/estate-project
 
