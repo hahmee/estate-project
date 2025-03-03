@@ -1,6 +1,11 @@
 #!/bin/sh
+set -a
+. /etc/environment
+set +a
+
+echo "EC2_HOST is set to: $EC2_HOST"
+
 ssh ubuntu@$EC2_HOST <<EOF
-    # 프로젝트 디렉토리로 이동
     cd ~/estate-project
 
     # 최신 코드 가져오기
