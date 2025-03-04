@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/api/lib/initUserData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/lib/initData.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/lib/initPostData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/deploy" beforeDir="false" afterPath="$PROJECT_DIR$/script/deploy" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,32 +40,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Mocha.GET /.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.MapLoading.jsx.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.auth.controller.js.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/dev/youtube/estate-project/client/public/main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs.mocha.mocha_node_package_dir&quot;: &quot;C:/dev/youtube/estate-project/api/node_modules/mocha&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Mocha.GET /.executor": "Run",
+    "Node.js.MapLoading.jsx.executor": "Run",
+    "Node.js.auth.controller.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/dev/youtube/estate-project/api/lib",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.mocha.mocha_node_package_dir": "C:/dev/youtube/estate-project/api/node_modules/mocha",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\youtube\estate-project\api\lib" />
       <recent name="C:\dev\youtube\estate-project\client\public\main" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\modal" />
       <recent name="C:\dev\youtube\estate-project\client\src\routes\error" />
       <recent name="C:\dev\youtube\estate-project\client\src\routes\notFound" />
-      <recent name="C:\dev\youtube\estate-project\client\src\context" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\dev\youtube\estate-project\api\lib" />
@@ -278,7 +281,7 @@
       <workItem from="1740993495725" duration="8031000" />
       <workItem from="1741051481931" duration="5140000" />
       <workItem from="1741062828664" duration="4308000" />
-      <workItem from="1741073958954" duration="5010000" />
+      <workItem from="1741073958954" duration="6900000" />
     </task>
     <servers />
   </component>

@@ -26,7 +26,8 @@ ssh -i /var/lib/jenkins/.ssh/estate-app-key.pem -o StrictHostKeyChecking=no ubun
     npm install -g pm2
 
     # MongoDB Atlas에 초기 데이터 삽입
-    node lib/initData.js
+    node lib/initUserData.js
+    node lib/initPostData.js
 
     pm2 restart app.js
 
