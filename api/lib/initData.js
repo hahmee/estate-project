@@ -12,7 +12,7 @@ async function seedUserData() {
         // 기본 생성일: (밀리초 단위)
         const baseTime = new Date("2024-07-25T02:03:39.452Z").getTime();
         // 모든 사용자에 동일한 bcrypt 해시 사용
-        const password = 123;
+        const password = "123";
         const hashedPassword = password && await bcrypt.hash(password, 10);
 
         for (let i = 1; i <= 10; i++) {
