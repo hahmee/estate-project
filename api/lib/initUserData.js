@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 async function seedUserData() {
     try {
         // 기존 User 데이터 모두 삭제
-        // await prisma.user.deleteMany({});
+        await prisma.user.deleteMany({});
 
         const users = [];
         // 기본 생성일: (밀리초 단위)

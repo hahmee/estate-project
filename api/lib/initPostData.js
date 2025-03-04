@@ -12,25 +12,39 @@ function getRandomElement(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// SK 매물 생성을 위한 도시 & 도/시 목록
-const skCities = [
+// 한국의 여러 도시 (국내 매물용)
+const koreaCities = [
     { city: "서울", province: "서울특별시", lat: 37.5665, lng: 126.9780 },
     { city: "부산", province: "부산광역시", lat: 35.1796, lng: 129.0756 },
     { city: "대구", province: "대구광역시", lat: 35.8714, lng: 128.6014 },
     { city: "인천", province: "인천광역시", lat: 37.4563, lng: 126.7052 },
     { city: "광주", province: "광주광역시", lat: 35.1595, lng: 126.8526 },
     { city: "대전", province: "대전광역시", lat: 36.3504, lng: 127.3845 },
-    { city: "울산", province: "울산광역시", lat: 35.5384, lng: 129.3114 }
+    { city: "울산", province: "울산광역시", lat: 35.5384, lng: 129.3114 },
+    { city: "수원", province: "경기도", lat: 37.2636, lng: 127.0286 },
+    { city: "청주", province: "충청북도", lat: 36.6423, lng: 127.4890 },
+    { city: "전주", province: "전라북도", lat: 35.8242, lng: 127.1480 },
+    { city: "창원", province: "경상남도", lat: 35.2288, lng: 128.6811 },
+    { city: "포항", province: "경상북도", lat: 36.0190, lng: 129.3430 },
+    { city: "제주", province: "제주특별자치도", lat: 33.4996, lng: 126.5312 }
 ];
-const skDistricts = ["강남구", "종로구", "서초구", "송파구", "마포구", "동래구", "중구", "수영구", "기장군", "달서구"];
 
-// 해외 매물 생성을 위한 국제 도시 데이터
-const internationalCities = [
-    { city: "샌프란시스코", province: "캘리포니아", country: "미국", lat: 37.7749295, lng: -122.4194155 },
-    { city: "뉴욕", province: "뉴욕주", country: "미국", lat: 40.712776, lng: -74.005974 },
-    { city: "로스앤젤레스", province: "캘리포니아", country: "미국", lat: 34.052235, lng: -118.243683 },
-    { city: "런던", province: "잉글랜드", country: "영국", lat: 51.507351, lng: -0.127758 },
-    { city: "도쿄", province: "도쿄도", country: "일본", lat: 35.689487, lng: 139.691711 }
+// 일본 도시 (해외 매물용)
+const japanCities = [
+    { city: "도쿄", province: "도쿄도", country: "일본", lat: 35.6895, lng: 139.6917 },
+    { city: "오사카", province: "오사카부", country: "일본", lat: 34.6937, lng: 135.5023 },
+    { city: "나고야", province: "아이치현", country: "일본", lat: 35.1815, lng: 136.9066 },
+    { city: "삿포로", province: "홋카이도", country: "일본", lat: 43.0621, lng: 141.3544 },
+    { city: "후쿠오카", province: "후쿠오카현", country: "일본", lat: 33.5904, lng: 130.4017 },
+    { city: "요코하마", province: "가나가와현", country: "일본", lat: 35.4437, lng: 139.6380 },
+    { city: "교토", province: "교토부", country: "일본", lat: 35.0116, lng: 135.7681 }
+];
+
+// 미국 도시 (해외 매물용)
+const usCities = [
+    { city: "샌프란시스코", province: "캘리포니아", country: "미국", lat: 37.7749, lng: -122.4194 },
+    { city: "뉴욕", province: "뉴욕주", country: "미국", lat: 40.7128, lng: -74.0060 },
+    { city: "로스앤젤레스", province: "캘리포니아", country: "미국", lat: 34.0522, lng: -118.2437 }
 ];
 
 // 매물 유형 및 속성별 데이터 (property 타입은 Prisma enum과 일치)
@@ -126,13 +140,12 @@ async function seedPostData() {
             const randomType = getRandomElement(types);
 
             if (i <= 100) {
-                // 국내 (SK) 매물
-                const cityData = getRandomElement(skCities);
-                const district = getRandomElement(skDistricts);
-                address = `대한민국 ${cityData.city} ${district}`;
-                politicalList = [cityData.city, district, cityData.province, "대한민국"];
+                // 국내 매물 (한국)
+                const cityData = getRandomElement(koreaCities);
+                address = `대한민국 ${cityData.city}, ${cityData.province}`;
+                politicalList = [cityData.city, cityData.province, "대한민국"];
 
-                // 좌표에 약간의 무작위 변동 (±0.01)
+                // 좌표에 무작위 변동 (±0.01)
                 const randomLat = cityData.lat + (Math.random() - 0.5) * 0.02;
                 const randomLng = cityData.lng + (Math.random() - 0.5) * 0.02;
                 lat = randomLat.toFixed(6);
@@ -149,13 +162,21 @@ async function seedPostData() {
                 title = `${address} ${propertyName} ${randomType === "sell" ? "매매" : randomType === "year_pay" ? "전세" : "월세"} - ${getRandomElement(titlePrefixes)}`;
             } else {
                 // 해외 매물
-                const intlCity = getRandomElement(internationalCities);
-                address = `${intlCity.country} ${intlCity.province} ${intlCity.city}`;
-                politicalList = [intlCity.city, intlCity.province, intlCity.country];
+                // 50% 확률로 일본, 50% 확률로 미국 매물 생성
+                let intlSource;
+                if (Math.random() < 0.5) {
+                    intlSource = getRandomElement(japanCities);
+                    address = `${intlSource.country} ${intlSource.province} ${intlSource.city}`;
+                    politicalList = [intlSource.city, intlSource.province, intlSource.country];
+                } else {
+                    intlSource = getRandomElement(usCities);
+                    address = `${intlSource.country} ${intlSource.province} ${intlSource.city}`;
+                    politicalList = [intlSource.city, intlSource.province, intlSource.country];
+                }
 
                 // 좌표에 약간의 무작위 변동 (±0.02)
-                const randomLat = intlCity.lat + (Math.random() - 0.5) * 0.04;
-                const randomLng = intlCity.lng + (Math.random() - 0.5) * 0.04;
+                const randomLat = intlSource.lat + (Math.random() - 0.5) * 0.04;
+                const randomLng = intlSource.lng + (Math.random() - 0.5) * 0.04;
                 lat = randomLat.toFixed(6);
                 lng = randomLng.toFixed(6);
                 location = { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] };
