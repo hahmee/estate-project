@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "Deploying to $EC2_HOST..."
 
-ssh ubuntu@$EC2_HOST <<EOF
+ssh -i /var/lib/jenkins/.ssh/estate-app-key.pem -o StrictHostKeyChecking=no ubuntu@$EC2_HOST <<EOF
     # 프로젝트 디렉토리로 이동
     cd ~/estate-project
 
