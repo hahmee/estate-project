@@ -29,7 +29,6 @@ function SearchMapBar({getMapResult, searchOptions=[]}) {
     });
 
     const handleLocationChange = (location) => {
-        console.log('location', location);
         if(location.trim() === "") {
             changeDisabled(true);
         }
@@ -40,7 +39,6 @@ function SearchMapBar({getMapResult, searchOptions=[]}) {
 
     const handleSelect = async (location, placeId, suggestions) => {
         const [place] = await geocodeByPlaceId(placeId);
-        console.log('place', place);
 
         //political 값만 가져온다.
         const politicalList = place.address_components.filter(c => c.types.includes('political')).map(data => data.long_name);

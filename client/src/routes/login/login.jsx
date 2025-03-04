@@ -29,7 +29,6 @@ function Login() {
         email,
         password,
       });
-      console.log('res', res.data);
 
       updateUser(res.data);
       toast.success('로그인 되었습니다.');

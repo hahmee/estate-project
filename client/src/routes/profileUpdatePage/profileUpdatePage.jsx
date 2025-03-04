@@ -12,42 +12,12 @@ import {toast} from "react-toastify";
 
 function ProfileUpdatePage() {
   const { currentUser, updateUser } = useContext(AuthContext);
-  // const [avatar, setAvatar] = useState([]);
 
   const navigate = useNavigate();
   const [files, setFiles] = useState([]);
-  // const [imageUrl, setImageUrl] = useState("");
-  const {progress, setProgress, saveProgress, location, clearLocation, changeProgress} = useContext(UserProgressContext);
+  const {progress, setProgress} = useContext(UserProgressContext);
 
 
-
-
-  // const imageUpload = useCallback(async () => {
-  //   if (files.length > 0) {
-  //     files.map(async file => {
-  //       const formData = new FormData();
-  //       const config = {
-  //         header: {
-  //           'content-Type': 'multipart/form-data',
-  //         }
-  //       }
-  //       formData.append('file', file);
-  //       formData.append('upload_preset', 'estate');
-  //
-  //       console.log('file', file);
-  //
-  //
-  //       const res = await axios.post(cloudinaryUrl, formData, config);
-  //       console.log('res', res);
-  //
-  //
-  //       setImageUrl(res.data.secure_url);
-  //
-  //       // setImageUrl('https://images.pexels.com/photos/2467285/pexels-photo-2467285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')
-  //
-  //     });
-  //   }
-  // },[imageUrl, files]);
 
   const handleSubmit =  useCallback(async (e) => {
     e.preventDefault();
@@ -74,7 +44,6 @@ function ProfileUpdatePage() {
 
         //이게 늦게 응답 옴
         const res = await axios.post(CLOUDINARY_URL, formData, config);
-        console.log('res', res);
 
         imageUrl = res.data.secure_url;
         // setImageUrl(res.data.secure_url); //useState으로 하면 빈 값으로 나옴
@@ -87,7 +56,6 @@ function ProfileUpdatePage() {
         ...(imageUrl && {avatar: imageUrl})
       });
 
-      console.log('putRes', putRes);
       updateUser(putRes.data);
       toast.success('성공적으로 수정되었습니다.');
       navigate("/profile");

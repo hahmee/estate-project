@@ -53,7 +53,6 @@ function ProfileUpdatePage2() {
 
       await imageUpload();
       //빈 값으로 나옴 -> 당연 -> 큐에 넣어서 한 번에 렌더링시킴
-      // console.log('imageUrl', imageUrl);
 
     } catch (err) {
       console.log(err);
@@ -80,13 +79,10 @@ function ProfileUpdatePage2() {
 
     //이미지 변경했을 때 isImgChanged, imageUrl 받아올때까지 대기
     if(post && isImgChanged && imageUrl) { //imageUrl 값이 있어야 put 하도록
-      console.log('1111')
       dataPost();
     }
     //이미지 변경 안 했을 때
     if(post && !isImgChanged ) {
-      console.log('2222')
-
       dataPost();
     }
 

@@ -30,7 +30,7 @@ function Register() {
       toast.success('회원가입 되었습니다.');
       navigate("/login");
     } catch (err) {
-      console.log('err', err);
+      console.log(err);
       toast.error(err.response.data.message);
     } finally {
       setIsLoading(false);

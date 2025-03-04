@@ -11,7 +11,6 @@ const RedirectNaverURI = (props) => {
         const code = new URL(window.location.href).searchParams.get("code");
         const state = new URL(window.location.href).searchParams.get("state");
 
-        console.log(code, state);
         const handleLoginNaver = async () => {
             //백엔드 전달해준다.
             const data = await apiRequest.post("/auth/naverLoginAccessToken", {

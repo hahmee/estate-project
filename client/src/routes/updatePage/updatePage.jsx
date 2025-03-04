@@ -77,9 +77,6 @@ function UpdatePage() {
 
         let imageUrl = [...defaultImage];
 
-        console.log("defaultImage", defaultImage);
-        console.log("files", files);
-
 
         try {
             //defaultImage에서 삭제된 것들 cloud에서 지우기

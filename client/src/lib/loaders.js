@@ -65,7 +65,6 @@ export const messagePageLoader = async ({request, params}) => {
     //상대방이 안 읽은 메시지 개수
     // const resReceiverUnreadCountPromise = await apiRequest.get(`/chats/getReceiverUnreadCount?receiverId=${userId}&chatId=${chatId}`);
 
-    // console.log('resReceiverUnreadCountPromise', resReceiverUnreadCountPromise);
 
     return defer({
       resWriterResponse: resWriterPromise,

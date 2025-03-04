@@ -77,13 +77,11 @@ const getOnlineUsers = (userIds) => {
 };
 
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
 
   socket.on("newUser", (userId, receiverList) => { // (,chatFriends)
     addUser(userId, socket.id);
 
     socket.on("sendMessage", ({receiverId, data}) => {
-      console.log('sendMessage', data);
       const receiver = getUser(receiverId);
 
       if(receiver) {
@@ -97,7 +95,6 @@ io.on("connection", (socket) => {
     if (onlineReceivers && onlineReceivers.length > 0) {
       // 포문 돌면서 emit하기
       onlineReceivers.forEach((receiver) => {
-        // console.log('receiver.socketId', receiver);
         io.to(receiver.socketId).emit("getReceiverStatus", {userId: userId, online: true}); //나의 온라인 정보를 현재 로그인된 친구들에게 송출한다.
       })
     }
@@ -129,15 +126,12 @@ io.on("connection", (socket) => {
   });
 
   socket.on("logout", (userId, receiverList) => {
-    console.log('receiverList', receiverList);
     //그 중에서, 로그인 되어있는 친구들만 추린다.
     const onlineReceivers = getOnlineUsers(receiverList);
-    console.log('onelineReceivers', onlineReceivers);
 
     if (onlineReceivers && onlineReceivers.length > 0) {
       // 포문 돌면서 emit하기
       onlineReceivers.forEach((receiver) => {
-        // console.log('receiver.socketId', receiver);
         io.to(receiver.socketId).emit("getReceiverStatus", {userId: userId, online: false}); //나의 온라인 정보를 현재 로그인된 친구들에게 송출한다.
       })
     }
@@ -146,7 +140,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log("A user disconnected:", socket.id);
     removeUser(socket.id);
   });
 });

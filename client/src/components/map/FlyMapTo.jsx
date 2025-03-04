@@ -48,7 +48,6 @@ function FlyMapTo({items}) {
                 [query.ne_lat, query.ne_lng], //southWest
                 [query.sw_lat, query.sw_lng]  //northEast
             ];
-            console.log('bounds', bounds);
 
 //            map.fitBounds([[36,126],[37,127]],{ animate:true, duration: 1.5}); // 1.2 속도
 //             map.flyToBounds([[36,126],[37,127]],{ animate:true, duration: 1.5}); // // error 발생

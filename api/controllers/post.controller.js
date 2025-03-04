@@ -201,7 +201,6 @@ export const getPosts = async (req, res) => {
       })
     });
 
-    console.log('posts..', posts);
       res.status(200).json(posts);
 
 

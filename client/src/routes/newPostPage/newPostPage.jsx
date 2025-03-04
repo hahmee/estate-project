@@ -115,7 +115,6 @@ function NewPostPage() {
 
   const handleSubmit = useCallback(async (e) => {
 
-    console.log('pre', process);
     //계속 누르면 계속 올라감
     e.preventDefault();
 
@@ -202,7 +201,6 @@ function NewPostPage() {
       //
       //   //문제해결 : 문제 =  map에서 await가 안되는게 문제였음 -> 순차처리 되는 for ..of로 바꿈
       //   const res = await axios.post(cloudinaryUrl, formData, config);
-      //   console.log('res', res.data.secure_url);
       //   imageUrl = [...imageUrl, res.data.secure_url];
       //
       // }
@@ -219,7 +217,6 @@ function NewPostPage() {
       //   formData.append('upload_preset', 'estate');
       //
       //   const res = await axios.post(cloudinaryUrl, formData, config);
-      //   console.log('res', res.data.secure_url);
       //   // setImageUrl((prev) => [...prev, res.data.secure_url]);
       //   imageUrl = [...imageUrl, res.data.secure_url];
       // });

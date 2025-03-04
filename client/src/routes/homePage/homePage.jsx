@@ -31,10 +31,6 @@ function HomePage() {
     const featuredPosts = featuredResponse.data;
     const navigate = useNavigate();
 
-
-    console.log('featuredPosts', featuredPosts);
-
-
     return (
         <div className="main-page">
             {/* Hero Section */}

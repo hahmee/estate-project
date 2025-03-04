@@ -15,7 +15,6 @@ async function init() {
         const collection = database.collection("Post");
 
         await collection.createIndex({ location: "2dsphere" });
-        console.log("2dsphere index ensured on startup.");
     } catch (error) {
         console.error("Error creating 2dsphere index:", error);
     } finally {

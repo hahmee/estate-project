@@ -153,7 +153,6 @@ function MessagePage() {
 
         // 채팅목록에 있는 친구들이 로그인/로그아웃하면 감지된다.
         const handleSocketGetReceiverStatus = async (data) => {
-            // console.log('data', data); //{userId: '669e17e229b1c61ecfb4bb98', online: true}
             await checkIfChatEmpty(); //반영이 바로 안된다 -> useRef 로 변경했더니 성공.
 
             const chatListRefCurrent = [...chatListRef.current];
@@ -174,7 +173,6 @@ function MessagePage() {
 
         /* 메시지를 받는다. */
         const handleSocketGetMessage = async (data) => {
-            console.log('getMessage.. ', data);
             // chatlist 순서 첫번째로 변경 및 lastMessage 변경 및 안 읽은 메시지 카운트 변경
             reorderChatList(data.chatId, data.text);
 
@@ -184,7 +182,6 @@ function MessagePage() {
 
             //받은 애가 현재 채팅방에 있다면 읽었다고 표시한다.
             if(currentChat && data.chatId === currentChat?.id) {
-                console.log('전 지금 현재 방에 있습니다');
 
                 //읽었다고 db의 chatUser에 표시한다.
                 try{

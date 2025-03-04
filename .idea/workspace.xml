@@ -6,7 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/deploy" beforeDir="false" afterPath="$PROJECT_DIR$/script/deploy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/controllers/post.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/post.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/lib/prisma.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/lib/prisma.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/dropdown/Dropdown.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/dropdown/Dropdown.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/FlyMapTo.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/Map.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/searchBar/SearchMapBar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/uploadWidget/UploadWidget.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/uploadWidget/UploadWidget.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/context/SocketContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/SocketContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/loaders.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/loaders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/homePage/homePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/homePage/homePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage2.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/profileUpdatePage/profileUpdatePage2.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/redirect/redirectNaverURI.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/redirect/redirectNaverURI.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/register/register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/register/register.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/updatePage/updatePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,7 +292,8 @@
       <workItem from="1740842588286" duration="1254000" />
       <workItem from="1740880313038" duration="11809000" />
       <workItem from="1740993495725" duration="8031000" />
-      <workItem from="1741051481931" duration="4374000" />
+      <workItem from="1741051481931" duration="5140000" />
+      <workItem from="1741062828664" duration="3643000" />
     </task>
     <servers />
   </component>

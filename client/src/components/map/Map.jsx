@@ -64,7 +64,6 @@ function Map({items}) {
         setIsFetch(false);
       }, [isFetch]),
       dragend: async (e) => {
-        console.log('dragend',searchValue)
 
         changeSearchValue({...searchValue, location: '지도 표시 지역'});
         await setIsLoading(true);

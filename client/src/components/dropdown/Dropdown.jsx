@@ -6,8 +6,6 @@ function Dropdown({children, shown, close}) { //scrollTop
 
     const handleClickOutside = event => {
         if (wrapperRef.current && !wrapperRef.current.contains(event.target)) { //wrapperRef 말고 외부를 클릭했다면
-            console.log('handleClickOutside')
-
             close();
         }
     };
