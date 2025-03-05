@@ -36,9 +36,9 @@ export const SEARCH_BY_REGION =[
         placeId: "ChIJCzYy5IS16lQRQrfeQ5K5Oxw",
     },
     {
-        img: "https://cdn.pixabay.com/photo/2022/03/20/15/40/nature-7081138_1280.jpg",
-        title: '일본',
-        placeId: "ChIJLxl_1w9OZzQRRFJmfNR1QvU",
+        img: "https://cdn.pixabay.com/photo/2022/10/07/07/30/china-7504392_1280.jpg",
+        title: '중국',
+        placeId: "ChIJwULG5WSOUDERbzafNHyqHZU",
     },
     {
         img: "https://cdn.pixabay.com/photo/2022/02/05/13/12/building-6994803_1280.jpg",
