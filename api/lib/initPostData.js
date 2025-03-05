@@ -146,11 +146,11 @@ async function seedPostData() {
         }
 
         // 총 400개의 포스트 생성: 100 국내, 300 해외
-        for (let i = 1; i <= 40; i++) {
+        for (let i = 1; i <= 400; i++) {
             let address, politicalList, lat, lng, location, title, propertyName, imagesArray, propertyType, desc;
             const randomType = getRandomElement(types);
 
-            if (i <= 10) {
+            if (i <= 100) {
                 // 국내 매물: 한국의 무작위 도시
                 const cityData = getRandomElement(koreaCities);
                 address = `대한민국 ${cityData.city}, ${cityData.province}`;
