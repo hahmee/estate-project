@@ -302,6 +302,6 @@ export const getChatUUID = async (req, res) => {
 };
 
 
-function generateChatUUID() {
+export function generateChatUUID() {
   return randomUUID();
 }

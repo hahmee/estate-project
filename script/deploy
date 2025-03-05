@@ -28,6 +28,8 @@ ssh -i /var/lib/jenkins/.ssh/estate-app-key.pem -o StrictHostKeyChecking=no ubun
     # MongoDB Atlas에 초기 데이터 삽입
     node lib/initUserData.js
     node lib/initPostData.js
+    node lib/initSavedPostData.js
+    node lib/initChatMessage.js
 
     pm2 restart app.js
 
