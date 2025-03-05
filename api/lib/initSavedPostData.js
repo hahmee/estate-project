@@ -18,11 +18,11 @@ async function seedSavedPostData() {
 
         const savedPostsData = [];
 
-        // 각 유저별로 랜덤한 10개의 포스트를 저장
+        // 각 유저별로 랜덤한 40개의 포스트를 저장
         for (const user of users) {
-            // posts 배열을 복사한 후 섞어서 앞에서 10개 선택
+            // posts 배열을 복사한 후 섞어서 앞에서 40개 선택
             const shuffledPosts = posts.slice().sort(() => Math.random() - 0.5);
-            const selectedPosts = shuffledPosts.slice(0, 10);
+            const selectedPosts = shuffledPosts.slice(0, 40);
             for (const post of selectedPosts) {
                 savedPostsData.push({
                     userId: user.id,
