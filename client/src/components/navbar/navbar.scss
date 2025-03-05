@@ -161,6 +161,21 @@ nav {
           color: #6a6a6a;
         }
 
+        .closeIcon {
+          color: #282828;
+          font-size: 18px;
+          font-weight: 600;
+          position: absolute;
+          right: 15px;
+          cursor: pointer;
+          padding: 0.2rem;
+          &:hover {
+            background-color: #eeeeee;
+            border-radius: 50%;
+
+          }
+        }
+
       }
 
       .check-in, .check-out {

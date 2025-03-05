@@ -19,8 +19,8 @@
 
   &__sidebar {
     flex: none;
-    width: var(--sidebar-width); // 사이드바 너비
-    min-height: calc(100vh - 80px);
+    width: var(--sidebar-width);
+    height: calc(100vh - 80px); // 고정 높이
     top: 80px;
     position: fixed;
     overflow-y: auto;
@@ -43,6 +43,8 @@
     }
 
     &-menu {
+      //background-color: #282828;
+      //overflow-y: auto;
 
       &--noChatting {
         color: #bbbbbb;

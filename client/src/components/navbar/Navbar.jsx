@@ -117,6 +117,7 @@ function Navbar({isSearchBar}) {
     const setIsFetch = listPostStore((state) => state.setIsFetch);
     const increase = useNotificationStore((state) => state.increase);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLocationOpen, setIsLocationOpen] = useState(false);
 
     const handleLocationChange = (location) => {
         setStatus("");
@@ -197,7 +198,12 @@ function Navbar({isSearchBar}) {
 
     };
 
+    const deleteLocation = () => {
+        setLocation("");
+    };
+
     const clickMenu = (number) => {
+        // setIsLocationOpen(true);
         changeIsDropdownOpen(true);
         setCurrentClicked(number);
         setNotClicked(true);
@@ -398,17 +404,18 @@ function Navbar({isSearchBar}) {
                                 >
                                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                                         <>
-                                            <div className={`search ${notClicked ? 'notClicked' : null}`}
-                                                 onClick={(e) => onClickSearchBar(e)}>
-                                                <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
-                                                     onClick={() => clickMenu(1)}>
+                                            <div className={`search ${notClicked ? 'notClicked' : null}`} onClick={(e) => onClickSearchBar(e)}>
+                                                <div className={`location ${currentClicked === 1 && 'clickedMenu'}`} onClick={() => clickMenu(1)}>
                                                     <p className={isExpanded ? "" : 'displayNone'}>위치</p>
                                                     <input type="text"
                                                            {...getInputProps({
                                                                placeholder: '도시를 검색하세요.',
                                                                className: 'inputDiv',
                                                            })}/>
+                                                    <span className={isExpanded ? "material-symbols-outlined closeIcon" : 'material-symbols-outlined closeIcon displayNone'} onClick={()=>deleteLocation()}>close</span>
                                                 </div>
+
+
                                                 <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(2)}>
                                                     <p className={isExpanded ? "" : 'displayNone'}>유형</p>
@@ -431,7 +438,8 @@ function Navbar({isSearchBar}) {
                                                 <div className={`guests ${currentClicked === 4 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(4)}>
                                                     <p className={isExpanded ? "" : 'displayNone'}>크기</p>
-                                                    <span className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
+                                                    <span
+                                                        className="inputDiv">{minSize}평&nbsp;~&nbsp;{(MAX_SIZE === maxSize) ? '60평 이상' : `${maxSize}평`}</span>
                                                     <span className="material-symbols-outlined"
                                                           onClick={(e) => searchClick(e)}>search</span>
                                                 </div>
@@ -445,7 +453,9 @@ function Navbar({isSearchBar}) {
                                                 shown={(currentClicked === 1) && idDropdownOpen}
                                                 close={closeDropdown}
                                                 scrollTop={true}
-                                                searchByRegion={searchByRegion}/>
+                                                searchByRegion={searchByRegion}
+                                                isOpen={isLocationOpen}
+                                            />
 
                                             <Category types={types} setTypes={setTypes} rooms={rooms}
                                                       setRooms={setRooms}
@@ -477,7 +487,7 @@ function Navbar({isSearchBar}) {
     );
 }
 
-const Location = ({location, suggestions, getSuggestionItemProps, loading, status, shown, close, scrollTop, searchByRegion}) => {
+const Location = ({location, suggestions, getSuggestionItemProps, loading, status, shown, close, scrollTop, searchByRegion,isOpen}) => {
     return (
         <Dropdown
             shown={shown}
@@ -487,7 +497,7 @@ const Location = ({location, suggestions, getSuggestionItemProps, loading, statu
             <div className='otherSuggestion'>
                 <div className="autocomplete-dropdown">
                     {
-                        !location && (
+                        isOpen && (
                             <div className="autocomplete-dropdown-content">
                                 <div className="searchByRegion">지역으로 검색하기</div>
                                 <div className="searchByRegionContent">

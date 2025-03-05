@@ -65,7 +65,7 @@ function Map({items}) {
       }, [isFetch]),
       dragend: async (e) => {
 
-        changeSearchValue({...searchValue, location: '지도 표시 지역'});
+        changeSearchValue({...searchValue, location: ''});
         await setIsLoading(true);
         const center = e.target.getCenter(); //{lat,lng}
         const wrappedCenter = e.target.wrapLatLng(center); //경도 180에서 나타나는 문제 해결

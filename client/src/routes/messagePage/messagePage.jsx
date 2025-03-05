@@ -270,12 +270,11 @@ function MessagePage() {
     return (
         <div className={`chat ${!userId ? "borderNone" : ""}`}>
             <div className={`chat__sidebar ${!userId ? "chat__sidebar--full" : ""}`}>
-
                 <div className={`chat__sidebar-user ${!userId ? "chat__sidebar-user--none" : ""}`} onClick={() => navigate("/messages")}>{currentUser.username}</div>
                 <div className="chat__sidebar-menu">
                     {
                         chatList && chatList.length < 1 ?
-                            <div className="chat__sidebar-menu--noChatting"> 채팅 리스트가 없습니다.</div>
+                            <div className="chat__sidebar-menu--noChatting">채팅 리스트가 없습니다.</div>
                             :
                             chatList.map((c, idx) => (
                                 <ChatItem
@@ -296,7 +295,6 @@ function MessagePage() {
                         )}
                     </div>
                 }
-
                 {
                     currentChat ?
                         <div className="chat__wrapper">
@@ -308,7 +306,6 @@ function MessagePage() {
                         </div>
 
                 }
-
                 {currentChat &&
                     <MessageInput handleSubmit={handleSubmit} message={message} setMessage={setMessage} />
                 }
