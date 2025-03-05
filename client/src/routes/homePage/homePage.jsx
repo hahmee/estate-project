@@ -22,7 +22,7 @@ const categories = [
         title: '오피스텔',
         description: '비즈니스를 위한 상업용 오피스텔을 찾으세요.',
         img: "home_work",
-        url: `list?type=month_pay&type=year_pay&type=sell&location=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&political=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&latitude=35.907757&longitude=127.766922&property=apartment&property=condo&property=officetel&minPrice=0&maxPrice=1000000000&minSize=0&maxSize=60&searchedLat=35.907757&searchedLng=127.766922&search_type=autocomplete_click&ne_lat=33.0041&ne_lng=124.5863&sw_lat=38.63400000000001&sw_lng=131.1603`
+        url: `/list?type=month_pay&type=year_pay&type=sell&location=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&political=%EB%8C%80%ED%95%9C%EB%AF%BC%EA%B5%AD&latitude=35.907757&longitude=127.766922&property=officetel&minPrice=0&maxPrice=1000000000&minSize=0&maxSize=60&searchedLat=35.907757&searchedLng=127.766922&search_type=autocomplete_click&ne_lat=33.0041&ne_lng=124.5863&sw_lat=38.63400000000001&sw_lng=131.1603`,
     }
 ];
 

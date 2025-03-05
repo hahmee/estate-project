@@ -125,7 +125,6 @@ function Navbar({isSearchBar}) {
 
     const handleSelect = async (location = null, placeId) => {
         const [place] = await geocodeByPlaceId(placeId);
-        console.log('place',place)
         const address = place.formatted_address;
         const viewPort = place.geometry.viewport.toJSON()
         setNelat(viewPort.south);

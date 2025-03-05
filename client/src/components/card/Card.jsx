@@ -5,6 +5,7 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 import {savedPostStore} from "../../lib/savedPostStore.js";
 import {currencyFormatter} from "../../util/formatting.js";
 import Button from "../../UI/Button.jsx";
+import {roomOption} from "../../routes/newPostPage/newPostPage.jsx";
 
 function Card({ card }) {
   const { currentUser } = useContext(AuthContext);
@@ -54,6 +55,13 @@ function Card({ card }) {
           <p className="address">
             <img src="/pin.png" alt="pin"/>
             <span>{card.address}</span>
+          </p>
+          <p className="property">
+            <span>
+              {
+                roomOption.filter((option) => option.value === card.property)[0].label
+              }
+              </span>
           </p>
           <p className="price">{currencyFormatter.format(card.price)}</p>
           <div className="bottom">

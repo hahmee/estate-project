@@ -83,8 +83,6 @@ function Map({items}) {
 
         await setIsLoading(false);
 
-
-
       }
     });
     return null;

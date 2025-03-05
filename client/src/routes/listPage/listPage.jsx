@@ -54,7 +54,6 @@ function ListPage() {
 
     //searchParams 가 변경될때마다 fetch 실행
     useEffect(() => {
-        console.log(query)
 
         const sendTypes = query.type.join('&type=');//searchValue.payType.join('&type='); // //
         const sendProperties = query.property.join('&property=');//searchParams.propertyType.join('&property=');////

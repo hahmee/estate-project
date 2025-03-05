@@ -7,7 +7,7 @@
   .imageContainer {
     flex: 2;
     background-color: #eeeeee;
-    height: 200px;
+    //height: 200px;
     max-width: 300px;
 
     @include md {
@@ -50,6 +50,14 @@
       align-items: center;
       gap: 5px;
       color: #888;
+    }
+
+    .property{
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #282828;
     }
 
     .price {

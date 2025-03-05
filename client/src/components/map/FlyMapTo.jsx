@@ -38,6 +38,10 @@ function FlyMapTo({items}) {
         html: `<div class="searchLocation"><div class="searchLocationIn"></div></div>`,
     });
 
+    const customMarkerIcon2 = divIcon({
+        html: `<div class="searchLocation2"><div class="searchLocationIn2"></div></div>`,
+    });
+
 
     //검색 위치가 변경될때만
     useEffect(() => {
@@ -66,8 +70,9 @@ function FlyMapTo({items}) {
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             <Marker position={searchedPostion} icon={customMarkerIcon}></Marker>
-            {/*<Marker position={[query.ne_lat, query.ne_lng]} icon={customMarkerIcon}></Marker>*/}
-            {/*<Marker position={[query.sw_lat, query.sw_lng]} icon={customMarkerIcon}></Marker>*/}
+            {/*지도 끝 마커*/}
+            {/*<Marker position={[query.ne_lat, query.ne_lng]} icon={customMarkerIcon2}></Marker>*/}
+            {/*<Marker position={[query.sw_lat, query.sw_lng]} icon={customMarkerIcon2}></Marker>*/}
 
             {items.map((item, idx) => (
                 <Pin item={item} key={idx}/>

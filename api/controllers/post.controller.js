@@ -51,42 +51,7 @@ export const getFeaturedPosts = async (req, res) => {
 
 export const getPosts = async (req, res) => {
   const query = req.query;
-
-  console.log('query',query);
-
   try {
-
-    // 반경 3 km 까지 검색 (위도 경도 반경 계산)
-    // const xprisma = prisma.$extends({
-    //   result: {
-    //     post: {
-    //       distance: {
-    //         // the dependencies
-    //         needs: {latitude: true, longitude: true},
-    //         compute(post) {
-    //           // the computation logic
-    //           return (6371 * Math.acos(Math.cos(getRadians(query.latitude)) * Math.cos(getRadians(post.latitude)) * Math.cos(getRadians(post.longitude) - getRadians(query.longitude)) + Math.sin(getRadians(query.latitude)) * Math.sin(getRadians(post.latitude))));
-    //         },
-    //       },
-    //       isSaved: {
-    //         compute() {
-    //           return false;
-    //         }
-    //       },
-    //     },
-    //   },
-    //   query: {
-    //     post: {
-    //       async findMany({model, operation, args, query}) {
-    //         // take incoming `where` and set `age`
-    //         args.where = {...args.where, price: {gt: 10}}
-    //
-    //         return query(args)
-    //       },
-    //     },
-    //   },
-    // });
-    // const posts = await xprisma.post.findMany({});
 
     let queryType = [];
     let queryProperty = [];
@@ -108,57 +73,42 @@ export const getPosts = async (req, res) => {
     const maxPriceQuery = (query.maxPrice === null || query.maxPrice === undefined || Number(query.maxPrice) >= MAX_PRICE || query.maxPrice === "") ? {} : {$lte: Number(query.maxPrice)};
 
     //minSize 값 없을 때
-    const minSizeQuery = (query.minSize === null || query.minSize === undefined || query.minSize ==="") ? {$gte: MIN_SIZE} : {$gte: Number(query.minSize)};
+    const minSizeQuery = (query.minSize === null || query.minSize === undefined || query.minSize === "") ? {$gte: MIN_SIZE} : {$gte: Number(query.minSize)};
     //maxSize 값 없을 때 (60이상 값이 들어오면 사이즈 무한대로 보여줌)
     const maxSizeQuery = (query.maxSize === null || query.maxSize === undefined || Number(query.maxSize) >= MAX_SIZE || query.maxSize === "") ? {} : {$lte: Number(query.maxSize)};
 
     let searchTypeQuery = {};
 
-    if (query.search_type === 'user_map_move') { // || query.search_type === undefined || query.search_type === null
-
-      //ne_lat, ne_lng, sw_lat, sw_lng 바운더리 안에 있는 매물들 검색
-      searchTypeQuery = {
-        $match: {
-          location: {
-            $geoWithin: {
-              $box: [
-                [Number(query.sw_lng), Number(query.sw_lat)], // bottomLeft,
-                [Number(query.ne_lng), Number(query.ne_lat)]  // upperRight
-              ]
-            },
+    //ne_lat, ne_lng, sw_lat, sw_lng 바운더리 안에 있는 매물들 검색
+    searchTypeQuery = {
+      $match: {
+        location: {
+          $geoWithin: {
+            $box: [
+              [Number(query.sw_lng), Number(query.sw_lat)], // bottomLeft,
+              [Number(query.ne_lng), Number(query.ne_lat)]  // upperRight
+            ]
           },
-          price: {...minPriceQuery, ...maxPriceQuery},
-          type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
-          property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},
-          size: {...minSizeQuery, ...maxSizeQuery},
-        }
-      };
-      //lat,lng 의 20000m 이내 매물들 검색
-      // searchTypeQuery = {
-      //   $geoNear: {
-      //     near: {type: "Point", coordinates: [Number(query.longitude), Number(query.latitude)]},
-      //     distanceField: "dist.calculated",
-      //     maxDistance: 20000, //m
-      //     spherical: true,
-      //     query: {
-      //       price: {...minPriceQuery, ...maxPriceQuery}, //{$gte: Number(query.minPrice), $lte: Number(query.maxPrice)},
-      //       type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
-      //       property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},
-      //       size: {...minSizeQuery, ...maxSizeQuery},
-      //     },
-      //   }
-      // };
-    } else { //autocomplete_click일 때
-      searchTypeQuery = {
-        $match: {
-          politicalList: {$in: [query.political]},
-          price: {...minPriceQuery, ...maxPriceQuery},
-          type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
-          property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},
-          size: {...minSizeQuery, ...maxSizeQuery},
-        }
-      };
-    }
+        },
+        price: {...minPriceQuery, ...maxPriceQuery},
+        type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
+        property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},
+        size: {...minSizeQuery, ...maxSizeQuery},
+      }
+    };
+
+    // 완벽하게 지역명 매칠될 때 사용
+    // else { //autocomplete_click일 때 -> 이렇게하면 DB에 politicalList가 영어로 저장될 때문제임 (매치 정확히 안 됨)
+    //   searchTypeQuery = {
+    //     $match: {
+    //       politicalList: {$in: [query.political]},
+    //       price: {...minPriceQuery, ...maxPriceQuery},
+    //       type: {$in: (query.type === undefined || query.type === null || query.type === "") ? payType : queryType},
+    //       property: {$in: (query.property === undefined || query.property === null || query.property === "") ? roomType : queryProperty},
+    //       size: {...minSizeQuery, ...maxSizeQuery},
+    //     }
+    //   };
+    // }
 
     //mongodb Atlas에 create Index {location:2dsphere} 작업 필요
     const posts = await prisma.post.aggregateRaw({
@@ -202,7 +152,7 @@ export const getPosts = async (req, res) => {
       })
     });
 
-      res.status(200).json(posts);
+    res.status(200).json(posts);
 
 
   } catch (err) {
@@ -213,7 +163,6 @@ export const getPosts = async (req, res) => {
 
 export const getPost = async (req, res) => {
   const id = req.params.id;
-  console.log('id..', id)
   try {
     const post = await prisma.post.findUnique({
       where: { id: id },

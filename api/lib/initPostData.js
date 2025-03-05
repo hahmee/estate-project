@@ -256,20 +256,6 @@ async function seedPostData() {
                     location,
                     type: randomType,
                     property:propertyType,
-                    // property:
-                    //     propertyName.toLowerCase().includes("apartment")
-                    //         ? "apartment"
-                    //         : propertyName.toLowerCase().includes("condo")
-                    //             ? "condo"
-                    //             : propertyName.toLowerCase().includes("officetel")
-                    //                 ? "officetel"
-                    //                 : propertyName.toLowerCase().includes("원룸") ||
-                    //                 propertyName.toLowerCase().includes("studio")
-                    //                     ? "one_room"
-                    //                     : propertyName.toLowerCase().includes("투룸") ||
-                    //                     propertyName.toLowerCase().includes("2베드룸")
-                    //                         ? "two_room"
-                    //                         : "land",
                     maintenance,
                     size,
                     createdAt,
