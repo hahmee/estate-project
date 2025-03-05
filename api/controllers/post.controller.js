@@ -52,6 +52,8 @@ export const getFeaturedPosts = async (req, res) => {
 export const getPosts = async (req, res) => {
   const query = req.query;
 
+  console.log('query',query);
+
   try {
 
     // 반경 3 km 까지 검색 (위도 경도 반경 계산)
@@ -99,7 +101,6 @@ export const getPosts = async (req, res) => {
     } else {
       queryProperty = query.property;
     }
-
 
     //minPrice 값 없을 때
     const minPriceQuery = (query.minPrice === null || query.minPrice === undefined || query.minPrice === "") ? {$gte: MIN_PRICE} : {$gte: Number(query.minPrice)};

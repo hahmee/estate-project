@@ -26,26 +26,22 @@ export const MIN_SIZE = 0;
 
 export const SEARCH_BY_REGION =[
     {
-        // img: '/korea.jpg',
         img: "https://media.istockphoto.com/id/1845303802/ko/%EC%82%AC%EC%A7%84/n-%EC%84%9C%EC%9A%B8%ED%83%80%EC%9B%8C-%EC%84%9C%EC%9A%B8-%ED%95%9C%EA%B5%AD.jpg?s=2048x2048&w=is&k=20&c=WQJFGZZ-PigL_FfBO--cF8hlVFWWoFtKRt1pkXFk1Rc=",
         title: '한국',
         placeId: "ChIJm7oRy-tVZDURS9uIugCbJJE",
     },
     {
-        // img: '/america.jpg',
         img: "https://cdn.pixabay.com/photo/2014/02/17/10/20/statue-of-liberty-267949_960_720.jpg",
         title: '미국',
         placeId: "ChIJCzYy5IS16lQRQrfeQ5K5Oxw",
     },
     {
         img: "https://cdn.pixabay.com/photo/2022/03/20/15/40/nature-7081138_1280.jpg",
-        // img: '/japan.jpg',
         title: '일본',
         placeId: "ChIJLxl_1w9OZzQRRFJmfNR1QvU",
     },
     {
         img: "https://cdn.pixabay.com/photo/2022/02/05/13/12/building-6994803_1280.jpg",
-        // img: '/germany.jpg',
         title: '독일',
         placeId:"ChIJa76xwh5ymkcRW-WRjmtd6HU",
     },
@@ -129,6 +125,7 @@ function Navbar({isSearchBar}) {
 
     const handleSelect = async (location = null, placeId) => {
         const [place] = await geocodeByPlaceId(placeId);
+        console.log('place',place)
         const address = place.formatted_address;
         const viewPort = place.geometry.viewport.toJSON()
         setNelat(viewPort.south);

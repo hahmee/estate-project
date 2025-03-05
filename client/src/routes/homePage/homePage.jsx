@@ -68,7 +68,12 @@ function HomePage() {
                     {
                         featuredPosts.map((post) => {
                             return <div className="listing" key={post.id} onClick={() => navigate("/read/" + post.id)}>
-                                <img src={post.images[0]} alt="Property"/>
+                                <img src={post.images[0]} alt="image"
+                                     onError={(e) => {
+                                         e.target.onerror = null;
+                                         e.target.src = '/no_image.svg';
+                                     }}
+                                />
                                 <span className="titleAndCounts">
                                      <h3>{post.title}</h3>
                                     <span>

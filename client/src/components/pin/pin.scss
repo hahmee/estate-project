@@ -3,8 +3,7 @@
 .leaflet-marker-icon {
   width: auto !important;
 }
-.leaflet-div-icon {
-}
+
 .leaflet-div-icon {
   background: none;
   border: none;
@@ -13,18 +12,15 @@
 
 .saved-pin {
   position: relative;
-  //border: 1px solid #fa6172;
   border: 1px solid $primary-color;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-  //background-color: #ff6e7e;
   background-color: $primary-color;
-
-  padding: 0px 20px;
+  padding: 0 20px;
   height: 28px;
   border-radius: 28px;
   text-align: center;
-  line-height: 28px; /* height와 동일하게 설정 */
-  display: inline-block; /* flex 대신 inline-block으로 설정 */
+  line-height: 28px;
+  display: inline-block;
   font-weight: 700;
   font-size: 14px;
   align-items: center;
@@ -35,22 +31,23 @@
   border: 1px solid #bbb;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
   background-color: #fff;
-  padding: 0px 20px;
+  padding: 0 20px;
   height: 28px;
   border-radius: 28px;
   text-align: center;
   font-weight: 700;
   font-size: 14px;
-  line-height: 28px; /* height와 동일하게 설정 */
-  display: inline-block; /* flex 대신 inline-block으로 설정 */
+  line-height: 28px;
+  display: inline-block;
+
   div {
     position: relative;
   }
-
 }
 
 .popup {
   left: -110px !important;
+
   .closeButton {
     position: absolute;
     top: 0;
@@ -60,24 +57,22 @@
     z-index: 3;
     border-radius: 50%;
   }
+
   .leaflet-popup-content {
-    margin:0;
+    margin: 0;
     width: 280px;
     height: 280px;
   }
-  .leaflet-popup-content-wrapper {
-    //padding:0;
-  }
 
-  //.leaflet-popup-content {
-  //  padding:0;
-  //  background: green;
-  //}
+  .leaflet-popup-content-wrapper {
+    //padding: 0;
+  }
 
   .leaflet-popup-tip-container {
-    //padding:0;
+    //padding: 0;
     //margin-top: -13px;
   }
+
   a.leaflet-popup-close-button {
     display: none;
   }
@@ -98,16 +93,20 @@
 
     .textContainer {
       display: flex;
-      //margin: auto;
-      padding:5px 10px;
-      //background: gold;
-      //margin:10px 5px;
       flex-direction: column;
-      //justify-content: space-between;
+      padding: 5px 10px;
+
+      // 첫번째 줄(예: 제목)에 대해 텍스트 오버플로우 처리
+      > div:first-child {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
       div {
-        color:#444444;
+        color: #444444;
         font-size: 15px;
+
         &:nth-child(1) {
           display: flex;
           justify-content: space-between;
@@ -117,43 +116,45 @@
           .savedCnt {
             display: flex;
             align-items: center;
-            gap:1px;
+            gap: 1px;
           }
         }
+
         &:nth-child(4) {
           font-weight: 600;
         }
-
       }
+
       .pinCursor {
         cursor: pointer;
-
       }
-
     }
 
     .icons {
       z-index: 3;
+
       .pinButton {
-        top:10px;
+        top: 10px;
         position: absolute;
-        right:53px;
+        right: 53px;
+
         .clickedHeart {
           font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-          color:$heart-color;
+          color: $heart-color;
         }
-        span{
+
+        span {
           font-size: 20px;
           font-weight: 600;
         }
       }
 
       .pinRightButton {
-        top:10px;
+        top: 10px;
         position: absolute;
-        right:10px;
+        right: 10px;
 
-        span{
+        span {
           font-size: 20px;
           font-weight: 600;
         }
@@ -166,31 +167,27 @@
         cursor: pointer;
         height: 20px;
 
-        //display: flex;
-        //align-items: center;
-        //justify-content: center;
-
         &:hover {
           background-color: lightgray;
         }
+
         image {
           width: 100%;
         }
       }
     }
   }
-
 }
 
 .slick-slider {
   .slick-arrow {
     z-index: 2;
   }
-  .slick-next{
+  .slick-next {
     right: 10px;
   }
   .slick-prev {
-   left: 10px
+    left: 10px;
   }
   .slick-dots {
     bottom: 1px;
@@ -199,5 +196,3 @@
     }
   }
 }
-
-

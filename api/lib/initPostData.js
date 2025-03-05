@@ -2,23 +2,29 @@
 import prisma from "./prisma.js";
 import 'dotenv/config';
 
-// GeoDB Cities API를 사용해 랜덤 국제 도시 정보를 가져오는 함수
+// GeoDB Cities API를 사용해 랜덤 국제 도시 정보를 가져오는 함수 (대한민국 제외)
 async function getRandomInternationalCity() {
     const offset = getRandomInt(0, 1000);
     const url = `http://geodb-free-service.wirefreethought.com/v1/geo/cities?limit=10&offset=${offset}&minPopulation=100000&sort=-population`;
     const response = await fetch(url);
     const data = await response.json();
     if (data.data && data.data.length > 0) {
-        const city = getRandomElement(data.data);
-        return {
-            city: city.name,
-            country: city.country,
-            lat: city.latitude,
-            lng: city.longitude,
-            formatted: `${city.name}, ${city.country}`
-        };
+        // 대한민국(또는 Korea) 도시는 필터링
+        const filteredCities = data.data.filter(
+            (city) => city.country !== "South Korea" && city.country !== "Korea"
+        );
+        if (filteredCities.length > 0) {
+            const city = getRandomElement(filteredCities);
+            return {
+                city: city.name,
+                country: city.country,
+                lat: city.latitude,
+                lng: city.longitude,
+                formatted: `${city.name}, ${city.country}`
+            };
+        }
     }
-    throw new Error("No international city found from GeoDB");
+    throw new Error("No international city found from GeoDB excluding South Korea");
 }
 
 // 헬퍼 함수: min~max 범위의 정수를 반환
@@ -41,11 +47,29 @@ const koreaCities = [
     { city: "대전", province: "대전광역시", lat: 36.3504, lng: 127.3845 },
     { city: "울산", province: "울산광역시", lat: 35.5384, lng: 129.3114 },
     { city: "수원", province: "경기도", lat: 37.2636, lng: 127.0286 },
+    { city: "성남", province: "경기도", lat: 37.4200, lng: 127.1269 },
+    { city: "고양", province: "경기도", lat: 37.6584, lng: 126.8354 },
+    { city: "용인", province: "경기도", lat: 37.2410, lng: 127.1770 },
+    { city: "부천", province: "경기도", lat: 37.5039, lng: 126.7669 },
+    { city: "안산", province: "경기도", lat: 37.3219, lng: 126.8302 },
     { city: "청주", province: "충청북도", lat: 36.6423, lng: 127.4890 },
     { city: "전주", province: "전라북도", lat: 35.8242, lng: 127.1480 },
     { city: "창원", province: "경상남도", lat: 35.2288, lng: 128.6811 },
     { city: "포항", province: "경상북도", lat: 36.0190, lng: 129.3430 },
-    { city: "제주", province: "제주특별자치도", lat: 33.4996, lng: 126.5312 }
+    { city: "경주", province: "경상북도", lat: 35.8562, lng: 129.2247 },
+    { city: "김해", province: "경상남도", lat: 35.2288, lng: 128.8899 },
+    { city: "진주", province: "경상남도", lat: 35.1899, lng: 128.1086 },
+    { city: "제주", province: "제주특별자치도", lat: 33.4996, lng: 126.5312 },
+    { city: "강릉", province: "강원도", lat: 37.7519, lng: 128.8768 },
+    { city: "원주", province: "강원도", lat: 37.3414, lng: 127.9196 },
+    { city: "춘천", province: "강원도", lat: 37.8813, lng: 127.7298 },
+    { city: "속초", province: "강원도", lat: 38.2071, lng: 128.5910 },
+    { city: "안동", province: "경상북도", lat: 36.5684, lng: 128.7290 },
+    { city: "광명", province: "경기도", lat: 37.4787, lng: 126.8784 },
+    { city: "이천", province: "경기도", lat: 37.2759, lng: 127.4463 },
+    { city: "평택", province: "경기도", lat: 36.9946, lng: 127.1123 },
+    { city: "여수", province: "전라남도", lat: 34.7604, lng: 127.6620 },
+    { city: "울릉도", province: "경상북도", lat: 37.4833, lng: 130.8667 }
 ];
 
 // 매물 유형 및 속성별 데이터 (Prisma enum에 맞게)
@@ -146,7 +170,7 @@ async function seedPostData() {
 
                 title = `${address} ${propertyName} ${randomType === "sell" ? "매매" : randomType === "year_pay" ? "전세" : "월세"} - ${getRandomElement(titlePrefixes)}`;
             } else {
-                // 해외 매물: GeoDB Cities API로 무작위 국제 도시 정보 가져오기
+                // 해외 매물: GeoDB Cities API로 무작위 국제 도시 정보 가져오기 (대한민국 제외)
                 let intlCity;
                 try {
                     intlCity = await getRandomInternationalCity();
@@ -157,7 +181,7 @@ async function seedPostData() {
                 }
                 address = intlCity.formatted || `${intlCity.city}, ${intlCity.country}`;
                 politicalList = address.split(",").map(part => part.trim());
-                // 해외 오프셋 범위: ±0.1
+                // 해외 오프셋 범위 크게 적용: ±0.1
                 const offsetRange = 0.1;
                 const baseLat = parseFloat(intlCity.lat);
                 const baseLng = parseFloat(intlCity.lng);
@@ -232,12 +256,20 @@ async function seedPostData() {
                     longitude: lng,
                     location,
                     type: randomType,
-                    property: propertyName.toLowerCase().includes("apartment") ? "apartment" :
-                        propertyName.toLowerCase().includes("condo") ? "condo" :
-                            propertyName.toLowerCase().includes("officetel") ? "officetel" :
-                                propertyName.toLowerCase().includes("원룸") || propertyName.toLowerCase().includes("studio") ? "one_room" :
-                                    propertyName.toLowerCase().includes("투룸") || propertyName.toLowerCase().includes("2베드룸") ? "two_room" :
-                                        "land",
+                    property: propertyName.toLowerCase().includes("apartment")
+                        ? "apartment"
+                        : propertyName.toLowerCase().includes("condo")
+                            ? "condo"
+                            : propertyName.includes("오피스텔")
+                                ? "officetel"
+                                : propertyName.toLowerCase().includes("원룸") ||
+                                propertyName.toLowerCase().includes("studio")
+                                    ? "one_room"
+                                    : propertyName.toLowerCase().includes("투룸") ||
+                                    propertyName.toLowerCase().includes("2베드룸")
+                                        ? "two_room"
+                                        : "land",
+
                     maintenance,
                     size,
                     createdAt,

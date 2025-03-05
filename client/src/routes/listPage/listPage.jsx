@@ -54,6 +54,8 @@ function ListPage() {
 
     //searchParams 가 변경될때마다 fetch 실행
     useEffect(() => {
+        console.log(query)
+
         const sendTypes = query.type.join('&type=');//searchValue.payType.join('&type='); // //
         const sendProperties = query.property.join('&property=');//searchParams.propertyType.join('&property=');////
 
@@ -64,7 +66,6 @@ function ListPage() {
 
 
     useEffect(() => {
-
 
         setIsFetch(true);
         //searchbar context에 url 값 넣기 -> 외부 url 을 통해서 들어온 사람들을 위해
