@@ -2,18 +2,23 @@
 import prisma from "./prisma.js";
 import 'dotenv/config';
 
-// OpenCage API를 사용해 쿼리 기반 좌표 및 주소를 가져오는 함수
-async function getRandomLocation(query) {
-    const apiKey = process.env.OPENCAGE_API_KEY; // .env에 설정된 API 키
-    const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=${apiKey}&no_annotations=1&limit=1`;
+// GeoDB Cities API를 사용해 랜덤 국제 도시 정보를 가져오는 함수
+async function getRandomInternationalCity() {
+    const offset = getRandomInt(0, 1000);
+    const url = `http://geodb-free-service.wirefreethought.com/v1/geo/cities?limit=10&offset=${offset}&minPopulation=100000&sort=-population`;
     const response = await fetch(url);
     const data = await response.json();
-    if (data.results && data.results.length > 0) {
-        const { lat, lng } = data.results[0].geometry;
-        const formatted = data.results[0].formatted;
-        return { lat, lng, formatted };
+    if (data.data && data.data.length > 0) {
+        const city = getRandomElement(data.data);
+        return {
+            city: city.name,
+            country: city.country,
+            lat: city.latitude,
+            lng: city.longitude,
+            formatted: `${city.name}, ${city.country}`
+        };
     }
-    throw new Error("No location found for query: " + query);
+    throw new Error("No international city found from GeoDB");
 }
 
 // 헬퍼 함수: min~max 범위의 정수를 반환
@@ -41,15 +46,6 @@ const koreaCities = [
     { city: "창원", province: "경상남도", lat: 35.2288, lng: 128.6811 },
     { city: "포항", province: "경상북도", lat: 36.0190, lng: 129.3430 },
     { city: "제주", province: "제주특별자치도", lat: 33.4996, lng: 126.5312 }
-];
-
-// 해외 매물용: 국제 쿼리 배열 (다양한 국가 및 도시)
-const internationalQueries = [
-    "Tokyo, Japan", "Osaka, Japan", "Beijing, China", "Shanghai, China",
-    "Berlin, Germany", "Munich, Germany", "Paris, France", "London, UK",
-    "Madrid, Spain", "Rome, Italy", "Amsterdam, Netherlands", "New York, USA",
-    "Los Angeles, USA", "Brussels, Belgium", "Vienna, Austria", "Stockholm, Sweden",
-    "Zurich, Switzerland", "Prague, Czech Republic", "Lisbon, Portugal", "Dublin, Ireland"
 ];
 
 // 매물 유형 및 속성별 데이터 (Prisma enum에 맞게)
@@ -99,15 +95,12 @@ const propertyTypes = [
     }
 ];
 
-// 거래 방식
+// 거래 방식, 방향, 옵션 등
 const types = ["month_pay", "year_pay", "sell"];
-// 방향 옵션
 const directions = ["북향", "남향", "동향", "서향"];
-// PostDetail 옵션
 const optionsEnum = ["shoe", "shower_booth", "stove", "closet", "fire_alarm", "veranda"];
 const safeOptionsEnum = ["guard", "video_phone", "intercom", "card_key", "cctv", "safety_door", "window_guard"];
 const petOptions = ["yes", "no"];
-// 제목 및 설명 템플릿
 const titlePrefixes = ["최신 매물", "추천 매물", "놓치지 마세요", "특가 매물", "인기 매물"];
 const descTemplates = [
     "본 매물은 {address}에 위치한 {propertyName}입니다. {bedroom}개의 침실과 {bathroom}개의 욕실, 총 {size}㎡의 넓은 공간을 자랑하며, 주변 인프라와 교통편의성이 뛰어납니다.",
@@ -118,7 +111,7 @@ const descTemplates = [
 
 async function seedPostData() {
     try {
-        // 기존 포스트 데이터 삭제 (필요 시 주석 해제)
+        // 기존 포스트 데이터 삭제
         await prisma.post.deleteMany({});
         console.log("기존 포스팅 데이터 삭제 완료.");
 
@@ -138,9 +131,8 @@ async function seedPostData() {
                 const cityData = getRandomElement(koreaCities);
                 address = `대한민국 ${cityData.city}, ${cityData.province}`;
                 politicalList = [cityData.city, cityData.province, "대한민국"];
-
-                // 오프셋 범위: 제주이면 ±0.1, 그 외는 ±0.02
-                const offsetRange = cityData.city === "제주" ? 0.1 : 0.02;
+                // 오프셋 범위 크게 적용: 모든 도시 ±0.2
+                const offsetRange = 0.2;
                 const randomLat = cityData.lat + (Math.random() - 0.5) * offsetRange;
                 const randomLng = cityData.lng + (Math.random() - 0.5) * offsetRange;
                 lat = randomLat.toFixed(6);
@@ -154,28 +146,26 @@ async function seedPostData() {
 
                 title = `${address} ${propertyName} ${randomType === "sell" ? "매매" : randomType === "year_pay" ? "전세" : "월세"} - ${getRandomElement(titlePrefixes)}`;
             } else {
-                // 해외 매물: 외부 API를 사용해 무작위 위치 정보를 가져옴
-                const randomQuery = getRandomElement(internationalQueries);
-                let intlLocation;
+                // 해외 매물: GeoDB Cities API로 무작위 국제 도시 정보 가져오기
+                let intlCity;
                 try {
-                    intlLocation = await getRandomLocation(randomQuery);
+                    intlCity = await getRandomInternationalCity();
                 } catch (error) {
-                    console.error("External API error for query:", randomQuery, error);
-                    // API 실패 시 기본값 (런던)
-                    intlLocation = { lat: 51.5074, lng: -0.1278, formatted: "London, UK" };
+                    console.error("GeoDB API error:", error);
+                    // 실패 시 기본값 (런던)
+                    intlCity = { city: "London", country: "UK", lat: 51.5074, lng: -0.1278, formatted: "London, UK" };
                 }
-                // 외부 API에서 받은 좌표에 랜덤 오프셋 (±0.02)
-                const offsetRange = 0.02;
-                const baseLat = parseFloat(intlLocation.lat);
-                const baseLng = parseFloat(intlLocation.lng);
+                address = intlCity.formatted || `${intlCity.city}, ${intlCity.country}`;
+                politicalList = address.split(",").map(part => part.trim());
+                // 해외 오프셋 범위: ±0.1
+                const offsetRange = 0.1;
+                const baseLat = parseFloat(intlCity.lat);
+                const baseLng = parseFloat(intlCity.lng);
                 const randomLat = baseLat + (Math.random() - 0.5) * offsetRange;
                 const randomLng = baseLng + (Math.random() - 0.5) * offsetRange;
                 lat = randomLat.toFixed(6);
                 lng = randomLng.toFixed(6);
                 location = { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] };
-
-                address = intlLocation.formatted || randomQuery;
-                politicalList = address.split(",").map(part => part.trim());
 
                 propertyName = "Modern Apartment";
                 const numImagesIntl = getRandomInt(1, 5);
@@ -227,7 +217,7 @@ async function seedPostData() {
             const direction = getRandomElement(directions);
             const parking = getRandomInt(0, 3);
 
-            const randomUser = getRandomElement(users);
+            const randomUser = getRandomElement(await prisma.user.findMany({ select: { id: true } }));
 
             const post = await prisma.post.create({
                 data: {
