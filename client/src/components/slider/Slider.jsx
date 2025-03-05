@@ -63,7 +63,12 @@ function Slider({ images }) {
                 <span className="material-symbols-outlined" onClick={() => changeSlide("left")}>chevron_left</span>
               </div>
               <div className="imgContainer">
-                <img src={images[imageIndex]} alt="image"/>
+                <img src={images[imageIndex]} alt="image"
+                     onError={(e) => {
+                       e.target.onerror = null;
+                       e.target.src = '/no_image.svg';
+                     }}
+                />
               </div>
               <div className="arrow">
                 <span className="material-symbols-outlined" onClick={() => changeSlide("right")}>chevron_right</span>
@@ -76,7 +81,12 @@ function Slider({ images }) {
 
         <div className="slider">
           <div className="bigImage">
-            <img src={images[0]} alt="image" onClick={() => setImageIndex(0)}/>
+            <img src={images[0]} alt="image" onClick={() => setImageIndex(0)}
+                 onError={(e) => {
+                   e.target.onerror = null;
+                   e.target.src = '/no_image.svg';
+                 }}
+            />
           </div>
           {
               images.length > 1 &&
@@ -87,6 +97,10 @@ function Slider({ images }) {
                           src={image}
                           alt="image"
                           onClick={() => setImageIndex(index + 1)}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = '/no_image.svg';
+                          }}
                       />
                     </div>
                 ))}

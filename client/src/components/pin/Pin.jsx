@@ -84,7 +84,12 @@ function Pin({item}) {
                         <Slider {...settings} className="slick-slider">
                             {
                                 item.images.map((image, index) => {
-                                    return <img key={index} src={image} alt="image"/>
+                                    return <img key={index} src={image} alt="image"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = '/no_image.svg';
+                                                }}
+                                    />
                                 })
                             }
                         </Slider>

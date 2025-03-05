@@ -93,8 +93,7 @@ function ListPage() {
             <div className="listContainer">
                 <div className="wrapperList">
                     <div>
-                            <span>{
-                                query.search_type !== 'user_map_move' ? query.political : '지도 표시 지역'}의 매물</span>
+                        <span>{query.search_type !== 'user_map_move' ? query.political : '지도 표시 지역'}의 매물</span>
                         <span>&nbsp;{numberFormatter.format(posts.length)}개</span>
                     </div>
                     {

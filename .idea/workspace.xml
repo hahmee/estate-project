@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/public/no-image.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/public/no_image.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/lib/initPostData.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/lib/initPostData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/lib/initUserData.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/lib/initUserData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/card/Card.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/card/Card.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pin/Pin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pin/Pin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/Slider.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/slider.scss" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/slider.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/listPage/listPage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +52,7 @@
     "Node.js.auth.controller.js.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/dev/youtube/estate-project/api/lib",
+    "last_opened_file_path": "C:/dev/youtube/estate-project/client/public/main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -60,13 +66,14 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\dev\youtube\estate-project\api\lib" />
       <recent name="C:\dev\youtube\estate-project\client\public\main" />
+      <recent name="C:\dev\youtube\estate-project\client\public" />
+      <recent name="C:\dev\youtube\estate-project\api\lib" />
       <recent name="C:\dev\youtube\estate-project\client\src\components\modal" />
       <recent name="C:\dev\youtube\estate-project\client\src\routes\error" />
-      <recent name="C:\dev\youtube\estate-project\client\src\routes\notFound" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dev\youtube\estate-project\client\public" />
       <recent name="C:\dev\youtube\estate-project\api\lib" />
     </key>
   </component>
@@ -280,7 +287,9 @@
       <workItem from="1740993495725" duration="8031000" />
       <workItem from="1741051481931" duration="5140000" />
       <workItem from="1741062828664" duration="4308000" />
-      <workItem from="1741073958954" duration="7351000" />
+      <workItem from="1741073958954" duration="7677000" />
+      <workItem from="1741097315323" duration="540000" />
+      <workItem from="1741137323986" duration="3071000" />
     </task>
     <servers />
   </component>

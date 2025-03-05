@@ -40,7 +40,12 @@ function Card({ card }) {
   return (
       <div className="card">
         <Link to={`/read/${card?._id?.$oid || card.id}`} className="imageContainer">
-          <img src={card.images[0]} alt="image"/>
+          <img src={card.images[0]} alt="image"
+               onError={(e) => {
+                 e.target.onerror = null;
+                 e.target.src = '/no_image.svg';
+               }}
+          />
         </Link>
         <div className="textContainer">
           <h2 className="title">
