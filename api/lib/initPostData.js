@@ -2,23 +2,29 @@
 import prisma from "./prisma.js";
 import 'dotenv/config';
 
-// GeoDB Cities API를 사용해 랜덤 국제 도시 정보를 가져오는 함수
+// GeoDB Cities API를 사용해 랜덤 국제 도시 정보를 가져오는 함수 (대한민국 제외)
 async function getRandomInternationalCity() {
     const offset = getRandomInt(0, 1000);
     const url = `http://geodb-free-service.wirefreethought.com/v1/geo/cities?limit=10&offset=${offset}&minPopulation=100000&sort=-population`;
     const response = await fetch(url);
     const data = await response.json();
     if (data.data && data.data.length > 0) {
-        const city = getRandomElement(data.data);
-        return {
-            city: city.name,
-            country: city.country,
-            lat: city.latitude,
-            lng: city.longitude,
-            formatted: `${city.name}, ${city.country}`
-        };
+        // 대한민국(또는 Korea) 도시는 필터링
+        const filteredCities = data.data.filter(
+            (city) => city.country !== "South Korea" && city.country !== "Korea"
+        );
+        if (filteredCities.length > 0) {
+            const city = getRandomElement(filteredCities);
+            return {
+                city: city.name,
+                country: city.country,
+                lat: city.latitude,
+                lng: city.longitude,
+                formatted: `${city.name}, ${city.country}`
+            };
+        }
     }
-    throw new Error("No international city found from GeoDB");
+    throw new Error("No international city found from GeoDB excluding South Korea");
 }
 
 // 헬퍼 함수: min~max 범위의 정수를 반환
@@ -65,8 +71,6 @@ const koreaCities = [
     { city: "여수", province: "전라남도", lat: 34.7604, lng: 127.6620 },
     { city: "울릉도", province: "경상북도", lat: 37.4833, lng: 130.8667 }
 ];
-
-
 
 // 매물 유형 및 속성별 데이터 (Prisma enum에 맞게)
 const propertyTypes = [
@@ -166,7 +170,7 @@ async function seedPostData() {
 
                 title = `${address} ${propertyName} ${randomType === "sell" ? "매매" : randomType === "year_pay" ? "전세" : "월세"} - ${getRandomElement(titlePrefixes)}`;
             } else {
-                // 해외 매물: GeoDB Cities API로 무작위 국제 도시 정보 가져오기
+                // 해외 매물: GeoDB Cities API로 무작위 국제 도시 정보 가져오기 (대한민국 제외)
                 let intlCity;
                 try {
                     intlCity = await getRandomInternationalCity();
@@ -177,7 +181,7 @@ async function seedPostData() {
                 }
                 address = intlCity.formatted || `${intlCity.city}, ${intlCity.country}`;
                 politicalList = address.split(",").map(part => part.trim());
-                // 해외 오프셋 범위: ±0.1
+                // 해외 오프셋 범위 크게 적용: ±0.1
                 const offsetRange = 0.1;
                 const baseLat = parseFloat(intlCity.lat);
                 const baseLng = parseFloat(intlCity.lng);
@@ -187,16 +191,25 @@ async function seedPostData() {
                 lng = randomLng.toFixed(6);
                 location = { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] };
 
-                propertyName = "Modern Apartment";
+                // 국내와 같이 랜덤한 부동산 속성을 할당
+                const propertyData = getRandomElement(propertyTypes);
+                propertyName = getRandomElement(propertyData.names);
                 const numImagesIntl = getRandomInt(1, 5);
-                const internationalImages = [
-                    "https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-                    "https://images.unsplash.com/photo-1560185008-6d109df6458d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
-                    "https://images.unsplash.com/photo-1519340333755-58d92ecf53b6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
-                ];
-                imagesArray = Array.from({ length: getRandomInt(1, 5) }, () => getRandomElement(internationalImages));
+                imagesArray = Array.from({ length: numImagesIntl }, () => getRandomElement(propertyData.images));
 
-                title = `${address} ${propertyName} ${randomType === "sell" ? "매매" : randomType === "year_pay" ? "전세" : "월세"} - Exclusive Listing`;
+                title = `${address} ${propertyName} ${randomType === "sell" ? "매매" : randomType === "year_pay" ? "전세" : "월세"} - ${getRandomElement(titlePrefixes)}`;
+
+                // propertyName = "Modern Apartment";
+                //
+                // const numImagesIntl = getRandomInt(1, 5);
+                // const internationalImages = [
+                //     "https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+                //     "https://images.unsplash.com/photo-1560185008-6d109df6458d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
+                //     "https://images.unsplash.com/photo-1519340333755-58d92ecf53b6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60"
+                // ];
+                // imagesArray = Array.from({ length: getRandomInt(1, 5) }, () => getRandomElement(internationalImages));
+                //
+                // title = `${address} ${propertyName} ${randomType === "sell" ? "매매" : randomType === "year_pay" ? "전세" : "월세"} - Exclusive Listing`;
             }
 
             const price = getRandomInt(50000, 500000);
@@ -252,12 +265,20 @@ async function seedPostData() {
                     longitude: lng,
                     location,
                     type: randomType,
-                    property: propertyName.toLowerCase().includes("apartment") ? "apartment" :
-                        propertyName.toLowerCase().includes("condo") ? "condo" :
-                            propertyName.toLowerCase().includes("officetel") ? "officetel" :
-                                propertyName.toLowerCase().includes("원룸") || propertyName.toLowerCase().includes("studio") ? "one_room" :
-                                    propertyName.toLowerCase().includes("투룸") || propertyName.toLowerCase().includes("2베드룸") ? "two_room" :
-                                        "land",
+                    property:
+                        propertyName.toLowerCase().includes("apartment")
+                            ? "apartment"
+                            : propertyName.toLowerCase().includes("condo")
+                                ? "condo"
+                                : propertyName.toLowerCase().includes("officetel")
+                                    ? "officetel"
+                                    : propertyName.toLowerCase().includes("원룸") ||
+                                    propertyName.toLowerCase().includes("studio")
+                                        ? "one_room"
+                                        : propertyName.toLowerCase().includes("투룸") ||
+                                        propertyName.toLowerCase().includes("2베드룸")
+                                            ? "two_room"
+                                            : "land",
                     maintenance,
                     size,
                     createdAt,
