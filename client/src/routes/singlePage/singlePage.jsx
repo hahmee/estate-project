@@ -354,7 +354,6 @@ function SinglePage() {
                         </div>
                     )
                 }
-
               </div>
             </div>
           </aside>

@@ -4,7 +4,7 @@ import 'dotenv/config';
 
 // OpenCage API를 사용해 쿼리 기반 좌표 및 주소를 가져오는 함수
 async function getRandomLocation(query) {
-    const apiKey = process.env.OPENCAGE_API_KEY; // OpenCage API 키를 .env 파일에 설정하세요.
+    const apiKey = process.env.OPENCAGE_API_KEY; // .env에 설정된 API 키
     const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(query)}&key=${apiKey}&no_annotations=1&limit=1`;
     const response = await fetch(url);
     const data = await response.json();
@@ -128,8 +128,8 @@ async function seedPostData() {
             throw new Error("사용자가 없습니다. 먼저 사용자 데이터를 생성하세요.");
         }
 
-        // 총 200개의 포스트 생성: 100 국내, 100 해외
-        for (let i = 1; i <= 200; i++) {
+        // 총 400개의 포스트 생성: 100 국내, 300 해외
+        for (let i = 1; i <= 400; i++) {
             let address, politicalList, lat, lng, location, title, propertyName, imagesArray, desc;
             const randomType = getRandomElement(types);
 
@@ -139,9 +139,10 @@ async function seedPostData() {
                 address = `대한민국 ${cityData.city}, ${cityData.province}`;
                 politicalList = [cityData.city, cityData.province, "대한민국"];
 
-                // 좌표에 약간의 무작위 변동 (±0.02)
-                const randomLat = cityData.lat + (Math.random() - 0.5) * 0.02;
-                const randomLng = cityData.lng + (Math.random() - 0.5) * 0.02;
+                // 오프셋 범위: 제주이면 ±0.1, 그 외는 ±0.02
+                const offsetRange = cityData.city === "제주" ? 0.1 : 0.02;
+                const randomLat = cityData.lat + (Math.random() - 0.5) * offsetRange;
+                const randomLng = cityData.lng + (Math.random() - 0.5) * offsetRange;
                 lat = randomLat.toFixed(6);
                 lng = randomLng.toFixed(6);
                 location = { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] };
@@ -163,15 +164,21 @@ async function seedPostData() {
                     // API 실패 시 기본값 (런던)
                     intlLocation = { lat: 51.5074, lng: -0.1278, formatted: "London, UK" };
                 }
+                // 외부 API에서 받은 좌표에 랜덤 오프셋 (±0.02)
+                const offsetRange = 0.02;
+                const baseLat = parseFloat(intlLocation.lat);
+                const baseLng = parseFloat(intlLocation.lng);
+                const randomLat = baseLat + (Math.random() - 0.5) * offsetRange;
+                const randomLng = baseLng + (Math.random() - 0.5) * offsetRange;
+                lat = randomLat.toFixed(6);
+                lng = randomLng.toFixed(6);
+                location = { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] };
+
                 address = intlLocation.formatted || randomQuery;
                 politicalList = address.split(",").map(part => part.trim());
-                lat = intlLocation.lat.toString();
-                lng = intlLocation.lng.toString();
-                location = { type: "Point", coordinates: [parseFloat(lng), parseFloat(lat)] };
 
                 propertyName = "Modern Apartment";
                 const numImagesIntl = getRandomInt(1, 5);
-                // 해외 이미지 배열: internationalImages는 따로 정의하지 않고, 재사용 가능한 Unsplash URL을 사용
                 const internationalImages = [
                     "https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",
                     "https://images.unsplash.com/photo-1560185008-6d109df6458d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60",

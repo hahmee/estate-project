@@ -79,7 +79,6 @@
     flex: 1;
     height: 100%;
     overflow: hidden;
-    background-color: #eeeeee;
   }
 
   .smallImages {
@@ -89,7 +88,6 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows:  repeat(2, minmax(0, 1fr));
-    background-color: #eeeeee;
     gap: 10px;
     div {
       overflow: hidden;
