@@ -139,15 +139,16 @@ async function seedChatMessageData() {
             console.log(`Chat ${i + 1} 메시지 생성 완료.`);
 
             // ChatUser 레코드 생성
-            // user1 (firstUser)의 경우, 인덱스 0~2는 읽지 않은 상태로 설정 (lastReadAt < lastChatAt)
+            // user1 (firstUser)의 경우, 0~2번째 채팅은 읽지 않은 상태로 처리 (lastReadAt < lastChatAt)
             let user1LastReadAt;
             if (i < 3) {
-                // 아직 읽지 않음 (마지막 메시지 시각보다 5초 이전)
-                user1LastReadAt = new Date(conversation.lastChatAt.getTime() - 5000);
+                // 마지막 메시지 시간보다 1초 이전으로 설정 (아직 읽지 않음)
+                user1LastReadAt = new Date(conversation.lastChatAt.getTime() - 1000);
             } else {
-                // 읽은 상태 (마지막 메시지 시각보다 5초 이후)
+                // 읽은 상태: 마지막 메시지 시간보다 5초 이후로 설정
                 user1LastReadAt = new Date(conversation.lastChatAt.getTime() + 5000);
             }
+            // 상대방은 항상 읽은 상태로 처리
             const partnerLastReadAt = new Date(conversation.lastChatAt.getTime() + 5000);
 
             await prisma.chatUser.create({
