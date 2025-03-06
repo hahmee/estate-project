@@ -138,20 +138,30 @@ async function seedChatMessageData() {
             }
             console.log(`Chat ${i + 1} 메시지 생성 완료.`);
 
-            // ChatUser 레코드 생성 (두 사용자 모두 마지막 메시지 시간 +5초를 lastReadAt으로 사용)
-            const lastReadAt = new Date(conversation.lastChatAt.getTime() + 5000);
+            // ChatUser 레코드 생성
+            // user1 (firstUser)의 경우, 인덱스 0~2는 읽지 않은 상태로 설정 (lastReadAt < lastChatAt)
+            let user1LastReadAt;
+            if (i < 3) {
+                // 아직 읽지 않음 (마지막 메시지 시각보다 5초 이전)
+                user1LastReadAt = new Date(conversation.lastChatAt.getTime() - 5000);
+            } else {
+                // 읽은 상태 (마지막 메시지 시각보다 5초 이후)
+                user1LastReadAt = new Date(conversation.lastChatAt.getTime() + 5000);
+            }
+            const partnerLastReadAt = new Date(conversation.lastChatAt.getTime() + 5000);
+
             await prisma.chatUser.create({
                 data: {
                     chatId: chat.id,
                     userId: firstUser.id,
-                    lastReadAt: lastReadAt
+                    lastReadAt: user1LastReadAt
                 }
             });
             await prisma.chatUser.create({
                 data: {
                     chatId: chat.id,
                     userId: partner.id,
-                    lastReadAt: lastReadAt
+                    lastReadAt: partnerLastReadAt
                 }
             });
             console.log(`Chat ${i + 1} ChatUser 레코드 생성 완료.`);
