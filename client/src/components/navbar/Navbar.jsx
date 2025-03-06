@@ -122,6 +122,8 @@ function Navbar({isSearchBar}) {
     const handleLocationChange = (location) => {
         setStatus("");
         setLocation(location);
+        setIsLocationOpen(() => location && location.trim().length > 0 ? false : true);
+
     };
 
     const handleSelect = async (location = null, placeId) => {
@@ -203,7 +205,6 @@ function Navbar({isSearchBar}) {
     };
 
     const clickMenu = (number) => {
-        // setIsLocationOpen(true);
         changeIsDropdownOpen(true);
         setCurrentClicked(number);
         setNotClicked(true);
@@ -405,20 +406,33 @@ function Navbar({isSearchBar}) {
                                     {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
                                         <>
                                             <div className={`search ${notClicked ? 'notClicked' : null}`} onClick={(e) => onClickSearchBar(e)}>
-                                                <div className={`location ${currentClicked === 1 && 'clickedMenu'}`} onClick={() => clickMenu(1)}>
+                                                <div className={`location ${currentClicked === 1 && 'clickedMenu'}`}
+                                                     onClick={() => {
+                                                         clickMenu(1);
+                                                         setIsLocationOpen(true);
+                                                     }}>
                                                     <p className={isExpanded ? "" : 'displayNone'}>위치</p>
                                                     <input type="text"
                                                            {...getInputProps({
                                                                placeholder: '도시를 검색하세요.',
                                                                className: 'inputDiv',
                                                            })}/>
-                                                    <span className={isExpanded ? "material-symbols-outlined closeIcon" : 'material-symbols-outlined closeIcon displayNone'} onClick={()=>deleteLocation()}>close</span>
+                                                    <span
+                                                        className={
+                                                            (location && location.trim().length > 0) && isExpanded
+                                                                ? "material-symbols-outlined closeIcon"
+                                                                : "material-symbols-outlined closeIcon displayNone"
+                                                        }
+                                                        onClick={() => deleteLocation()}
+                                                    >
+                                                  close
+                                                </span>
                                                 </div>
 
 
                                                 <div className={`check-in ${currentClicked === 2 && 'clickedMenu'}`}
                                                      onClick={() => clickMenu(2)}>
-                                                    <p className={isExpanded ? "" : 'displayNone'}>유형</p>
+                                                <p className={isExpanded ? "" : 'displayNone'}>유형</p>
                                                     <span className="inputDiv">
                                                     {
                                                         ((types && rooms) && (types.length + rooms.length === 9)) ?

@@ -20,7 +20,8 @@
   &__sidebar {
     flex: none;
     width: var(--sidebar-width);
-    height: calc(100vh - 80px); // 고정 높이
+    min-height: calc(100vh - 80px); /* 최소 높이 설정 */
+    height: calc(100vh - 80px);
     top: 80px;
     position: fixed;
     overflow-y: auto;
