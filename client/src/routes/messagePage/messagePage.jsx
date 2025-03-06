@@ -311,7 +311,6 @@ function MessagePage() {
                 }
             </div>
         </div>
-
     );
 
 
