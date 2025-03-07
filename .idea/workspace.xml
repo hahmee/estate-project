@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="" />
+    <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/lib/initChatMessage.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/lib/initChatMessage.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -283,7 +286,9 @@
       <workItem from="1741170513240" duration="7271000" />
       <workItem from="1741180996209" duration="6952000" />
       <workItem from="1741227605364" duration="2952000" />
-      <workItem from="1741230843834" duration="5598000" />
+      <workItem from="1741230843834" duration="7807000" />
+      <workItem from="1741241362914" duration="439000" />
+      <workItem from="1741312774278" duration="1969000" />
     </task>
     <servers />
   </component>
