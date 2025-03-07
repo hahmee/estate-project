@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/lib/initChatMessage.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/lib/initChatMessage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/Map.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/pin/Pin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pin/Pin.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +26,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/api/node_modules/supertest/index.js" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/client/node_modules/leaflet/src/layer/marker/DivIcon.js" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -288,7 +290,7 @@
       <workItem from="1741227605364" duration="2952000" />
       <workItem from="1741230843834" duration="7807000" />
       <workItem from="1741241362914" duration="439000" />
-      <workItem from="1741312774278" duration="1969000" />
+      <workItem from="1741312774278" duration="4898000" />
     </task>
     <servers />
   </component>

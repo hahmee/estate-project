@@ -95,9 +95,11 @@ function Pin({item}) {
                         </Slider>
                         <div className="textContainer">
                             <div>
-                                <div onClick={() => navigate(`/read/${item._id.$oid}`)} className="pinCursor">{item.title}</div>
+                                <div onClick={() => navigate(`/read/${item._id.$oid}`)}
+                                     className="pinCursor">{item.title}</div>
                                 <div className="savedCnt">
-                                    <span className="material-symbols-outlined pinCursor" style={{fontSize: '18px'}} >favorite</span>
+                                    <span className="material-symbols-outlined pinCursor"
+                                          style={{fontSize: '18px'}}>favorite</span>
                                     <span>{savedCnt}</span>
                                 </div>
                             </div>
@@ -108,7 +110,7 @@ function Pin({item}) {
                             </div>
                             <div>
                                 <span>{currencyFormatter.format(item.price)}</span>
-                                <span>&nbsp;/{typeOption.find((option) => option.value ===item.type).label}</span>
+                                <span>&nbsp;/{typeOption.find((option) => option.value === item.type).label}</span>
                             </div>
                         </div>
                     </div>
