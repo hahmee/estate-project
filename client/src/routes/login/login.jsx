@@ -62,14 +62,14 @@ function Login() {
                 required
                 type="email"
                 label="이메일"
-                defaultValue="user1@test.com"
+                // defaultValue="user1@test.com"
             />
             <Input
                 name="password"
                 type="password"
                 required
                 label="비밀번호"
-                defaultValue="123"
+                // defaultValue="123"
             />
 
             <Button loading={isLoading}>로그인</Button>

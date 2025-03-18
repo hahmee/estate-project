@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/map/Map.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/map/Map.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/pin/Pin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pin/Pin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -290,7 +289,10 @@
       <workItem from="1741227605364" duration="2952000" />
       <workItem from="1741230843834" duration="7807000" />
       <workItem from="1741241362914" duration="439000" />
-      <workItem from="1741312774278" duration="4898000" />
+      <workItem from="1741312774278" duration="5021000" />
+      <workItem from="1741317904379" duration="1000" />
+      <workItem from="1741331552164" duration="75000" />
+      <workItem from="1742261426742" duration="10000" />
     </task>
     <servers />
   </component>
