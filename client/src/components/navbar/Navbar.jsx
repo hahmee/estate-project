@@ -26,7 +26,7 @@ export const MIN_SIZE = 0;
 
 export const SEARCH_BY_REGION =[
     {
-        img: "https://media.istockphoto.com/id/1845303802/ko/%EC%82%AC%EC%A7%84/n-%EC%84%9C%EC%9A%B8%ED%83%80%EC%9B%8C-%EC%84%9C%EC%9A%B8-%ED%95%9C%EA%B5%AD.jpg?s=2048x2048&w=is&k=20&c=WQJFGZZ-PigL_FfBO--cF8hlVFWWoFtKRt1pkXFk1Rc=",
+        img: "https://cdn.pixabay.com/photo/2015/02/14/08/26/gwanghwamun-636113_1280.jpg",
         title: '한국',
         placeId: "ChIJm7oRy-tVZDURS9uIugCbJJE",
     },

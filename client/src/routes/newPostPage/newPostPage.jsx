@@ -142,6 +142,15 @@ function NewPostPage() {
         }
       }
 
+      //files들을 CLOUDINARY에 post한다.
+      //문제발생: files.map(async file => { 이렇게 해서 post를 각각했는데, map 루프 돌때 await가 순서대로 안된다-
+      // 해결 1.  for ..of 으로 순차처리 -> OK
+      // 해결 2. Promise all 사용 (병렬적o)
+      // //promise.all로 콜백 함수에서 반환하는 값들을 배열에 넣어놓고, 비동기 처리가 끝나는 타이밍 감지
+      // const responseArray = await Promise.all(response);
+      // 최종 해결 3. 해결 2번 정리한 방법
+
+      //최종 해결 3.
       const response = await Promise.all(
           files.map(async (file) => {
             try {

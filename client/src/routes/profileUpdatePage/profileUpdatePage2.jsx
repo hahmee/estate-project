@@ -1,9 +1,8 @@
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import "./profileUpdatePage.scss";
-import { AuthContext } from "../../context/AuthContext";
+import {AuthContext} from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
-import { useNavigate } from "react-router-dom";
-import UploadWidget from "../../components/uploadWidget/UploadWidget";
+import {useNavigate} from "react-router-dom";
 import Input from "../../UI/Input.jsx";
 import DropZone from "../../components/dropZone/DropZone.jsx";
 import Button from "../../UI/Button.jsx";
