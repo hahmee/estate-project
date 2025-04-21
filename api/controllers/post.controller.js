@@ -178,6 +178,10 @@ export const getPost = async (req, res) => {
       },
     });
 
+    if (!post) {
+      return res.status(404).json({ message: "해당 포스트를 찾을 수 없습니다." });
+    }
+
     const token = req.cookies?.token;
 
     const savedCount = post.savedPosts.length;
@@ -185,19 +189,21 @@ export const getPost = async (req, res) => {
     if (token) {
 
       jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, payload) => {
-        if (!err) {
-
-          const saved = await prisma.savedPost.findUnique({
-            where: {
-              userId_postId: {
-                postId: id,
-                userId: payload.id,
-              },
-            },
-          });
-
-          return res.status(200).json({ ...post, isSaved: saved ? true : false, savedCount });
+        if (err) {
+          return res.status(200).json({...post, isSaved: false, savedCount}); // ✅ 토큰이 유효하지 않더라도 응답은 해줘야 함
         }
+
+        const saved = await prisma.savedPost.findUnique({
+          where: {
+            userId_postId: {
+              postId: id,
+              userId: payload.id,
+            },
+          },
+        });
+
+        return res.status(200).json({...post, isSaved: !!saved, savedCount});
+
       });
     }else {
       return res.status(200).json({ ...post, isSaved: false, savedCount });
