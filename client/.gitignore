@@ -26,3 +26,8 @@ dist-ssr
 .env
 .env.production
 .env.development
+
+*storybook.log
+storybook-static/         # build 결과물 (무시)
+*.stories.*               # 포함해야 하므로 무시하지 않음
+.storybook/               # 설정 포함해야 하므로 무시 금지

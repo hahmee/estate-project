@@ -5,7 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/UI/Input.stories.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/UI/Selection.stories.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/UI/Textarea.stories.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/modal/AlertModal.stories.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.eslintrc.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/client/.eslintrc.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/client/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/modal/AlertModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modal/AlertModal.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,34 +47,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Mocha.GET /.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.MapLoading.jsx.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.auth.controller.js.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/dev/youtube/estate-project/client/dist&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs.mocha.mocha_node_package_dir&quot;: &quot;C:/dev/youtube/estate-project/api/node_modules/mocha&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Mocha.GET /.executor": "Run",
+    "Node.js.MapLoading.jsx.executor": "Run",
+    "Node.js.auth.controller.js.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/dev/youtube/estate-project/client/src/UI",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs.mocha.mocha_node_package_dir": "C:/dev/youtube/estate-project/api/node_modules/mocha",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "terminal",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\youtube\estate-project\client\src\UI" />
       <recent name="C:\dev\youtube\estate-project\client\dist" />
       <recent name="C:\dev\youtube\estate-project\api\lib" />
       <recent name="C:\dev\youtube\estate-project\client\public\main" />
       <recent name="C:\dev\youtube\estate-project\client\public" />
-      <recent name="C:\dev\youtube\estate-project\client\src\components\modal" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dev\youtube\estate-project\client\src\UI" />
       <recent name="C:\dev\youtube\estate-project\client\public" />
       <recent name="C:\dev\youtube\estate-project\api\lib" />
     </key>
@@ -302,7 +312,12 @@
       <workItem from="1743579094736" duration="426000" />
       <workItem from="1743579535817" duration="2169000" />
       <workItem from="1745154912873" duration="743000" />
-      <workItem from="1745196443399" duration="2669000" />
+      <workItem from="1745196443399" duration="2841000" />
+      <workItem from="1745207813798" duration="724000" />
+      <workItem from="1746684193399" duration="34000" />
+      <workItem from="1746691341092" duration="1076000" />
+      <workItem from="1746694587698" duration="316000" />
+      <workItem from="1746762183133" duration="4494000" />
     </task>
     <servers />
   </component>
