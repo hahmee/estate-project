@@ -80,6 +80,7 @@ export const login = async (req, res) => {
 
     const { password: userPassword, ...userInfo } = user;
 
+    // 쿠키 저장
     res
       .cookie("token", token, {
         httpOnly: true,

@@ -4,10 +4,6 @@ import "./multiRangeSlider.scss";
 
 const MultiRangeSlider = ({min, max, minVal, setMinVal, maxVal, setMaxVal, onChange, step, text, stepCondition, format}) => {
 
-
-    // const [minVal, setMinVal] = useState(min);
-    // const [maxVal, setMaxVal] = useState(max);
-
     const [stepVal, setStepVal] = useState(step);
     const minValRef = useRef(null);
     const maxValRef = useRef(null);
@@ -18,7 +14,6 @@ const MultiRangeSlider = ({min, max, minVal, setMinVal, maxVal, setMaxVal, onCha
         (value) => Math.round(((value - min) / (max - min)) * 100),
         [min, max]
     );
-
 
     // Set width of the range to decrease from the left side
     useEffect(() => {
@@ -65,7 +60,6 @@ const MultiRangeSlider = ({min, max, minVal, setMinVal, maxVal, setMaxVal, onCha
 
                     const value = Math.min(+event.target.value, maxVal - stepVal);
                     setMinVal(value);
-                    event.target.value = value.toString();
                 }}
                 className={`thumb thumb--zindex-3 ${minVal > max - 100 && 'thumb--zindex-5'}`}
             />
@@ -77,12 +71,14 @@ const MultiRangeSlider = ({min, max, minVal, setMinVal, maxVal, setMaxVal, onCha
                 step={stepVal}
                 ref={maxValRef}
                 onChange={(event) => {
+                  const lowerBound = Number(minVal) + Number(stepVal);
+                  const clamped = Math.min(
+                    Math.max(event.target.value, lowerBound),
+                    max
+                  );
+                  if (stepCondition) setStepVal(stepCondition(event));
+                  setMaxVal(clamped);
 
-                    if (stepCondition) setStepVal(stepCondition(event));
-
-                    const value = Math.max(+event.target.value, minVal + stepVal);
-                    setMaxVal(value);
-                    event.target.value = value.toString();
                 }}
                 className="thumb thumb--zindex-4"
             />
@@ -124,4 +120,4 @@ MultiRangeSlider.propTypes = {
     onChange: PropTypes.func.isRequired
 };
 
-export default MultiRangeSlider;
+export default React.memo(MultiRangeSlider);

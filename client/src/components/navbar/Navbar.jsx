@@ -566,7 +566,10 @@ const Location = ({location, suggestions, getSuggestionItemProps, loading, statu
 };
 
 const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close, scrollTop}) => {
-
+    const handleChangeSize = useCallback(({ min, max }) => {
+        setMinSize(min);
+        setMaxSize(max);
+    }, []);
     return (
         <Dropdown
             shown={shown}
@@ -587,10 +590,7 @@ const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close, scrollTop
                             step={10}
                             text={{left: '10평 미만', right: '60평 이상', middle: '30평대', total: '60평 이상'}}
                             format={(data) => `${data}평`}
-                            onChange={({min, max}) => {
-                                setMinSize(min);
-                                setMaxSize(max);
-                            }}
+                            onChange={handleChangeSize}
                         />
                     </div>
                 </div>
@@ -601,12 +601,16 @@ const Size = ({minSize, setMinSize, maxSize, setMaxSize, shown, close, scrollTop
 };
 const Price = ({minPrice, setMinPrice, maxPrice, setMaxPrice, shown, close, scrollTop}) => {
     const stepCondition = (event) => {
-        if (event.target.value < 500000000) { //오억
-            return 50000000; //5천만원
+        if (event.target.value < 500000000) { //오억보다 작으면
+            return 50000000; //5천만원 단위로 이동
         } else {
-            return 100000000; //1억
+            return 100000000; //1억단위로 이동
         }
     }
+    const handlePriceChange = useCallback(({ min, max }) => {
+        setMinPrice(min);
+        setMaxPrice(max);
+    }, []);
     return (
         <Dropdown
             shown={shown}
@@ -617,7 +621,6 @@ const Price = ({minPrice, setMinPrice, maxPrice, setMaxPrice, shown, close, scro
                 <div className="selectBig">
                     <p>금액대를 설정해주세요.</p>
                     <div className="selectDivSlider">
-
                         <MultiRangeSlider
                             min={MIN_PRICE}
                             max={MAX_PRICE}
@@ -634,10 +637,7 @@ const Price = ({minPrice, setMinPrice, maxPrice, setMaxPrice, shown, close, scro
                                 total: '무제한'
                             }}
                             format={currencyFormatter.format}
-                            onChange={({min, max}) => {
-                                setMinPrice(min);
-                                setMaxPrice(max);
-                            }}
+                            onChange={handlePriceChange}
                         />
                     </div>
                 </div>

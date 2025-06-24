@@ -8,7 +8,6 @@ export default {
     children: '기본 버튼',
     className: 'btn-primary',
     loading: false,
-
   },
 };
 

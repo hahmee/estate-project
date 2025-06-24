@@ -5,16 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/UI/Input.stories.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/UI/Selection.stories.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/UI/Textarea.stories.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/modal/AlertModal.stories.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/.eslintrc.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/client/.eslintrc.cjs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/client/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/modal/AlertModal.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/modal/AlertModal.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/auth.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/controllers/test.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/test.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/.storybook/preview.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/.storybook/preview.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/UI/Button.stories.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/UI/Button.stories.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/navbar/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/slider/MultiRangeSlider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/MultiRangeSlider.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/lib/apiRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/lib/apiRequest.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,25 +45,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Mocha.GET /.executor": "Run",
-    "Node.js.MapLoading.jsx.executor": "Run",
-    "Node.js.auth.controller.js.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/dev/youtube/estate-project/client/src/UI",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs.mocha.mocha_node_package_dir": "C:/dev/youtube/estate-project/api/node_modules/mocha",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "terminal",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Mocha.GET /.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.MapLoading.jsx.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.auth.controller.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/dev/youtube/estate-project/client/src/UI&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs.mocha.mocha_node_package_dir&quot;: &quot;C:/dev/youtube/estate-project/api/node_modules/mocha&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\dev\youtube\estate-project\client\src\UI" />
@@ -317,7 +315,13 @@
       <workItem from="1746684193399" duration="34000" />
       <workItem from="1746691341092" duration="1076000" />
       <workItem from="1746694587698" duration="316000" />
-      <workItem from="1746762183133" duration="4494000" />
+      <workItem from="1746762183133" duration="9378000" />
+      <workItem from="1750554270028" duration="1000" />
+      <workItem from="1750554300900" duration="777000" />
+      <workItem from="1750557290189" duration="682000" />
+      <workItem from="1750652655158" duration="1973000" />
+      <workItem from="1750657000624" duration="2000" />
+      <workItem from="1750734060834" duration="4274000" />
     </task>
     <servers />
   </component>
