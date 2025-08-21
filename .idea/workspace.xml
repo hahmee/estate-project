@@ -6,12 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/googleLoginBtn/GoogleLoginButton.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/naverLoginBtn/NaverLoginButton.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/naverLoginBtn/NaverLoginButton.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/slider/MultiRangeSlider.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/slider/MultiRangeSlider.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/login/login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/login/login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/newPostPage/newPostPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/routes/messagePage/messagePage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -356,7 +351,7 @@
       <workItem from="1755574241544" duration="4232000" />
       <workItem from="1755583705326" duration="5000" />
       <workItem from="1755751443054" duration="925000" />
-      <workItem from="1755753172560" duration="1416000" />
+      <workItem from="1755753172560" duration="1873000" />
     </task>
     <servers />
   </component>
