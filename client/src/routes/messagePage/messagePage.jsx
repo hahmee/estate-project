@@ -151,9 +151,6 @@ function MessagePage() {
         if (!socket) return;
 
         const handleSocketGetMessage = async (m) => {
-            console.log('handleSocketGetMessage',m)
-            console.log('processedMsgIdsRef.current',processedMsgIdsRef.current)
-
             // 중복 이벤트 가드
             if (m.id && processedMsgIdsRef.current.has(m.id)) return;
             if (m.id) processedMsgIdsRef.current.add(m.id); // 메시지의 id 넣기
