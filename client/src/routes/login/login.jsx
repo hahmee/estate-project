@@ -17,6 +17,7 @@ function Login() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     setIsLoading(true);
     const formData = new FormData(e.target);
@@ -31,6 +32,7 @@ function Login() {
       });
 
       updateUser(res.data);
+
       toast.success('로그인 되었습니다.');
       navigate("/"); //메인페이지로 이동
     } catch (err) {

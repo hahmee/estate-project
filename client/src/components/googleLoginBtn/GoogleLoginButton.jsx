@@ -7,7 +7,7 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 import "./googleLoginButton.scss";
 import {toast} from "react-toastify";
 
-function GoogleLoginButton(props) {
+function GoogleLoginButton() {
     const navigate = useNavigate();
     const {updateUser} = useContext(AuthContext);
 
@@ -41,7 +41,7 @@ function GoogleLoginButton(props) {
     const googleLogin = useGoogleLogin({
         onSuccess: (tokenResponse) =>{
             apiRequest.post("/auth/googleLoginAccessToken", {
-                accessToken: tokenResponse.access_token,
+                accessToken: tokenResponse.access_token, //accessToken 제공받음
             }).then((response) => {
                 const data = response.data;
                 handleLoginGoogle(data.email, data.name, data.picture, data.id);

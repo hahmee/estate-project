@@ -31,7 +31,7 @@ app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// 배포 시 정적 파일 제공
+// 배포 시 정적 파일 제공 (백엔드 서버만 띄워도 React가 함께 배포)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(join(__dirname, "../client/dist")));
 }

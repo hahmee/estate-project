@@ -171,6 +171,15 @@ function NewPostPage() {
             }
           })
       );
+      // 결과
+      // response = [
+      //   "https://.../img1.png",  // 성공
+      //   null,                    // 실패
+      //   "https://.../img3.png",  // 성공
+      //   null,                    // 실패
+      //   "https://.../img5.png"   // 성공
+      // ];
+
 
       // 성공한 이미지 URL만 필터링
       imageUrl = [...imageUrl, ...response.filter(url => url !== null)];

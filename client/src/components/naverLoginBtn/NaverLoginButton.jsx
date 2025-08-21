@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {toast} from "react-toastify";
 
-function NaverLoginButton(props) {
+function NaverLoginButton() {
     const navigate = useNavigate();
     const {updateUser} = useContext(AuthContext);
     const NAVER_CLIENT_ID = process.env.VITE_NAVER_CLIENT_ID;
@@ -21,7 +21,7 @@ function NaverLoginButton(props) {
 
         if(naverPopup === null || typeof(naverPopup) === 'undefined') {
             alert("팝업윈도우 설정을 해제해 주세요");
-            return;
+
         }
 
     };
