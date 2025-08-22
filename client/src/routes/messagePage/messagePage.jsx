@@ -22,7 +22,7 @@ function MessagePage() {
 
     const [chatList, setChatList] = useState([]);                 // 좌측 리스트
     const [currentChat, setCurrentChat] = useState(null);         // 선택된 채팅방
-    const [messages, setMessages] = useState({});                 // { 'YYYY-MM-DD': Message[] }
+    const [messages, setMessages] = useState({});                 // { 'YYYY-MM-DD': Message[] } 날짜별 메시지 묶음
     const [isUserOnline, setIsUserOnline] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -84,12 +84,12 @@ function MessagePage() {
         }
     }, [chatList]);
 
-    // 리스트 정렬 + lastMessage + (필요시) unread 증가
-    // 증가 여부는 호출자가 명시적으로 넘김
+    // 채팅방 리스트 정렬 + lastMessage + (필요시) unread 증가
     const reorderChatList = useCallback(
       (targetId, lastMessage, opts = { incUnread: true }) => {
           setChatList(prev => {
               const list = [...(prev ?? [])];
+              //채팅방들 사이에서 현재 채팅방 몇번째인지
               const idx = list.findIndex(c => String(c.id) === String(targetId));
               if (idx === -1) return prev;
 
@@ -101,9 +101,8 @@ function MessagePage() {
                     ? (t.unreadMessagesCount ?? 0) + 1
                     : (t.unreadMessagesCount ?? 0),
               };
-
-              list.splice(idx, 1);
-              list.unshift(updated);
+              list.splice(idx, 1); // 잘라냄
+              list.unshift(updated); // 배열 맨 앞에 추가
               return list;
           });
       },
@@ -119,10 +118,10 @@ function MessagePage() {
             const res = await apiRequest.post("/messages/" + currentChat.id, { text });
 
             // 오늘 처음이면 날짜키 자동 생성되어 들어감
-            pushDataToMessages(res.data.message);
+            pushDataToMessages(res.data.message); // 메시지 리스트에 추가
 
             // 내가 보낸 메시지는 unread 증가 금지
-            reorderChatList(res.data.chat.id, text, { incUnread: false });
+            reorderChatList(res.data.chat.id, text, { incUnread: false }); // 채팅 리스트 수정
 
             // 소켓 전파
             socket?.emit("sendMessage", {
@@ -135,39 +134,45 @@ function MessagePage() {
         }
     }, [currentChat, pushDataToMessages, reorderChatList, socket]);
 
-    // 최신 현재방 id를 ref로 (리스너는 재등록하지 않음)
+    // 최신 현재방 최신값 id를 ref로
+    // useState로 하면 currentChatId가 바뀔 때마다 → 기존 리스너 제거 → 새 리스너 등록 해야함
     const currentChatIdRef = useRef(null);
 
+    //채팅 방 바뀌면 최신 chat id를 currentChatIdRef에 저장
     useEffect(() => {
         currentChatIdRef.current = currentChat?.id ?? null;
     }, [currentChat?.id]);
 
     // (옵션) 중복 메시지 id 방지 가드
     // 이미 처리한 메시지의 ID들을 모아두는 집합(Set)
-    const processedMsgIdsRef = useRef(new Set());
+    // 굳이 렌더링할 필요 없음 → UI와는 관계 없는 내부 상태니까 useRef
+    const processedMsgIdsRef = useRef(new Set()); // 렌더링과 무관되게 유지됨
 
     // 메시지 수신 리스너: 한 번만 등록 + 최신 방은 ref로 판단
     useEffect(() => {
         if (!socket) return;
 
         const handleSocketGetMessage = async (m) => {
+
             // 중복 이벤트 가드
             if (m.id && processedMsgIdsRef.current.has(m.id)) return;
             if (m.id) processedMsgIdsRef.current.add(m.id); // 메시지의 id 넣기
 
-            // 현재 내가 열어둔 채팅방으로 온 메시지인지 판단
+            // 현재 방인지 판단
             const isCurrent = String(currentChatIdRef.current) === String(m.chatId);
-            //해당 메시지 내가 보냈는지 판단
+            // 내가 보냈는지 판단
             const isSelf = m.senderId && String(m.senderId) === String(currentUser?.id);
 
             // 수신 기준으로 증가 여부 명시(현재방/내가 보낸 건 증가 X)
-            reorderChatList(m.chatId, m.text, { incUnread: !isCurrent && !isSelf });
+            // incUnread: 미읽음 카운트 증가 여부
+            // 좌측 채팅방 리스트 최신화
+            reorderChatList(m.chatId, m.text, { incUnread: !isCurrent && !isSelf }); // 채팅 리스트 수정
 
             //현재 방이면 메시지 바로 붙이고 읽음 처리
             if (isCurrent) {
-                pushDataToMessages(m);
+                pushDataToMessages(m); // 메시지 리스트에 추가
                 try {
-                    await apiRequest.put(`/chats/readChatUser/${currentChatIdRef.current}`);
+                    await apiRequest.put(`/chats/readChatUser/${currentChatIdRef.current}`); // 읽음처리
                 } catch (err) {
                     console.log(err);
                     toast.error(err?.message || "읽음 처리하기 실패");
@@ -188,6 +193,7 @@ function MessagePage() {
     useEffect(() => {
         if (!socket) return;
         if (!userId) return;
+        // 현재 상대 온라인 여부 체크
         socket.emit("checkUserOnline", { userId }, (isOnline) => {
             setIsUserOnline(!!isOnline);
         });
@@ -212,25 +218,34 @@ function MessagePage() {
     useEffect(() => {
         if (!socket) return;
 
+        // getReceiverStatus를 받는 리스너
         const handleReceiverStatus = async (payload) => {
-            await ensureChatListLoaded();
+            await ensureChatListLoaded(); // 채팅 리스트 비어있으면 먼저 가져옴
+
+            //특정 유저의 온라인 상태만 갱신
             setChatList(prev => {
                 if (!prev?.length) return prev ?? [];
                 let changed = false;
                 const next = prev.map(chat => {
+                    // payload.userId와 같은 receiver 찾기
                     if (String(chat.receiver.id) === String(payload.userId)) {
+                        // 그 채팅방만 복사해서 isOnline 값을 payload.online 으로 교체
                         const nextChat = { ...chat, receiver: { ...chat.receiver, isOnline: payload.online } };
+
+                        // 기존 값과 다르면 바뀌었다고 표시
                         if (chat.receiver.isOnline !== nextChat.receiver.isOnline) changed = true;
                         return nextChat;
                     }
+                    // 나머지 채팅방은 그대로 둠
                     return chat;
                 });
+                // 실제로 값이 바뀐 경우만 새로운 배열 반환 > 리렌더 유발
                 return changed ? next : prev;
             });
         };
 
-        socket.off("getReceiverStatus");
-        socket.on("getReceiverStatus", handleReceiverStatus);
+        socket.off("getReceiverStatus"); // 기존 리스너 제거
+        socket.on("getReceiverStatus", handleReceiverStatus); // 리스너 등록
 
         return () => {
             socket.off("getReceiverStatus", handleReceiverStatus);
