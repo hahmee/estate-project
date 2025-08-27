@@ -31,6 +31,15 @@ app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// Health check endpoint
+app.get("/api/health", (req, res) => {
+  res.json({
+    ok: true,
+    time: new Date().toISOString(),
+    env: process.env.NODE_ENV || "development",
+  });
+});
+
 // 배포 시 정적 파일 제공 (백엔드 서버만 띄워도 React가 함께 배포)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(join(__dirname, "../client/dist")));
@@ -43,6 +52,7 @@ app.use("/api/posts", postRoute);
 app.use("/api/test", testRoute);
 app.use("/api/chats", chatRoute);
 app.use("/api/messages", messageRoute);
+
 
 // SPA 라우팅 처리 (배포 환경에서만 활성화)
 if (process.env.NODE_ENV === "production") {
