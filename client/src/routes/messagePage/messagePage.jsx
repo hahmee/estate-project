@@ -298,7 +298,7 @@ function MessagePage() {
               )}
 
               {currentChat && (
-                <MessageInput handleSubmit={handleSubmit} message={message} setMessage={setMessage} />
+                    <MessageInput handleSubmit={handleSubmit} message={message} setMessage={setMessage} />
               )}
           </div>
       </div>
