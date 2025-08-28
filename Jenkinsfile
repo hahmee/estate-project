@@ -3,12 +3,16 @@ pipeline {
 
   tools { nodejs 'NodeJS 18.17.0' }
 
-  options {
+  options { 
     timeout(time: 20, unit: 'MINUTES')
     ansiColor('xterm')
   }
 
   environment {
+    AWS_PAGER = ''
+    AWS_DEFAULT_REGION = credentials('AWS_DEFAULT_REGION')
+    S3_BUCKET = credentials('S3_BUCKET_NAME')
+    CF_DISTRIBUTION_ID = credentials('CF_DISTRIBUTION_ID')
     SSH_KEY_ID = 'ec2-ssh-key'
     EC2_HOST   = credentials('EC2_HOST_TEXT')
     APP_NAME   = 'estate-project'
@@ -31,8 +35,30 @@ pipeline {
         }
       }
     }
+    stage('Deploy frontend') {
+      steps {
+        sh '''
+          set -e
+          DIST_DIR="client/dist"
 
-    stage('Deploy') {
+          echo "프론트엔드 정적 파일을 S3로 동기화"
+          aws s3 sync "$DIST_DIR" "s3://$S3_BUCKET" \
+            --delete \
+            --exclude "index.html" \
+            --cache-control "public,max-age=31536000,immutable"
+
+          echo "index.html 파일을 최신 버전으로 업로드"
+          aws s3 cp "$DIST_DIR/index.html" "s3://$S3_BUCKET/index.html" \
+            --cache-control "no-store, must-revalidate" \
+            --content-type "text/html; charset=utf-8"
+
+          echo "CloudFront 캐시 무효화"
+          aws cloudfront create-invalidation --distribution-id "$CF_DISTRIBUTION_ID" --paths "/*"
+        '''
+      }
+    }
+
+    stage('Deploy backend') {
       steps {
         sshagent(credentials: ['ec2-ssh-key']) {
           sh '''#!/usr/bin/env bash
@@ -41,11 +67,8 @@ set -euo pipefail
 SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 REMOTE="ubuntu@${EC2_HOST}"
 
-# 원격 디렉토리 준비
-ssh $SSH_OPTS "$REMOTE" "mkdir -p '${REMOTE_DIR}/client' '${REMOTE_DIR}/api'"
-
-# client 정적파일 동기화
-rsync -az --delete -e "ssh $SSH_OPTS" client/dist/ "$REMOTE:${REMOTE_DIR}/client/"
+# 원격 EC2에 API 디렉토리 준비
+ssh $SSH_OPTS "$REMOTE" "mkdir -p '${REMOTE_DIR}/api'"
 
 # api 코드 동기화 (node_modules 등 제외)
 rsync -az --delete \
