@@ -31,7 +31,8 @@ pipeline {
 
     stage('Checkout') {
       steps {
-        checkout scm
+//         checkout scm
+        git branch: 'master', url: 'https://github.com/hahmee/estate-project.git'
       }
     }
 
@@ -105,6 +106,8 @@ pipeline {
             npm ci
             npm run lint || true
             npm run typecheck || true
+
+            # package.json에 test 스크립트가 있으면 실행
             if npm run | grep -q "^  test"; then
               npm test -- --ci
             fi
