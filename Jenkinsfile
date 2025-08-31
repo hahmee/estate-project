@@ -31,8 +31,7 @@ pipeline {
 
     stage('Checkout') {
       steps {
-//         checkout scm
-        git branch: 'master', url: 'https://github.com/hahmee/estate-project.git'
+        checkout scm
       }
     }
 

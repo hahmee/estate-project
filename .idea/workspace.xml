@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+    <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="estate-project/&#10;├── client/              # React + Vite 프론트엔드&#10;│   ├── src/             &#10;│   └── package.json     &#10;├── api/                 # Express 백엔드&#10;│   ├── src/&#10;│   └── package.json&#10;├── Jenkinsfile          # CI/CD 파이프라인 정의&#10;├── README.md&#10;└── ...">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/test/app.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +54,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs.mocha.mocha_node_package_dir&quot;: &quot;C:/dev/youtube/estate-project/api/node_modules/mocha&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2024.1.2\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -370,7 +370,8 @@
       <workItem from="1756438895202" duration="5698000" />
       <workItem from="1756476177116" duration="1000" />
       <workItem from="1756543744359" duration="1807000" />
-      <workItem from="1756610596858" duration="4686000" />
+      <workItem from="1756610596858" duration="6869000" />
+      <workItem from="1756617713517" duration="223000" />
     </task>
     <servers />
   </component>
