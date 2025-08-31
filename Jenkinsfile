@@ -31,7 +31,23 @@ pipeline {
 
     stage('Checkout') {
       steps {
-            checkout scm
+        checkout scm
+      }
+    }
+
+    stage('Test frontend') {
+      steps {
+        dir('client') {
+          sh '''
+            set -e
+            npm ci
+            npm run lint || true
+            npm run typecheck || true
+            if npm run | grep -q "^  test"; then
+              npm test -- --ci
+            fi
+          '''
+        }
       }
     }
 
@@ -58,28 +74,44 @@ pipeline {
       }
     }
 
-     stage('Deploy frontend') {
-          steps {
-            sh '''
-              set -e
-              DIST_DIR="client/dist"
+    stage('Deploy frontend') {
+      steps {
+        sh '''
+          set -e
+          DIST_DIR="client/dist"
 
-              echo "프론트엔드 정적 파일을 S3로 동기화"
-              aws s3 sync "$DIST_DIR" "s3://$S3_BUCKET" \
-                --delete \
-                --exclude "index.html" \
-                --cache-control "public,max-age=31536000,immutable"
+          echo "프론트엔드 정적 파일을 S3로 동기화"
+          aws s3 sync "$DIST_DIR" "s3://$S3_BUCKET" \
+            --delete \
+            --exclude "index.html" \
+            --cache-control "public,max-age=31536000,immutable"
 
-              echo "index.html 파일을 최신 버전으로 업로드"
-              aws s3 cp "$DIST_DIR/index.html" "s3://$S3_BUCKET/index.html" \
-                --cache-control "no-store, must-revalidate" \
-                --content-type "text/html; charset=utf-8"
+          echo "index.html 파일을 최신 버전으로 업로드"
+          aws s3 cp "$DIST_DIR/index.html" "s3://$S3_BUCKET/index.html" \
+            --cache-control "no-store, must-revalidate" \
+            --content-type "text/html; charset=utf-8"
 
-              echo "CloudFront 캐시 무효화"
-              aws cloudfront create-invalidation --distribution-id "$CF_DISTRIBUTION_ID" --paths "/*"
-            '''
-          }
+          echo "CloudFront 캐시 무효화"
+          aws cloudfront create-invalidation --distribution-id "$CF_DISTRIBUTION_ID" --paths "/*"
+        '''
+      }
+    }
+
+    stage('Test backend') {
+      steps {
+        dir('api') {
+          sh '''
+            set -e
+            npm ci
+            npm run lint || true
+            npm run typecheck || true
+            if npm run | grep -q "^  test"; then
+              npm test -- --ci
+            fi
+          '''
         }
+      }
+    }
 
     stage('Deploy backend') {
       steps {
@@ -149,7 +181,7 @@ ssh $SSH_OPTS "$REMOTE" "bash -lc '
   node initSavedPostData.js
   node initChatMessage.js
 '"
-          '''
+'''
         }
       }
     }

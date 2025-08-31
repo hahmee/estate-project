@@ -5,8 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5f1b03-6ba7-4f12-9663-f9fab3db3b36" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/README.md" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -364,7 +366,12 @@
       <workItem from="1756284687077" duration="11886000" />
       <workItem from="1756309424067" duration="1514000" />
       <workItem from="1756313871645" duration="1523000" />
-      <workItem from="1756341674258" duration="19895000" />
+      <workItem from="1756341674258" duration="20194000" />
+      <workItem from="1756386996452" duration="26000" />
+      <workItem from="1756438895202" duration="5698000" />
+      <workItem from="1756476177116" duration="1000" />
+      <workItem from="1756543744359" duration="1807000" />
+      <workItem from="1756610596858" duration="1366000" />
     </task>
     <servers />
   </component>
